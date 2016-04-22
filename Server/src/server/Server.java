@@ -1,9 +1,8 @@
 package server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
 
@@ -48,6 +47,13 @@ public class Server {
 
         private ServerSocket ss;
 
+        InputStream inputStream = null;
+        DataInputStream dataInputStream = null;
+        OutputStream outputStream = null;
+        DataOutputStream dataOutputStream = null;
+
+        String sendByClient = "";
+
         public PortThread(ServerSocket ss) {
             this.ss = ss;
         }
@@ -56,10 +62,40 @@ public class Server {
         public void run() {
             try {
                 System.out.println("Ready and listening port " + ss.getLocalPort());
-                ss.accept();
+                Socket socket = ss.accept();
                 System.out.println("Port " + ss.getLocalPort() + " got a client!");
+
+                inputStream = socket.getInputStream();
+                outputStream = socket.getOutputStream();
+
+                dataInputStream = new DataInputStream(inputStream);
+                dataOutputStream = new DataOutputStream(outputStream);
+
+                goMonitoring();
+
             } catch (IOException e) {
                 System.out.println("Unable to accept client!");
+            }
+        }
+
+        private void sendAnswer() {
+            try {
+                dataOutputStream.writeUTF("[DUMB ANSWER]");
+                dataOutputStream.flush();
+            } catch (IOException e) {
+                System.out.println("Unable to send answer to client connected to port "+ ss.getLocalPort());
+            }
+        }
+
+        private void goMonitoring() {
+            while(true) {
+                try {
+                    sendByClient = dataInputStream.readUTF();
+                    System.out.println("Port " + ss.getLocalPort() + " got a message: " + sendByClient);
+                    sendAnswer();
+                } catch (IOException e) {
+                    System.out.println("Unable to read the message from client connected to port " + ss.getLocalPort());
+                }
             }
         }
     }

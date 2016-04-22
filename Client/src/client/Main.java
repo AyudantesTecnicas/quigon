@@ -5,7 +5,9 @@ public class Main {
         Client client = new Client();
 
         CommandHandlersChain commandHandlersChain = new CommandHandlersChain();
+
         commandHandlersChain.add(new ServerConnectHandler(client));
+        commandHandlersChain.add(new SendToServerHandler(client));
         commandHandlersChain.add(new InvalidCommandHandler(client));
 
         client.setCurrentCommandHandlersChain(commandHandlersChain);
