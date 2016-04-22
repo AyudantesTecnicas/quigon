@@ -2,6 +2,14 @@ package client;
 
 public class Main {
     public static void main(String[] ar) {
-        System.out.println("Client");
+        Client client = new Client();
+
+        CommandHandlersChain commandHandlersChain = new CommandHandlersChain();
+        commandHandlersChain.add(new ServerConnectHandler(client));
+        commandHandlersChain.add(new InvalidCommandHandler(client));
+
+        client.setCurrentCommandHandlersChain(commandHandlersChain);
+
+        client.run();
     }
 }
