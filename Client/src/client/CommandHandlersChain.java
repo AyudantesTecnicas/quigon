@@ -15,7 +15,14 @@ public class CommandHandlersChain {
         }
     }
 
-    public void useHandlers() {
-        handlers.get(0).handle();
+    public boolean useHandlers(String line) {
+        if (line.equalsIgnoreCase("/exit")) {
+            return false;
+        } else {
+            if (!handlers.isEmpty()) {
+                handlers.get(0).handle();
+            }
+            return true;
+        }
     }
 }

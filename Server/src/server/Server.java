@@ -9,7 +9,7 @@ public class Server {
 
     private String line;
     private static final String exitCommandPattern = "/exit";
-    private int port;
+    private int port = 8000;
 
     private boolean commandIsExit() {
         return exitCommandPattern.equalsIgnoreCase(line);

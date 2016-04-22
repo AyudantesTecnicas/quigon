@@ -7,6 +7,8 @@ public class InvalidCommandHandler extends CommandHandler {
     }
 
     public void handle() {
-        System.out.println("Invalid command!");
+        if (!client.getLine().equals("")) {
+            System.out.println("Invalid command!");
+        }
     }
 }

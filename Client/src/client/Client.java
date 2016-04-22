@@ -9,16 +9,11 @@ import java.net.UnknownHostException;
 
 public class Client {
 
-    private static final String exitCommandPattern = "/exit";
-    private String line;
+    private String line = "";
     private CommandHandlersChain currentCommandHandlersChain = null;
 
     public void setCurrentCommandHandlersChain(CommandHandlersChain chc) {
         this.currentCommandHandlersChain = chc;
-    }
-
-    private boolean commandIsExit() {
-        return exitCommandPattern.equalsIgnoreCase(line);
     }
 
     public String getLine() {
@@ -33,16 +28,17 @@ public class Client {
             System.out.println("There is no such ip address!");
         } catch (IOException e) {
             System.out.println("Unable to connect to socket!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Port should be <= 65535!");
         }
     }
 
     protected void run() {
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 
-        while (!commandIsExit()) {
+        while (currentCommandHandlersChain.useHandlers(line)) {
             try {
                 line = keyboard.readLine();
-                currentCommandHandlersChain.useHandlers();
             } catch (Exception e) {
                 e.printStackTrace();
             }
