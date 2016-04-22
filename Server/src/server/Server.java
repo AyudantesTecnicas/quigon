@@ -88,13 +88,15 @@ public class Server {
         }
 
         private void goMonitoring() {
-            while(true) {
+            boolean isConnected = true;
+            while(isConnected) {
                 try {
                     sendByClient = dataInputStream.readUTF();
                     System.out.println("Port " + ss.getLocalPort() + " got a message: " + sendByClient);
                     sendAnswer();
                 } catch (IOException e) {
-                    System.out.println("Unable to read the message from client connected to port " + ss.getLocalPort());
+                    System.out.println("Port " + ss.getLocalPort() + " has disconnected");
+                    isConnected = false;
                 }
             }
         }

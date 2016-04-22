@@ -8,7 +8,8 @@ import java.net.UnknownHostException;
 public class Client {
 
     private String line = "";
-    private boolean connected = false;  /* only 2 possible states for client, connected or not */
+
+    private Socket socket = null;
 
     InputStream inputStream = null;
     DataInputStream dataInputStream = null;
@@ -26,16 +27,15 @@ public class Client {
         return line;
     }
 
-    public boolean isConnected() {
-        return connected;
+    public boolean isCurrentlyConnected() {
+        return (socket != null);
     }
 
     protected void connectToServer(String address, int port) {
         try {
 
             InetAddress ipAddress = InetAddress.getByName(address);
-            Socket socket = new Socket(ipAddress,port);
-            connected = true;
+            socket = new Socket(ipAddress,port);
 
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
@@ -67,6 +67,15 @@ public class Client {
             System.out.println(sendByServer);
         } catch (IOException e) {
             System.out.println("Unable to read answer from server!");
+        }
+    }
+
+    protected void disconnect() {
+        try {
+            this.socket.close();    // after closing a socket, you cannot reuse it to share other data
+            this.socket = null;
+        } catch (IOException e) {
+            System.out.println("Unable to close socket!");
         }
     }
 

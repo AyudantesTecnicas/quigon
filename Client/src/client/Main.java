@@ -7,6 +7,7 @@ public class Main {
         CommandHandlersChain commandHandlersChain = new CommandHandlersChain();
 
         commandHandlersChain.add(new ServerConnectHandler(client));
+        commandHandlersChain.add(new ExitGameHandler(client));
         commandHandlersChain.add(new SendToServerHandler(client));
         commandHandlersChain.add(new InvalidCommandHandler(client));
 
