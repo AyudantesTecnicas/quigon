@@ -25,24 +25,12 @@ public class PortThread extends Thread {
     @Override
     public void run() {
         try {
-            System.out.println("Ready and listening port " + ss.getLocalPort() + ".");
-            socket = ss.accept();    // waiting for client
-            ss.close();
-            System.out.println("Port " + ss.getLocalPort() + " got a client.");
-
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
-
-            dataInputStream = new DataInputStream(inputStream);
-            dataOutputStream = new DataOutputStream(outputStream);
-
-            sendAnswer("Welcome!");
-            clientConnected = true;
-            listenClient();
-
+            setConnection();
         } catch (IOException e) {
             System.out.println("Server socket " + ss.getLocalPort() + " has closed, no client accepted.");
         }
+
+        listenClient();
     }
 
     private void sendAnswer(String answer) {
@@ -52,6 +40,22 @@ public class PortThread extends Thread {
         } catch (IOException e) {
             System.out.println("Unable to send answer to client connected to port " + ss.getLocalPort());
         }
+    }
+
+    private void setConnection() throws IOException {
+        System.out.println("Ready and listening port " + ss.getLocalPort() + ".");
+        socket = ss.accept();    // waiting for client
+        ss.close();
+        System.out.println("Port " + ss.getLocalPort() + " got a client.");
+
+        inputStream = socket.getInputStream();
+        outputStream = socket.getOutputStream();
+
+        dataInputStream = new DataInputStream(inputStream);
+        dataOutputStream = new DataOutputStream(outputStream);
+
+        sendAnswer("Welcome!");
+        clientConnected = true;
     }
 
     private void listenClient() {
