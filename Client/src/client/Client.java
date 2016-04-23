@@ -35,7 +35,13 @@ public class Client {
         try {
 
             InetAddress ipAddress = InetAddress.getByName(address);
-            socket = new Socket(ipAddress,port);
+            Socket tempSocket = new Socket(ipAddress,port);
+
+            if (isCurrentlyConnected()) {
+                disconnect();
+            }
+
+            socket = tempSocket;
 
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
@@ -74,9 +80,10 @@ public class Client {
 
     protected void disconnect() {
         try {
+            int oldPort = socket.getPort();
             this.socket.close();    // after closing a socket, you cannot reuse it to share other data
             this.socket = null;
-            System.out.println("Disconnected from server.");
+            System.out.println("Disconnected from server. Port: " + oldPort);
         } catch (IOException e) {
             System.out.println("Unable to close socket!");
         }
