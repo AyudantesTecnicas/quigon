@@ -1,12 +1,17 @@
 package server;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class PortThread implements Runnable {
+public class PortThread extends Thread {
 
     private ServerSocket ss;
+    private Socket socket;
+
+    boolean clientConnected = false;
 
     InputStream inputStream = null;
     DataInputStream dataInputStream = null;
@@ -22,9 +27,9 @@ public class PortThread implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("Ready and listening port " + ss.getLocalPort());
-            Socket socket = ss.accept();    // waiting for client
-            System.out.println("Port " + ss.getLocalPort() + " got a client!");
+            System.out.println("Ready and listening port " + ss.getLocalPort() + ".");
+            socket = ss.accept();    // waiting for client
+            System.out.println("Port " + ss.getLocalPort() + " got a client.");
 
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
@@ -33,11 +38,11 @@ public class PortThread implements Runnable {
             dataOutputStream = new DataOutputStream(outputStream);
 
             sendAnswer("Welcome!");
-
+            clientConnected = true;
             goMonitoring();
 
         } catch (IOException e) {
-            System.out.println("Unable to accept client!");
+            System.out.println("Server socket " + ss.getLocalPort() + " has closed, no client accepted.");
         }
     }
 
@@ -51,16 +56,32 @@ public class PortThread implements Runnable {
     }
 
     private void goMonitoring() {
-        boolean isConnected = true;
-        while (isConnected) {
+        while (clientConnected) {
             try {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + ss.getLocalPort() + " send a message: " + sendByClient);
                 sendAnswer("[DUMB ANSWER]");
             } catch (IOException e) {
-                System.out.println("Port " + ss.getLocalPort() + " has disconnected");
-                isConnected = false;
+                System.out.println("Client at port " + ss.getLocalPort() + " is disconnected.");
+                clientConnected = false;
             }
         }
+    }
+
+    public void interrupt() {
+        if (clientConnected) {
+            try {
+                this.socket.close();
+            } catch (IOException e) {
+                System.out.println("Unable to close client socket!");
+            }
+        }
+
+        try {
+            this.ss.close();
+        } catch (IOException e) {
+            System.out.println("Unable to close server socket!");
+        }
+        super.interrupt();
     }
 }

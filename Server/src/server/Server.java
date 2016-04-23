@@ -2,11 +2,13 @@ package server;
 
 import java.io.*;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 
 public class Server {
 
     private String line = "";
     private int port = 8000;
+    private ArrayList<PortThread> threads = new ArrayList<>();
 
     private boolean commandIsExit() {
         return line.equalsIgnoreCase("/exit");
@@ -19,10 +21,17 @@ public class Server {
 
         try {
             ss = new ServerSocket(newPort);
-            PortThread pt = new PortThread(ss);
-            new Thread(pt).start();
+            PortThread portThread = new PortThread(ss);
+            threads.add(portThread);
+            portThread.start();
         } catch (IOException e) {
             System.out.println("Unable to create new server socket!");
+        }
+    }
+
+    private void closeServer() {
+        for (PortThread portThread : threads) {
+            portThread.interrupt();
         }
     }
 
@@ -39,5 +48,7 @@ public class Server {
                 e.printStackTrace();
             }
         }
+
+        closeServer();
     }
 }
