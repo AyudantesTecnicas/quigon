@@ -43,6 +43,8 @@ public class Client {
             dataInputStream = new DataInputStream(inputStream);
             dataOutputStream = new DataOutputStream(outputStream);
 
+            waitAnswer();
+
         } catch (UnknownHostException e) {
             System.out.println("There is no such ip address!");
         } catch (IOException e) {
@@ -74,6 +76,7 @@ public class Client {
         try {
             this.socket.close();    // after closing a socket, you cannot reuse it to share other data
             this.socket = null;
+            System.out.println("Disconnected from server.");
         } catch (IOException e) {
             System.out.println("Unable to close socket!");
         }

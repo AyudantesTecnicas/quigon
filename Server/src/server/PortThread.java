@@ -32,6 +32,8 @@ public class PortThread implements Runnable {
             dataInputStream = new DataInputStream(inputStream);
             dataOutputStream = new DataOutputStream(outputStream);
 
+            sendAnswer("Welcome!");
+
             goMonitoring();
 
         } catch (IOException e) {
@@ -39,9 +41,9 @@ public class PortThread implements Runnable {
         }
     }
 
-    private void sendAnswer() {
+    private void sendAnswer(String answer) {
         try {
-            dataOutputStream.writeUTF("[DUMB ANSWER]");
+            dataOutputStream.writeUTF(answer);
             dataOutputStream.flush();
         } catch (IOException e) {
             System.out.println("Unable to send answer to client connected to port " + ss.getLocalPort());
@@ -54,7 +56,7 @@ public class PortThread implements Runnable {
             try {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + ss.getLocalPort() + " got a message: " + sendByClient);
-                sendAnswer();
+                sendAnswer("[DUMB ANSWER]");
             } catch (IOException e) {
                 System.out.println("Port " + ss.getLocalPort() + " has disconnected");
                 isConnected = false;
