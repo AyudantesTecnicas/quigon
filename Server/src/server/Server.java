@@ -2,16 +2,14 @@ package server;
 
 import java.io.*;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 public class Server {
 
-    private String line;
-    private static final String exitCommandPattern = "/exit";
+    private String line = "";
     private int port = 8000;
 
     private boolean commandIsExit() {
-        return exitCommandPattern.equalsIgnoreCase(line);
+        return line.equalsIgnoreCase("/exit");
     }
 
     protected void loadGame() {
@@ -37,7 +35,7 @@ public class Server {
                 if (line.matches("^(?i)/load game .*$")) {
                     loadGame();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

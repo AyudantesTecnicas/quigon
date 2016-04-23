@@ -88,7 +88,7 @@ public class Client {
         while (currentCommandHandlersChain.useHandlers(line)) {
             try {
                 line = keyboard.readLine();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

@@ -2,6 +2,7 @@ package client;
 
 public abstract class CommandHandler {
 
+    /* chain and observer at the same time */
     protected CommandHandler next = null;
     protected Client client = null;
 

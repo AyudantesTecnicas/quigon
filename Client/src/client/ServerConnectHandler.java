@@ -7,7 +7,7 @@ public class ServerConnectHandler extends CommandHandler {
     }
 
     public void handle() {
-        /* does it match "/connect X+.X+.X+.X+:X+" ? */
+        /* does it match "/connect dgt+.dgt+.dgt+.dgt+:dgt+" ? */
         String line = client.getLine();
         if (line.matches("^(?i)/connect [0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+:[0-9]+$")) {
             String completeAddress = line.split(" ")[1];

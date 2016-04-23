@@ -23,7 +23,7 @@ public class PortThread implements Runnable {
     public void run() {
         try {
             System.out.println("Ready and listening port " + ss.getLocalPort());
-            Socket socket = ss.accept();
+            Socket socket = ss.accept();    // waiting for client
             System.out.println("Port " + ss.getLocalPort() + " got a client!");
 
             inputStream = socket.getInputStream();
@@ -55,7 +55,7 @@ public class PortThread implements Runnable {
         while (isConnected) {
             try {
                 sendByClient = dataInputStream.readUTF();
-                System.out.println("Port " + ss.getLocalPort() + " got a message: " + sendByClient);
+                System.out.println("Port " + ss.getLocalPort() + " send a message: " + sendByClient);
                 sendAnswer("[DUMB ANSWER]");
             } catch (IOException e) {
                 System.out.println("Port " + ss.getLocalPort() + " has disconnected");
