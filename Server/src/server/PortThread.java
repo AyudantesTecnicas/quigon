@@ -1,7 +1,5 @@
 package server;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -29,6 +27,7 @@ public class PortThread extends Thread {
         try {
             System.out.println("Ready and listening port " + ss.getLocalPort() + ".");
             socket = ss.accept();    // waiting for client
+            ss.close();
             System.out.println("Port " + ss.getLocalPort() + " got a client.");
 
             inputStream = socket.getInputStream();
@@ -39,7 +38,7 @@ public class PortThread extends Thread {
 
             sendAnswer("Welcome!");
             clientConnected = true;
-            goMonitoring();
+            listenClient();
 
         } catch (IOException e) {
             System.out.println("Server socket " + ss.getLocalPort() + " has closed, no client accepted.");
@@ -55,7 +54,7 @@ public class PortThread extends Thread {
         }
     }
 
-    private void goMonitoring() {
+    private void listenClient() {
         while (clientConnected) {
             try {
                 sendByClient = dataInputStream.readUTF();
@@ -69,6 +68,12 @@ public class PortThread extends Thread {
     }
 
     public void interrupt() {
+        try {
+            this.ss.close();
+        } catch (IOException e) {
+            System.out.println("Unable to close server socket!");
+        }
+
         if (clientConnected) {
             try {
                 this.socket.close();
@@ -77,11 +82,6 @@ public class PortThread extends Thread {
             }
         }
 
-        try {
-            this.ss.close();
-        } catch (IOException e) {
-            System.out.println("Unable to close server socket!");
-        }
         super.interrupt();
     }
 }
