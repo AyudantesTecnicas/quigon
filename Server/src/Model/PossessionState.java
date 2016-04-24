@@ -21,4 +21,20 @@ public class PossessionState extends State {
         return this.item;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) return false;
+        if (other == this) return true;
+        if (!(other instanceof State))return false;
+
+        if (!this.hasTheSameName(other)) return false;
+
+        PossessionState otherState = (PossessionState)other;
+
+        if (this.item == null && otherState.item == null) return true;
+        if (this.item == null && otherState.item != null) return false;
+        if (this.item != null && otherState.item == null) return false;
+        return (this.item.equals(otherState.item));
+    }
+
 }
