@@ -63,7 +63,7 @@ public class Item {
         while (iterator.hasNext()) {
             Action currentAction = iterator.next();
             if (action.equals(currentAction)) {
-                currentAction.execute(this);
+                currentAction.execute();
                 haveExecute = true;
                 break;
             }

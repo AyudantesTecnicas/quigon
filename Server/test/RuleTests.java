@@ -1,8 +1,9 @@
-import Model.Item;
-import Model.PossessionState;
-import Model.Rule;
-import Model.State;
+import Model.*;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -65,4 +66,42 @@ public class RuleTests {
         assertTrue(aRule.doesTheRuleMet());
     }
 
+    @Test
+    public void testRuleToOpenDoor() {
+        Item item = new Item("personaje");
+        Item llave = new Item("llave");
+
+
+        State poissoned = new State();
+        poissoned.setName("envenendao");
+
+        PossessionState withKey = new PossessionState();
+        withKey.setName("Tiene llave");
+        withKey.setItem(llave);
+
+        Rule estadoNoEnvenenado = new Rule();
+        estadoNoEnvenenado.setName("estado no envenenado");
+        estadoNoEnvenenado.setStateNotNeeded(poissoned);
+        estadoNoEnvenenado.setItemToValidate(item);
+
+        Rule tieneLlave = new Rule();
+        tieneLlave.setName("tiene llave");
+        tieneLlave.setStateNeeded(withKey);
+        tieneLlave.setItemToValidate(item);
+
+
+        ArrayList<Rule> rules = new ArrayList<Rule>();
+        rules.add(estadoNoEnvenenado);
+        rules.add(tieneLlave);
+
+        Action open = new Action("abrir", rules);
+
+        assertFalse(open.execute());
+        item.addState(poissoned);
+        assertFalse(open.execute());
+        item.addState(withKey);
+        assertFalse(open.execute());
+        item.removeState(poissoned);
+        assertTrue(open.execute());
+    }
 }

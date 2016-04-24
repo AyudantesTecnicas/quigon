@@ -9,13 +9,13 @@ import java.util.Map;
  */
 public class Action {
     private String identifier;
-    private ArrayList<String> rules; // This will be an array of Rule Class
+    private ArrayList<Rule> rules;
     private Item itemToModify;
     private ArrayList<State> statesToDelete;
     private ArrayList<State> statesToAdd;
 
     // Create an action which modifies a specific item
-    public Action(String identifier, ArrayList<String> rules, Item item, Map<String, ArrayList<State>> state) {
+    public Action(String identifier, ArrayList<Rule> rules, Item item, Map<String, ArrayList<State>> state) {
         this.identifier = identifier;
         this.rules = rules;
         this.itemToModify = item;
@@ -24,9 +24,18 @@ public class Action {
     }
 
     // Create a regular action
-    public Action(String identifier, ArrayList<String> rules) {
+    public Action(String identifier, ArrayList<Rule> rules) {
         this.identifier = identifier;
         this.rules = rules;
+        this.itemToModify = null;
+        this.statesToDelete = new ArrayList<>();
+        this.statesToAdd = new ArrayList<>();
+    }
+
+    // Create a regular action without rules (always execute)
+    public Action(String identifier) {
+        this.identifier = identifier;
+        this.rules = new ArrayList<>();
         this.itemToModify = null;
         this.statesToDelete = new ArrayList<>();
         this.statesToAdd = new ArrayList<>();
@@ -45,17 +54,23 @@ public class Action {
         return this.identifier.equals(auxAction.getIdentifier());
     }
 
-    public void execute(Item itemExecute) throws Exception {
-        Iterator<String> iterator = rules.iterator();
-        while (iterator.hasNext()) {
-            String rule = iterator.next();
-            // rule.evaluate();
-            // if error, raise error with message
+    public boolean execute() {
+        Iterator<Rule> iterator = rules.iterator();
+        boolean error = false;
+        while (iterator.hasNext() && !error) {
+            Rule rule = iterator.next();
+            error = !rule.doesTheRuleMet();
+        }
+
+        if (error) {
+            return false;
         }
 
         if (itemToModify != null) {
             itemToModify.addState(statesToAdd);
             itemToModify.removeState(statesToDelete);
         }
+
+        return true;
     }
 }
