@@ -1,9 +1,8 @@
 package Model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A basic component.
@@ -22,7 +21,7 @@ public class Item {
 
     public Item(String identifier) {
         this.identifier = identifier;
-        this.actions = new ArrayList<Action>();
+        this.actions = new ArrayList<>();
         this.states = new ArrayList<>();
     }
 
@@ -46,19 +45,19 @@ public class Item {
         }
     }
 
-    public void execute(Action action) throws Exception{
+    public void execute(Action action) throws Exception {
         boolean haveExecute = false;
         Iterator<Action> iterator = actions.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Action currentAction = iterator.next();
-            if (currentAction.equals(action)) {
+            if (action.equals(currentAction)) {
                 currentAction.execute(this);
                 haveExecute = true;
                 break;
             }
         }
 
-        if (!haveExecute){
+        if (!haveExecute) {
             throw new Exception("No valid action");
         }
     }

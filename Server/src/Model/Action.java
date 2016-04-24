@@ -11,8 +11,8 @@ public class Action {
     private String identifier;
     private ArrayList<String> rules; // This will be an array of Rule Class
     private Item itemToModify;
-    private ArrayList<State> statesToDelete; // This will be an array of State Class
-    private ArrayList<State> statesToAdd; // This will be an array of State Class
+    private ArrayList<State> statesToDelete;
+    private ArrayList<State> statesToAdd;
 
     // Create an action which modifies a specific item
     public Action(String identifier, ArrayList<String> rules, Item item, Map<String, ArrayList<State>> state) {
