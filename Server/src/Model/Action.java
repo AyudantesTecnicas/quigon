@@ -67,8 +67,8 @@ public class Action {
         }
 
         if (itemToModify != null) {
-            itemToModify.addState(statesToAdd);
-            itemToModify.removeState(statesToDelete);
+            itemToModify.addStates(statesToAdd);
+            itemToModify.removeStates(statesToDelete);
         }
 
         return true;
