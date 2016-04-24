@@ -9,24 +9,24 @@ import java.util.Map;
  */
 public class Action {
     private String identifier;
-    private ArrayList<Rule> rules;
+    private IExpression rule;
     private Item itemToModify;
     private ArrayList<State> statesToDelete;
     private ArrayList<State> statesToAdd;
 
     // Create an action which modifies a specific item
-    public Action(String identifier, ArrayList<Rule> rules, Item item, Map<String, ArrayList<State>> state) {
+    public Action(String identifier, IExpression rule, Item item, Map<String, ArrayList<State>> state) {
         this.identifier = identifier;
-        this.rules = rules;
+        this.rule = rule;
         this.itemToModify = item;
         this.statesToDelete = state.getOrDefault("remove", new ArrayList<>());
         this.statesToAdd = state.getOrDefault("add",new ArrayList<>());
     }
 
     // Create a regular action
-    public Action(String identifier, ArrayList<Rule> rules) {
+    public Action(String identifier, IExpression rule) {
         this.identifier = identifier;
-        this.rules = rules;
+        this.rule = rule;
         this.itemToModify = null;
         this.statesToDelete = new ArrayList<>();
         this.statesToAdd = new ArrayList<>();
@@ -35,7 +35,7 @@ public class Action {
     // Create a regular action without rules (always execute)
     public Action(String identifier) {
         this.identifier = identifier;
-        this.rules = new ArrayList<>();
+        this.rule = null;
         this.itemToModify = null;
         this.statesToDelete = new ArrayList<>();
         this.statesToAdd = new ArrayList<>();
@@ -55,14 +55,7 @@ public class Action {
     }
 
     public boolean execute() {
-        Iterator<Rule> iterator = rules.iterator();
-        boolean error = false;
-        while (iterator.hasNext() && !error) {
-            Rule rule = iterator.next();
-            error = !rule.doesTheRuleMet();
-        }
-
-        if (error) {
+        if (!this.rule.interpret()) {
             return false;
         }
 
