@@ -11,15 +11,15 @@ public class Action {
     private String identifier;
     private ArrayList<String> rules; // This will be an array of Rule Class
     private Item itemToModify;
-    private ArrayList<String> statesToDelete; // This will be an array of State Class
-    private ArrayList<String> statesToAdd; // This will be an array of State Class
+    private ArrayList<State> statesToDelete; // This will be an array of State Class
+    private ArrayList<State> statesToAdd; // This will be an array of State Class
 
     // Create an action which modifies a specific item
-    public Action(String identifier, ArrayList<String> rules, Item item, Map<String, ArrayList<String>> state) {
+    public Action(String identifier, ArrayList<String> rules, Item item, Map<String, ArrayList<State>> state) {
         this.identifier = identifier;
         this.rules = rules;
         this.itemToModify = item;
-        this.statesToDelete = state.getOrDefault("remove",new ArrayList<>());
+        this.statesToDelete = state.getOrDefault("remove", new ArrayList<>());
         this.statesToAdd = state.getOrDefault("add",new ArrayList<>());
     }
 
@@ -36,11 +36,16 @@ public class Action {
         return this.identifier;
     }
 
-    public boolean equals(Action actionToCompare) {
-        return this.identifier.equals(actionToCompare.getIdentifier());
+    @Override
+    public boolean equals(Object actionToCompare) {
+        if (!(actionToCompare instanceof Action)) {
+            return false;
+        }
+        Action auxAction = (Action)actionToCompare;
+        return this.identifier.equals(auxAction.getIdentifier());
     }
 
-    public void execute() throws Exception {
+    public void execute(Item itemExecute) throws Exception {
         Iterator<String> iterator = rules.iterator();
         while (iterator.hasNext()) {
             String rule = iterator.next();
@@ -49,7 +54,8 @@ public class Action {
         }
 
         if (itemToModify != null) {
-            //update item
+            itemToModify.addState(statesToAdd);
+            itemToModify.removeState(statesToDelete);
         }
     }
 }

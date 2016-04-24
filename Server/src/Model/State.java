@@ -21,4 +21,14 @@ public class State {
         return this.name;
     }
 
+    @Override
+    public boolean equals(Object stateToCompare) {
+        if (!(stateToCompare instanceof State)) {
+            return false;
+        }
+        State auxState = (State)stateToCompare;
+        return (this.name.equals(auxState.getName()));
+    }
+
 }
+

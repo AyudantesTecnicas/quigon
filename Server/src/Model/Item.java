@@ -1,9 +1,8 @@
 package Model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.org.apache.xpath.internal.operations.String;
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -13,37 +12,35 @@ import java.util.Iterator;
 public class Item {
     private String identifier;
     private ArrayList<Action> actions;
-    private ArrayList<String> states; // This will be a State Class array
+    private ArrayList<State> states;
 
     public Item(String identifier, ArrayList<Action> validActions) {
         this.identifier = identifier;
         this.actions = validActions;
-        this.states = new ArrayList<String>();
+        this.states = new ArrayList<>();
     }
 
     public Item(String identifier) {
         this.identifier = identifier;
         this.actions = new ArrayList<Action>();
-        this.states = new ArrayList<String>();
+        this.states = new ArrayList<>();
     }
 
     public String getIdentifier() {
         return this.identifier;
     }
 
-    public ArrayList<String> getStates() {
+    public ArrayList<State> getStates() {
         return this.states;
     }
 
-    // TODO: test!
-    public void addState(ArrayList<String> statesToAdd) {
+    public void addState(ArrayList<State> statesToAdd) {
         if (statesToAdd != null) {
             this.states.addAll(statesToAdd);
         }
     }
 
-    // TODO: test!
-    public void removeState(ArrayList<String> statesToRemove) {
+    public void removeState(ArrayList<State> statesToRemove) {
         if (statesToRemove != null) {
             this.states.removeAll(statesToRemove);
         }
@@ -53,9 +50,9 @@ public class Item {
         boolean haveExecute = false;
         Iterator<Action> iterator = actions.iterator();
         while(iterator.hasNext()) {
-            Action currentActon = iterator.next();
-            if (currentActon.equals(action)) {
-                currentActon.execute();
+            Action currentAction = iterator.next();
+            if (currentAction.equals(action)) {
+                currentAction.execute(this);
                 haveExecute = true;
                 break;
             }
