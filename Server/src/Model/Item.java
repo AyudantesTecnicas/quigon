@@ -61,4 +61,13 @@ public class Item {
             throw new Exception("No valid action");
         }
     }
+
+    public Boolean hasState(State aState) {
+        //TODO: Whats happend in the method "contains" of List? Does it compare objects with "equals"?
+        for (State state : this.states) {
+            if (state.equals(aState)) return true;
+        }
+
+        return false;
+    }
 }
