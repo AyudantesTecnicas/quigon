@@ -1,37 +1,63 @@
 package Model;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.sun.org.apache.xpath.internal.operations.String;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
  * A basic component.
- * It can execute actions and have got a state.
+ * It can execute actions to modify state from others items
  */
 public class Item {
     private String identifier;
-    private String state;   // This will be a class maybe
-    private ArrayList<String> actions; // This will be an Action Class array
+    private ArrayList<Action> actions;
     private ArrayList<String> states; // This will be a State Class array
+
+    public Item(String identifier, ArrayList<Action> validActions) {
+        this.identifier = identifier;
+        this.actions = validActions;
+        this.states = new ArrayList<String>();
+    }
 
     public Item(String identifier) {
         this.identifier = identifier;
+        this.actions = new ArrayList<Action>();
+        this.states = new ArrayList<String>();
     }
 
-    public Item(String identifier, ArrayList<String> validActions) {
-        this.identifier = identifier;
-        this.actions = validActions;
+    public String getIdentifier() {
+        return this.identifier;
     }
 
-    public void execute(String action) throws Exception{
+    public ArrayList<String> getStates() {
+        return this.states;
+    }
+
+    // TODO: test!
+    public void addState(ArrayList<String> statesToAdd) {
+        if (statesToAdd != null) {
+            this.states.addAll(statesToAdd);
+        }
+    }
+
+    // TODO: test!
+    public void removeState(ArrayList<String> statesToRemove) {
+        if (statesToRemove != null) {
+            this.states.removeAll(statesToRemove);
+        }
+    }
+
+    public void execute(Action action) throws Exception{
         boolean haveExecute = false;
-        Iterator<String> it = actions.iterator();
-        while(it.hasNext()) {
-            String currentActon = it.next();
-            if (currentActon == action) {
-                // execute action with state
+        Iterator<Action> iterator = actions.iterator();
+        while(iterator.hasNext()) {
+            Action currentActon = iterator.next();
+            if (currentActon.equals(action)) {
+                currentActon.execute();
                 haveExecute = true;
+                break;
             }
         }
 

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- *
+ *  Action modifies the state of an item if certain rules are exceeded
  */
 public class Action {
     private String identifier;
@@ -19,8 +19,8 @@ public class Action {
         this.identifier = identifier;
         this.rules = rules;
         this.itemToModify = item;
-        this.statesToDelete = state.getOrDefault("remove",null);
-        this.statesToAdd = state.getOrDefault("add",null);
+        this.statesToDelete = state.getOrDefault("remove",new ArrayList<>());
+        this.statesToAdd = state.getOrDefault("add",new ArrayList<>());
     }
 
     // Create a regular action
@@ -28,8 +28,16 @@ public class Action {
         this.identifier = identifier;
         this.rules = rules;
         this.itemToModify = null;
-        this.statesToDelete = null;
-        this.statesToAdd = null;
+        this.statesToDelete = new ArrayList<>();
+        this.statesToAdd = new ArrayList<>();
+    }
+
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
+    public boolean equals(Action actionToCompare) {
+        return this.identifier.equals(actionToCompare.getIdentifier());
     }
 
     public void execute() throws Exception {
@@ -40,6 +48,8 @@ public class Action {
             // if error, raise error with message
         }
 
-        // update itemToModify
+        if (itemToModify != null) {
+            //update item
+        }
     }
 }
