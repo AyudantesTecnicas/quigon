@@ -2,6 +2,7 @@ import Model.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -103,5 +104,40 @@ public class RuleTests {
         assertFalse(open.execute());
         item.removeState(poissoned);
         assertTrue(open.execute());
+    }
+
+    @Test
+    public void testRuleTakeSheepAndWolf() {
+        State vacio = new State();
+        vacio.setName("vacio");
+
+        State lleno = new State();
+        lleno.setName("lleno");
+
+        Item item = new Item("barco");
+        item.addState(vacio);
+
+        Rule barcoEstaVacio = new Rule();
+        barcoEstaVacio.setName("barco esta vacio");
+        barcoEstaVacio.setStateNeeded(vacio);
+        barcoEstaVacio.setItemToValidate(item);
+
+        ArrayList<Rule> rules = new ArrayList<Rule>();
+        rules.add(barcoEstaVacio);
+
+        ArrayList<State> remove = new ArrayList<State>();
+        remove.add(vacio);
+
+        ArrayList<State> add = new ArrayList<State>();
+        add.add(lleno);
+
+        HashMap<String, ArrayList<State>> map = new HashMap<>();
+        map.put("add", add);
+        map.put("remove", remove);
+
+        Action agarrar = new Action("agarrar", rules, item, map);
+
+        assertTrue(agarrar.execute());
+        assertFalse(agarrar.execute());
     }
 }
