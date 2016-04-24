@@ -33,9 +33,21 @@ public class Item {
         return this.states;
     }
 
+    public void addState(State stateToAdd) {
+        if (stateToAdd != null) {
+            this.states.add(stateToAdd);
+        }
+    }
+
     public void addState(ArrayList<State> statesToAdd) {
         if (statesToAdd != null) {
             this.states.addAll(statesToAdd);
+        }
+    }
+
+    public void removeState(State stateToRemove) {
+        if (stateToRemove != null) {
+            this.states.remove(stateToRemove);
         }
     }
 
