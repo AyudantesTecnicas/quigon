@@ -3,13 +3,13 @@ package Model;
 /**
  * Created by metro on 24/04/16.
  */
-public class ContainerState extends State {
+public class PossessionState extends State {
 
     //Attributes
     private Item item;
 
     //Methods
-    public ContainerState() {
+    public PossessionState() {
         super();
     }
 
