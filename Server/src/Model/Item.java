@@ -3,7 +3,6 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A basic component.

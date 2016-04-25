@@ -1,7 +1,5 @@
 package Model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 /**
  * Created by metro on 24/04/16.
  */
