@@ -1,9 +1,6 @@
 import Model.*;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -66,18 +63,13 @@ public class ActionTests {
         barcoEstaVacio.setStateNeeded(vacio);
         barcoEstaVacio.setItemToValidate(item);
 
+        ItemsStatesToUpdate itemsStatesToUpdate = new ItemsStatesToUpdate();
+        itemsStatesToUpdate.setItemToUpdate(item);
+        itemsStatesToUpdate.addStateToAdd(lleno);
+        itemsStatesToUpdate.addStateToDelete(vacio);
 
-        ArrayList<State> remove = new ArrayList<State>();
-        remove.add(vacio);
-
-        ArrayList<State> add = new ArrayList<State>();
-        add.add(lleno);
-
-        HashMap<String, ArrayList<State>> map = new HashMap<>();
-        map.put("add", add);
-        map.put("remove", remove);
-
-        Action agarrar = new Action("agarrar", barcoEstaVacio, item, map);
+        Action agarrar = new Action("agarrar", barcoEstaVacio);
+        agarrar.addItemsStatesToUpdate(itemsStatesToUpdate);
 
         assertTrue(agarrar.execute());
         assertFalse(agarrar.execute());
