@@ -1,11 +1,8 @@
 package gameFiles;
 
-import gameCreation.Game;
+import gameCreation.GameBuilder;
 
-import java.util.Map;
-import java.util.Vector;
-
-public class WolfSheep extends Game {
+public class WolfSheep extends GameBuilder {
     public WolfSheep() {}
 
     public void setAmountOfRooms(){

@@ -1,50 +1,21 @@
 package gameCreation;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
+public class Game {
 
-public abstract class Game {
-    private Map<Integer,Vector<Integer>> roomsGraph;
-    private Vector<Integer> itemsInRooms;
-    protected int amountOfRooms;
+    private Vector<Room> rooms;
 
-    protected Game(){
-        setAmountOfRooms();
-
-        int[] nodes = new int[amountOfRooms];
-        for (int i = 0; i < nodes.length; ++i) {
-            nodes[i] = i;
-        }
-        roomsGraph = new HashMap<>();
-
-        for (int i = 0; i < nodes.length; ++i) {
-            roomsGraph.put(i, new Vector<>());
-        }
-
-        itemsInRooms = new Vector<>();
-        setRooms();
-        setItems();
+    Game(){
+        rooms= new Vector<Room>();
     }
 
-    protected abstract void setItems();
-    protected abstract void setRooms();
-    protected abstract void setAmountOfRooms();
-
-    protected void fillGraph(int a, int b){
-        roomsGraph.get(a).add(b);
-        roomsGraph.get(b).add(a);
-    }
-    protected void fillVector(int a, int amountOfItems){
-        itemsInRooms.add(a,amountOfItems);
+    public String receiveCommands(String command){
+        return "doing Something";
     }
 
-    Map<Integer,Vector<Integer>> getRoomsGraph(){
-        return roomsGraph;
-    }
-
-    Vector<Integer> getItems(){
-        return itemsInRooms;
+    public void setRooms(Vector<Room> rooms) { this.rooms = rooms; }
+    public Vector<Room> getRooms(){
+        return rooms;
     }
 }

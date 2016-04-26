@@ -1,11 +1,8 @@
 package gameFiles;
 
-import gameCreation.Game;
+import gameCreation.GameBuilder;
 
-import java.util.Map;
-import java.util.Vector;
-
-public final class FetchQuest extends Game{
+public final class FetchQuest extends GameBuilder {
     public FetchQuest() {}
 
     public void setAmountOfRooms(){

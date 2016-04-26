@@ -1,11 +1,8 @@
 package gameFiles;
 
-import gameCreation.Game;
+import gameCreation.GameBuilder;
 
-import java.util.Map;
-import java.util.Vector;
-
-public final class CursedObject extends Game{
+public final class CursedObject extends GameBuilder {
     public CursedObject() {}
 
     public void setItems(){

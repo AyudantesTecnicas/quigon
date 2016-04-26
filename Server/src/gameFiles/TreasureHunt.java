@@ -1,11 +1,8 @@
 package gameFiles;
 
-import gameCreation.Game;
+import gameCreation.GameBuilder;
 
-import java.util.Map;
-import java.util.Vector;
-
-public class TreasureHunt extends Game {
+public class TreasureHunt extends GameBuilder {
     public TreasureHunt() {}
 
     public void setAmountOfRooms(){

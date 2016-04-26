@@ -1,11 +1,8 @@
 package gameFiles;
 
-import gameCreation.Game;
+import gameCreation.GameBuilder;
 
-import java.util.Map;
-import java.util.Vector;
-
-public final class OpenDoor2 extends Game {
+public final class OpenDoor2 extends GameBuilder {
     public OpenDoor2() {}
 
     public void setAmountOfRooms(){

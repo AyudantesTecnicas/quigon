@@ -1,11 +1,8 @@
 package gameFiles;
 
-import gameCreation.Game;
+import gameCreation.GameBuilder;
 
-import java.util.Map;
-import java.util.Vector;
-
-public final class TowerOfHanoi extends Game {
+public final class TowerOfHanoi extends GameBuilder {
     public TowerOfHanoi() {}
 
     public void setAmountOfRooms(){
