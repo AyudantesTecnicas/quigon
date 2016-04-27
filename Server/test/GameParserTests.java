@@ -104,4 +104,37 @@ public class GameParserTests {
 
         assertTrue(aGameAction.isASupportedAction() && itemsIDFromAction.size() == 3);
     }
+
+    @Test
+    public void testThreeSupportedActionButClientActionIsNotSupported() {
+        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        supportedActions.add(aSupportedAction);
+        aSupportedAction = new SupportedAction(2, "cerrar");
+        supportedActions.add(aSupportedAction);
+        aSupportedAction = new SupportedAction(3, "romper");
+        supportedActions.add(aSupportedAction);
+        GameParser aGameParser = new GameParser(supportedActions);
+
+        GameAction aGameAction = aGameParser.parseInstruction("mirar");
+
+        assertFalse(aGameAction.isASupportedAction());
+    }
+
+    @Test
+    public void testThreeSupportedActionAndClientActionIsSupported() {
+        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        supportedActions.add(aSupportedAction);
+        aSupportedAction = new SupportedAction(2, "cerrar");
+        supportedActions.add(aSupportedAction);
+        aSupportedAction = new SupportedAction(3, "romper");
+        supportedActions.add(aSupportedAction);
+        GameParser aGameParser = new GameParser(supportedActions);
+
+        GameAction aGameAction = aGameParser.parseInstruction("cerrar puerta cofre");
+        ArrayList<String> itemsIDFromAction = aGameAction.getItemsID();
+
+        assertTrue(aGameAction.isASupportedAction() && itemsIDFromAction.size() == 2 && aGameAction.getActionID().equals("cerrar"));
+    }
 }
