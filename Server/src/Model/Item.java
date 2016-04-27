@@ -1,8 +1,8 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A basic component.
@@ -35,13 +35,16 @@ public class Item {
 
     public void addState(State stateToAdd) {
         if (stateToAdd != null) {
-            this.states.add(stateToAdd);
+            if (!this.hasState(stateToAdd))
+                this.states.add(stateToAdd);
         }
     }
 
-    public void addState(ArrayList<State> statesToAdd) {
+    public void addStates(List<State> statesToAdd) {
         if (statesToAdd != null) {
-            this.states.addAll(statesToAdd);
+            for (State aState : this.states) {
+                this.addState(aState);
+            }
         }
     }
 
@@ -51,7 +54,7 @@ public class Item {
         }
     }
 
-    public void removeState(ArrayList<State> statesToRemove) {
+    public void removeStates(List<State> statesToRemove) {
         if (statesToRemove != null) {
             this.states.removeAll(statesToRemove);
         }
@@ -63,7 +66,7 @@ public class Item {
         while (iterator.hasNext()) {
             Action currentAction = iterator.next();
             if (action.equals(currentAction)) {
-                currentAction.execute(this);
+                currentAction.execute();
                 haveExecute = true;
                 break;
             }
@@ -77,4 +80,5 @@ public class Item {
     public Boolean hasState(State aState) {
         return (this.states.contains(aState));
     }
+
 }

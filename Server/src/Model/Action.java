@@ -1,35 +1,43 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 /**
  *  Action modifies the state of an item if certain rules are exceeded
  */
 public class Action {
     private String identifier;
-    private ArrayList<String> rules; // This will be an array of Rule Class
-    private Item itemToModify;
-    private ArrayList<State> statesToDelete;
-    private ArrayList<State> statesToAdd;
+    private IExpression rule;
+    private List<ItemsStatesToUpdate> itemsStatesToUpdate;
 
     // Create an action which modifies a specific item
-    public Action(String identifier, ArrayList<String> rules, Item item, Map<String, ArrayList<State>> state) {
+    public Action(String identifier, IExpression rule, List<ItemsStatesToUpdate> itemsStatesToUpdate) {
         this.identifier = identifier;
-        this.rules = rules;
-        this.itemToModify = item;
-        this.statesToDelete = state.getOrDefault("remove", new ArrayList<>());
-        this.statesToAdd = state.getOrDefault("add",new ArrayList<>());
+        this.rule = rule;
+        this.itemsStatesToUpdate = itemsStatesToUpdate;
     }
 
     // Create a regular action
-    public Action(String identifier, ArrayList<String> rules) {
+    public Action(String identifier, IExpression rule) {
         this.identifier = identifier;
-        this.rules = rules;
-        this.itemToModify = null;
-        this.statesToDelete = new ArrayList<>();
-        this.statesToAdd = new ArrayList<>();
+        this.rule = rule;
+        this.itemsStatesToUpdate = new ArrayList<>();
+    }
+
+    // Create a regular action without rules (always execute)
+    public Action(String identifier) {
+        this.identifier = identifier;
+        this.rule = null;
+        this.itemsStatesToUpdate = new ArrayList<>();
+    }
+
+    public void setRule(IExpression rule) {
+        this.rule = rule;
+    }
+
+    public void addItemsStatesToUpdate(ItemsStatesToUpdate itemsStatesToUpdate) {
+        this.itemsStatesToUpdate.add(itemsStatesToUpdate);
     }
 
     public String getIdentifier() {
@@ -45,17 +53,15 @@ public class Action {
         return this.identifier.equals(auxAction.getIdentifier());
     }
 
-    public void execute(Item itemExecute) throws Exception {
-        Iterator<String> iterator = rules.iterator();
-        while (iterator.hasNext()) {
-            String rule = iterator.next();
-            // rule.evaluate();
-            // if error, raise error with message
+    public boolean execute() {
+        if (this.rule != null && !this.rule.interpret()) {
+            return false;
         }
 
-        if (itemToModify != null) {
-            itemToModify.addState(statesToAdd);
-            itemToModify.removeState(statesToDelete);
+        for (ItemsStatesToUpdate itemsStatesToUpdate : this.itemsStatesToUpdate) {
+            itemsStatesToUpdate.update();
         }
+
+        return true;
     }
 }

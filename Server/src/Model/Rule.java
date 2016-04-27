@@ -3,28 +3,17 @@ package Model;
 /**
  * Created by metro on 24/04/16.
  */
-public class Rule {
+public class Rule extends RuleExpression {
 
     //Attributes
-    private String name;
-    private Item itemToValidate;
     private State stateNeeded;
     private State stateNotNeeded;
 
     //Methods
     public Rule() {
-        this.name = "";
-        this.itemToValidate = null;
+        super();
         this.stateNeeded = null;
         this.stateNotNeeded = null;
-    }
-
-    public void setName(String aName) {
-        this.name = aName;
-    }
-
-    public void setItemToValidate(Item anItem) {
-        this.itemToValidate = anItem;
     }
 
     public void setStateNeeded(State aState) {
@@ -35,14 +24,6 @@ public class Rule {
         this.stateNotNeeded = aState;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public Item getItemToValidate() {
-        return this.itemToValidate;
-    }
-
     public State getStateNeeded() {
         return this.stateNeeded;
     }
@@ -51,12 +32,13 @@ public class Rule {
         return this.stateNotNeeded;
     }
 
-    //It validates the rule
-    public Boolean doesTheRuleMet() {
+    @Override
+    public Boolean interpret() {
         if (this.stateNeeded != null)
             if (!this.itemToValidate.hasState(this.stateNeeded)) return false;
 
-        if (this.itemToValidate.hasState(this.stateNotNeeded)) return false;
+        if (this.stateNotNeeded != null)
+            if (this.itemToValidate.hasState(this.stateNotNeeded)) return false;
         return true;
     }
 

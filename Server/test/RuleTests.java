@@ -1,8 +1,6 @@
-import Model.Item;
-import Model.PossessionState;
-import Model.Rule;
-import Model.State;
+import Model.*;
 import org.junit.Test;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -22,7 +20,7 @@ public class RuleTests {
         aRule.setItemToValidate(anItem);
         aRule.setStateNeeded(aState);
 
-        assertTrue(aRule.doesTheRuleMet());
+        assertTrue(aRule.interpret());
     }
 
     @Test
@@ -36,7 +34,7 @@ public class RuleTests {
         aRule.setItemToValidate(anItem);
         aRule.setStateNotNeeded(aState);
 
-        assertTrue(aRule.doesTheRuleMet());
+        assertTrue(aRule.interpret());
     }
 
     @Test
@@ -62,7 +60,7 @@ public class RuleTests {
         aRule.setStateNotNeeded(aState);
         aRule.setStateNeeded(anotherState);
 
-        assertTrue(aRule.doesTheRuleMet());
+        assertTrue(aRule.interpret());
     }
 
 }
