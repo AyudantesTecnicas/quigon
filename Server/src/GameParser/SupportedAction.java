@@ -18,8 +18,8 @@ public class SupportedAction {
     public Boolean isEqual(String actionID) {
         if (actionID.length() < this.actionID.length()) {
             return false;
-        } else if (actionID.length() == this.actionID.length() && this.numberOfItemsAffected == 0){
-            return this.actionID.equals(actionID);
+        } else if (actionID.length() == this.actionID.length()){
+            return this.actionID.equals(actionID) && this.numberOfItemsAffected == 0;
         } else {
             String itemsString = actionID.substring(this.actionID.length() + 1);
 
