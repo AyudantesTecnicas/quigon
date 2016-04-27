@@ -9,7 +9,7 @@ import java.util.List;
 public class ComplexElement extends Element {
 
     //Attributes
-    private List<State> states;
+    private List<Element> states;
     private Element containerElement;
 
     //Methods
@@ -25,7 +25,7 @@ public class ComplexElement extends Element {
         this.setContainerElement(null);
     }
 
-    public void addState(State state) {
+    public void addState(Element state) {
         this.states.add(state);
     }
 
