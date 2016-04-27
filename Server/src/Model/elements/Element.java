@@ -1,4 +1,4 @@
-package Model;
+package Model.elements;
 
 /**
  * Created by metro on 27/04/16.
@@ -29,7 +29,7 @@ public class Element {
     public boolean equals(Object other) {
         if (other == null) return false;
         if (other == this) return true;
-        if (!(other instanceof State))return false;
+        if (!(other instanceof Element))return false;
         Element otherElement = (Element)other;
         return (this.name.equals(otherElement.name));
     }

@@ -1,4 +1,6 @@
-package Model;
+package Model.elements;
+
+import Model.actions.Move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +27,24 @@ public class ComplexElement extends Element {
     }
 
     public void addState(Element state) {
-        this.states.add(state);
+        if (state != null) {
+            if (!this.states.contains(state))
+                this.states.add(state);
+        }
+    }
+
+    public void removeState(Element state) {
+        if (state != null) {
+            this.states.remove(state);
+        }
     }
 
     public void addMove(Move move) {
-        this.moves.add(move);
+        if (move != null) {
+            if (!this.moves.contains(move)) {
+                this.moves.add(move);
+            }
+        }
     }
 
     public void setContainerElement(Element containerElement) {
@@ -38,6 +53,14 @@ public class ComplexElement extends Element {
 
     public Element getContainerElement() {
         return this.containerElement;
+    }
+
+    public Boolean hasState(Element state) {
+        return this.states.contains(state);
+    }
+
+    public Boolean hasContainerElement(Element containerElement) {
+        return this.containerElement.equals(containerElement);
     }
 
     private void initComplexElement() {
