@@ -1,5 +1,7 @@
 package server;
 
+import gameCreation.Game;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,6 +10,7 @@ public class PortThread extends Thread {
 
     private ServerSocket ss;
     private Socket socket;
+    private Game game;
 
     boolean clientConnected = false;
 
@@ -18,8 +21,9 @@ public class PortThread extends Thread {
 
     String sendByClient = "";
 
-    public PortThread(ServerSocket ss) {
+    public PortThread(ServerSocket ss, Game game) {
         this.ss = ss;
+        this.game = game;
     }
 
     @Override
@@ -63,7 +67,7 @@ public class PortThread extends Thread {
             try {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + ss.getLocalPort() + " send a message: " + sendByClient);
-                sendAnswer("[DUMB ANSWER]");
+                sendAnswer(game.receiveCommands(sendByClient));
             } catch (IOException e) {
                 System.out.println("Client at port " + ss.getLocalPort() + " is disconnected.");
                 clientConnected = false;
