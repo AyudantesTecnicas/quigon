@@ -10,23 +10,26 @@ public class ComplexElement extends Element {
 
     //Attributes
     private List<Element> states;
+    private List<Move> moves;
     private Element containerElement;
 
     //Methods
     public ComplexElement() {
         super();
-        this.initStates();
-        this.setContainerElement(null);
+        this.initComplexElement();
     }
 
     public ComplexElement(String name) {
         super(name);
-        this.initStates();
-        this.setContainerElement(null);
+        this.initComplexElement();
     }
 
     public void addState(Element state) {
         this.states.add(state);
+    }
+
+    public void addMove(Move move) {
+        this.moves.add(move);
     }
 
     public void setContainerElement(Element containerElement) {
@@ -37,8 +40,11 @@ public class ComplexElement extends Element {
         return this.containerElement;
     }
 
-    private void initStates() {
+    private void initComplexElement() {
         this.states = new ArrayList<>();
+        this.moves = new ArrayList<>();
+        this.setContainerElement(null);
     }
+
 
 }
