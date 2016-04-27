@@ -12,25 +12,31 @@ public class GameParser {
 
     private ArrayList<SupportedAction> supportedActions;
     public GameParser (ArrayList<SupportedAction> possibleActions) {
+
         this.supportedActions = possibleActions;
     }
 
-    public GameAction parseInstrucction(String instrucction) {
-        GameAction actionToReturn = null;
-        SupportedAction supportedAction = this.supportedAction(instrucction);
+    public GameAction parseInstruction(String instruction) {
+        GameAction actionToReturn;
+        SupportedAction supportedAction = this.getSupportedAction(instruction);
         if (supportedAction != null) { //parse current instruction
             //create a supported GameAction
-            String itemsString = instrucction.substring(0,supportedAction.getActionID().length());
-            String [] itemsID = itemsString.split(" ");
-            actionToReturn = new GameAction(supportedAction.getActionID(), new ArrayList<String>(Arrays.asList(itemsString.split(" "))));
+            ArrayList<String> itemsIDArray;
+            if (supportedAction.getNumberOfItemsAffected() == 0) {
+                itemsIDArray = new ArrayList<String>();
+            } else {
+                String itemsString = instruction.substring(supportedAction.getActionID().length() + 1);
+                itemsIDArray = new ArrayList<String>(Arrays.asList(itemsString.split(" ")));
+            }
+            actionToReturn = new GameAction(supportedAction.getActionID(), itemsIDArray);
         } else {
             //create an unsupported GameAction
-            actionToReturn = new GameAction();
+            actionToReturn = new GameAction("Unsupported Action");
         }
         return  actionToReturn;
     }
 
-    private SupportedAction supportedAction(String actionID){
+    private SupportedAction getSupportedAction(String actionID){
         Iterator<SupportedAction> iterator = supportedActions.iterator();
         Boolean supported = false;
         SupportedAction  auxSupportedAction = null;
@@ -38,7 +44,11 @@ public class GameParser {
             auxSupportedAction = iterator.next();
             supported = auxSupportedAction.isEqual(actionID);
         }
+        if (supported) {
+            return  auxSupportedAction;
+        } else {
+            return null;
+        }
 
-        return  auxSupportedAction;
     }
 }

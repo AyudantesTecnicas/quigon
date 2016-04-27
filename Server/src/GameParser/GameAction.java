@@ -18,10 +18,33 @@ public class GameAction {
         this.message = "Correct Action"; // This could be changed
     }
 
-    public GameAction () {
+    public GameAction(String message){
+        this.message = message;
+        this.supportedAction = false;
+        this.actionID = "";
+        this.itemsID = null;
+    }
+
+    public GameAction() {
         this.message = "Unsupported Action";
         this.supportedAction = false;
         this.actionID = "";
         this.itemsID = null;
+    }
+
+    public String getActionID() {
+        return this.actionID;
+    }
+
+    public ArrayList<String> getItemsID() {
+        return this.itemsID;
+    }
+
+    public Boolean isASupportedAction() {
+        return this.supportedAction;
+    }
+
+    public String getMessage() {
+        return this.message;
     }
 }

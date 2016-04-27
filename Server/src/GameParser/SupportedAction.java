@@ -16,7 +16,15 @@ public class SupportedAction {
     }
 
     public Boolean isEqual(String actionID) {
-        return this.actionID.regionMatches(true,0,actionID,0,this.actionID.length());
+        if (actionID.length() < this.actionID.length()) {
+            return false;
+        } else if (actionID.length() == this.actionID.length() && this.numberOfItemsAffected == 0){
+            return this.actionID.equals(actionID);
+        } else {
+            String itemsString = actionID.substring(this.actionID.length() + 1);
+
+            return (this.actionID.regionMatches(true, 0, actionID, 0, this.actionID.length()) && itemsString.split(" ").length == this.numberOfItemsAffected);
+        }
     }
 
     public int getNumberOfItemsAffected () {
