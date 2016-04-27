@@ -13,8 +13,6 @@ public class LogicBuilder {
 
     protected ArrayList<LogicInterpreter> parseHandlers = new ArrayList<>();
     protected LogicParseManager pManager;
-    private int takeParenthesisLeft = 1;
-    private int takeParenthesisRight = 2;
 
     public LogicBuilder(){
         pManager = new LogicParseManager(this);

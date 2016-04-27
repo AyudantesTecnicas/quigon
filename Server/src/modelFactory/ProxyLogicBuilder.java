@@ -28,25 +28,28 @@ public class ProxyLogicBuilder extends LogicBuilder {
             for (LogicInterpreter handler : parseHandlers){
                 interpreted |= handler.interpret(logic.charAt(readingPosition));
             }
-            if (readingPosition == firstChar) {
-                if (!interpreted) {
-                    if (logic.length() == 1){
-                        if (rules.containsKey(logic.charAt(readingPosition))) {
-                            return builder.parse(rules, logic);
-                        }
-                    }
-                    else {
-                        throw new WrongLogicException();
-                    }
-                }
-                else if(pManager.openedParenthesis() != 1) {
-                    throw new WrongLogicException();
-                }
+            if (readingPosition == firstChar && checkFirstChar(rules, logic, interpreted)) {
+                    return builder.parse(rules, logic);
             }
         }
         if ((pManager.getFactoryForFoundSymbol() != null && pManager.openedParenthesis() == 0)){
             return builder.parse(rules, logic);
         }
         throw new WrongLogicException();
+    }
+
+    private boolean checkFirstChar(HashMap<Character, Rule> rules, String logic, boolean isSpecialChar)
+            throws WrongLogicException{
+        boolean isParenthesis = (pManager.openedParenthesis() == 1);
+        boolean isLastChar = (logic.length() == 1);
+        boolean existsRule = rules.containsKey(logic.charAt(0));
+
+        if((isSpecialChar || !isLastChar || !existsRule) && !isParenthesis){
+            throw new WrongLogicException();
+        }
+        else if (!isSpecialChar){
+            return true;
+        }
+        return false;
     }
 }

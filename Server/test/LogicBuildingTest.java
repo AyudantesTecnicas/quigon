@@ -160,6 +160,9 @@ public class LogicBuildingTest {
     public void testWrongLogic(){
         String logic;
 
+        logic = "(";
+        tryWrongLogic(logic);
+
         logic = "a&b";
         tryWrongLogic(logic);
 
@@ -168,7 +171,6 @@ public class LogicBuildingTest {
 
         logic = "(a)(b)&(c)";
         tryWrongLogic(logic);
-
     }
 
 }
