@@ -6,12 +6,14 @@ import gameFiles.*;
 import java.security.InvalidParameterException;
 
 public final class GameCreator {
-    GameMaker gameMaker;
+    private GameMaker gameMaker;
+    private GameBuilder gameBuilder;
 
-    public GameCreator(String gameName) throws InvalidParameterException {
+    public GameCreator()  {
         gameMaker= new GameMaker();
-        GameBuilder gameBuilder;
+    }
 
+    public void createGame(String gameName)throws InvalidParameterException{
         switch (gameName) {
             case "CursedObject":  gameBuilder = new CursedObject();
                 break;
