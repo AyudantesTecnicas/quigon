@@ -4,15 +4,15 @@ import Model.IExpression;
 import Model.Rule;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by francisco on 4/26/16.
  */
 public class LogicBuilder {
 
-    private ArrayList<LogicInterpreter> parseHandlers = new ArrayList<>();
-    private LogicParseManager pManager;
+    protected ArrayList<LogicInterpreter> parseHandlers = new ArrayList<>();
+    protected LogicParseManager pManager;
     private int takeParenthesisLeft = 1;
     private int takeParenthesisRight = 2;
 
@@ -25,7 +25,7 @@ public class LogicBuilder {
         parseHandlers.add(new XorLInterpreter(pManager));
     }
 
-    public IExpression parse(Map<Character, Rule> rules, String logic){
+    public IExpression parse(HashMap<Character, Rule> rules, String logic) throws  WrongLogicException{
         boolean interpreted;
         LogicFactory logicFactory;
         pManager.reset();
@@ -38,11 +38,15 @@ public class LogicBuilder {
                 return rules.get(logic.charAt(readingPosition));
             }
             if ((logicFactory = pManager.getFactoryForFoundSymbol()) != null){
-                return logicFactory.build(rules, logic.substring(takeParenthesisLeft, readingPosition -
-                        takeParenthesisLeft), logic.substring(readingPosition + takeParenthesisRight));
+                int beginningString1 = 1;
+                int endString1 = readingPosition - 1;
+                int beginningString2 = readingPosition + 2;
+                int endString2 = logic.length() - 1;
+                return logicFactory.build(rules, logic.substring(beginningString1, endString1),
+                        logic.substring(beginningString2, endString2));
             }
         }
-        return null;
+        throw new WrongLogicException();
     }
 
 }

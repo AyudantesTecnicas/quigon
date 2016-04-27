@@ -3,6 +3,8 @@ import Model.Item;
 import Model.Rule;
 import Model.State;
 import modelFactory.LogicBuilder;
+import modelFactory.ProxyLogicBuilder;
+import modelFactory.WrongLogicException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +26,7 @@ public class LogicBuildingTest {
     private Rule rule3;
 
     private HashMap<Character, Rule> rules;
+    LogicBuilder lBuilder;
 
     @Before
     public void setUp(){
@@ -57,14 +60,34 @@ public class LogicBuildingTest {
         rules.put('a', rule1);
         rules.put('b', rule2);
         rules.put('c', rule3);
+
+        lBuilder = new ProxyLogicBuilder();
+
+    }
+
+    private IExpression buildExpression(String logic) throws AssertionError{
+        try {
+            return (lBuilder.parse(rules, logic));
+        } catch (WrongLogicException e) {
+            e.printStackTrace();
+            throw new AssertionError();
+        }
+    }
+
+    @Test
+    public void testCreateOneRule(){
+        String logic = "a";
+
+        IExpression expression = buildExpression(logic);
+
+        assert (expression == rule1);
     }
 
     @Test
     public void testCreateAnd(){
         String logic = "(a)&(b)";
 
-        LogicBuilder lBuilder = new LogicBuilder();
-        IExpression expression = lBuilder.parse(rules, logic);
+        IExpression expression = buildExpression(logic);
 
         assert (expression.interpret() == true);
 
@@ -77,8 +100,7 @@ public class LogicBuildingTest {
     public void testCreateOr(){
         String logic = "(a)|(b)";
 
-        LogicBuilder lBuilder = new LogicBuilder();
-        IExpression expression = lBuilder.parse(rules, logic);
+        IExpression expression = buildExpression(logic);
 
         assert (expression.interpret() == true);
 
@@ -91,8 +113,7 @@ public class LogicBuildingTest {
     public void testCreateAndOr(){
         String logic = "((a)&(b))|(c)";
 
-        LogicBuilder lBuilder = new LogicBuilder();
-        IExpression expression = lBuilder.parse(rules, logic);
+        IExpression expression = buildExpression(logic);
 
         assert (expression.interpret() == true);
 
@@ -113,8 +134,7 @@ public class LogicBuildingTest {
     public void testCreateXorAnd(){
         String logic = "((a)^(b))&(c)";
 
-        LogicBuilder lBuilder = new LogicBuilder();
-        IExpression expression = lBuilder.parse(rules, logic);
+        IExpression expression = buildExpression(logic);
 
         assert (expression.interpret() == false);
 
@@ -125,6 +145,30 @@ public class LogicBuildingTest {
         anItem.removeState(state2);
 
         assert (expression.interpret() == false);
+    }
+
+    private void tryWrongLogic(String logic) throws AssertionError{
+        IExpression expression = null;
+        try {
+            expression = buildExpression(logic);
+        } catch (AssertionError e) {
+            assert (expression == null);
+        }
+    }
+
+    @Test
+    public void testWrongLogic(){
+        String logic;
+
+        logic = "a&b";
+        tryWrongLogic(logic);
+
+        logic = "()&(b)";
+        tryWrongLogic(logic);
+
+        logic = "(a)(b)&(c)";
+        tryWrongLogic(logic);
+
     }
 
 }

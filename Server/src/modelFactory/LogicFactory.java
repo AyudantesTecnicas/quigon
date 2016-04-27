@@ -4,7 +4,7 @@ import Model.IExpression;
 import Model.LogicExpression;
 import Model.Rule;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by francisco on 4/26/16.
@@ -14,10 +14,11 @@ public abstract class LogicFactory {
     protected LogicBuilder parser;
 
     public LogicFactory(){
-        parser = new LogicBuilder();
+        parser = new ProxyLogicBuilder();
     }
 
-    public IExpression build(Map<Character, Rule> rules, String logicLeft, String logicRight){
+    public IExpression build(HashMap<Character, Rule> rules, String logicLeft, String logicRight)
+    throws WrongLogicException{
         IExpression right = parser.parse(rules, logicLeft);
         IExpression left = parser.parse(rules, logicRight);
         LogicExpression lExp = getExpression();

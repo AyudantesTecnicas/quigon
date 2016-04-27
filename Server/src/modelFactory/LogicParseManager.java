@@ -29,6 +29,10 @@ public class LogicParseManager {
         factory = null;
     }
 
+    public int openedParenthesis(){
+        return openedParenthesis;
+    }
+
     public void notifySymbolFound(LogicSymbolInterpreter interpreter){
         if (openedParenthesis == 0){
             factory = interpreter.getFactory();
