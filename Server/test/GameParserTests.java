@@ -23,6 +23,26 @@ public class GameParserTests {
     }
 
     @Test
+    public void testParseInstructionWithUpperCaseAction() {
+        SupportedAction aSupportedAction = new SupportedAction(1, "ABRIR");
+        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        supportedActions.add(aSupportedAction);
+        GameParser aGameParser = new GameParser(supportedActions);
+        GameAction aGameAction = aGameParser.parseInstruction("abrir puerta");
+        assertTrue(aGameAction.getActionID().equals("abrir") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+    }
+
+    @Test
+    public void testParseInstructionWithUpperCaseMessage() {
+        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        supportedActions.add(aSupportedAction);
+        GameParser aGameParser = new GameParser(supportedActions);
+        GameAction aGameAction = aGameParser.parseInstruction("ABRIR puerta");
+        assertTrue(aGameAction.getActionID().equals("abrir") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+    }
+
+    @Test
     public void testParseASupportedActionButNotCorrectNumberOfItems() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();

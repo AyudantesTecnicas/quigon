@@ -12,7 +12,7 @@ public class SupportedAction {
 
     public SupportedAction (int numberOfItemsAffected , String actionID) {
         this.numberOfItemsAffected = numberOfItemsAffected;
-        this.actionID = actionID;
+        this.actionID = actionID.toLowerCase();
     }
 
     public Boolean isEqual(String actionID) {

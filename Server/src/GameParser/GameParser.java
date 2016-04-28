@@ -22,8 +22,9 @@ public class GameParser {
         }
     }
 
-    public GameAction parseInstruction(String instruction) {
+    public GameAction parseInstruction(String message) {
         GameAction actionToReturn;
+        String instruction = message.toLowerCase();
         SupportedAction supportedAction = this.getSupportedAction(instruction);
         if (supportedAction != null) { //parse current instruction
             //create a supported GameAction
