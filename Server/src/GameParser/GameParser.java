@@ -16,6 +16,10 @@ public class GameParser {
         this.supportedActions = possibleActions;
     }
 
+    public GameParser() {
+        this.supportedActions = new ArrayList<>();
+    }
+
     public void addSupportedAction (SupportedAction aSupportedAction) {
         if (!this.supportedActions.contains(aSupportedAction)){
             this.supportedActions.add(aSupportedAction);
