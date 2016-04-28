@@ -6,4 +6,5 @@ public class MainTests {
     void dummy() {
         assert (true);
     }
+
 }
