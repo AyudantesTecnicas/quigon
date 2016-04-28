@@ -11,6 +11,7 @@ class GameMaker {
         gameBuilder.createNewGame();
         gameBuilder.setNameDescription();
         gameBuilder.createParser();
+        gameBuilder.createElementList();
         gameBuilder.setActions();
         gameBuilder.addActionsToParser();
         gameBuilder.setElementsToGame();

@@ -17,7 +17,7 @@ public class Game {
     public GameParser parser;
 
     Game(){
-        elementList= new ArrayList<>();
+
     }
     public void setName(String gameName) { this.gameName = gameName; }
 
@@ -35,5 +35,8 @@ public class Game {
 
     public void setParser(GameParser parser) {
         this.parser = parser;
+    }
+    public void setElements( List<Element> elementList) {
+        this.elementList = elementList;
     }
 }

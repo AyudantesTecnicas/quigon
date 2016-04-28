@@ -23,9 +23,10 @@ public abstract class GameBuilder {
     public Game getGame() { return game; }
     public void createNewGame() { game = new Game(); }
 
+    protected void createElementList() {game.setElements(new ArrayList<>());}
+
     protected void createParser(){
-        GameParser gameParser= new GameParser();
-        game.setParser(gameParser);
+        game.setParser(new GameParser());
     }
 
     protected abstract void setActions();
