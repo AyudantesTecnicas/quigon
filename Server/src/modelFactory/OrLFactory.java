@@ -1,7 +1,7 @@
 package modelFactory;
 
-import Model.LogicExpression;
-import Model.OrExpression;
+import Model.rules.LogicExpression;
+import Model.rules.OrExpression;
 
 /**
  * Created by francisco on 4/26/16.

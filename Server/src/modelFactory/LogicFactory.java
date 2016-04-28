@@ -1,8 +1,8 @@
 package modelFactory;
 
-import Model.IExpression;
-import Model.LogicExpression;
-import Model.RuleExpression;
+import Model.rules.IExpression;
+import Model.rules.LogicExpression;
+import Model.rules.RuleExpression;
 
 import java.util.HashMap;
 
