@@ -44,7 +44,9 @@ public abstract class GameBuilder {
     public void createRoomsGraph(){
         int[] nodes = new int[amountOfRooms];
         for (int i = 0; i < nodes.length; ++i) {
-            nodes[i] = i;
+            nodes[i] = i;{
+            System.out.print("La logica esta mal expresada.\n");
+        }
         }
         roomsGraph = new HashMap<>();
 
