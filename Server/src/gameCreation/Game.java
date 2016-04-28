@@ -47,7 +47,7 @@ public class Game {
         }
 
         if (checkVictory())
-            sendCommand = "YouWon";
+            sendCommand = "You won the game!";
         return sendCommand;
     }
 
