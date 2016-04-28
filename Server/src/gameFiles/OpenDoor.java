@@ -75,7 +75,7 @@ public final class OpenDoor extends GameBuilder {
         roomHasKey.setFailMessage("Key is't in room 1.");
         characterHasKey.setFailMessage("Ey! Where do you go?! Room 2 is locked.");
         pickKey.setResultMessage("There you go!");
-        openDoor.setResultMessage("You enter room 2!");
+        openDoor.setResultMessage("You enter room 2. You won the game!");
 
         //Rules to open door
         HashMap <Character, RuleExpression> rules = new HashMap<>();

@@ -156,8 +156,8 @@ public final class OpenDoor2 extends GameBuilder {
     }
 
     public void setActions(){
-        actionsList.add(new SupportedAction(1,"abrir"));
-        actionsList.add(new SupportedAction(1,"agarrar"));
+        actionsList.add(new SupportedAction(1,"open"));
+        actionsList.add(new SupportedAction(1,"pick"));
     }
 
 }
