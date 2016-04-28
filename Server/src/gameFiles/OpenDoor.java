@@ -4,7 +4,7 @@ import gameCreation.GameBuilder;
 
 public final class OpenDoor extends GameBuilder {
 
-    public static String gameDescription= "There is a Door on this game";
+    public static String gameDescription= "There is a door on this game. Also, it is locked.";
 
     public OpenDoor() {
         gameName = "OpenDoor";

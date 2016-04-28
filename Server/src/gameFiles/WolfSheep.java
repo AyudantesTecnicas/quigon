@@ -4,7 +4,7 @@ import gameCreation.GameBuilder;
 
 public class WolfSheep extends GameBuilder {
 
-    public static String gameDescription= "There is a Wolf, a Sheep and a Cabbage";
+    public static String gameDescription= "There is a wolf, a sheep and a cabbage... For what?";
     public WolfSheep() {
         gameName = "WolfSheep";
 

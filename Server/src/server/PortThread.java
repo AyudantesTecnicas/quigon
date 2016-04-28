@@ -33,7 +33,7 @@ public class PortThread extends Thread {
             try {
                 setConnection();
             } catch (IOException e) {
-                System.out.println("Server socket " + serverSocket.getLocalPort() + " has closed, no client.");
+                System.out.println("Server socket " + serverSocket.getLocalPort() + " with game " + game.getName() + " has closed, no client.");
             }
 
             listenClient();
@@ -55,8 +55,6 @@ public class PortThread extends Thread {
         } catch (IOException e) {
             System.out.println("Unable to create new server socket!");
         }
-
-        game.reset();
 
         System.out.println(game.getName() + " is ready and listening port " + serverSocket.getLocalPort() + ".");
         socket = serverSocket.accept();    // waiting for client
@@ -82,6 +80,7 @@ public class PortThread extends Thread {
             } catch (IOException e) {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " is disconnected.");
                 clientConnected = false;
+                game.reset();
             }
         }
     }
