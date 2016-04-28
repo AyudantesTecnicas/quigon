@@ -3,7 +3,11 @@ package gameFiles;
 import gameCreation.GameBuilder;
 
 public final class CursedObject extends GameBuilder {
-    public CursedObject() {}
+
+    public CursedObject() {
+        gameName = "CursedObject";
+        gameDescription= "There is a cursed object on this game";
+    }
 
     public void setItems(){
         fillVector(0,1);

@@ -17,5 +17,6 @@ class GameMaker {
         gameBuilder.fillWithEmptyRooms();
         gameBuilder.completeRoomsLogic();
         gameBuilder.fillRoomsWithEmptyItems();
+        gameBuilder.setNameDescription();
     }
 }

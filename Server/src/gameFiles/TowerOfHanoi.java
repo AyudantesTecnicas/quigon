@@ -3,7 +3,10 @@ package gameFiles;
 import gameCreation.GameBuilder;
 
 public final class TowerOfHanoi extends GameBuilder {
-    public TowerOfHanoi() {}
+    public TowerOfHanoi() {
+        gameName = "TowerOfHanoi";
+        gameDescription= "There are tree sticks with plates on this game";
+    }
 
     public void setAmountOfRooms(){
         amountOfRooms=3;

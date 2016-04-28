@@ -3,7 +3,10 @@ package gameFiles;
 import gameCreation.GameBuilder;
 
 public class TreasureHunt extends GameBuilder {
-    public TreasureHunt() {}
+    public TreasureHunt() {
+        gameName = "TreasureHunt";
+        gameDescription= "Search for the treasure";
+    }
 
     public void setAmountOfRooms(){
         amountOfRooms=5;
