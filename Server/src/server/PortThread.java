@@ -67,7 +67,7 @@ public class PortThread extends Thread {
         dataInputStream = new DataInputStream(inputStream);
         dataOutputStream = new DataOutputStream(outputStream);
 
-        sendAnswer("Welcome to game ");
+        sendAnswer("Welcome to game " + game.getName() + "!");
         clientConnected = true;
     }
 
@@ -76,8 +76,7 @@ public class PortThread extends Thread {
             try {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
-                String answer = game.receiveCommands(sendByClient);
-                sendAnswer(answer);
+                sendAnswer(getAnswer());
                 if (sendByClient.equals("win")) {
                     clientConnected = false;
                     closeSocket();
@@ -86,6 +85,14 @@ public class PortThread extends Thread {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " is disconnected.");
                 clientConnected = false;
             }
+        }
+    }
+
+    private String getAnswer() {
+        if (this.sendByClient.matches("^(?i)/help [a-zA-Z0-9_-]+$")) {
+            return Helper.getHelp(sendByClient.split(" ")[1]);
+        } else {
+            return game.receiveCommands(sendByClient);
         }
     }
 
