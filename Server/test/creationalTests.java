@@ -1,15 +1,16 @@
 import Model.actions.*;
 import Model.elements.*;
-import Model.rules.AndExpression;
-import Model.rules.HasContainerRule;
-import Model.rules.HasStateRule;
+import Model.rules.*;
 import gameCreation.GameBuilder;
 import gameCreation.GameCreator;
 import gameFiles.CursedObject;
+import logicFactory.ProxyLogicBuilder;
+import logicFactory.WrongLogicException;
 import org.junit.Test;
 
 import java.beans.Expression;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -156,10 +157,19 @@ public class creationalTests {
         fuckingRule.getFailMessage();
         gameCreator.getGame().rules= fuckingRule;
 
-        AndExpression expAnd= new AndExpression();
-        expAnd.setLeftExpression(reglaPuertaCerrada);
-        expAnd.setRightExpression(reglaPuertaLlaveEnPosesion);
-        abrirPuerta.setRules(expAnd);
+        HashMap <Character, RuleExpression> rules = new HashMap<>();
+        rules.put('a', reglaPuertaCerrada);
+        rules.put('b', reglaPuertaLlaveEnPosesion);
+        String logic = "(a)&(b)";
+
+        ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
+        IExpression condicionesParaAbrir;
+        try {
+            condicionesParaAbrir = logicBuilder.parse(rules, logic);
+            abrirPuerta.setRules(condicionesParaAbrir);
+        } catch (WrongLogicException e) {
+            System.out.print("La logica esta mal expresada.\n");
+        }
         //////////
 
         // Cliente: caja abrir
