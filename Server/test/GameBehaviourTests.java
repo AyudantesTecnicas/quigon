@@ -16,14 +16,14 @@ public class GameBehaviourTests {
         GameCreator aGameCreator = new GameCreator();
         aGameCreator.createGame("OpenDoor");
         assertEquals(aGameCreator.getGame().receiveCommands("pick key"),"There you go!");
-        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"You enter room 2. You won the game!");
+        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"You won the game!");
     }
 
     @Test
     public void GameTestFetchQuest(){
         GameCreator aGameCreator = new GameCreator();
         aGameCreator.createGame("FetchQuest");
-        assertEquals(aGameCreator.getGame().receiveCommands("pick stick"),"You won the game!");
+        assertEquals(aGameCreator.getGame().receiveCommands("pick stick"),"You picked up a stick!");
     }
 
 }

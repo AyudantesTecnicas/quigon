@@ -112,7 +112,7 @@ public final class OpenDoor extends GameBuilder {
         addKeyToCharacter.setElementToUpdate(key);
 
         addCharacterToRoom2.addItemToUpdate(room2);
-        addCharacterToRoom2.setElementToUpdate(key);
+        addCharacterToRoom2.setElementToUpdate(character);
 
         //Inject actions to moves
         pickKey.addAction(addKeyToCharacter);
