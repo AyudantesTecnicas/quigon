@@ -51,5 +51,4 @@ public abstract class GameBuilder {
     public void addActionsToParser() {
         game.parser.setSupportedActions(actionsList);
     }
-
 }
