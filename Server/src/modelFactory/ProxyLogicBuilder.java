@@ -1,7 +1,7 @@
 package modelFactory;
 
 import Model.IExpression;
-import Model.Rule;
+import Model.RuleExpression;
 
 import java.util.HashMap;
 
@@ -15,7 +15,8 @@ public class ProxyLogicBuilder extends AbstractLogicBuilder {
     }
 
     @Override
-    public IExpression parse(HashMap<Character, Rule> rules, String logic) throws WrongLogicException{
+    public IExpression parse(HashMap<Character, RuleExpression> rules, String logic)
+            throws WrongLogicException{
 
         LogicBuilder builder = new LogicBuilder();
 
@@ -38,7 +39,8 @@ public class ProxyLogicBuilder extends AbstractLogicBuilder {
         throw new WrongLogicException();
     }
 
-    private boolean checkFirstChar(HashMap<Character, Rule> rules, String logic, boolean isSpecialChar)
+    private boolean checkFirstChar(HashMap<Character, RuleExpression> rules, String logic,
+                                   boolean isSpecialChar)
             throws WrongLogicException{
         boolean isParenthesis = (pManager.openedParenthesis() == 1);
         boolean isLastChar = (logic.length() == 1);

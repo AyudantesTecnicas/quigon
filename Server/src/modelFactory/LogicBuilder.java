@@ -1,9 +1,8 @@
 package modelFactory;
 
 import Model.IExpression;
-import Model.Rule;
+import Model.RuleExpression;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -15,7 +14,8 @@ public class LogicBuilder extends AbstractLogicBuilder {
         super();
     }
 
-    public IExpression parse(HashMap<Character, Rule> rules, String logic) throws  WrongLogicException{
+    public IExpression parse(HashMap<Character, RuleExpression> rules, String logic)
+            throws  WrongLogicException{
         boolean interpreted;
         LogicFactory logicFactory;
         pManager.reset();

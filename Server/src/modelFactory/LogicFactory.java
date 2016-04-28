@@ -2,7 +2,7 @@ package modelFactory;
 
 import Model.IExpression;
 import Model.LogicExpression;
-import Model.Rule;
+import Model.RuleExpression;
 
 import java.util.HashMap;
 
@@ -17,7 +17,8 @@ public abstract class LogicFactory {
         parser = new ProxyLogicBuilder();
     }
 
-    public IExpression build(HashMap<Character, Rule> rules, String logicLeft, String logicRight)
+    public IExpression build(HashMap<Character, RuleExpression> rules, String logicLeft,
+                             String logicRight)
     throws WrongLogicException{
         IExpression right = parser.parse(rules, logicLeft);
         IExpression left = parser.parse(rules, logicRight);

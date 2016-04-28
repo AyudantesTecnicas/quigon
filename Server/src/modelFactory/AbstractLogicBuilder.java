@@ -1,7 +1,7 @@
 package modelFactory;
 
 import Model.IExpression;
-import Model.Rule;
+import Model.RuleExpression;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +23,7 @@ public abstract class AbstractLogicBuilder {
         parseHandlers.add(new XorLInterpreter(pManager));
     }
 
-    abstract IExpression parse(HashMap<Character, Rule> rules, String logic) throws  WrongLogicException;
+    abstract IExpression parse(HashMap<Character, RuleExpression> rules, String logic)
+            throws  WrongLogicException;
 
 }
