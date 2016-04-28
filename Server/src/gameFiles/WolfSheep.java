@@ -9,7 +9,8 @@ public class WolfSheep extends GameBuilder {
         gameName = "WolfSheep";
 
     }
-
+    public void setElements(){}
+    public void setActions(){}
     public void setAmountOfRooms(){
         amountOfRooms=2;
     }

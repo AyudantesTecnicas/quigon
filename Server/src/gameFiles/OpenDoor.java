@@ -21,4 +21,6 @@ public final class OpenDoor extends GameBuilder {
         fillVector(0,2);
         fillVector(1,1);
     }
+    public void setElements(){}
+    public void setActions(){}
 }

@@ -29,5 +29,6 @@ public class TreasureHunt extends GameBuilder {
         fillVector(3,10);
         fillVector(4,5);
     }
-
+    public void setElements(){}
+    public void setActions(){}
 }

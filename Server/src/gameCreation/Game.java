@@ -1,5 +1,6 @@
 package gameCreation;
 
+import GameParser.GameParser;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
 import Model.rules.IExpression;
@@ -13,7 +14,7 @@ public class Game {
     public ComplexElement character;
     public List<Element> elementList;
     public IExpression rules;
-
+    public GameParser parser;
 
     Game(){
         rooms= new Vector<Room>();
@@ -24,6 +25,7 @@ public class Game {
         System.out.println(gameName + " reset.");
     }
 
+
     public String receiveCommands(String command){
         return "doing Something";
     }
@@ -31,5 +33,9 @@ public class Game {
     public void setRooms(Vector<Room> rooms) { this.rooms = rooms; }
     public Vector<Room> getRooms(){
         return rooms;
+    }
+
+    public void setParser(GameParser parser) {
+        this.parser = parser;
     }
 }

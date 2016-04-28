@@ -21,5 +21,6 @@ public final class TowerOfHanoi extends GameBuilder {
     public void setItems(){
         fillVector(0,6);
     }
-
+    public void setElements(){}
+    public void setActions(){}
 }

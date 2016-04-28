@@ -17,7 +17,8 @@ public final class CursedObject extends GameBuilder {
         fillVector(1,2);
         fillVector(2,1);
     }
-
+    public void setElements(){}
+    public void setActions(){}
 /*
     public ArrayList<Element> createElements(){
         //crearMoves

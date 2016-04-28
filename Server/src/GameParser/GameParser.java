@@ -26,6 +26,10 @@ public class GameParser {
         }
     }
 
+    public void setSupportedActions(ArrayList<SupportedAction> possibleActions){
+        supportedActions=possibleActions;
+    }
+
     public GameAction parseInstruction(String message) {
         GameAction actionToReturn;
         String instruction = message.toLowerCase();

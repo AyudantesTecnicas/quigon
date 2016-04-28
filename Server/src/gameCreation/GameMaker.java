@@ -18,9 +18,9 @@ class GameMaker {
         gameBuilder.completeRoomsLogic();
         gameBuilder.fillRoomsWithEmptyItems();
         gameBuilder.setNameDescription();
-
-        //gameBuilder.createParser()
-        //gameBuilder.fillParserSupportedActions()
-
+        gameBuilder.createParser();
+        gameBuilder.setActions();
+        gameBuilder.addActionsToParser();
+        gameBuilder.setElementsToGame();
     }
 }

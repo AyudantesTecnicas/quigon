@@ -9,7 +9,8 @@ public final class FetchQuest extends GameBuilder {
     public FetchQuest() {
         gameName = "FetchQuest";
     }
-
+    public void setElements(){}
+    public void setActions(){}
     public void setAmountOfRooms(){
         amountOfRooms=1;
     }
