@@ -27,8 +27,8 @@ public final class OpenDoor extends GameBuilder {
         game.character=character;
 
         //Create elements
-        Element room1= new Element("room1");
-        Element room2= new Element("room2");
+        ComplexElement room1= new ComplexElement("room1");
+        ComplexElement room2= new ComplexElement("room2");
         ComplexElement door = new ComplexElement("door");
         ComplexElement key = new ComplexElement("key");
 

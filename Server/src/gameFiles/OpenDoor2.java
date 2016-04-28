@@ -26,8 +26,8 @@ public final class OpenDoor2 extends GameBuilder {
         game.character=character;
 
         //Create elements
-        Element Room1= new Element("room1");
-        Element Room2= new Element("room2");
+        ComplexElement Room1= new ComplexElement("room1");
+        ComplexElement Room2= new ComplexElement("room2");
         ComplexElement door= new ComplexElement("door");
         ComplexElement Box = new ComplexElement("box");
         ComplexElement Key= new ComplexElement("key");
@@ -156,8 +156,8 @@ public final class OpenDoor2 extends GameBuilder {
     }
 
     public void setActions(){
-        actionsList.add(new SupportedAction(1,"abrir"));
-        actionsList.add(new SupportedAction(1,"agarrar"));
+        actionsList.add(new SupportedAction(1,"open"));
+        actionsList.add(new SupportedAction(1,"pick"));
     }
 
 }

@@ -17,10 +17,10 @@ public final class FetchQuest extends GameBuilder {
 
     public void setElements(){
         ComplexElement character = new ComplexElement();
-        game.character=character;
+        game.character = character;
 
         //Create elements
-        Element room = new Element("room");
+        ComplexElement room = new ComplexElement("room");
         ComplexElement stick = new ComplexElement("stick");
 
         //Add elementos to game
@@ -49,19 +49,19 @@ public final class FetchQuest extends GameBuilder {
 
         //Create actions
         Action addStickToCharacter = new ChangeContainerAction();
-        Action removeStickFromRoom = new ChangeContainerAction();
+        //Action removeStickFromRoom = new ChangeContainerAction();
 
 
         //Add elements and states to actions
         addStickToCharacter.addItemToUpdate(character);
         addStickToCharacter.setElementToUpdate(stick);
 
-        removeStickFromRoom.addItemToUpdate(room);
-        removeStickFromRoom.setElementToUpdate(stick);
+       // removeStickFromRoom.addItemToUpdate(room);
+        //removeStickFromRoom.setElementToUpdate(stick);
 
         //Inject actions to moves
         pickStick.addAction(addStickToCharacter);
-        pickStick.addAction(removeStickFromRoom);
+        //pickStick.addAction(removeStickFromRoom);
 
         //Inject moves to elements
         stick.addMove(pickStick);

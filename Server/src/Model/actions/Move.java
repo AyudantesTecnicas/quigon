@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by metro on 27/04/16.
- */
 public class Move extends Element implements IExecutable {
 
     //Attributes
     private List<Action> actions;
     private IExpression rules;
     private String resultMessage;
+    private String correctMessage;
 
     //Methods
     public Move() {
@@ -41,7 +39,7 @@ public class Move extends Element implements IExecutable {
     }
 
     public void setResultMessage(String resultMessage) {
-        this.resultMessage = resultMessage;
+        this.correctMessage = resultMessage;
     }
 
     public String getResultMessage() {
@@ -56,8 +54,8 @@ public class Move extends Element implements IExecutable {
             while (iterator.hasNext()) {
                 iterator.next().execute();
             }
-        }
-        else {
+            this.resultMessage = this.correctMessage;
+        } else {
             this.resultMessage = this.rules.getFailMessage();
         }
     }
