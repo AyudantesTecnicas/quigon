@@ -161,7 +161,6 @@ public class creationalTests {
         }
         //////////
 
-
         caja.execute("abrir");
         llave.execute("agarrar");
         puerta.execute("abrir");
