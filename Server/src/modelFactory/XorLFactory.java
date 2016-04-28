@@ -1,7 +1,7 @@
 package modelFactory;
 
-import Model.LogicExpression;
-import Model.XorExpression;
+import Model.rules.LogicExpression;
+import Model.rules.XorExpression;
 
 /**
  * Created by francisco on 4/26/16.

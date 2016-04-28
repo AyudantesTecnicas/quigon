@@ -1,7 +1,7 @@
 package modelFactory;
 
-import Model.IExpression;
-import Model.RuleExpression;
+import Model.rules.IExpression;
+import Model.rules.RuleExpression;
 
 import java.util.ArrayList;
 import java.util.HashMap;
