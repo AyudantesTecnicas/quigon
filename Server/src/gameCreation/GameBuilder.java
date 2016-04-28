@@ -7,8 +7,15 @@ import java.util.Vector;
 public abstract class GameBuilder {
 
     private Game game;
+    protected static String gameName;
+    protected static String gameDescription;
+
+    public String getName(){return gameName;}
+    public String getDescription(){return gameDescription;}
+
     public Game getGame() { return game; }
     public void createNewGame() { game = new Game(); }
+
 
     private Map<Integer,Vector<Integer>> roomsGraph;
     private Vector<Integer> itemsInRooms;
@@ -17,6 +24,11 @@ public abstract class GameBuilder {
     protected abstract void setItems();
     protected abstract void setRooms();
     protected abstract void setAmountOfRooms();
+
+    public void setNameDescription() {
+        game.setName(gameName);
+        game.setGameDescription(gameDescription);
+    }
 
     public void createRoomsGraph(){
         int[] nodes = new int[amountOfRooms];

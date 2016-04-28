@@ -16,4 +16,16 @@ public class creationalTests {
         gameCreator.createGame("OpenDoor");
         assertEquals(gameCreator.getGame().getRooms().get(0).itemsSize(), 2);
     }
+    @Test
+    public void getNameCorrect(){
+        GameCreator gameCreator = new GameCreator();
+        gameCreator.createGame("OpenDoor");
+        assertEquals(gameCreator.getGame().getName(), "OpenDoor");
+    }
+    @Test
+    public void getCorrectDescription(){
+        GameCreator gameCreator = new GameCreator();
+        gameCreator.createGame("OpenDoor");
+        assertEquals(gameCreator.getGame().gameDescription, "There is a Door on this game");
+    }
 }

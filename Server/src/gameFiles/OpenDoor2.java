@@ -3,7 +3,10 @@ package gameFiles;
 import gameCreation.GameBuilder;
 
 public final class OpenDoor2 extends GameBuilder {
-    public OpenDoor2() {}
+    public OpenDoor2() {
+        gameName = "OpenDoor2";
+        gameDescription= "There is a Door on this game";
+    }
 
     public void setAmountOfRooms(){
         amountOfRooms=2;
