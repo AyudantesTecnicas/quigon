@@ -21,8 +21,10 @@ public abstract class GameBuilder {
 
     public Game getGame() { return game; }
     public void createNewGame() { game = new Game(); }
-
-    protected void createElementList() {game.setElements(new ArrayList<>());}
+    public void createActionsList(){
+        actionsList= new ArrayList<SupportedAction>();
+    }
+    protected void createElementList() {elementsList= new ArrayList<Element>();}
 
     protected void createParser(){
         game.setParser(new GameParser());
@@ -40,7 +42,7 @@ public abstract class GameBuilder {
         actionsList.add(aSupportedAction);
     }
 
-    protected void fillElements(Element anElement){
+    protected void addElement(Element anElement){
         elementsList.add(anElement);
     }
 
@@ -51,4 +53,6 @@ public abstract class GameBuilder {
     public void addActionsToParser() {
         game.parser.setSupportedActions(actionsList);
     }
+
+    protected abstract void setElements();
 }

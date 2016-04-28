@@ -36,5 +36,11 @@ public final class GameCreator {
     }
 
     public Game getGame() { return gameMaker.getGame(); }
-
+    public void resetGame(){
+        gameMaker.setGameBuilder(gameBuilder);
+        gameMaker.buildGame();
+        System.out.println(gameBuilder.getGame().getName() + " reset.");
+    }
 }
+
+

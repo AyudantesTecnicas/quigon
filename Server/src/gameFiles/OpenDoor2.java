@@ -24,25 +24,26 @@ public final class OpenDoor2 extends GameBuilder {
     public void setElements(){
         ComplexElement character = new ComplexElement();
         game.character=character;
-        //Crear elements
+
+        //Create elements
         Element Room1= new Element("Room1");
         Element Room2= new Element("Room2");
-        ComplexElement puerta= new ComplexElement("puerta");
-        ComplexElement caja = new ComplexElement("caja");
-        ComplexElement llave= new ComplexElement("llave");
+        ComplexElement Door= new ComplexElement("Door");
+        ComplexElement Box = new ComplexElement("Box");
+        ComplexElement Key= new ComplexElement("Key");
 
-        //Agregar elementos al juego
-        elementsList.add(llave);
-        elementsList.add(caja);
-        elementsList.add(Room1);
-        elementsList.add(Room2);
-        elementsList.add(puerta);
+        //Add elements to Game
+        addElement(Key);
+        addElement(Box);
+        addElement(Room1);
+        addElement(Room2);
+        addElement(Door);
 
-        //setear contenedores para cada element
+        //Set Containers for each element
         character.setContainerElement(Room1);
-        caja.setContainerElement(Room1);
-        llave.setContainerElement(caja);
-        puerta.setContainerElement(Room1);
+        Box.setContainerElement(Room1);
+        Key.setContainerElement(Box);
+        Door.setContainerElement(Room1);
 
         //crear Estados
         Element estadoCajaCerrada = new Element("cerrada");
@@ -51,32 +52,32 @@ public final class OpenDoor2 extends GameBuilder {
         Element estadoCajaAbierta= new Element("abierta");
 
         //Setear estados iniciales
-        caja.addState(estadoCajaCerrada);
-        puerta.addState(estadoPuertaCerrada);
+        Box.addState(estadoCajaCerrada);
+        Door.addState(estadoPuertaCerrada);
 
         //Crear Moves (son las supported Actions del juego)
         Move abrirCaja= new Move("abrir");
-        Move agarrarLlave= new Move("agarrar");
+        Move pickKey= new Move("take");
         Move abrirPuerta= new Move("abrir");
 
         //Crear reglas para movimientos
-        HasContainerRule fuckingRule= new HasContainerRule();
+        HasContainerRule victoryRule= new HasContainerRule();
         HasStateRule reglaCajaCerrada= new HasStateRule();
         HasContainerRule reglaSiContiene = new HasContainerRule();
         HasStateRule reglaPuertaCerrada= new HasStateRule();
         HasContainerRule reglaPuertaLlaveEnPosesion = new HasContainerRule();
 
         //Setear elementos a las reglas
-        reglaCajaCerrada.setElementToValidate(caja);
+        reglaCajaCerrada.setElementToValidate(Box);
         reglaCajaCerrada.setElementOfElementToValidate(estadoCajaCerrada);
-        reglaSiContiene.setElementToValidate(llave);
-        reglaPuertaLlaveEnPosesion.setElementToValidate(llave);
+        reglaSiContiene.setElementToValidate(Key);
+        reglaPuertaLlaveEnPosesion.setElementToValidate(Key);
         reglaPuertaLlaveEnPosesion.setElementOfElementToValidate(character);
-        fuckingRule.setElementToValidate(character);
+        victoryRule.setElementToValidate(character);
         reglaSiContiene.setElementOfElementToValidate(Room1);
-        fuckingRule.setElementOfElementToValidate(Room2);
+        victoryRule.setElementOfElementToValidate(Room2);
         reglaPuertaCerrada.setElementOfElementToValidate(estadoPuertaCerrada);
-        reglaPuertaCerrada.setElementToValidate(puerta);
+        reglaPuertaCerrada.setElementToValidate(Door);
 
         //Setear mensajes reglas
         reglaCajaCerrada.setFailMessage("la caja estaba abierta");
@@ -86,7 +87,7 @@ public final class OpenDoor2 extends GameBuilder {
 
         //Inyectar reglas a Moves
         abrirCaja.setRules(reglaCajaCerrada);
-        agarrarLlave.setRules(reglaSiContiene);
+        pickKey.setRules(reglaSiContiene);
         abrirPuerta.setRules(reglaPuertaCerrada);
 
         //Crear acciones
@@ -100,22 +101,22 @@ public final class OpenDoor2 extends GameBuilder {
 
         //Agregar elementos y estados a las acciones
         accionAgregarEstadoAbiertaACaja.addItemToUpdate(estadoCajaAbierta);
-        accionAgregarEstadoAbiertaACaja.setElementToUpdate(caja);
+        accionAgregarEstadoAbiertaACaja.setElementToUpdate(Box);
 
         accionRemoverEstadoCerradoACaja.addItemToUpdate(estadoCajaCerrada);
-        accionRemoverEstadoCerradoACaja.setElementToUpdate(caja);
+        accionRemoverEstadoCerradoACaja.setElementToUpdate(Box);
 
         accionAgregarLLaveARoom1.addItemToUpdate(Room1);
-        accionAgregarLLaveARoom1.setElementToUpdate(llave);
+        accionAgregarLLaveARoom1.setElementToUpdate(Key);
 
         accionAgregarLLaveAJugador.addItemToUpdate(character);
-        accionAgregarLLaveAJugador.setElementToUpdate(llave);
+        accionAgregarLLaveAJugador.setElementToUpdate(Key);
 
         accionAgregarEstadoAbiertaAPuerta.addItemToUpdate(estadoPuertaAbierta);
-        accionAgregarEstadoAbiertaAPuerta.setElementToUpdate(puerta);
+        accionAgregarEstadoAbiertaAPuerta.setElementToUpdate(Door);
 
         accionRemoverEstadoCerradoAPuerta.addItemToUpdate(estadoPuertaCerrada);
-        accionRemoverEstadoCerradoAPuerta.setElementToUpdate(puerta);
+        accionRemoverEstadoCerradoAPuerta.setElementToUpdate(Door);
 
         accionMoverAlJugadoALaOtraHabitacion.addItemToUpdate(Room2);
         accionMoverAlJugadoALaOtraHabitacion.setElementToUpdate(character);
@@ -123,7 +124,7 @@ public final class OpenDoor2 extends GameBuilder {
         //Inyectar Acciones a Moves
         abrirCaja.addAction(accionAgregarEstadoAbiertaACaja);
         abrirCaja.addAction(accionRemoverEstadoCerradoACaja);
-        agarrarLlave.addAction(accionAgregarLLaveAJugador);
+        pickKey.addAction(accionAgregarLLaveAJugador);
         abrirCaja.addAction(accionAgregarLLaveARoom1);
         abrirPuerta.addAction(accionAgregarEstadoAbiertaAPuerta);
         abrirPuerta.addAction(accionRemoverEstadoCerradoAPuerta);
@@ -146,11 +147,11 @@ public final class OpenDoor2 extends GameBuilder {
         }
 
         //Inyectar Moves a Elements
-        llave.addMove(agarrarLlave);
-        puerta.addMove(abrirPuerta);
-        caja.addMove(abrirCaja);
+        Key.addMove(pickKey);
+        Door.addMove(abrirPuerta);
+        Box.addMove(abrirCaja);
 
-        game.setVictoryCondition(fuckingRule);
+        game.setVictoryCondition(victoryRule);
     }
 
     public void setActions(){
