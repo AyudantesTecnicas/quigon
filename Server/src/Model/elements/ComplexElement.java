@@ -3,6 +3,7 @@ package Model.elements;
 import Model.actions.Move;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -69,5 +70,18 @@ public class ComplexElement extends Element {
         this.setContainerElement(null);
     }
 
+    public void execute(String moveName) {
+        Iterator<Move> iterator = this.moves.iterator();
+        Move move = null;
+
+        while(iterator.hasNext()) {
+            move = iterator.next();
+
+            if (move.getName().equals(moveName)) {
+                move.execute();
+                break;
+            }
+        }
+    }
 
 }
