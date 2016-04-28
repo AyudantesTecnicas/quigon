@@ -16,7 +16,7 @@ public class GameBehaviourTests {
         GameCreator aGameCreator = new GameCreator();
         aGameCreator.createGame("OpenDoor");
         assertEquals(aGameCreator.getGame().receiveCommands("pick key"),"There you go!");
-        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"You enter room 2!");
+        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"You won the game!");
     }
 
     @Test
