@@ -12,9 +12,8 @@ class GameMaker {
         gameBuilder.setNameDescription();
         gameBuilder.createParser();
         gameBuilder.createElementList();
+        gameBuilder.setElements();
         gameBuilder.setActions();
         gameBuilder.addActionsToParser();
-        gameBuilder.setElementsToGame();
-        gameBuilder.setVictoryCondition();
     }
 }

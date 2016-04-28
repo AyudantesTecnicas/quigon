@@ -40,13 +40,10 @@ public abstract class GameBuilder {
         actionsList.add(aSupportedAction);
     }
 
-    protected void fillElements(Element anElement){
+    protected void fillElement(Element anElement){
         elementsList.add(anElement);
     }
-
-    protected void setElementsToGame(){
-        game.elementList=elementsList;
-    }
+    protected abstract void setElements();
 
     public void addActionsToParser() {
         game.parser.setSupportedActions(actionsList);
