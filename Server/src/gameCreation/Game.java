@@ -22,7 +22,9 @@ public class Game {
 
     }
 
-    public void setName(String gameName) { this.gameName = gameName; }
+    public void setName(String gameName) {
+        this.gameName = gameName;
+    }
 
     public void reset() {
         System.out.println(gameName + " reset.");
@@ -32,15 +34,16 @@ public class Game {
         return victoryCondition.interpret();
     }
 
-    public String receiveCommands(String command){
+    public String receiveCommands(String command) {
         String sendCommand="";
         GameAction actionToExecute = parser.parseInstruction(command);
         sendCommand = actionToExecute.getMessage();
-        if (actionToExecute.isASupportedAction()){
-            for (Element anElement : elementList){
-                for (String itemsID : actionToExecute.getItemsID()){
-                    if(anElement.getName().equals(itemsID)){
-                        sendCommand= ((ComplexElement)anElement).execute(actionToExecute.getActionID());
+        if (actionToExecute.isASupportedAction()) {
+            sendCommand = "object not found";
+            for (Element anElement : elementList)  {
+                for (String itemsID : actionToExecute.getItemsID()) {
+                    if(anElement.getName().equals(itemsID)) {
+                        sendCommand = ((ComplexElement)anElement).execute(actionToExecute.getActionID());
                     }
                 }
             }

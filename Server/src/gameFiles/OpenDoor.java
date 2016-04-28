@@ -127,7 +127,7 @@ public final class OpenDoor extends GameBuilder {
         game.setVictoryCondition(victoryCondition);
     }
 
-    public void setActions(){
+    public void setActions() {
         actionsList.add(new SupportedAction(1,"pick"));
         actionsList.add(new SupportedAction(1,"open"));
     }
