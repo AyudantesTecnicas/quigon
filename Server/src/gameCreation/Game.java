@@ -1,10 +1,18 @@
 package gameCreation;
 
+import Model.elements.ComplexElement;
+import Model.elements.Element;
+import Model.rules.IExpression;
+
+import java.util.List;
 import java.util.Vector;
 
 public class Game {
     private Vector<Room> rooms;
     private String gameName;
+    public ComplexElement character;
+    public List<Element> elementList;
+    public IExpression rules;
 
 
     Game(){

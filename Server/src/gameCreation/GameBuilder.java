@@ -1,5 +1,9 @@
 package gameCreation;
 
+import GameParser.SupportedAction;
+import Model.actions.Move;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -7,8 +11,14 @@ import java.util.Vector;
 public abstract class GameBuilder {
 
     private Game game;
+    private Map<Integer,Vector<Integer>> roomsGraph;
+    private Vector<Integer> itemsInRooms;
+    protected int amountOfRooms;
+
     protected static String gameName;
     protected static String gameDescription;
+    private ArrayList<SupportedAction> actionsList; //Cuando se crea el juego
+    private ArrayList<Move> movesList;
 
     public String getName(){return gameName;}
     public String getDescription(){return gameDescription;}
@@ -17,9 +27,7 @@ public abstract class GameBuilder {
     public void createNewGame() { game = new Game(); }
 
 
-    private Map<Integer,Vector<Integer>> roomsGraph;
-    private Vector<Integer> itemsInRooms;
-    protected int amountOfRooms;
+
 
     protected abstract void setItems();
     protected abstract void setRooms();

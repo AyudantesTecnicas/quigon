@@ -2,6 +2,8 @@ package gameFiles;
 
 import gameCreation.GameBuilder;
 
+import java.util.ArrayList;
+
 public final class CursedObject extends GameBuilder {
 
     public static String gameDescription= "There is a cursed object on this game";
@@ -15,6 +17,14 @@ public final class CursedObject extends GameBuilder {
         fillVector(1,2);
         fillVector(2,1);
     }
+
+/*
+    public ArrayList<Element> createElements(){
+        //crearMoves
+        //crearReglas
+        //crearAcciones
+    }
+*/
 
     public void setAmountOfRooms(){
         amountOfRooms=3;
