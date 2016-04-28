@@ -38,7 +38,7 @@ public class Game {
         if (actionToExecute.isASupportedAction()){
             for (Element anElement : elementList){
                 for (String itemsID : actionToExecute.getItemsID()){
-                    if(anElement.getName()==itemsID){
+                    if(anElement.getName().equals(itemsID)){
                         ((ComplexElement)anElement).execute(actionToExecute.getActionID());
                     }
                 }
