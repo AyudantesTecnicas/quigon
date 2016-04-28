@@ -8,6 +8,8 @@ import java.util.*;
 
 public abstract class GameBuilder {
 
+    public static final String winText = "You won the game!";
+
     protected Game game;
     protected int amountOfRooms;
 
