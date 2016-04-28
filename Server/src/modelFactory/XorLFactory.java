@@ -1,6 +1,5 @@
 package modelFactory;
 
-import Model.AndExpression;
 import Model.LogicExpression;
 import Model.XorExpression;
 
