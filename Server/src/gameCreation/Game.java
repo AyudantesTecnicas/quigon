@@ -4,6 +4,7 @@ import GameParser.GameParser;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
 import Model.rules.IExpression;
+import GameParser.GameAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +16,46 @@ public class Game {
     public List<Element> elementList;
     public IExpression rules;
     public GameParser parser;
+    public IExpression victoryCondition;
 
     Game(){
 
     }
+
     public void setName(String gameName) { this.gameName = gameName; }
 
     public void reset() {
         System.out.println(gameName + " reset.");
     }
 
-    //public boolean checkVictoryCondition(){
-
-    //}
-    public String receiveCommands(String command){
-        return "doing Something";
+    private boolean checkVictory(){
+        return victoryCondition.interpret();
     }
+
+    public String receiveCommands(String command){
+        String sendCommand="";
+        GameAction actionToExecute = parser.parseInstruction(command);
+        if (actionToExecute.isASupportedAction()){
+            for (Element anElement : elementList){
+                for (String itemsID : actionToExecute.getItemsID()){
+                    if(anElement.getName()==itemsID){
+                        ((ComplexElement)anElement).execute(actionToExecute.getActionID());
+                    }
+                }
+            }
+        }
+        sendCommand = actionToExecute.getMessage();
+        if (checkVictory())
+            sendCommand = "YouWon";
+        return sendCommand;
+    }
+
+
     public String getName(){return gameName;}
+
+    public void setVictoryCondition(IExpression condition){
+        victoryCondition= condition;
+    }
 
     public void setParser(GameParser parser) {
         this.parser = parser;

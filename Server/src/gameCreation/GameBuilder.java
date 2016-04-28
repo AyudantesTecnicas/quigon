@@ -2,7 +2,6 @@ package gameCreation;
 
 import GameParser.GameParser;
 import GameParser.SupportedAction;
-import Model.actions.Move;
 import Model.elements.Element;
 
 import java.util.*;
@@ -52,4 +51,5 @@ public abstract class GameBuilder {
     public void addActionsToParser() {
         game.parser.setSupportedActions(actionsList);
     }
+
 }

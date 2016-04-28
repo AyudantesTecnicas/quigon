@@ -6,7 +6,13 @@ import Model.elements.ComplexElement;
 import Model.elements.Element;
 import Model.rules.HasContainerRule;
 import Model.rules.HasStateRule;
+import Model.rules.IExpression;
+import Model.rules.RuleExpression;
 import gameCreation.GameBuilder;
+import logicFactory.ProxyLogicBuilder;
+import logicFactory.WrongLogicException;
+
+import java.util.HashMap;
 
 public final class OpenDoor2 extends GameBuilder {
 
@@ -123,10 +129,28 @@ public final class OpenDoor2 extends GameBuilder {
         abrirPuerta.addAction(accionRemoverEstadoCerradoAPuerta);
         abrirPuerta.addAction(accionMoverAlJugadoALaOtraHabitacion);
 
+
+        //Regla para abrir la puerta.
+        HashMap <Character, RuleExpression> rules = new HashMap<>();
+        rules.put('a', reglaPuertaCerrada);
+        rules.put('b', reglaPuertaLlaveEnPosesion);
+        String logic = "(a)&(b)";
+
+        ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
+        IExpression condicionesParaAbrir;
+        try {
+            condicionesParaAbrir = logicBuilder.parse(rules, logic);
+            abrirPuerta.setRules(condicionesParaAbrir);
+        } catch (WrongLogicException e) {
+            System.out.print("La logica esta mal expresada.\n");
+        }
+
         //Inyectar Moves a Elements
         llave.addMove(agarrarLlave);
         puerta.addMove(abrirPuerta);
         caja.addMove(abrirCaja);
+
+        game.setVictoryCondition(fuckingRule);
     }
 
     public void setActions(){

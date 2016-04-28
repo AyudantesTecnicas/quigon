@@ -161,13 +161,6 @@ public class creationalTests {
         }
         //////////
 
-        // Cliente: caja abrir
-
-        // 1. Game pregunta si es supported action
-        //1.1 Si no es SupportedAction, se le devuelve el mensaje gameAction.getMessage
-        // 2. Si Game ve que es SupportedAction, pregunta GameAction al Parser. ({"caja"},"abrir")
-        // 3. Buscar ese "caja" en la lista de Elements (.getName)
-        // 4. Ejecuta caja.execute("abrir")
 
         caja.execute("abrir");
         llave.execute("agarrar");
