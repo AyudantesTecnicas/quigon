@@ -1,9 +1,11 @@
-package Model;
+package Model.rules;
+
+import Model.rules.IExpression;
 
 /**
  * Created by metro on 24/04/16.
  */
-public abstract class LogicExpression implements IExpression{
+public abstract class LogicExpression implements IExpression {
 
     //Attributes
     protected IExpression leftExpression;
