@@ -54,7 +54,7 @@ public class Client {
         } catch (UnknownHostException e) {
             System.out.println("There is no such ip address!");
         } catch (IOException e) {
-            System.out.println("Unable to connect to socket!");
+            System.out.println("Unable to connect to server! Port " + port);
         } catch (IllegalArgumentException e) {
             System.out.println("Port should be <= 65535!");
         }
@@ -65,7 +65,8 @@ public class Client {
             dataOutputStream.writeUTF(line);
             dataOutputStream.flush();
         } catch (IOException e) {
-            System.out.println("Unable to send line!");
+            System.out.println("Unable to send line! Server has closed.");
+            disconnect();
         }
     }
 
@@ -74,7 +75,8 @@ public class Client {
             String sendByServer = dataInputStream.readUTF();
             System.out.println(sendByServer);
         } catch (IOException e) {
-            System.out.println("Unable to read answer from server!");
+            System.out.println("Unable to read answer from server! Server has closed.");
+            disconnect();
         }
     }
 

@@ -12,6 +12,10 @@ public class Game {
     }
     public void setName(String gameName) { this.gameName = gameName; }
 
+    public void reset() {
+        System.out.println(gameName + " reset.");
+    }
+
     public String receiveCommands(String command){
         return "doing Something";
     }

@@ -33,7 +33,7 @@ public class PortThread extends Thread {
             try {
                 setConnection();
             } catch (IOException e) {
-                System.out.println("Server socket " + serverSocket.getLocalPort() + " has closed, no client accepted.");
+                System.out.println("Server socket " + serverSocket.getLocalPort() + " has closed, no client.");
             }
 
             listenClient();
@@ -56,7 +56,9 @@ public class PortThread extends Thread {
             System.out.println("Unable to create new server socket!");
         }
 
-        System.out.println("Ready and listening port " + serverSocket.getLocalPort() + ".");
+        game.reset();
+
+        System.out.println(game.getName() + " is ready and listening port " + serverSocket.getLocalPort() + ".");
         socket = serverSocket.accept();    // waiting for client
         serverSocket.close();
         System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
@@ -77,10 +79,6 @@ public class PortThread extends Thread {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
                 sendAnswer(getAnswer());
-                if (sendByClient.equals("win")) {
-                    clientConnected = false;
-                    closeSocket();
-                }
             } catch (IOException e) {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " is disconnected.");
                 clientConnected = false;
