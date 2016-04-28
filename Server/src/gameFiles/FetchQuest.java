@@ -4,7 +4,7 @@ import gameCreation.GameBuilder;
 
 public final class FetchQuest extends GameBuilder {
 
-    public static String gameDescription= "There is a Quest on this game";
+    public static String gameDescription= "Don't take it!";
 
     public FetchQuest() {
         gameName = "FetchQuest";

@@ -5,6 +5,7 @@ import gameCreation.Game;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class PortThread extends Thread {
 
@@ -33,7 +34,7 @@ public class PortThread extends Thread {
             try {
                 setConnection();
             } catch (IOException e) {
-                System.out.println("Server socket " + serverSocket.getLocalPort() + " has closed, no client.");
+                System.out.println("Server socket " + serverSocket.getLocalPort() + " with game " + game.getName() + " has closed, no client.");
             }
 
             listenClient();
@@ -56,8 +57,6 @@ public class PortThread extends Thread {
             System.out.println("Unable to create new server socket!");
         }
 
-        game.reset();
-
         System.out.println(game.getName() + " is ready and listening port " + serverSocket.getLocalPort() + ".");
         socket = serverSocket.accept();    // waiting for client
         serverSocket.close();
@@ -79,8 +78,15 @@ public class PortThread extends Thread {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
                 sendAnswer(getAnswer());
+            } catch (EOFException e) {
+                System.out.println("Client at port " + serverSocket.getLocalPort() + " has disconnected.");
+                game.reset();
+                clientConnected = false;
+            } catch (SocketException e) {
+                System.out.println("Client at port " + serverSocket.getLocalPort() + " was disconnected.");
+                clientConnected = false;
             } catch (IOException e) {
-                System.out.println("Client at port " + serverSocket.getLocalPort() + " is disconnected.");
+                e.printStackTrace();
                 clientConnected = false;
             }
         }

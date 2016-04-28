@@ -10,7 +10,7 @@ import gameCreation.GameBuilder;
 
 public final class OpenDoor2 extends GameBuilder {
 
-    public static String gameDescription = "There is a Door on this game";
+    public static String gameDescription = "There is a door on this game. But no key around.";
     public OpenDoor2() {
         gameName = "OpenDoor2";
     }
