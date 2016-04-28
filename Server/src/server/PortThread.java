@@ -5,6 +5,7 @@ import gameCreation.Game;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class PortThread extends Thread {
 
@@ -77,10 +78,16 @@ public class PortThread extends Thread {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
                 sendAnswer(getAnswer());
-            } catch (IOException e) {
-                System.out.println("Client at port " + serverSocket.getLocalPort() + " is disconnected.");
-                clientConnected = false;
+            } catch (EOFException e) {
+                System.out.println("Client at port " + serverSocket.getLocalPort() + " has disconnected.");
                 game.reset();
+                clientConnected = false;
+            } catch (SocketException e) {
+                System.out.println("Client at port " + serverSocket.getLocalPort() + " was disconnected.");
+                clientConnected = false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                clientConnected = false;
             }
         }
     }
