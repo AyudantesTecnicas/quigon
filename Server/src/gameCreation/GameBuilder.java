@@ -27,7 +27,6 @@ public abstract class GameBuilder {
 
     public void setNameDescription() {
         game.setName(gameName);
-        game.setGameDescription(gameDescription);
     }
 
     public void createRoomsGraph(){

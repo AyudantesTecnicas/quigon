@@ -4,9 +4,10 @@ import gameCreation.GameBuilder;
 
 public final class CursedObject extends GameBuilder {
 
+    public static String gameDescription= "There is a cursed object on this game";
+
     public CursedObject() {
         gameName = "CursedObject";
-        gameDescription= "There is a cursed object on this game";
     }
 
     public void setItems(){

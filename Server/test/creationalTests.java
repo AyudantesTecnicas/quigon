@@ -1,4 +1,6 @@
+import gameCreation.GameBuilder;
 import gameCreation.GameCreator;
+import gameFiles.CursedObject;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,10 +24,5 @@ public class creationalTests {
         gameCreator.createGame("OpenDoor");
         assertEquals(gameCreator.getGame().getName(), "OpenDoor");
     }
-    @Test
-    public void getCorrectDescription(){
-        GameCreator gameCreator = new GameCreator();
-        gameCreator.createGame("OpenDoor");
-        assertEquals(gameCreator.getGame().gameDescription, "There is a Door on this game");
-    }
+
 }
