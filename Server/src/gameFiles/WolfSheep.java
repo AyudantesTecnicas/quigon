@@ -3,9 +3,11 @@ package gameFiles;
 import gameCreation.GameBuilder;
 
 public class WolfSheep extends GameBuilder {
+
+    public static String gameDescription= "There is a Wolf, a Sheep and a Cabbage";
     public WolfSheep() {
         gameName = "WolfSheep";
-        gameDescription= "There is a Wolf, a Sheep and a Cabbage";
+
     }
 
     public void setAmountOfRooms(){

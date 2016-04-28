@@ -4,9 +4,10 @@ import gameCreation.GameBuilder;
 
 public final class FetchQuest extends GameBuilder {
 
+    public static String gameDescription= "There is a Quest on this game";
+
     public FetchQuest() {
         gameName = "FetchQuest";
-        gameDescription= "There is a Quest on this game";
     }
 
     public void setAmountOfRooms(){
