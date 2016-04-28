@@ -1,4 +1,4 @@
-package modelFactory;
+package logicFactory;
 
 /**
  * Created by francisco on 4/27/16.

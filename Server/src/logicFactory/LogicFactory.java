@@ -1,4 +1,4 @@
-package modelFactory;
+package logicFactory;
 
 import Model.rules.IExpression;
 import Model.rules.LogicExpression;

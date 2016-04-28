@@ -1,16 +1,16 @@
-package modelFactory;
+package logicFactory;
 
 /**
  * Created by francisco on 4/26/16.
  */
-public class AndLInterpreter extends LogicSymbolInterpreter {
+public class XorLInterpreter extends LogicSymbolInterpreter {
 
-    public AndLInterpreter(final LogicParseManager manager){
+    public XorLInterpreter(final LogicParseManager manager){
         super(manager);
     }
 
     public boolean interpret(char c){
-        if(c == '&'){
+        if(c == '^'){
             manager.notifySymbolFound(this);
             return couldInterpret;
         }
@@ -18,7 +18,7 @@ public class AndLInterpreter extends LogicSymbolInterpreter {
     }
 
     public LogicFactory getFactory(){
-        return new AndLFactory();
+        return new XorLFactory();
     }
 
 }
