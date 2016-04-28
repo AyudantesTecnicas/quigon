@@ -22,10 +22,6 @@ public final class OpenDoor extends GameBuilder {
         gameName = "OpenDoor";
     }
 
-    public void setAmountOfRooms(){
-        amountOfRooms=2;
-    }
-
     public void setElements(){
         ComplexElement character = new ComplexElement();
         game.character=character;
@@ -37,10 +33,10 @@ public final class OpenDoor extends GameBuilder {
         ComplexElement key = new ComplexElement("key");
 
         //Add elementos to game
-        elementsList.add(key);
-        elementsList.add(room1);
-        elementsList.add(room2);
-        elementsList.add(door);
+        addElement(key);
+        addElement(room1);
+        addElement(room2);
+        addElement(door);
 
         //Set containers for each element
         character.setContainerElement(room1);

@@ -24,8 +24,8 @@ public final class FetchQuest extends GameBuilder {
         ComplexElement stick = new ComplexElement("stick");
 
         //Add elementos to game
-        elementsList.add(room);
-        elementsList.add(stick);
+        addElement(room);
+        addElement(stick);
 
         //Set containers for each element
         character.setContainerElement(room);
