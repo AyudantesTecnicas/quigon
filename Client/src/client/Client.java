@@ -49,7 +49,7 @@ public class Client {
             dataInputStream = new DataInputStream(inputStream);
             dataOutputStream = new DataOutputStream(outputStream);
 
-            waitAnswer();
+            waitAnswer();   // waiting welcome message
 
         } catch (UnknownHostException e) {
             System.out.println("There is no such ip address!");
@@ -101,7 +101,7 @@ public class Client {
                 e.printStackTrace();
             }
         }
-        
+
         if (isCurrentlyConnected()) {
             disconnect();
         }

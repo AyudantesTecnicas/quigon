@@ -4,7 +4,6 @@ import gameCreation.Game;
 import gameCreation.GameCreator;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -32,9 +31,7 @@ public class Server {
     }
 
     private void setPort(Game game) {
-        int newPort = this.actualPort;
-        this.actualPort++;
-        PortThread portThread = new PortThread(newPort,game);
+        PortThread portThread = new PortThread(actualPort++,game);
         threads.add(portThread);
         portThread.start();
     }
