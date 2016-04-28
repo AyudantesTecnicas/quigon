@@ -137,4 +137,19 @@ public class GameParserTests {
 
         assertTrue(aGameAction.isASupportedAction() && itemsIDFromAction.size() == 2 && aGameAction.getActionID().equals("cerrar"));
     }
+
+    @Test
+    public void testAddASupportedActionAndParserAsCorrect() {
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
+        GameParser aGameParser = new GameParser(supportedActions);
+
+        GameAction aGameAction = aGameParser.parseInstruction("cerrar puerta cofre");
+        assertFalse(aGameAction.isASupportedAction());
+
+        SupportedAction aSupportedAction = new SupportedAction(2, "cerrar");
+        aGameParser.addSupportedAction(aSupportedAction);
+
+        aGameAction = aGameParser.parseInstruction("cerrar puerta cofre");
+        assertTrue(aGameAction.isASupportedAction());
+    }
 }

@@ -16,6 +16,12 @@ public class GameParser {
         this.supportedActions = possibleActions;
     }
 
+    public void addSupportedAction (SupportedAction aSupportedAction) {
+        if (!this.supportedActions.contains(aSupportedAction)){
+            this.supportedActions.add(aSupportedAction);
+        }
+    }
+
     public GameAction parseInstruction(String instruction) {
         GameAction actionToReturn;
         SupportedAction supportedAction = this.getSupportedAction(instruction);
