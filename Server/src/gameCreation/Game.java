@@ -35,18 +35,19 @@ public class Game {
     public String receiveCommands(String command){
         String sendCommand="";
         GameAction actionToExecute = parser.parseInstruction(command);
+        sendCommand = actionToExecute.getMessage();
         if (actionToExecute.isASupportedAction()){
             for (Element anElement : elementList){
                 for (String itemsID : actionToExecute.getItemsID()){
                     if(anElement.getName().equals(itemsID)){
-                        ((ComplexElement)anElement).execute(actionToExecute.getActionID());
+                        sendCommand= ((ComplexElement)anElement).execute(actionToExecute.getActionID());
                     }
                 }
             }
         }
-        sendCommand = actionToExecute.getMessage();
+
         if (checkVictory())
-            sendCommand = "YouWon";
+            sendCommand = "You won the game!";
         return sendCommand;
     }
 
