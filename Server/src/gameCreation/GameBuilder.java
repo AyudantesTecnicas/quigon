@@ -10,8 +10,6 @@ import java.util.*;
 public abstract class GameBuilder {
 
     protected Game game;
-    private Map<Integer,Vector<Integer>> roomsGraph;
-    private Vector<Integer> itemsInRooms;
     protected int amountOfRooms;
 
     protected static String gameName;
@@ -25,22 +23,18 @@ public abstract class GameBuilder {
     public Game getGame() { return game; }
     public void createNewGame() { game = new Game(); }
 
+    protected void createElementList() {game.setElements(new ArrayList<>());}
+
     protected void createParser(){
-        GameParser gameParser= new GameParser();
-        game.setParser(gameParser);
+        game.setParser(new GameParser());
     }
 
-
-    protected abstract void setItems();
     protected abstract void setActions();
-    protected abstract void setElements();
-    protected abstract void setRooms();
-    protected abstract void setAmountOfRooms();
-
     public void setNameDescription() {
         game.setName(gameName);
     }
 
+<<<<<<< HEAD
     public void createRoomsGraph(){
         int[] nodes = new int[amountOfRooms];
         for (int i = 0; i < nodes.length; ++i) {
@@ -86,6 +80,8 @@ public abstract class GameBuilder {
         }
     }
 
+=======
+>>>>>>> 5c1cc91a104fb266da4145f76dc0688329b9d3d9
     protected GameBuilder(){
     }
 
@@ -99,22 +95,6 @@ public abstract class GameBuilder {
 
     protected void setElementsToGame(){
         game.elementList=elementsList;
-    }
-
-    protected void fillGraph(int a, int b){
-        roomsGraph.get(a).add(b);
-        roomsGraph.get(b).add(a);
-    }
-    protected void fillVector(int a, int amountOfItems){
-        itemsInRooms.add(a,amountOfItems);
-    }
-
-    Map<Integer,Vector<Integer>> getRoomsGraph(){
-        return roomsGraph;
-    }
-
-    Vector<Integer> getItems(){
-        return itemsInRooms;
     }
 
     public void addActionsToParser() {

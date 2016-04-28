@@ -14,6 +14,7 @@ public final class FetchQuest extends GameBuilder {
         gameName = "FetchQuest";
     }
     public void setActions(){}
+<<<<<<< HEAD
     public void setAmountOfRooms(){
         amountOfRooms=1;
     }
@@ -78,4 +79,6 @@ public final class FetchQuest extends GameBuilder {
         stick.addMove(pickStick);
     }
 
+=======
+>>>>>>> 5c1cc91a104fb266da4145f76dc0688329b9d3d9
 }
