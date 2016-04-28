@@ -167,4 +167,12 @@ public class creationalTests {
         puerta.execute("abrir");
         assertTrue(fuckingRule.interpret());
     }
+
+    @Test
+    public void completeGameTest(){
+        GameCreator aGameCreator = new GameCreator();
+        aGameCreator.createGame("OpenDoor2");
+        assertEquals(aGameCreator.getGame().receiveCommands("abrir Door"),"Abriste una puerta, sos groso!!");
+    }
+
 }

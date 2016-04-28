@@ -33,11 +33,11 @@ public final class OpenDoor2 extends GameBuilder {
         ComplexElement Key= new ComplexElement("Key");
 
         //Add elements to Game
-        elementsList.add(Key);
-        elementsList.add(Box);
-        elementsList.add(Room1);
-        elementsList.add(Room2);
-        elementsList.add(Door);
+        addElement(Key);
+        addElement(Box);
+        addElement(Room1);
+        addElement(Room2);
+        addElement(Door);
 
         //Set Containers for each element
         character.setContainerElement(Room1);
