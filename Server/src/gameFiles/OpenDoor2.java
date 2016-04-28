@@ -46,19 +46,19 @@ public final class OpenDoor2 extends GameBuilder {
         door.setContainerElement(Room1);
 
         //crear Estados
-        Element estadoCajaCerrada = new Element("cerrada");
-        Element estadoPuertaCerrada = new Element("cerrada");
-        Element estadoPuertaAbierta= new Element("abierta");
-        Element estadoCajaAbierta= new Element("abierta");
+        Element estadoCajaCerrada = new Element("Closed");
+        Element estadoPuertaCerrada = new Element("Closed");
+        Element estadoPuertaAbierta= new Element("Open");
+        Element estadoCajaAbierta= new Element("Open");
 
         //Setear estados iniciales
         Box.addState(estadoCajaCerrada);
         door.addState(estadoPuertaCerrada);
 
         //Crear Moves (son las supported Actions del juego)
-        Move abrirCaja= new Move("abrir");
+        Move abrirCaja= new Move("open");
         Move pickKey= new Move("pick");
-        Move abrirPuerta= new Move("abrir");
+        Move abrirPuerta= new Move("open");
 
         //Crear reglas para movimientos
         HasContainerRule victoryRule= new HasContainerRule();
