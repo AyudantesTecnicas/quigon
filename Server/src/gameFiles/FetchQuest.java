@@ -1,5 +1,6 @@
 package gameFiles;
 
+import GameParser.SupportedAction;
 import Model.actions.*;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
@@ -12,19 +13,6 @@ public final class FetchQuest extends GameBuilder {
 
     public FetchQuest() {
         gameName = "FetchQuest";
-    }
-    public void setActions(){}
-<<<<<<< HEAD
-    public void setAmountOfRooms(){
-        amountOfRooms=1;
-    }
-
-    public void setRooms() {
-        fillGraph(0,0);
-    }
-
-    public void setItems(){
-        fillVector(0,1);
     }
 
     public void setElements(){
@@ -79,6 +67,8 @@ public final class FetchQuest extends GameBuilder {
         stick.addMove(pickStick);
     }
 
-=======
->>>>>>> 5c1cc91a104fb266da4145f76dc0688329b9d3d9
+    public void setActions(){
+        actionsList.add(new SupportedAction(1,"pick"));
+    }
+
 }
