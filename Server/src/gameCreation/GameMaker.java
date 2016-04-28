@@ -9,14 +9,6 @@ class GameMaker {
 
     public void buildGame() {
         gameBuilder.createNewGame();
-        gameBuilder.setAmountOfRooms();
-        gameBuilder.createItems();
-        gameBuilder.createRoomsGraph();
-        gameBuilder.setItems();
-        gameBuilder.setRooms();
-        gameBuilder.fillWithEmptyRooms();
-        gameBuilder.completeRoomsLogic();
-        gameBuilder.fillRoomsWithEmptyItems();
         gameBuilder.setNameDescription();
         gameBuilder.createParser();
         gameBuilder.setActions();
