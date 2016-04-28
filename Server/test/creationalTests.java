@@ -168,10 +168,9 @@ public class creationalTests {
     }
 
     @Test
-    public void completeGameTest(){
+    public void completeGameTestOpenDoor(){
         GameCreator aGameCreator = new GameCreator();
-        aGameCreator.createGame("OpenDoor2");
-        assertEquals(aGameCreator.getGame().receiveCommands("abrir Door"),"Abriste una puerta, sos groso!!");
+        aGameCreator.createGame("OpenDoor");
+        assertEquals(aGameCreator.getGame().receiveCommands("pick key"),"There you go!");
     }
-
 }

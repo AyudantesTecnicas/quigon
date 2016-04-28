@@ -70,18 +70,19 @@ public class ComplexElement extends Element {
         this.setContainerElement(null);
     }
 
-    public void execute(String moveName) {
+    public String execute(String moveName) {
         Iterator<Move> iterator = this.moves.iterator();
         Move move = null;
-
+        String aString="Invalid Action";
         while(iterator.hasNext()) {
             move = iterator.next();
 
             if (move.getName().equals(moveName)) {
                 move.execute();
-                break;
+                aString= move.getResultMessage();
             }
         }
+        return aString;
     }
 
 }

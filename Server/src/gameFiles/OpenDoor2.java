@@ -26,24 +26,24 @@ public final class OpenDoor2 extends GameBuilder {
         game.character=character;
 
         //Create elements
-        Element Room1= new Element("Room1");
-        Element Room2= new Element("Room2");
-        ComplexElement Door= new ComplexElement("Door");
-        ComplexElement Box = new ComplexElement("Box");
-        ComplexElement Key= new ComplexElement("Key");
+        Element Room1= new Element("room1");
+        Element Room2= new Element("room2");
+        ComplexElement door= new ComplexElement("door");
+        ComplexElement Box = new ComplexElement("box");
+        ComplexElement Key= new ComplexElement("key");
 
         //Add elements to Game
         addElement(Key);
         addElement(Box);
         addElement(Room1);
         addElement(Room2);
-        addElement(Door);
+        addElement(door);
 
         //Set Containers for each element
         character.setContainerElement(Room1);
         Box.setContainerElement(Room1);
         Key.setContainerElement(Box);
-        Door.setContainerElement(Room1);
+        door.setContainerElement(Room1);
 
         //crear Estados
         Element estadoCajaCerrada = new Element("cerrada");
@@ -53,11 +53,11 @@ public final class OpenDoor2 extends GameBuilder {
 
         //Setear estados iniciales
         Box.addState(estadoCajaCerrada);
-        Door.addState(estadoPuertaCerrada);
+        door.addState(estadoPuertaCerrada);
 
         //Crear Moves (son las supported Actions del juego)
         Move abrirCaja= new Move("abrir");
-        Move pickKey= new Move("take");
+        Move pickKey= new Move("pick");
         Move abrirPuerta= new Move("abrir");
 
         //Crear reglas para movimientos
@@ -77,13 +77,14 @@ public final class OpenDoor2 extends GameBuilder {
         reglaSiContiene.setElementOfElementToValidate(Room1);
         victoryRule.setElementOfElementToValidate(Room2);
         reglaPuertaCerrada.setElementOfElementToValidate(estadoPuertaCerrada);
-        reglaPuertaCerrada.setElementToValidate(Door);
+        reglaPuertaCerrada.setElementToValidate(door);
 
         //Setear mensajes reglas
         reglaCajaCerrada.setFailMessage("la caja estaba abierta");
         reglaPuertaCerrada.setFailMessage("la puerta estaba abierta");
         abrirCaja.setResultMessage("Abriste una caja, sos groso!!");
         abrirPuerta.setResultMessage("Abriste una puerta, sos groso!!");
+        pickKey.setResultMessage("Levantaste la llave");
 
         //Inyectar reglas a Moves
         abrirCaja.setRules(reglaCajaCerrada);
@@ -113,10 +114,10 @@ public final class OpenDoor2 extends GameBuilder {
         accionAgregarLLaveAJugador.setElementToUpdate(Key);
 
         accionAgregarEstadoAbiertaAPuerta.addItemToUpdate(estadoPuertaAbierta);
-        accionAgregarEstadoAbiertaAPuerta.setElementToUpdate(Door);
+        accionAgregarEstadoAbiertaAPuerta.setElementToUpdate(door);
 
         accionRemoverEstadoCerradoAPuerta.addItemToUpdate(estadoPuertaCerrada);
-        accionRemoverEstadoCerradoAPuerta.setElementToUpdate(Door);
+        accionRemoverEstadoCerradoAPuerta.setElementToUpdate(door);
 
         accionMoverAlJugadoALaOtraHabitacion.addItemToUpdate(Room2);
         accionMoverAlJugadoALaOtraHabitacion.setElementToUpdate(character);
@@ -148,7 +149,7 @@ public final class OpenDoor2 extends GameBuilder {
 
         //Inyectar Moves a Elements
         Key.addMove(pickKey);
-        Door.addMove(abrirPuerta);
+        door.addMove(abrirPuerta);
         Box.addMove(abrirCaja);
 
         game.setVictoryCondition(victoryRule);
