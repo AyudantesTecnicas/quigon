@@ -47,4 +47,8 @@ public class GameAction {
     public String getMessage() {
         return this.message;
     }
+
+    public void setMessage(String newMessage) {
+        this.message = newMessage;
+    }
 }
