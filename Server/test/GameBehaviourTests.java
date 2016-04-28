@@ -24,7 +24,6 @@ public class GameBehaviourTests {
         GameCreator aGameCreator = new GameCreator();
         aGameCreator.createGame("FetchQuest");
         assertEquals(aGameCreator.getGame().receiveCommands("pick stick"),"You picked up a stick!");
-        assertEquals(aGameCreator.getGame().receiveCommands("pick stick"),"You picked up a stick!");
     }
 
 }
