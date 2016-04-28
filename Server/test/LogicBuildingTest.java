@@ -2,7 +2,6 @@ import Model.IExpression;
 import Model.Item;
 import Model.Rule;
 import Model.State;
-import modelFactory.LogicBuilder;
 import modelFactory.ProxyLogicBuilder;
 import modelFactory.WrongLogicException;
 import org.junit.Before;
@@ -26,7 +25,7 @@ public class LogicBuildingTest {
     private Rule rule3;
 
     private HashMap<Character, Rule> rules;
-    LogicBuilder lBuilder;
+    ProxyLogicBuilder lBuilder;
 
     @Before
     public void setUp(){

@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public abstract class LogicFactory {
 
-    protected LogicBuilder parser;
+    protected AbstractLogicBuilder parser;
 
     public LogicFactory(){
         parser = new ProxyLogicBuilder();

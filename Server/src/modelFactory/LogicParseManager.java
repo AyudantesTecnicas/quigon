@@ -7,12 +7,10 @@ package modelFactory;
 public class LogicParseManager {
 
     private int openedParenthesis;
-    private LogicBuilder parser;
     private LogicFactory factory;
 
-    public LogicParseManager(LogicBuilder parser){
+    public LogicParseManager(){
         openedParenthesis = 0;
-        this.parser = parser;
         factory = null;
     }
 

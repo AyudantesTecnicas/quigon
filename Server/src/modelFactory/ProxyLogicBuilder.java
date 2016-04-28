@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * Created by francisco on 4/27/16.
  */
-public class ProxyLogicBuilder extends LogicBuilder {
+public class ProxyLogicBuilder extends AbstractLogicBuilder {
 
     public ProxyLogicBuilder(){
         super();

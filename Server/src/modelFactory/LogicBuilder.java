@@ -9,18 +9,10 @@ import java.util.HashMap;
 /**
  * Created by francisco on 4/26/16.
  */
-public class LogicBuilder {
-
-    protected ArrayList<LogicInterpreter> parseHandlers = new ArrayList<>();
-    protected LogicParseManager pManager;
+public class LogicBuilder extends AbstractLogicBuilder {
 
     public LogicBuilder(){
-        pManager = new LogicParseManager(this);
-        parseHandlers.add(new OParenthesisLInterpreter(pManager));
-        parseHandlers.add(new CParenthesisLInterpreter(pManager));
-        parseHandlers.add(new AndLInterpreter(pManager));
-        parseHandlers.add(new OrLInterpreter(pManager));
-        parseHandlers.add(new XorLInterpreter(pManager));
+        super();
     }
 
     public IExpression parse(HashMap<Character, Rule> rules, String logic) throws  WrongLogicException{
