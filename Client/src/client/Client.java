@@ -101,8 +101,10 @@ public class Client {
                 e.printStackTrace();
             }
         }
-
-        disconnect();
+        
+        if (isCurrentlyConnected()) {
+            disconnect();
+        }
     }
 
 }
