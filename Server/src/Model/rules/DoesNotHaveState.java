@@ -6,7 +6,7 @@ package Model.rules;
 public class DoesNotHaveState extends HasStateRule {
 
     @Override
-    public Boolean interpret() {
+    public Boolean validate() {
         return !super.interpret();
     }
 

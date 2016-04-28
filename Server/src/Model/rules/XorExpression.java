@@ -15,4 +15,9 @@ public class XorExpression extends LogicExpression {
         return (this.leftExpression.interpret() ^ this.rightExpression.interpret());
     }
 
+    @Override
+    public String getFailMessage() {
+        return this.leftExpression.getFailMessage();
+    }
+
 }

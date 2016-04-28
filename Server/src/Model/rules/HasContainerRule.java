@@ -6,7 +6,7 @@ package Model.rules;
 public class HasContainerRule extends RuleExpression {
 
     @Override
-    public Boolean interpret() {
+    public Boolean validate() {
         return this.elementToValidate.hasContainerElement(this.elementOfElementToValidate);
     }
 

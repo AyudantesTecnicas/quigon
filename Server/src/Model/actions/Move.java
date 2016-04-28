@@ -15,6 +15,7 @@ public class Move extends Element implements IExecutable {
     //Attributes
     private List<Action> actions;
     private IExpression rules;
+    private String resultMessage;
 
     //Methods
     public Move() {
@@ -39,6 +40,14 @@ public class Move extends Element implements IExecutable {
         this.rules = rules;
     }
 
+    public void setResultMessage(String resultMessage) {
+        this.resultMessage = resultMessage;
+    }
+
+    public String getResultMessage() {
+        return this.resultMessage;
+    }
+
     @Override
     public void execute() {
         if (this.rules.interpret()) {
@@ -48,11 +57,15 @@ public class Move extends Element implements IExecutable {
                 iterator.next().execute();
             }
         }
+        else {
+            this.resultMessage = this.rules.getFailMessage();
+        }
     }
 
     private void initMove() {
         this.actions = new ArrayList<>();
         this.setRules(null);
+        this.resultMessage = "Ok";
     }
 
 }
