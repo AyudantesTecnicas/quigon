@@ -8,8 +8,9 @@ import java.net.Socket;
 
 public class PortThread extends Thread {
 
-    private ServerSocket ss;
+    private ServerSocket serverSocket;
     private Socket socket;
+    private int port;
     private Game game;
 
     boolean clientConnected = false;
@@ -21,20 +22,22 @@ public class PortThread extends Thread {
 
     String sendByClient = "";
 
-    public PortThread(ServerSocket ss, Game game) {
-        this.ss = ss;
+    public PortThread(int port, Game game) {
+        this.port = port;
         this.game = game;
     }
 
     @Override
     public void run() {
-        try {
-            setConnection();
-        } catch (IOException e) {
-            System.out.println("Server socket " + ss.getLocalPort() + " has closed, no client accepted.");
-        }
+        while (!this.isInterrupted()) {
+            try {
+                setConnection();
+            } catch (IOException e) {
+                System.out.println("Server socket " + serverSocket.getLocalPort() + " has closed, no client accepted.");
+            }
 
-        listenClient();
+            listenClient();
+        }
     }
 
     private void sendAnswer(String answer) {
@@ -42,15 +45,21 @@ public class PortThread extends Thread {
             dataOutputStream.writeUTF(answer);
             dataOutputStream.flush();
         } catch (IOException e) {
-            System.out.println("Unable to send answer to client connected to port " + ss.getLocalPort());
+            System.out.println("Unable to send answer to client connected to port " + serverSocket.getLocalPort());
         }
     }
 
     private void setConnection() throws IOException {
-        System.out.println("Ready and listening port " + ss.getLocalPort() + ".");
-        socket = ss.accept();    // waiting for client
-        ss.close();
-        System.out.println("Port " + ss.getLocalPort() + " got a client.");
+        try {
+            this.serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            System.out.println("Unable to create new server socket!");
+        }
+
+        System.out.println("Ready and listening port " + serverSocket.getLocalPort() + ".");
+        socket = serverSocket.accept();    // waiting for client
+        serverSocket.close();
+        System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
 
         inputStream = socket.getInputStream();
         outputStream = socket.getOutputStream();
@@ -58,7 +67,7 @@ public class PortThread extends Thread {
         dataInputStream = new DataInputStream(inputStream);
         dataOutputStream = new DataOutputStream(outputStream);
 
-        sendAnswer("Welcome!");
+        sendAnswer("Welcome to game ");
         clientConnected = true;
     }
 
@@ -66,30 +75,41 @@ public class PortThread extends Thread {
         while (clientConnected) {
             try {
                 sendByClient = dataInputStream.readUTF();
-                System.out.println("Port " + ss.getLocalPort() + " send a message: " + sendByClient);
-                sendAnswer(game.receiveCommands(sendByClient));
+                System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
+                String answer = game.receiveCommands(sendByClient);
+                sendAnswer(answer);
+                if (sendByClient.equals("win")) {
+                    clientConnected = false;
+                    closeSocket();
+                }
             } catch (IOException e) {
-                System.out.println("Client at port " + ss.getLocalPort() + " is disconnected.");
+                System.out.println("Client at port " + serverSocket.getLocalPort() + " is disconnected.");
                 clientConnected = false;
             }
         }
     }
 
-    public void interrupt() {
+    private void closeServerSocket() {
         try {
-            this.ss.close();
+            this.serverSocket.close();
         } catch (IOException e) {
             System.out.println("Unable to close server socket!");
         }
+    }
 
-        if (clientConnected) {
-            try {
-                this.socket.close();
-            } catch (IOException e) {
-                System.out.println("Unable to close client socket!");
-            }
+    private void closeSocket() {
+        try {
+            this.socket.close();
+        } catch (IOException e) {
+            System.out.println("Unable to close client socket!");
         }
+    }
 
+    public void interrupt() {
+        closeServerSocket();
+        if (clientConnected) {
+            closeSocket();
+        }
         super.interrupt();
     }
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Server {
 
     private String line = "";
-    private int port = 8000;
+    private int actualPort = 8000;
     private ArrayList<PortThread> threads = new ArrayList<>();
 
     private GameCreator gameCreator = new GameCreator();
@@ -32,18 +32,11 @@ public class Server {
     }
 
     private void setPort(Game game) {
-        ServerSocket ss;
-        int newPort = this.port;
-        this.port++;
-
-        try {
-            ss = new ServerSocket(newPort);
-            PortThread portThread = new PortThread(ss,game);
-            threads.add(portThread);
-            portThread.start();
-        } catch (IOException e) {
-            System.out.println("Unable to create new server socket!");
-        }
+        int newPort = this.actualPort;
+        this.actualPort++;
+        PortThread portThread = new PortThread(newPort,game);
+        threads.add(portThread);
+        portThread.start();
     }
 
     private void closeServer() {
