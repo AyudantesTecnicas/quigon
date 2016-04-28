@@ -15,6 +15,5 @@ class GameMaker {
         gameBuilder.setActions();
         gameBuilder.addActionsToParser();
         gameBuilder.setElementsToGame();
-        gameBuilder.setVictoryCondition();
     }
 }

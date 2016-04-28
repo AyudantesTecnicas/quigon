@@ -65,6 +65,9 @@ public final class FetchQuest extends GameBuilder {
 
         //Inject moves to elements
         stick.addMove(pickStick);
+
+        //Set victory condition
+        game.setVictoryCondition(victoryCondition);
     }
 
     public void setActions(){
