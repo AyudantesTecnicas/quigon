@@ -26,10 +26,6 @@ public class Game {
         this.gameName = gameName;
     }
 
-    public void reset() {
-        System.out.println(gameName + " reset.");
-    }
-
     private boolean checkVictory(){
         return victoryCondition.interpret();
     }
@@ -63,9 +59,9 @@ public class Game {
             }
         }
 
-        if (checkVictory())
-            sendCommand = "You won the game!";
-
+        if (checkVictory()) {
+            sendCommand = GameBuilder.winText;
+        }
         return sendCommand;
     }
 

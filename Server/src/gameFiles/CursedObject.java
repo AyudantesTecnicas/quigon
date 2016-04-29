@@ -28,8 +28,8 @@ public final class CursedObject extends GameBuilder {
         ComplexElement room2 = new ComplexElement("Room2");
         ComplexElement door0To1 = new ComplexElement("door");
         ComplexElement door1To2 = new ComplexElement("golden_door");
-        ComplexElement cursedObject = new ComplexElement("elemento");
-        ComplexElement thief = new ComplexElement("ladron");
+        ComplexElement cursedObject = new ComplexElement("object");
+        ComplexElement thief = new ComplexElement("thief");
 
         //Add elements to the game
         elementsList.add(room0);
@@ -103,6 +103,11 @@ public final class CursedObject extends GameBuilder {
         characterIsInRoom0.setElementOfElementToValidate(room0);
 
         //Set messages
+        talkThief.setResultMessage("The thief have robbed you!!!");
+        pickObject.setResultMessage("Ohoh, you have picked a cursed object =( ");
+        goToRoom1.setResultMessage("There is another room! - Room 1 -");
+        goToRoom2.setResultMessage("There is another room! - Room 2 -");
+
         victoryRule.setFailMessage("it's a pitty");
         thiefHaveCursedObject.setFailMessage("You can't go to the next room");
         characterHasCursedObject.setFailMessage("You need an object");

@@ -33,7 +33,7 @@ public final class FetchQuest extends GameBuilder {
 
         //Create Moves
         Move pickStick = new Move("pick");
-        pickStick.setResultMessage("You picked up a stick!");
+        pickStick.setResultMessage("You won the game!");
         //Create rules for movements
         HasContainerRule keyIsInRoom = new HasContainerRule();
         HasContainerRule victoryCondition = new HasContainerRule();

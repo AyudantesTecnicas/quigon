@@ -13,7 +13,7 @@ public class Server {
     private int actualPort = 8000;
     private ArrayList<PortThread> threads = new ArrayList<>();
 
-    private GameCreator gameCreator = new GameCreator();
+    private GameCreator gameCreator;
 
     private boolean commandIsExit() {
         return line.equalsIgnoreCase("/exit");
@@ -21,17 +21,17 @@ public class Server {
 
     protected void loadGame(String gameName) {
         try {
+            gameCreator = new GameCreator();
             gameCreator.createGame(gameName);
-            Game game = gameCreator.getGame();
-            setPort(game);
+            setPort();
         } catch (InvalidParameterException e) {
             System.out.println("Invalid game name!");
         }
 
     }
 
-    private void setPort(Game game) {
-        PortThread portThread = new PortThread(actualPort++,game);
+    private void setPort() {
+        PortThread portThread = new PortThread(actualPort++,gameCreator);
         threads.add(portThread);
         portThread.start();
     }
