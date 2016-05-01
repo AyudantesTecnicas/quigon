@@ -36,4 +36,15 @@ public class GameBehaviourTests {
         assertEquals(aGameCreator.getGame().receiveCommands("open golden_door"),"You won the game!");
     }
 
+    @Test
+    public void GameTestCursedObjectFail(){
+        GameCreator aGameCreator = new GameCreator();
+        aGameCreator.createGame("CursedObject");
+        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"You need an object");
+        assertEquals(aGameCreator.getGame().receiveCommands("pick object"),"Ohoh, you have picked a cursed object =( ");
+        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"There is another room! - Room 1 -");
+        assertEquals(aGameCreator.getGame().receiveCommands("open golden_door"),"You can't go to the next room");
+        assertEquals(aGameCreator.getGame().receiveCommands("talk to thief"),"The thief have robbed you!!!");
+        assertEquals(aGameCreator.getGame().receiveCommands("open golden_door"),"You won the game!");
+    }
 }
