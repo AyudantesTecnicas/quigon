@@ -144,7 +144,7 @@ public final class OpenDoor2 extends GameBuilder {
             condicionesParaAbrir = logicBuilder.parse(rules, logic);
             abrirPuerta.setRules(condicionesParaAbrir);
         } catch (WrongLogicException e) {
-            System.out.print("La logica esta mal expresada.\n");
+            System.out.print(logicMessage+".\n");
         }
 
         //Inyectar Moves a Elements

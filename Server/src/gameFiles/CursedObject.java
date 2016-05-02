@@ -50,7 +50,7 @@ public final class CursedObject extends GameBuilder {
         //Create element's states
         Element openState = new Element("abierta");
 
-        //Add state to elemens
+        //Add state to elements
         door0To1.addState(openState);
         door1To2.addState(openState);
 
@@ -128,7 +128,7 @@ public final class CursedObject extends GameBuilder {
             IExpression conditionsToPickObject = logicBuilder.parse(rules, logic);
             pickObject.setRules(conditionsToPickObject);
         } catch (WrongLogicException e) {
-            System.out.print("La logica esta mal expresada.\n");
+            System.out.print(logicMessage+".\n");
         }
 
         /* Talk with thief */
@@ -139,7 +139,7 @@ public final class CursedObject extends GameBuilder {
             IExpression conditionsToTalkWithThief = logicBuilder.parse(rules, logic);
             talkThief.setRules(conditionsToTalkWithThief);
         } catch (WrongLogicException e) {
-            System.out.print("La logica esta mal expresada.\n");
+            System.out.print(logicMessage+".\n");
         }
 
         /* Go to room 1*/
@@ -162,5 +162,4 @@ public final class CursedObject extends GameBuilder {
         actionsList.add(new SupportedAction(1,"open"));
         actionsList.add(new SupportedAction(1,"talk to"));
     }
-
 }

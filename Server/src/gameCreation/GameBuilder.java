@@ -2,6 +2,7 @@ package gameCreation;
 
 import GameParser.GameParser;
 import GameParser.SupportedAction;
+import Model.elements.ComplexElement;
 import Model.elements.Element;
 
 import java.util.*;
@@ -9,6 +10,7 @@ import java.util.*;
 public abstract class GameBuilder {
 
     public static final String winText = "You won the game!";
+    public static final String logicMessage= "Wrong expressed logicWrong expressed logic";
 
     protected Game game;
     protected int amountOfRooms;
@@ -38,6 +40,10 @@ public abstract class GameBuilder {
     }
 
     protected GameBuilder(){
+    }
+
+    public void createElementAndAddToList(String elementName){
+        elementsList.add(new ComplexElement(elementName));
     }
 
     protected void fillParserSupportedActions(SupportedAction aSupportedAction){

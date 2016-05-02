@@ -1,5 +1,7 @@
 package Model.elements;
 
+import java.util.Optional;
+
 /**
  * Created by metro on 27/04/16.
  */
@@ -7,6 +9,7 @@ public class Element {
 
     //Attributes
     private String name;
+    int size;
 
     //Methods
     public Element() {
@@ -23,6 +26,10 @@ public class Element {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setSize(int aSize) {
+        this.size=aSize;
     }
 
     @Override

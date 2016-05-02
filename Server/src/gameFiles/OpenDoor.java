@@ -32,7 +32,7 @@ public final class OpenDoor extends GameBuilder {
         ComplexElement door = new ComplexElement("door");
         ComplexElement key = new ComplexElement("key");
 
-        //Add elementos to game
+        //Add elements to game
         addElement(key);
         addElement(room1);
         addElement(room2);
@@ -89,7 +89,7 @@ public final class OpenDoor extends GameBuilder {
             conditionsToOpenDoor = logicBuilder.parse(rules, logic);
             openDoor.setRules(conditionsToOpenDoor);
         } catch (WrongLogicException e) {
-            System.out.print("La logica esta mal expresada.\n");
+            System.out.print(logicMessage+".\n");
         }
 
         //Rules to pick key
