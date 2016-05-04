@@ -4,12 +4,8 @@ import Model.elements.Element;
 import Model.rules.IExpression;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by metro on 27/04/16.
- */
 public class Move extends Element implements IExecutable {
 
     //Attributes
@@ -51,13 +47,10 @@ public class Move extends Element implements IExecutable {
     @Override
     public void execute() {
         if (this.rules.interpret()) {
-            Iterator<Action> iterator = this.actions.iterator();
-
-            while (iterator.hasNext()) {
-                iterator.next().execute();
+            for (Action action : this.actions) {
+                action.execute();
             }
-        }
-        else {
+        } else {
             this.resultMessage = this.rules.getFailMessage();
         }
     }

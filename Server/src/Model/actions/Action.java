@@ -4,13 +4,9 @@ import Model.elements.ComplexElement;
 import Model.elements.Element;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by metro on 27/04/16.
- */
-public abstract class Action implements IExecutable{
+public abstract class Action implements IExecutable {
 
     //Attributes
     protected List<Element> elementsOfElementToUpdate;
@@ -35,10 +31,8 @@ public abstract class Action implements IExecutable{
 
     @Override
     public void execute() {
-        Iterator<Element> iterator = this.elementsOfElementToUpdate.iterator();
-
-        while (iterator.hasNext()) {
-            this.applyChanges(iterator.next());
+        for (Element element : this.elementsOfElementToUpdate) {
+            this.applyChanges(element);
         }
     }
 
