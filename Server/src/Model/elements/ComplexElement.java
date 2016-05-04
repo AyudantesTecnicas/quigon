@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by metro on 27/04/16.
- */
-public class ComplexElement extends Element {
+public class ComplexElement extends Element implements Comparable<ComplexElement> {
 
     //Attributes
     private List<Element> states;
@@ -31,8 +28,9 @@ public class ComplexElement extends Element {
 
     public void addState(Element state) {
         if (state != null) {
-            if (!this.states.contains(state))
+            if (!this.states.contains(state)) {
                 this.states.add(state);
+            }
         }
     }
 
@@ -70,7 +68,7 @@ public class ComplexElement extends Element {
         this.size = size;
     }
 
-    public Integer getSize() {
+    private Integer getSize() {
         return this.size;
     }
 
@@ -93,16 +91,20 @@ public class ComplexElement extends Element {
     public String execute(String moveName) {
         Iterator<Move> iterator = this.moves.iterator();
         Move move = null;
-        String aString="Invalid Action";
-        while(iterator.hasNext()) {
+        String oneString = "Invalid Action";
+        while (iterator.hasNext()) {
             move = iterator.next();
 
             if (move.getName().equals(moveName)) {
                 move.execute();
-                aString= move.getResultMessage();
+                oneString = move.getResultMessage();
             }
         }
-        return aString;
+        return oneString;
     }
 
+    @Override
+    public int compareTo(ComplexElement other) {
+        return (this.size - other.getSize());
+    }
 }

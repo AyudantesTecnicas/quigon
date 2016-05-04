@@ -5,9 +5,6 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by metro on 03/05/16.
- */
 public class ComplexContainerElement extends ComplexElement {
 
     //Attributes
@@ -41,7 +38,7 @@ public class ComplexContainerElement extends ComplexElement {
     }
 
     public ComplexElement getElementAt(String index) {
-        Integer intIndex = 0;
+        Integer intIndex;
 
         if (!index.isEmpty()) {
             index = index.toLowerCase();
