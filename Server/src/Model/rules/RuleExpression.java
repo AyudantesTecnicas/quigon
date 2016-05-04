@@ -2,11 +2,7 @@ package Model.rules;
 
 import Model.elements.ComplexElement;
 import Model.elements.Element;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
-/**
- * Created by metro on 24/04/16.
- */
 public abstract class RuleExpression implements IExpression {
 
     //Attributes
@@ -37,7 +33,9 @@ public abstract class RuleExpression implements IExpression {
 
     @Override
     public String getFailMessage() {
-        if (!this.ruleMet) return this.failMessage;
+        if (!this.ruleMet) {
+            return this.failMessage;
+        }
         return "";
     }
 

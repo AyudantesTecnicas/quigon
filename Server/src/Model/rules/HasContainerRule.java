@@ -1,9 +1,10 @@
 package Model.rules;
 
-/**
- * Created by metro on 27/04/16.
- */
 public class HasContainerRule extends RuleExpression {
+
+    public HasContainerRule() {
+        super();
+    }
 
     @Override
     public Boolean validate() {

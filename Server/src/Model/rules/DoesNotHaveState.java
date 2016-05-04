@@ -1,9 +1,10 @@
 package Model.rules;
 
-/**
- * Created by metro on 27/04/16.
- */
 public class DoesNotHaveState extends HasStateRule {
+
+    public DoesNotHaveState() {
+        super();
+    }
 
     @Override
     public Boolean validate() {

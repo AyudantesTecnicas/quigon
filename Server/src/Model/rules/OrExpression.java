@@ -1,8 +1,5 @@
 package Model.rules;
 
-/**
- * Created by metro on 24/04/16.
- */
 public class OrExpression extends LogicExpression {
 
     //Methods
@@ -19,7 +16,9 @@ public class OrExpression extends LogicExpression {
     public String getFailMessage() {
         String failMessage = this.leftExpression.getFailMessage();
 
-        if (failMessage.isEmpty()) return this.rightExpression.getFailMessage();
+        if (failMessage.isEmpty()) {
+            return this.rightExpression.getFailMessage();
+        }
         return failMessage;
     }
 
