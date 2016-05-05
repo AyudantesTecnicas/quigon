@@ -3,6 +3,7 @@ package Model.actions;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
 import Model.elements.IndexedElement;
+import Model.ruleExpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,13 @@ public abstract class Action implements IExecutable {
     protected List<Element> elementsOfElementToUpdate;
     protected IndexedElement elementToUpdate;
     protected String index;
+    protected IExpression rules;
 
     public Action() {
-        this.initAction();
+        this.elementsOfElementToUpdate = new ArrayList<>();
+        this.elementToUpdate = null;
+        this.index = "";
+        this.rules = null;
     }
 
     public void addItemToUpdate(Element elementOfElementToUpdate) {
@@ -25,6 +30,10 @@ public abstract class Action implements IExecutable {
             }
         }
 
+    }
+
+    public void setRules(IExpression rules) {
+        this.rules = rules;
     }
 
     public void setElementToUpdate(ComplexElement elementToUpdate) {
@@ -38,14 +47,10 @@ public abstract class Action implements IExecutable {
     @Override
     public void execute() {
         for (Element element : this.elementsOfElementToUpdate) {
-            this.applyChanges(element);
+            if (this.rules.interpret() || this.rules == null) {
+                this.applyChanges(element);
+            }
         }
-    }
-
-    private void initAction() {
-        this.elementsOfElementToUpdate = new ArrayList<>();
-        this.elementToUpdate = null;
-        this.index = "";
     }
 
     protected abstract void applyChanges(Element element);
