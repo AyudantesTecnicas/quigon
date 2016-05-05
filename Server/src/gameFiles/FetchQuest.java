@@ -3,8 +3,7 @@ package gameFiles;
 import GameParser.SupportedAction;
 import Model.actions.*;
 import Model.elements.ComplexElement;
-import Model.elements.Element;
-import Model.rules.HasContainerRule;
+import Model.ruleExpressions.rules.HasContainerRule;
 import gameCreation.GameBuilder;
 
 public final class FetchQuest extends GameBuilder {
@@ -20,7 +19,7 @@ public final class FetchQuest extends GameBuilder {
         game.character=character;
 
         //Create elements
-        Element room = new Element("room");
+        ComplexElement room = new ComplexElement("room");
         ComplexElement stick = new ComplexElement("stick");
 
         //Add elementos to game
@@ -34,17 +33,17 @@ public final class FetchQuest extends GameBuilder {
         //Create Moves
         Move pickStick = new Move("pick");
         pickStick.setResultMessage("You picked up a stick!");
-        //Create rules for movements
+        //Create ruleExpressions for movements
         HasContainerRule keyIsInRoom = new HasContainerRule();
         HasContainerRule victoryCondition = new HasContainerRule();
 
-        //Set elements to rules
+        //Set elements to ruleExpressions
         keyIsInRoom.setElementToValidate(stick);
-        keyIsInRoom.setElementOfElementToValidate(room);
+        keyIsInRoom.setContainerToValidate(room);
         victoryCondition.setElementToValidate(stick);
-        victoryCondition.setElementOfElementToValidate(character);
+        victoryCondition.setContainerToValidate(character);
 
-        //Inject rules to moves
+        //Inject ruleExpressions to moves
         pickStick.setRules(keyIsInRoom);
 
         //Create actions

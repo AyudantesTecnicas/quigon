@@ -1,8 +1,8 @@
 import Model.elements.ComplexElement;
 import Model.elements.Element;
-import Model.rules.HasStateRule;
-import Model.rules.IExpression;
-import Model.rules.RuleExpression;
+import Model.ruleExpressions.rules.HasStateRule;
+import Model.ruleExpressions.expressions.IExpression;
+import Model.ruleExpressions.expressions.RuleExpression;
 import logicFactory.ProxyLogicBuilder;
 import logicFactory.WrongLogicException;
 import org.junit.Before;
@@ -41,15 +41,15 @@ public class LogicFactoryTest {
 
         rule1 = new HasStateRule();
         rule1.setElementToValidate(anItem);
-        rule1.setElementOfElementToValidate(state1);
+        rule1.setStateToValidate(state1);
 
         rule2 = new HasStateRule();
         rule2.setElementToValidate(anItem);
-        rule2.setElementOfElementToValidate(state2);
+        rule2.setStateToValidate(state2);
 
         rule3 = new HasStateRule();
         rule3.setElementToValidate(anItem);
-        rule3.setElementOfElementToValidate(state3);
+        rule3.setStateToValidate(state3);
 
         rules = new HashMap();
         rules.put('a', rule1);

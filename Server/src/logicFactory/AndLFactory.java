@@ -1,7 +1,7 @@
 package logicFactory;
 
-import Model.rules.AndExpression;
-import Model.rules.LogicExpression;
+import Model.ruleExpressions.expressions.AndExpression;
+import Model.ruleExpressions.expressions.LogicExpression;
 
 /**
  * Created by francisco on 4/26/16.

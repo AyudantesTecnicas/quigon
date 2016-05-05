@@ -4,10 +4,10 @@ import GameParser.SupportedAction;
 import Model.actions.*;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
-import Model.rules.HasContainerRule;
-import Model.rules.HasStateRule;
-import Model.rules.IExpression;
-import Model.rules.RuleExpression;
+import Model.ruleExpressions.rules.HasContainerRule;
+import Model.ruleExpressions.rules.HasStateRule;
+import Model.ruleExpressions.expressions.IExpression;
+import Model.ruleExpressions.expressions.RuleExpression;
 import gameCreation.GameBuilder;
 import logicFactory.ProxyLogicBuilder;
 import logicFactory.WrongLogicException;
@@ -26,8 +26,8 @@ public final class OpenDoor2 extends GameBuilder {
         game.character=character;
 
         //Create elements
-        Element Room1= new Element("room1");
-        Element Room2= new Element("room2");
+        ComplexElement Room1= new ComplexElement("room1");
+        ComplexElement Room2= new ComplexElement("room2");
         ComplexElement door= new ComplexElement("door");
         ComplexElement Box = new ComplexElement("box");
         ComplexElement Key= new ComplexElement("key");
@@ -69,14 +69,14 @@ public final class OpenDoor2 extends GameBuilder {
 
         //Setear elementos a las reglas
         reglaCajaCerrada.setElementToValidate(Box);
-        reglaCajaCerrada.setElementOfElementToValidate(estadoCajaCerrada);
+        reglaCajaCerrada.setStateToValidate(estadoCajaCerrada);
         reglaSiContiene.setElementToValidate(Key);
         reglaPuertaLlaveEnPosesion.setElementToValidate(Key);
-        reglaPuertaLlaveEnPosesion.setElementOfElementToValidate(character);
+        reglaPuertaLlaveEnPosesion.setContainerToValidate(character);
         victoryRule.setElementToValidate(character);
-        reglaSiContiene.setElementOfElementToValidate(Room1);
-        victoryRule.setElementOfElementToValidate(Room2);
-        reglaPuertaCerrada.setElementOfElementToValidate(estadoPuertaCerrada);
+        reglaSiContiene.setContainerToValidate(Room1);
+        victoryRule.setContainerToValidate(Room2);
+        reglaPuertaCerrada.setStateToValidate(estadoPuertaCerrada);
         reglaPuertaCerrada.setElementToValidate(door);
 
         //Setear mensajes reglas

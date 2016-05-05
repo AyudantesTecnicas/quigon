@@ -3,12 +3,10 @@ package gameCreation;
 import GameParser.GameParser;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
-import Model.rules.IExpression;
+import Model.ruleExpressions.expressions.IExpression;
 import GameParser.GameAction;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class Game {
     private String gameName;

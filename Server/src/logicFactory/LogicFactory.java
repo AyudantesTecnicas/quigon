@@ -1,8 +1,8 @@
 package logicFactory;
 
-import Model.rules.IExpression;
-import Model.rules.LogicExpression;
-import Model.rules.RuleExpression;
+import Model.ruleExpressions.expressions.IExpression;
+import Model.ruleExpressions.expressions.LogicExpression;
+import Model.ruleExpressions.expressions.RuleExpression;
 
 import java.util.HashMap;
 

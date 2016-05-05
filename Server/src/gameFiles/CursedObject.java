@@ -4,10 +4,9 @@ import GameParser.SupportedAction;
 import Model.actions.*;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
-import Model.rules.DoesNotHaveState;
-import Model.rules.HasContainerRule;
-import Model.rules.IExpression;
-import Model.rules.RuleExpression;
+import Model.ruleExpressions.rules.HasContainerRule;
+import Model.ruleExpressions.expressions.IExpression;
+import Model.ruleExpressions.expressions.RuleExpression;
 import gameCreation.GameBuilder;
 import logicFactory.ProxyLogicBuilder;
 import logicFactory.WrongLogicException;
@@ -27,9 +26,9 @@ public final class CursedObject extends GameBuilder {
         game.character = character;
 
         //Create elements
-        Element room0 = new Element("Room0");
-        Element room1 = new Element("Room1");
-        Element room2 = new Element("Room2");
+        ComplexElement room0 = new ComplexElement("Room0");
+        ComplexElement room1 = new ComplexElement("Room1");
+        ComplexElement room2 = new ComplexElement("Room2");
         ComplexElement door0To1 = new ComplexElement("door");
         ComplexElement door1To2 = new ComplexElement("golden_door");
         ComplexElement cursedObject = new ComplexElement("elemento");
@@ -81,30 +80,30 @@ public final class CursedObject extends GameBuilder {
         pickedObject.setElementToUpdate(cursedObject);
         pickedObject.addItemToUpdate(character);
 
-        //Create rules
+        //Create ruleExpressions
         HasContainerRule victoryRule = new HasContainerRule();
         victoryRule.setElementToValidate(character);
-        victoryRule.setElementOfElementToValidate(room2);
+        victoryRule.setContainerToValidate(room2);
 
         HasContainerRule thiefHaveCursedObject = new HasContainerRule();
         thiefHaveCursedObject.setElementToValidate(cursedObject);
-        thiefHaveCursedObject.setElementOfElementToValidate(thief);
+        thiefHaveCursedObject.setContainerToValidate(thief);
 
         HasContainerRule characterHasCursedObject = new HasContainerRule();
         characterHasCursedObject.setElementToValidate(cursedObject);
-        characterHasCursedObject.setElementOfElementToValidate(character);
+        characterHasCursedObject.setContainerToValidate(character);
 
         HasContainerRule objectIsInTheRoom = new HasContainerRule();
         objectIsInTheRoom.setElementToValidate(cursedObject);
-        objectIsInTheRoom.setElementOfElementToValidate(room0);
+        objectIsInTheRoom.setContainerToValidate(room0);
 
         HasContainerRule characterIsInRoom1 = new HasContainerRule();
         characterIsInRoom1.setElementToValidate(character);
-        characterIsInRoom1.setElementOfElementToValidate(room1);
+        characterIsInRoom1.setContainerToValidate(room1);
 
         HasContainerRule characterIsInRoom0 = new HasContainerRule();
         characterIsInRoom0.setElementToValidate(character);
-        characterIsInRoom0.setElementOfElementToValidate(room0);
+        characterIsInRoom0.setContainerToValidate(room0);
 
         //Set messages
         victoryRule.setFailMessage("it's a pitty");
@@ -114,7 +113,7 @@ public final class CursedObject extends GameBuilder {
         characterIsInRoom0.setFailMessage("You are in other room");
         characterIsInRoom1.setFailMessage("You are in other room");
 
-        //Set actions and rules
+        //Set actions and ruleExpressions
         ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
         HashMap <Character, RuleExpression> rules = new HashMap<>();
         String logic = "(a)&(b)";

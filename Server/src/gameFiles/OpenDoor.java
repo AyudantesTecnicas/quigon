@@ -4,10 +4,10 @@ import GameParser.SupportedAction;
 import Model.actions.*;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
-import Model.rules.HasContainerRule;
-import Model.rules.HasStateRule;
-import Model.rules.IExpression;
-import Model.rules.RuleExpression;
+import Model.ruleExpressions.rules.HasContainerRule;
+import Model.ruleExpressions.rules.HasStateRule;
+import Model.ruleExpressions.expressions.IExpression;
+import Model.ruleExpressions.expressions.RuleExpression;
 import gameCreation.GameBuilder;
 import logicFactory.ProxyLogicBuilder;
 import logicFactory.WrongLogicException;
@@ -27,8 +27,8 @@ public final class OpenDoor extends GameBuilder {
         game.character=character;
 
         //Create elements
-        Element room1= new Element("room1");
-        Element room2= new Element("room2");
+        ComplexElement room1= new ComplexElement("room1");
+        ComplexElement room2= new ComplexElement("room2");
         ComplexElement door = new ComplexElement("door");
         ComplexElement key = new ComplexElement("key");
 
@@ -54,21 +54,21 @@ public final class OpenDoor extends GameBuilder {
         Move pickKey = new Move("pick");
         Move openDoor = new Move("open");
 
-        //Create movement rules
+        //Create movement ruleExpressions
         HasContainerRule roomHasKey = new HasContainerRule();
         HasContainerRule characterHasKey = new HasContainerRule();
         HasStateRule doorIsClosed = new HasStateRule();
         HasContainerRule victoryCondition = new HasContainerRule();
 
-        //Set elements to rules
+        //Set elements to ruleExpressions
         roomHasKey.setElementToValidate(key);
-        roomHasKey.setElementOfElementToValidate(room1);
+        roomHasKey.setContainerToValidate(room1);
         characterHasKey.setElementToValidate(key);
-        characterHasKey.setElementOfElementToValidate(character);
-        doorIsClosed.setElementOfElementToValidate(closedDoor);
+        characterHasKey.setContainerToValidate(character);
+        doorIsClosed.setStateToValidate(closedDoor);
         doorIsClosed.setElementToValidate(door);
         victoryCondition.setElementToValidate(character);
-        victoryCondition.setElementOfElementToValidate(room2);
+        victoryCondition.setContainerToValidate(room2);
 
 
         //Set messages
