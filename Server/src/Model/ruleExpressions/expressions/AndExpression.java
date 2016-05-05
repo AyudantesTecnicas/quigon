@@ -1,4 +1,4 @@
-package Model.rules;
+package Model.ruleExpressions.expressions;
 
 public class AndExpression extends LogicExpression {
 

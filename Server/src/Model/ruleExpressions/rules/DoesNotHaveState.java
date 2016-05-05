@@ -1,4 +1,4 @@
-package Model.rules;
+package Model.ruleExpressions.rules;
 
 public class DoesNotHaveState extends HasStateRule {
 

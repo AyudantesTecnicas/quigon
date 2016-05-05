@@ -50,9 +50,13 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
     }
 
     public void setContainerElement(ComplexElement containerElement) {
-        this.containerElement.removeElement(this);
-        this.containerElement = containerElement;
-        containerElement.addElement(this);
+        if (containerElement != null) {
+            if (this.containerElement != null) {
+                this.containerElement.removeElement(this);
+            }
+            this.containerElement = containerElement;
+            containerElement.addElement(this);
+        }
     }
 
     public Element getContainerElement() {
@@ -63,7 +67,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         return this.states.contains(state);
     }
 
-    public Boolean hasContainerElement(Element containerElement) {
+    public Boolean hasContainerElement(ComplexElement containerElement) {
         return this.containerElement.equals(containerElement);
     }
 

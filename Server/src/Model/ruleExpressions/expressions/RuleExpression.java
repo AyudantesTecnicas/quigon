@@ -1,21 +1,20 @@
-package Model.rules;
+package Model.ruleExpressions.expressions;
 
 import Model.elements.ComplexElement;
-import Model.elements.Element;
+import Model.elements.IndexedElement;
 
 public abstract class RuleExpression implements IExpression {
 
     //Attributes
     protected String failMessage;
-    protected ComplexElement elementToValidate;
-    protected Element elementOfElementToValidate;
+    protected IndexedElement elementToValidate;
     protected Boolean ruleMet;
+
 
     //Methods
     public RuleExpression() {
         this.setFailMessage("Rule violated");
-        this.setElementToValidate(null);
-        this.setElementOfElementToValidate(null);
+        this.elementToValidate = null;
         this.ruleMet = true;
     }
 
@@ -23,12 +22,14 @@ public abstract class RuleExpression implements IExpression {
         this.failMessage = failMessage;
     }
 
-    public void setElementOfElementToValidate(Element elementOfElementToValidate) {
-        this.elementOfElementToValidate = elementOfElementToValidate;
+    public void setIndexToValidate(String indexToValidate) {
+        this.elementToValidate.setIndex(indexToValidate);
     }
 
     public void setElementToValidate(ComplexElement elementToValidate) {
-        this.elementToValidate = elementToValidate;
+        if (elementToValidate != null) {
+            this.elementToValidate = new IndexedElement(elementToValidate);
+        }
     }
 
     @Override
