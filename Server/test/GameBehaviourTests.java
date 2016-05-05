@@ -27,6 +27,14 @@ public class GameBehaviourTests {
     }
 
     @Test
+    public void GameTestWolfSheepcabbage(){
+        GameCreator aGameCreator = new GameCreator();
+        aGameCreator.createGame("WolfSheep");
+        assertEquals(aGameCreator.getGame().receiveCommands("take cabbage"),"Ok");
+        assertEquals(aGameCreator.getGame().receiveCommands("cross north-shore"),"the wolf is on the south-shore");
+    }
+
+    @Test
     public void GameTestCursedObject(){
         GameCreator aGameCreator = new GameCreator();
         aGameCreator.createGame("CursedObject");
