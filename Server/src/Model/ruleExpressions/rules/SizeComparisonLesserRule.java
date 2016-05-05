@@ -4,13 +4,13 @@ import Model.elements.ComplexElement;
 import Model.elements.IndexedElement;
 import Model.ruleExpressions.expressions.RuleExpression;
 
-public class SizeComparisonGreaterRule extends RuleExpression {
+public class SizeComparisonLesserRule extends RuleExpression {
 
     //Attributes
     private IndexedElement elementToCompare;
 
     //Methods
-    public SizeComparisonGreaterRule() {
+    public SizeComparisonLesserRule() {
         super();
         elementToCompare = null;
     }
@@ -20,14 +20,17 @@ public class SizeComparisonGreaterRule extends RuleExpression {
     }
 
     public void setIndexToCompare(String indexToCompare) {
-        this.elementToCompare.setIndex(indexToCompare);
+        if (this.elementToCompare != null) {
+            this.elementToCompare.setIndex(indexToCompare);
+        }
     }
 
     @Override
     protected Boolean validate() {
         Boolean equal = (this.elementToValidate.getElement().compareTo(this.elementToCompare.getElement()) == 0);
-        Boolean less = (this.elementToValidate.getElement().compareTo(this.elementToCompare.getElement()) < 0);
-        return (equal && less);
+        Boolean less = (this.elementToValidate.getElement().compareTo(this.elementToCompare.getElement()) > 0);
+
+        return (equal.equals(less));
     }
 
 }

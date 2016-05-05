@@ -54,6 +54,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
             if (this.containerElement != null) {
                 this.containerElement.removeElement(this);
             }
+
             this.containerElement = containerElement;
             containerElement.addElement(this);
         }
@@ -75,7 +76,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         this.size = size;
     }
 
-    private Integer getSize() {
+    public Integer getSize() {
         return this.size;
     }
 
