@@ -4,10 +4,7 @@ import GameParser.SupportedAction;
 import Model.actions.*;
 import Model.elements.ComplexElement;
 import Model.elements.Element;
-import Model.rules.HasContainerRule;
-import Model.rules.HasStateRule;
-import Model.rules.IExpression;
-import Model.rules.RuleExpression;
+import Model.rules.*;
 import gameCreation.GameBuilder;
 import logicFactory.ProxyLogicBuilder;
 import logicFactory.WrongLogicException;
@@ -69,7 +66,6 @@ public final class OpenDoor extends GameBuilder {
         doorIsClosed.setElementToValidate(door);
         victoryCondition.setElementToValidate(character);
         victoryCondition.setElementOfElementToValidate(room2);
-
 
         //Set messages
         roomHasKey.setFailMessage("Key is't in room 1.");

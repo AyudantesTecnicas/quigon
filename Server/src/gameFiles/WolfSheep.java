@@ -1,5 +1,7 @@
 package gameFiles;
 
+import GameParser.SupportedAction;
+import Model.rules.DoesNotHaveContainerRule;
 import gameCreation.GameBuilder;
 import Model.actions.Action;
 import Model.actions.ChangeContainerAction;
@@ -117,37 +119,62 @@ public class WolfSheep extends GameBuilder {
         boatHasSheep.setElementToValidate(sheep);
         boatHasSheep.setElementOfElementToValidate(boat);
 
+        DoesNotHaveContainerRule boatHasNoSheep = new DoesNotHaveContainerRule();
+        boatHasNoSheep.setElementToValidate(sheep);
+        boatHasNoSheep.setElementOfElementToValidate(boat);
+
+
         HasContainerRule boatHasWolf = new HasContainerRule();
         boatHasWolf.setElementToValidate(wolf);
         boatHasWolf.setElementOfElementToValidate(boat);
+
+        DoesNotHaveContainerRule boatHasNoWolf = new DoesNotHaveContainerRule();
+        boatHasNoWolf.setElementToValidate(wolf);
+        boatHasNoWolf.setElementOfElementToValidate(boat);
 
         HasContainerRule boatHasCabbage = new HasContainerRule();
         boatHasCabbage.setElementToValidate(cabbage);
         boatHasCabbage.setElementOfElementToValidate(boat);
 
-        HasContainerRule southShoreContainsWolf = new HasContainerRule();
-        southShoreContainsWolf.setElementToValidate(wolf);
-        southShoreContainsWolf.setElementOfElementToValidate(southshore);
+        DoesNotHaveContainerRule boatHasNoCabbage = new DoesNotHaveContainerRule();
+        boatHasNoCabbage.setElementToValidate(cabbage);
+        boatHasNoCabbage.setElementOfElementToValidate(boat);
+
+        DoesNotHaveContainerRule southShoreDoesntContainsWolf = new DoesNotHaveContainerRule();
+        southShoreDoesntContainsWolf.setElementToValidate(wolf);
+        southShoreDoesntContainsWolf.setElementOfElementToValidate(southshore);
 
         HasContainerRule northShoreContainsWolf = new HasContainerRule();
         northShoreContainsWolf.setElementToValidate(wolf);
         northShoreContainsWolf.setElementOfElementToValidate(northshore);
 
-        HasContainerRule southShoreContainsSheep = new HasContainerRule();
-        southShoreContainsSheep.setElementToValidate(sheep);
-        southShoreContainsSheep.setElementOfElementToValidate(southshore);
+        DoesNotHaveContainerRule southShoreDoesntContainsSheep = new DoesNotHaveContainerRule();
+        southShoreDoesntContainsSheep.setElementToValidate(sheep);
+        southShoreDoesntContainsSheep.setElementOfElementToValidate(southshore);
 
         HasContainerRule northShoreContainsSheep = new HasContainerRule();
         northShoreContainsSheep.setElementToValidate(sheep);
         northShoreContainsSheep.setElementOfElementToValidate(northshore);
 
-        HasContainerRule southShoreContainsCabbage = new HasContainerRule();
-        southShoreContainsCabbage.setElementToValidate(cabbage);
-        southShoreContainsCabbage.setElementOfElementToValidate(southshore);
+        DoesNotHaveContainerRule southShoreDoesntContainsCabbage = new DoesNotHaveContainerRule();
+        southShoreDoesntContainsCabbage.setElementToValidate(cabbage);
+        southShoreDoesntContainsCabbage.setElementOfElementToValidate(southshore);
 
         HasContainerRule northShoreContainsCabbage = new HasContainerRule();
         northShoreContainsCabbage.setElementToValidate(cabbage);
         northShoreContainsCabbage.setElementOfElementToValidate(northshore);
+
+        DoesNotHaveContainerRule northShoreDoesntContainsWolf = new DoesNotHaveContainerRule();
+        northShoreDoesntContainsWolf.setElementToValidate(wolf);
+        northShoreDoesntContainsWolf.setElementOfElementToValidate(northshore);
+
+        DoesNotHaveContainerRule northShoreDoesntContainsSheep = new DoesNotHaveContainerRule();
+        northShoreDoesntContainsSheep.setElementToValidate(sheep);
+        northShoreDoesntContainsSheep.setElementOfElementToValidate(northshore);
+
+        DoesNotHaveContainerRule northShoreDoesntContainsCabbage = new DoesNotHaveContainerRule();
+        northShoreDoesntContainsCabbage.setElementToValidate(cabbage);
+        northShoreDoesntContainsCabbage.setElementOfElementToValidate(northshore);
 
         //set messages
         crossSouthShore.setResultMessage("you have crossed!");
@@ -168,9 +195,9 @@ public class WolfSheep extends GameBuilder {
         boatHasSheep.setFailMessage("the sheep is not on board");
         boatHasWolf.setFailMessage("the wolf is not on board");
         boatHasCabbage.setFailMessage("the cabbage is not on board");
-        southShoreContainsWolf.setFailMessage("the wolf is on the south-shore");
-        southShoreContainsSheep.setFailMessage("the sheep is on the south-shore");
-        southShoreContainsCabbage.setFailMessage("the cabbage is on the south-shore");
+        southShoreDoesntContainsWolf.setFailMessage("the wolf is on the south-shore");
+        southShoreDoesntContainsSheep.setFailMessage("the sheep is on the south-shore");
+        southShoreDoesntContainsCabbage.setFailMessage("the cabbage is on the south-shore");
 
         northShoreContainsWolf.setFailMessage("the wolf is on the north-shore");
         northShoreContainsSheep.setFailMessage("the sheep is on the north-shore");
@@ -178,9 +205,9 @@ public class WolfSheep extends GameBuilder {
 
         //Rule to cross north shore
         HashMap<Character, RuleExpression> rules = new HashMap<>();
-        rules.put('a', southShoreContainsWolf);
-        rules.put('b', southShoreContainsSheep);
-        rules.put('c', southShoreContainsCabbage);
+        rules.put('a', southShoreDoesntContainsWolf);
+        rules.put('b', southShoreDoesntContainsSheep);
+        rules.put('c', southShoreDoesntContainsCabbage);
 
         rules.put('d', northShoreContainsWolf);
         rules.put('e', northShoreContainsSheep);
@@ -190,7 +217,15 @@ public class WolfSheep extends GameBuilder {
         rules.put('h', boatHasSheep);
         rules.put('i', boatHasCabbage);
 
-        String logicToNorth = "!((a)&(b))&!((b)&(c))";
+        rules.put('j', northShoreDoesntContainsWolf);
+        rules.put('k', northShoreDoesntContainsSheep);
+        rules.put('l', northShoreDoesntContainsCabbage);
+
+        rules.put('m', boatHasNoWolf);
+        rules.put('n', boatHasNoSheep);
+        rules.put('o', boatHasNoCabbage);
+
+        String logicToNorth = "(b)|((a)&(c))";
 
         ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
         IExpression rulesToCrossNorthShore;
@@ -202,7 +237,7 @@ public class WolfSheep extends GameBuilder {
         }
 
         //Rule of rules to cross south shore
-        String logicToSouth = "!((d)&(e))&!((e)&(f))";
+        String logicToSouth = "(k)|((j)&(l))";
 
         IExpression rulesToCrossSouthShore;
         try {
@@ -213,7 +248,7 @@ public class WolfSheep extends GameBuilder {
         }
 
         //Rule to take
-        String takeLogic = "!(g)&!(h)&!(i)";
+        String takeLogic = "((m)&(n))&(o)";
         IExpression ruleToTake;
         try {
             ruleToTake = logicBuilder.parse(rules, takeLogic);
@@ -225,7 +260,7 @@ public class WolfSheep extends GameBuilder {
         }
 
         //Victory Condition
-        String victoryLogic = "(f)&(e)&(f)";
+        String victoryLogic = "((d)&(e))&(f)";
         IExpression victoryRule = null;
         try {
             victoryRule = logicBuilder.parse(rules, victoryLogic);
@@ -264,8 +299,11 @@ public class WolfSheep extends GameBuilder {
 
         northshore.addMove(crossNorthShore);
         southshore.addMove(crossSouthShore);
-
     }
-    public void setActions(){}
+    public void setActions(){
+        actionsList.add(new SupportedAction(1,"cross"));
+        actionsList.add(new SupportedAction(1,"take"));
+        actionsList.add(new SupportedAction(1,"leave"));
+    }
 
 }
