@@ -27,8 +27,8 @@ public final class OpenDoor extends GameBuilder {
         game.character=character;
 
         //Create elements
-        Element room1= new Element("room1");
-        Element room2= new Element("room2");
+        ComplexElement room1= new ComplexElement("room1");
+        ComplexElement room2= new ComplexElement("room2");
         ComplexElement door = new ComplexElement("door");
         ComplexElement key = new ComplexElement("key");
 
@@ -75,7 +75,7 @@ public final class OpenDoor extends GameBuilder {
         roomHasKey.setFailMessage("Key is't in room 1.");
         characterHasKey.setFailMessage("Ey! Where do you go?! Room 2 is locked.");
         pickKey.setResultMessage("There you go!");
-        openDoor.setResultMessage("You enter room 2!");
+        openDoor.setResultMessage("You enter room 2.");
 
         //Rules to open door
         HashMap <Character, RuleExpression> rules = new HashMap<>();

@@ -8,6 +8,9 @@ import java.util.*;
 
 public abstract class GameBuilder {
 
+    public static final String winText = "You won the game!";
+    public static final String logicMessage= "Wrong expressed logicWrong expressed logic";
+
     protected Game game;
     protected int amountOfRooms;
 

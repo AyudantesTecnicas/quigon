@@ -23,7 +23,28 @@ public class GameBehaviourTests {
     public void GameTestFetchQuest(){
         GameCreator aGameCreator = new GameCreator();
         aGameCreator.createGame("FetchQuest");
-        assertEquals(aGameCreator.getGame().receiveCommands("pick stick"),"You picked up a stick!");
+        assertEquals(aGameCreator.getGame().receiveCommands("pick stick"),"You won the game!");
     }
 
+    @Test
+    public void GameTestCursedObject(){
+        GameCreator aGameCreator = new GameCreator();
+        aGameCreator.createGame("CursedObject");
+        assertEquals(aGameCreator.getGame().receiveCommands("pick object"),"Ohoh, you have picked a cursed object =( ");
+        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"There is another room! - Room 1 -");
+        assertEquals(aGameCreator.getGame().receiveCommands("talk to thief"),"The thief have robbed you!!!");
+        assertEquals(aGameCreator.getGame().receiveCommands("open golden_door"),"You won the game!");
+    }
+
+    @Test
+    public void GameTestCursedObjectFail(){
+        GameCreator aGameCreator = new GameCreator();
+        aGameCreator.createGame("CursedObject");
+        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"You need an object");
+        assertEquals(aGameCreator.getGame().receiveCommands("pick object"),"Ohoh, you have picked a cursed object =( ");
+        assertEquals(aGameCreator.getGame().receiveCommands("open door"),"There is another room! - Room 1 -");
+        assertEquals(aGameCreator.getGame().receiveCommands("open golden_door"),"You can't go to the next room");
+        assertEquals(aGameCreator.getGame().receiveCommands("talk to thief"),"The thief have robbed you!!!");
+        assertEquals(aGameCreator.getGame().receiveCommands("open golden_door"),"You won the game!");
+    }
 }

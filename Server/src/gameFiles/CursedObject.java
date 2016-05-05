@@ -2,12 +2,8 @@ package gameFiles;
 
 import GameParser.SupportedAction;
 import Model.actions.*;
-import Model.elements.ComplexElement;
-import Model.elements.Element;
-import Model.rules.DoesNotHaveState;
-import Model.rules.HasContainerRule;
-import Model.rules.IExpression;
-import Model.rules.RuleExpression;
+import Model.elements.*;
+import Model.rules.*;
 import gameCreation.GameBuilder;
 import logicFactory.ProxyLogicBuilder;
 import logicFactory.WrongLogicException;
@@ -27,13 +23,13 @@ public final class CursedObject extends GameBuilder {
         game.character = character;
 
         //Create elements
-        Element room0 = new Element("Room0");
-        Element room1 = new Element("Room1");
-        Element room2 = new Element("Room2");
+        ComplexElement room0 = new ComplexElement("Room0");
+        ComplexElement room1 = new ComplexElement("Room1");
+        ComplexElement room2 = new ComplexElement("Room2");
         ComplexElement door0To1 = new ComplexElement("door");
         ComplexElement door1To2 = new ComplexElement("golden_door");
-        ComplexElement cursedObject = new ComplexElement("elemento");
-        ComplexElement thief = new ComplexElement("ladron");
+        ComplexElement cursedObject = new ComplexElement("object");
+        ComplexElement thief = new ComplexElement("thief");
 
         //Add elements to the game
         elementsList.add(room0);
@@ -59,10 +55,10 @@ public final class CursedObject extends GameBuilder {
         door1To2.addState(openState);
 
         //Create element's action
-        Move goToRoom1 = new Move("abrir");
-        Move goToRoom2 = new Move("abrir");
-        Move talkThief = new Move("hablar");
-        Move pickObject = new Move("tomar");
+        Move goToRoom1 = new Move("open");
+        Move goToRoom2 = new Move("open");
+        Move talkThief = new Move("talk to");
+        Move pickObject = new Move("pick");
 
         //Create action consequences
         Action changeRoom0ForRoom1 = new ChangeContainerAction();
@@ -107,6 +103,11 @@ public final class CursedObject extends GameBuilder {
         characterIsInRoom0.setElementOfElementToValidate(room0);
 
         //Set messages
+        talkThief.setResultMessage("The thief have robbed you!!!");
+        pickObject.setResultMessage("Ohoh, you have picked a cursed object =( ");
+        goToRoom1.setResultMessage("There is another room! - Room 1 -");
+        goToRoom2.setResultMessage("There is another room! - Room 2 -");
+
         victoryRule.setFailMessage("it's a pitty");
         thiefHaveCursedObject.setFailMessage("You can't go to the next room");
         characterHasCursedObject.setFailMessage("You need an object");
@@ -149,10 +150,10 @@ public final class CursedObject extends GameBuilder {
         goToRoom2.addAction(changeRoom1ForRoom2);
         goToRoom2.setRules(thiefHaveCursedObject);
 
-        character.addMove(goToRoom1);
-        character.addMove(goToRoom2);
-        character.addMove(pickObject);
-        character.addMove(talkThief);
+        door0To1.addMove(goToRoom1);
+        door1To2.addMove(goToRoom2);
+        cursedObject.addMove(pickObject);
+        thief.addMove(talkThief);
 
         game.setVictoryCondition(victoryRule);
     }

@@ -26,31 +26,42 @@ public class Game {
         this.gameName = gameName;
     }
 
-    public void reset() {
-        System.out.println(gameName + " reset.");
-    }
-
     private boolean checkVictory(){
         return victoryCondition.interpret();
     }
 
     public String receiveCommands(String command) {
         String sendCommand="";
-        GameAction actionToExecute = parser.parseInstruction(command);
-        sendCommand = actionToExecute.getMessage();
-        if (actionToExecute.isASupportedAction()) {
-            sendCommand = "object not found";
-            for (Element anElement : elementList)  {
-                for (String itemsID : actionToExecute.getItemsID()) {
-                    if(anElement.getName().equals(itemsID)) {
-                        sendCommand = ((ComplexElement)anElement).execute(actionToExecute.getActionID());
+        if (command.equals("look around")) {
+            Element actualRoom = character.getContainerElement();
+            StringBuilder elementsInRoom = new StringBuilder();
+
+            for (Element element : elementList) {
+                ComplexElement complexElement = (ComplexElement)element;
+                if ((complexElement.getContainerElement() != null) && complexElement.getContainerElement().equals(actualRoom)) {
+                    elementsInRoom.append(complexElement.getName() + '\n');
+                }
+            }
+            sendCommand = elementsInRoom.toString();
+
+        } else {
+            GameAction actionToExecute = parser.parseInstruction(command);
+            sendCommand = actionToExecute.getMessage();
+            if (actionToExecute.isASupportedAction()) {
+                sendCommand = "object not found";
+                for (Element anElement : elementList)  {
+                    for (String itemsID : actionToExecute.getItemsID()) {
+                        if(anElement.getName().equals(itemsID)) {
+                            sendCommand = ((ComplexElement)anElement).execute(actionToExecute.getActionID());
+                        }
                     }
                 }
             }
         }
 
-        if (checkVictory())
-            sendCommand = "You won the game!";
+        if (checkVictory()) {
+            sendCommand = GameBuilder.winText;
+        }
         return sendCommand;
     }
 
