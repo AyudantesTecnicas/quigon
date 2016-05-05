@@ -1,15 +1,9 @@
 package Model.elements;
 
-import java.util.Optional;
-
-/**
- * Created by metro on 27/04/16.
- */
 public class Element {
 
     //Attributes
     private String name;
-    int size;
 
     //Methods
     public Element() {
@@ -28,15 +22,17 @@ public class Element {
         return this.name;
     }
 
-    public void setSize(int aSize) {
-        this.size=aSize;
-    }
-
     @Override
     public boolean equals(Object other) {
-        if (other == null) return false;
-        if (other == this) return true;
-        if (!(other instanceof Element))return false;
+        if (other == null) {
+            return false;
+        }
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof Element)) {
+            return false;
+        }
         Element otherElement = (Element)other;
         return (this.name.equals(otherElement.name));
     }
