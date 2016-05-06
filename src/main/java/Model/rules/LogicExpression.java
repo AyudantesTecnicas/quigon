@@ -1,8 +1,5 @@
 package model.rules;
 
-/**
- * Created by metro on 24/04/16.
- */
 public abstract class LogicExpression implements IExpression {
 
     //Attributes

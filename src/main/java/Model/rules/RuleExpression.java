@@ -3,9 +3,6 @@ package model.rules;
 import model.elements.ComplexElement;
 import model.elements.Element;
 
-/**
- * Created by metro on 24/04/16.
- */
 public abstract class RuleExpression implements IExpression {
 
     //Attributes

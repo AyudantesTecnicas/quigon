@@ -1,8 +1,5 @@
 package model.rules;
 
-/**
- * Created by metro on 24/04/16.
- */
 public class XorExpression extends LogicExpression {
 
     //Methods

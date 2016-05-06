@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by metro on 27/04/16.
- */
 public class ComplexElement extends Element {
 
     //Attributes
@@ -29,8 +26,9 @@ public class ComplexElement extends Element {
 
     public void addState(Element state) {
         if (state != null) {
-            if (!this.states.contains(state))
+            if (!this.states.contains(state)) {
                 this.states.add(state);
+            }
         }
     }
 
@@ -72,17 +70,17 @@ public class ComplexElement extends Element {
 
     public String execute(String moveName) {
         Iterator<Move> iterator = this.moves.iterator();
-        Move move = null;
-        String aString="Invalid Action";
-        while(iterator.hasNext()) {
+        Move move;
+        String localString = "Invalid Action";
+        while (iterator.hasNext()) {
             move = iterator.next();
 
             if (move.getName().equals(moveName)) {
                 move.execute();
-                aString= move.getResultMessage();
+                localString = move.getResultMessage();
             }
         }
-        return aString;
+        return localString;
     }
 
 }

@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by metro on 27/04/16.
- */
-public abstract class Action implements IExecutable{
+public abstract class Action implements IExecutable {
 
     //Attributes
     protected List<Element> elementsOfElementToUpdate;
