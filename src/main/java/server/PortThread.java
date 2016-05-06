@@ -35,7 +35,9 @@ public class PortThread extends Thread {
             try {
                 setConnection();
             } catch (IOException e) {
-                System.out.println("Server socket " + serverSocket.getLocalPort() + " with game " + gameCreator.getGame().getName() + " has closed, no client.");
+                System.out.println( "Server socket " + serverSocket.getLocalPort()
+                                    + " with game " + gameCreator.getGame().getName()
+                                    + " has closed, no client." );
             }
 
             listenClient();

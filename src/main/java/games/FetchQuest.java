@@ -1,20 +1,20 @@
 package games;
 
-import parser.SupportedAction;
+import creation.GameBuilder;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.rules.HasContainerRule;
-import creation.GameBuilder;
+import parser.SupportedAction;
 
 public final class FetchQuest extends GameBuilder {
 
-    public static String gameDescription= "Don't take it!";
+    public static String gameDescription = "Don't take it!";
 
     public FetchQuest() {
         gameName = "FetchQuest";
     }
 
-    public void setElements(){
+    public void setElements() {
         ComplexElement character = new ComplexElement();
         game.character = character;
 

@@ -10,7 +10,7 @@ public final class TowerOfHanoi extends GameBuilder {
     }
 
     public void setAmountOfRooms(){
-        amountOfRooms=3;
+        amountOfRooms = 3;
     }
 
     public void setElements(){}

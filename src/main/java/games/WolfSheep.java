@@ -1,37 +1,39 @@
 package games;
 
-import parser.SupportedAction;
-import model.rules.DoesNotHaveContainerRule;
 import creation.GameBuilder;
+import logic.ProxyLogicBuilder;
+import logic.WrongLogicException;
 import model.actions.Action;
 import model.actions.ChangeContainerAction;
 import model.actions.Move;
 import model.elements.ComplexElement;
 import model.elements.Element;
+import model.rules.DoesNotHaveContainerRule;
 import model.rules.HasContainerRule;
 import model.rules.IExpression;
 import model.rules.RuleExpression;
-import logic.ProxyLogicBuilder;
-import logic.WrongLogicException;
+import parser.SupportedAction;
 
 import java.util.HashMap;
 
 public class WolfSheep extends GameBuilder {
 
-    public static String gameDescription= "There is a wolf, a sheep and a cabbage... For what?";
+    public static String gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
+
     public WolfSheep() {
         gameName = "WolfSheep";
 
     }
-    public void setElements(){
+
+    public void setElements() {
         ComplexElement character = new ComplexElement();
-        game.character=character;
+        game.character = character;
 
         //Create elements
-        ComplexElement northshore= new ComplexElement("north-shore");
-        ComplexElement southshore= new ComplexElement("south-shore");
-        ComplexElement sheep= new ComplexElement("sheep");
-        ComplexElement wolf= new ComplexElement("wolf");
+        ComplexElement northshore = new ComplexElement("north-shore");
+        ComplexElement southshore = new ComplexElement("south-shore");
+        ComplexElement sheep = new ComplexElement("sheep");
+        ComplexElement wolf = new ComplexElement("wolf");
         ComplexElement cabbage = new ComplexElement("cabbage");
         ComplexElement boat = new ComplexElement("boat");
 
@@ -233,7 +235,7 @@ public class WolfSheep extends GameBuilder {
             rulesToCrossNorthShore = logicBuilder.parse(rules, logicToNorth);
             crossNorthShore.setRules(rulesToCrossNorthShore);
         } catch (WrongLogicException e) {
-            System.out.print(logicMessage+".\n");
+            System.out.print(logicMessage + ".\n");
         }
 
         //Rule of rules to cross south shore
@@ -244,7 +246,7 @@ public class WolfSheep extends GameBuilder {
             rulesToCrossSouthShore = logicBuilder.parse(rules, logicToSouth);
             crossSouthShore.setRules(rulesToCrossSouthShore);
         } catch (WrongLogicException e) {
-            System.out.print(logicMessage+".\n");
+            System.out.print(logicMessage + ".\n");
         }
 
         //Rule to take
@@ -256,7 +258,7 @@ public class WolfSheep extends GameBuilder {
             takeWolfAboard.setRules(ruleToTake);
             takeCabbageAboard.setRules(ruleToTake);
         } catch (WrongLogicException e) {
-            System.out.print(logicMessage+".\n");
+            System.out.print(logicMessage + ".\n");
         }
 
         //Victory Condition
@@ -265,7 +267,7 @@ public class WolfSheep extends GameBuilder {
         try {
             victoryRule = logicBuilder.parse(rules, victoryLogic);
         } catch (WrongLogicException e) {
-            System.out.print(logicMessage+".\n");
+            System.out.print(logicMessage + ".\n");
         }
         game.setVictoryCondition(victoryRule);
 
@@ -300,10 +302,11 @@ public class WolfSheep extends GameBuilder {
         northshore.addMove(crossNorthShore);
         southshore.addMove(crossSouthShore);
     }
-    public void setActions(){
-        actionsList.add(new SupportedAction(1,"cross"));
-        actionsList.add(new SupportedAction(1,"take"));
-        actionsList.add(new SupportedAction(1,"leave"));
+
+    public void setActions() {
+        actionsList.add(new SupportedAction(1, "cross"));
+        actionsList.add(new SupportedAction(1, "take"));
+        actionsList.add(new SupportedAction(1, "leave"));
     }
 
 }

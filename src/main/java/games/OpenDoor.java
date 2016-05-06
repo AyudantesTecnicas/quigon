@@ -1,31 +1,31 @@
 package games;
 
-import parser.SupportedAction;
+import creation.GameBuilder;
+import logic.ProxyLogicBuilder;
+import logic.WrongLogicException;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
 import model.rules.*;
-import creation.GameBuilder;
-import logic.ProxyLogicBuilder;
-import logic.WrongLogicException;
+import parser.SupportedAction;
 
 import java.util.HashMap;
 
 public final class OpenDoor extends GameBuilder {
 
-    public static String gameDescription= "There is a door on this game. Also, it is locked.";
+    public static String gameDescription = "There is a door on this game. Also, it is locked.";
 
     public OpenDoor() {
         gameName = "OpenDoor";
     }
 
-    public void setElements(){
+    public void setElements() {
         ComplexElement character = new ComplexElement();
-        game.character=character;
+        game.character = character;
 
         //Create elements
-        ComplexElement room1= new ComplexElement("room1");
-        ComplexElement room2= new ComplexElement("room2");
+        ComplexElement room1 = new ComplexElement("room1");
+        ComplexElement room2 = new ComplexElement("room2");
         ComplexElement door = new ComplexElement("door");
         ComplexElement key = new ComplexElement("key");
 

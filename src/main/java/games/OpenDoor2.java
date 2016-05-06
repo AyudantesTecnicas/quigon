@@ -1,6 +1,8 @@
 package games;
 
-import parser.SupportedAction;
+import creation.GameBuilder;
+import logic.ProxyLogicBuilder;
+import logic.WrongLogicException;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
@@ -8,74 +10,73 @@ import model.rules.HasContainerRule;
 import model.rules.HasStateRule;
 import model.rules.IExpression;
 import model.rules.RuleExpression;
-import creation.GameBuilder;
-import logic.ProxyLogicBuilder;
-import logic.WrongLogicException;
+import parser.SupportedAction;
 
 import java.util.HashMap;
 
 public final class OpenDoor2 extends GameBuilder {
 
     public static String gameDescription = "There is a door on this game. But no key around.";
+
     public OpenDoor2() {
         gameName = "OpenDoor2";
     }
 
-    public void setElements(){
+    public void setElements() {
         ComplexElement character = new ComplexElement();
-        game.character=character;
+        game.character = character;
 
         //Create elements
-        ComplexElement Room1= new ComplexElement("room1");
-        ComplexElement Room2= new ComplexElement("room2");
-        ComplexElement door= new ComplexElement("door");
-        ComplexElement Box = new ComplexElement("box");
-        ComplexElement Key= new ComplexElement("key");
+        ComplexElement room1 = new ComplexElement("room1");
+        ComplexElement room2 = new ComplexElement("room2");
+        ComplexElement door = new ComplexElement("door");
+        ComplexElement box = new ComplexElement("box");
+        ComplexElement key = new ComplexElement("key");
 
         //Add elements to Game
-        addElement(Key);
-        addElement(Box);
-        addElement(Room1);
-        addElement(Room2);
+        addElement(key);
+        addElement(box);
+        addElement(room1);
+        addElement(room2);
         addElement(door);
 
         //Set Containers for each element
-        character.setContainerElement(Room1);
-        Box.setContainerElement(Room1);
-        Key.setContainerElement(Box);
-        door.setContainerElement(Room1);
+        character.setContainerElement(room1);
+        box.setContainerElement(room1);
+        key.setContainerElement(box);
+        door.setContainerElement(room1);
 
         //crear Estados
         Element estadoCajaCerrada = new Element("Closed");
         Element estadoPuertaCerrada = new Element("Closed");
-        Element estadoPuertaAbierta= new Element("Open");
-        Element estadoCajaAbierta= new Element("Open");
+        Element estadoPuertaAbierta = new Element("Open");
+        Element estadoCajaAbierta = new Element("Open");
 
         //Setear estados iniciales
-        Box.addState(estadoCajaCerrada);
+        box.addState(estadoCajaCerrada);
         door.addState(estadoPuertaCerrada);
 
         //Crear Moves (son las supported Actions del juego)
-        Move abrirCaja= new Move("open");
-        Move pickKey= new Move("pick");
-        Move abrirPuerta= new Move("open");
+        Move abrirCaja = new Move("open");
+        Move pickKey = new Move("pick");
+        Move abrirPuerta = new Move("open");
 
         //Crear reglas para movimientos
-        HasContainerRule victoryRule= new HasContainerRule();
-        HasStateRule reglaCajaCerrada= new HasStateRule();
+        HasContainerRule victoryRule = new HasContainerRule();
+        HasStateRule reglaCajaCerrada = new HasStateRule();
         HasContainerRule reglaSiContiene = new HasContainerRule();
-        HasStateRule reglaPuertaCerrada= new HasStateRule();
+        HasStateRule reglaPuertaCerrada = new HasStateRule();
         HasContainerRule reglaPuertaLlaveEnPosesion = new HasContainerRule();
 
         //Setear elementos a las reglas
-        reglaCajaCerrada.setElementToValidate(Box);
+        reglaCajaCerrada.setElementToValidate(box);
         reglaCajaCerrada.setElementOfElementToValidate(estadoCajaCerrada);
-        reglaSiContiene.setElementToValidate(Key);
-        reglaPuertaLlaveEnPosesion.setElementToValidate(Key);
+        reglaSiContiene.setElementToValidate(key);
+        reglaPuertaLlaveEnPosesion.setElementToValidate(key);
         reglaPuertaLlaveEnPosesion.setElementOfElementToValidate(character);
         victoryRule.setElementToValidate(character);
-        reglaSiContiene.setElementOfElementToValidate(Room1);
-        victoryRule.setElementOfElementToValidate(Room2);
+        reglaSiContiene.setElementOfElementToValidate(room1);
+        victoryRule.setElementOfElementToValidate(room2);
         reglaPuertaCerrada.setElementOfElementToValidate(estadoPuertaCerrada);
         reglaPuertaCerrada.setElementToValidate(door);
 
@@ -92,26 +93,26 @@ public final class OpenDoor2 extends GameBuilder {
         abrirPuerta.setRules(reglaPuertaCerrada);
 
         //Crear acciones
-        Action accionAgregarEstadoAbiertaACaja= new AddStatesAction();
-        Action accionRemoverEstadoCerradoACaja= new RemoveStatesAction();
-        Action accionAgregarLLaveARoom1= new ChangeContainerAction();
-        Action accionAgregarLLaveAJugador= new ChangeContainerAction();
-        Action accionAgregarEstadoAbiertaAPuerta= new AddStatesAction();
-        Action accionRemoverEstadoCerradoAPuerta= new RemoveStatesAction();
-        Action accionMoverAlJugadoALaOtraHabitacion= new ChangeContainerAction();
+        Action accionAgregarEstadoAbiertaACaja = new AddStatesAction();
+        Action accionRemoverEstadoCerradoACaja = new RemoveStatesAction();
+        Action accionAgregarLLaveARoom1 = new ChangeContainerAction();
+        Action accionAgregarLLaveAJugador = new ChangeContainerAction();
+        Action accionAgregarEstadoAbiertaAPuerta = new AddStatesAction();
+        Action accionRemoverEstadoCerradoAPuerta = new RemoveStatesAction();
+        Action accionMoverAlJugadoALaOtraHabitacion = new ChangeContainerAction();
 
         //Agregar elementos y estados a las acciones
         accionAgregarEstadoAbiertaACaja.addItemToUpdate(estadoCajaAbierta);
-        accionAgregarEstadoAbiertaACaja.setElementToUpdate(Box);
+        accionAgregarEstadoAbiertaACaja.setElementToUpdate(box);
 
         accionRemoverEstadoCerradoACaja.addItemToUpdate(estadoCajaCerrada);
-        accionRemoverEstadoCerradoACaja.setElementToUpdate(Box);
+        accionRemoverEstadoCerradoACaja.setElementToUpdate(box);
 
-        accionAgregarLLaveARoom1.addItemToUpdate(Room1);
-        accionAgregarLLaveARoom1.setElementToUpdate(Key);
+        accionAgregarLLaveARoom1.addItemToUpdate(room1);
+        accionAgregarLLaveARoom1.setElementToUpdate(key);
 
         accionAgregarLLaveAJugador.addItemToUpdate(character);
-        accionAgregarLLaveAJugador.setElementToUpdate(Key);
+        accionAgregarLLaveAJugador.setElementToUpdate(key);
 
         accionAgregarEstadoAbiertaAPuerta.addItemToUpdate(estadoPuertaAbierta);
         accionAgregarEstadoAbiertaAPuerta.setElementToUpdate(door);
@@ -119,7 +120,7 @@ public final class OpenDoor2 extends GameBuilder {
         accionRemoverEstadoCerradoAPuerta.addItemToUpdate(estadoPuertaCerrada);
         accionRemoverEstadoCerradoAPuerta.setElementToUpdate(door);
 
-        accionMoverAlJugadoALaOtraHabitacion.addItemToUpdate(Room2);
+        accionMoverAlJugadoALaOtraHabitacion.addItemToUpdate(room2);
         accionMoverAlJugadoALaOtraHabitacion.setElementToUpdate(character);
 
         //Inyectar Acciones a Moves
@@ -133,7 +134,7 @@ public final class OpenDoor2 extends GameBuilder {
 
 
         //Regla para abrir la puerta.
-        HashMap <Character, RuleExpression> rules = new HashMap<>();
+        HashMap<Character, RuleExpression> rules = new HashMap<>();
         rules.put('a', reglaPuertaCerrada);
         rules.put('b', reglaPuertaLlaveEnPosesion);
         String logic = "(a)&(b)";
@@ -148,16 +149,16 @@ public final class OpenDoor2 extends GameBuilder {
         }
 
         //Inyectar Moves a Elements
-        Key.addMove(pickKey);
+        key.addMove(pickKey);
         door.addMove(abrirPuerta);
-        Box.addMove(abrirCaja);
+        box.addMove(abrirCaja);
 
         game.setVictoryCondition(victoryRule);
     }
 
-    public void setActions(){
-        actionsList.add(new SupportedAction(1,"open"));
-        actionsList.add(new SupportedAction(1,"pick"));
+    public void setActions() {
+        actionsList.add(new SupportedAction(1, "open"));
+        actionsList.add(new SupportedAction(1, "pick"));
     }
 
 }

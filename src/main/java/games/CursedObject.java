@@ -1,18 +1,18 @@
 package games;
 
-import parser.SupportedAction;
-import model.actions.*;
-import model.elements.*;
-import model.rules.*;
 import creation.GameBuilder;
 import logic.ProxyLogicBuilder;
 import logic.WrongLogicException;
+import model.actions.*;
+import model.elements.*;
+import model.rules.*;
+import parser.SupportedAction;
 
 import java.util.HashMap;
 
 public final class CursedObject extends GameBuilder {
 
-    public static String gameDescription= "There is a cursed object on this game. And the thief...";
+    public static String gameDescription = "There is a cursed object on this game. And the thief...";
 
     public CursedObject() {
         gameName = "CursedObject";
@@ -117,7 +117,7 @@ public final class CursedObject extends GameBuilder {
 
         //Set actions and rules
         ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
-        HashMap <Character, RuleExpression> rules = new HashMap<>();
+        HashMap<Character, RuleExpression> rules = new HashMap<>();
         String logic = "(a)&(b)";
 
         /* Pick curser object */
@@ -157,6 +157,7 @@ public final class CursedObject extends GameBuilder {
 
         game.setVictoryCondition(victoryRule);
     }
+
     public void setActions() {
         actionsList.add(new SupportedAction(1,"pick"));
         actionsList.add(new SupportedAction(1,"open"));
