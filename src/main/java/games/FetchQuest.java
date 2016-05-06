@@ -69,7 +69,7 @@ public final class FetchQuest extends GameBuilder {
         game.setVictoryCondition(victoryCondition);
     }
 
-    public void setActions(){
+    public void setActions() {
         actionsList.add(new SupportedAction(1,"pick"));
     }
 

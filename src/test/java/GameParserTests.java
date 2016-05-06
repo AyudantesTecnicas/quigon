@@ -12,17 +12,17 @@ public class GameParserTests {
     @Test
     public void testParseASupportedActionAndCheckIfItsCorrectActionID() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         GameParser aGameParser = new GameParser(supportedActions);
         GameAction aGameAction = aGameParser.parseInstruction("abrir puerta");
-        assertTrue(aGameAction.getActionID() == "abrir" && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+        assertTrue(aGameAction.getActionID().equals("abrir") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
     }
 
     @Test
     public void testParseInstructionWithUpperCaseAction() {
         SupportedAction aSupportedAction = new SupportedAction(1, "ABRIR");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         GameParser aGameParser = new GameParser(supportedActions);
         GameAction aGameAction = aGameParser.parseInstruction("abrir puerta");
@@ -32,7 +32,7 @@ public class GameParserTests {
     @Test
     public void testParseInstructionWithUpperCaseMessage() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         GameParser aGameParser = new GameParser(supportedActions);
         GameAction aGameAction = aGameParser.parseInstruction("ABRIR puerta");
@@ -42,7 +42,7 @@ public class GameParserTests {
     @Test
     public void testParseASupportedActionButNotCorrectNumberOfItems() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         GameParser aGameParser = new GameParser(supportedActions);
         GameAction aGameAction = aGameParser.parseInstruction("abrir puerta caja");
@@ -52,17 +52,17 @@ public class GameParserTests {
     @Test
     public void testSupportAnActionIDWithMoreThanOneWord() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir fuerte");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         GameParser aGameParser = new GameParser(supportedActions);
         GameAction aGameAction = aGameParser.parseInstruction("abrir fuerte puerta");
-        assertTrue(aGameAction.getActionID() == "abrir fuerte" && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+        assertTrue(aGameAction.getActionID().equals("abrir fuerte") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
     }
 
     @Test
     public void testParseASupportedActionAndCheckCorrectsItemsID() {
         SupportedAction aSupportedAction = new SupportedAction(3, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         GameParser aGameParser = new GameParser(supportedActions);
 
@@ -78,7 +78,7 @@ public class GameParserTests {
     @Test
     public void testParseASupportedActionWithNoItemsAffected() {
         SupportedAction aSupportedAction = new SupportedAction(0, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         GameParser aGameParser = new GameParser(supportedActions);
 
@@ -91,7 +91,7 @@ public class GameParserTests {
     @Test
     public void testTwoActionsWithSameIDButDifferentExpectedItems() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         aSupportedAction = new SupportedAction(2, "abrir");
         supportedActions.add(aSupportedAction);
@@ -108,7 +108,7 @@ public class GameParserTests {
     @Test
     public void testTwoActionsWithSameIDButDifferentExpectedItemsAndInstructionWithThreeItems() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         aSupportedAction = new SupportedAction(2, "abrir");
         supportedActions.add(aSupportedAction);
@@ -125,7 +125,7 @@ public class GameParserTests {
     @Test
     public void testThreeSupportedActionButClientActionIsNotSupported() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         aSupportedAction = new SupportedAction(2, "cerrar");
         supportedActions.add(aSupportedAction);
@@ -141,7 +141,7 @@ public class GameParserTests {
     @Test
     public void testThreeSupportedActionAndClientActionIsSupported() {
         SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
-        ArrayList<SupportedAction> supportedActions = new ArrayList<SupportedAction>();
+        ArrayList<SupportedAction> supportedActions = new ArrayList<>();
         supportedActions.add(aSupportedAction);
         aSupportedAction = new SupportedAction(2, "cerrar");
         supportedActions.add(aSupportedAction);

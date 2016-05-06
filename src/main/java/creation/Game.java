@@ -28,7 +28,7 @@ public class Game {
     }
 
     public String receiveCommands(String command) {
-        String sendCommand = "";
+        String sendCommand;
         if (command.equals("look around")) {
             Element actualRoom = character.getContainerElement();
             StringBuilder elementsInRoom = new StringBuilder();
@@ -36,7 +36,8 @@ public class Game {
             for (Element element : elementList) {
                 ComplexElement complexElement = (ComplexElement) element;
                 if ((complexElement.getContainerElement() != null) && complexElement.getContainerElement().equals(actualRoom)) {
-                    elementsInRoom.append(complexElement.getName() + '\n');
+                    elementsInRoom.append(complexElement.getName());
+                    elementsInRoom.append('\n');
                 }
             }
             sendCommand = elementsInRoom.toString();

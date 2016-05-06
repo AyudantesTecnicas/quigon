@@ -74,7 +74,7 @@ public final class OpenDoor extends GameBuilder {
         openDoor.setResultMessage("You enter room 2.");
 
         //Rules to open door
-        HashMap <Character, RuleExpression> rules = new HashMap<>();
+        HashMap<Character, RuleExpression> rules = new HashMap<>();
         rules.put('a', doorIsClosed);
         rules.put('b', characterHasKey);
         String logic = "(a)&(b)";
@@ -124,8 +124,8 @@ public final class OpenDoor extends GameBuilder {
     }
 
     public void setActions() {
-        actionsList.add(new SupportedAction(1,"pick"));
-        actionsList.add(new SupportedAction(1,"open"));
+        actionsList.add(new SupportedAction(1, "pick"));
+        actionsList.add(new SupportedAction(1, "open"));
     }
 
 }

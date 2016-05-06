@@ -2,23 +2,20 @@ package parser;
 
 import java.util.ArrayList;
 
-/**
- * Created by nicolas on 24/04/16.
- */
 public class GameAction {
     private Boolean supportedAction;
     private String actionID;
     private ArrayList<String> itemsID;
     private String message;
 
-    public GameAction (String actionID , ArrayList<String> itemsID) {
+    public GameAction(String actionID, ArrayList<String> itemsID) {
         this.actionID = actionID;
         this.itemsID = itemsID;
         this.supportedAction = true;
         this.message = "Correct Action"; // This could be changed
     }
 
-    public GameAction(String message){
+    public GameAction(String message) {
         this.message = message;
         this.supportedAction = false;
         this.actionID = "";

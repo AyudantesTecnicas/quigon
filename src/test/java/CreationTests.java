@@ -2,10 +2,8 @@ import creation.GameCreator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-public class CreationalTests {
+public class CreationTests {
 
     @Test
     public void getNameCorrect(){

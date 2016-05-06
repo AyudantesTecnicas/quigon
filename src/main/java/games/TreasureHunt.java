@@ -11,6 +11,9 @@ public class TreasureHunt extends GameBuilder {
 
     }
 
-    public void setElements(){}
-    public void setActions(){}
+    public void setElements() {
+    }
+
+    public void setActions() {
+    }
 }

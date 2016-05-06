@@ -36,11 +36,11 @@ public abstract class GameBuilder {
     }
 
     public void createActionsList() {
-        actionsList = new ArrayList<SupportedAction>();
+        actionsList = new ArrayList<>();
     }
 
     protected void createElementList() {
-        elementsList = new ArrayList<Element>();
+        elementsList = new ArrayList<>();
     }
 
     protected void createParser() {
