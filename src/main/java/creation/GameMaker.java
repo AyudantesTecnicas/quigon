@@ -3,8 +3,13 @@ package creation;
 class GameMaker {
     private GameBuilder gameBuilder;
 
-    void setGameBuilder(GameBuilder aGameBuilder) { gameBuilder = aGameBuilder; }
-    public Game getGame() { return gameBuilder.getGame(); }
+    void setGameBuilder(GameBuilder gameBuilder) {
+        this.gameBuilder = gameBuilder;
+    }
+
+    public Game getGame() {
+        return gameBuilder.getGame();
+    }
 
     public void buildGame() {
         gameBuilder.createNewGame();
