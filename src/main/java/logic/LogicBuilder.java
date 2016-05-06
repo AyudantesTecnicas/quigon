@@ -5,29 +5,27 @@ import model.rules.RuleExpression;
 
 import java.util.HashMap;
 
-/**
- * Created by francisco on 4/26/16.
- */
+
 public class LogicBuilder extends AbstractLogicBuilder {
 
-    public LogicBuilder(){
+    public LogicBuilder() {
         super();
     }
 
     public IExpression parse(HashMap<Character, RuleExpression> rules, String logic)
-            throws  WrongLogicException{
+            throws WrongLogicException {
         boolean interpreted;
         LogicFactory logicFactory;
-        pManager.reset();
-        for (int readingPosition = 0; readingPosition < logic.length(); readingPosition++){
+        logicParseManager.reset();
+        for (int readingPosition = 0; readingPosition < logic.length(); readingPosition++) {
             interpreted = false;
-            for (LogicInterpreter handler : parseHandlers){
+            for (LogicInterpreter handler : parseHandlers) {
                 interpreted |= handler.interpret(logic.charAt(readingPosition));
             }
-            if (readingPosition == 0 && !interpreted){
+            if (readingPosition == 0 && !interpreted) {
                 return rules.get(logic.charAt(readingPosition));
             }
-            if ((logicFactory = pManager.getFactoryForFoundSymbol()) != null){
+            if ((logicFactory = logicParseManager.getFactoryForFoundSymbol()) != null) {
                 int beginningString1 = 1;
                 int endString1 = readingPosition - 1;
                 int beginningString2 = readingPosition + 2;

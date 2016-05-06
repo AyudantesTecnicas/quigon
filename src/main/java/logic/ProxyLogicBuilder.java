@@ -5,35 +5,32 @@ import model.rules.RuleExpression;
 
 import java.util.HashMap;
 
-/**
- * Created by francisco on 4/27/16.
- */
 public class ProxyLogicBuilder extends AbstractLogicBuilder {
 
-    public ProxyLogicBuilder(){
+    public ProxyLogicBuilder() {
         super();
     }
 
     @Override
     public IExpression parse(HashMap<Character, RuleExpression> rules, String logic)
-            throws WrongLogicException{
+            throws WrongLogicException {
 
         LogicBuilder builder = new LogicBuilder();
 
         int firstChar = 0;
 
         boolean interpreted;
-        pManager.reset();
-        for (int readingPosition = 0; readingPosition < logic.length(); readingPosition++){
+        logicParseManager.reset();
+        for (int readingPosition = 0; readingPosition < logic.length(); readingPosition++) {
             interpreted = false;
-            for (LogicInterpreter handler : parseHandlers){
+            for (LogicInterpreter handler : parseHandlers) {
                 interpreted |= handler.interpret(logic.charAt(readingPosition));
             }
             if (readingPosition == firstChar && checkFirstChar(rules, logic, interpreted)) {
-                    return builder.parse(rules, logic);
+                return builder.parse(rules, logic);
             }
         }
-        if ((pManager.getFactoryForFoundSymbol() != null && pManager.openedParenthesis() == 0)){
+        if ((logicParseManager.getFactoryForFoundSymbol() != null && logicParseManager.openedParenthesis() == 0)) {
             return builder.parse(rules, logic);
         }
         throw new WrongLogicException();
@@ -41,15 +38,14 @@ public class ProxyLogicBuilder extends AbstractLogicBuilder {
 
     private boolean checkFirstChar(HashMap<Character, RuleExpression> rules, String logic,
                                    boolean isSpecialChar)
-            throws WrongLogicException{
-        boolean isParenthesis = (pManager.openedParenthesis() == 1);
+            throws WrongLogicException {
+        boolean isParenthesis = (logicParseManager.openedParenthesis() == 1);
         boolean isLastChar = (logic.length() == 1);
         boolean existsRule = rules.containsKey(logic.charAt(0));
 
-        if((isSpecialChar || !isLastChar || !existsRule) && !isParenthesis){
+        if ((isSpecialChar || !isLastChar || !existsRule) && !isParenthesis) {
             throw new WrongLogicException();
-        }
-        else if (!isSpecialChar){
+        } else if (!isSpecialChar) {
             return true;
         }
         return false;
