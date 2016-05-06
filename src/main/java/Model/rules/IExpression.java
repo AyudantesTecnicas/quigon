@@ -1,4 +1,4 @@
-package Model.rules;
+package model.rules;
 
 /**
  * Created by metro on 24/04/16.

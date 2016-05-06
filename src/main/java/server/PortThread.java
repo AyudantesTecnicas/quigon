@@ -1,8 +1,7 @@
 package server;
 
-import gameCreation.Game;
-import gameCreation.GameBuilder;
-import gameCreation.GameCreator;
+import creation.GameBuilder;
+import creation.GameCreator;
 
 import java.io.*;
 import java.net.ServerSocket;

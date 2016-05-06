@@ -1,16 +1,13 @@
 import org.junit.Test;
-import GameParser.GameAction;
-import GameParser.GameParser;
-import GameParser.SupportedAction;
+import parser.GameAction;
+import parser.GameParser;
+import parser.SupportedAction;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-/**
- * Created by nicolas on 26/04/16.
- */
 public class GameParserTests {
     @Test
     public void testParseASupportedActionAndCheckIfItsCorrectActionID() {

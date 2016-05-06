@@ -1,12 +1,9 @@
 import org.junit.Test;
-import GameParser.SupportedAction;
+import parser.SupportedAction;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-/**
- * Created by nicolas on 26/04/16.
- */
 public class SupportedActionTest {
     @Test
     public void testReceiveActionLongerThanActionID(){

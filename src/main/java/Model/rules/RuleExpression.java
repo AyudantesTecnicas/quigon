@@ -1,8 +1,7 @@
-package Model.rules;
+package model.rules;
 
-import Model.elements.ComplexElement;
-import Model.elements.Element;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import model.elements.ComplexElement;
+import model.elements.Element;
 
 /**
  * Created by metro on 24/04/16.

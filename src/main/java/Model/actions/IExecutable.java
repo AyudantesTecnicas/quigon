@@ -1,4 +1,4 @@
-package Model.actions;
+package model.actions;
 
 /**
  * Created by metro on 27/04/16.

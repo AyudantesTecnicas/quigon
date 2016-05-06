@@ -1,7 +1,7 @@
-package Model.actions;
+package model.actions;
 
-import Model.elements.ComplexElement;
-import Model.elements.Element;
+import model.elements.ComplexElement;
+import model.elements.Element;
 
 import java.util.ArrayList;
 import java.util.Iterator;

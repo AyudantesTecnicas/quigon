@@ -1,4 +1,4 @@
-package Model.elements;
+package model.elements;
 
 /**
  * Created by metro on 27/04/16.

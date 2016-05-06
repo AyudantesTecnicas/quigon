@@ -1,6 +1,4 @@
-package Model.rules;
-
-import Model.rules.IExpression;
+package model.rules;
 
 /**
  * Created by metro on 24/04/16.

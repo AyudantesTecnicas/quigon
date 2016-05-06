@@ -1,6 +1,6 @@
-package Model.actions;
+package model.actions;
 
-import Model.elements.Element;
+import model.elements.Element;
 
 /**
  * Created by metro on 27/04/16.

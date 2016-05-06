@@ -1,6 +1,6 @@
 package server;
 
-import gameFiles.*;
+import games.*;
 
 public class Helper {
     public static String getHelp(String gameName) {

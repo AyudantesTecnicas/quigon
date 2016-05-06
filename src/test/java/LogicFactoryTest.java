@@ -1,18 +1,15 @@
-import Model.elements.ComplexElement;
-import Model.elements.Element;
-import Model.rules.HasStateRule;
-import Model.rules.IExpression;
-import Model.rules.RuleExpression;
-import logicFactory.ProxyLogicBuilder;
-import logicFactory.WrongLogicException;
+import model.elements.ComplexElement;
+import model.elements.Element;
+import model.rules.HasStateRule;
+import model.rules.IExpression;
+import model.rules.RuleExpression;
+import logic.ProxyLogicBuilder;
+import logic.WrongLogicException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 
-/**
- * Created by francisco on 4/28/16.
- */
 public class LogicFactoryTest {
 
     private Element state1;

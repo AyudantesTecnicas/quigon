@@ -1,7 +1,6 @@
 package server;
 
-import gameCreation.Game;
-import gameCreation.GameCreator;
+import creation.GameCreator;
 
 import java.io.*;
 import java.security.InvalidParameterException;

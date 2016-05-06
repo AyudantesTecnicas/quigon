@@ -1,4 +1,4 @@
-import gameCreation.GameCreator;
+import creation.GameCreator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

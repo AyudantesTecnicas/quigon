@@ -1,4 +1,4 @@
-package Model.rules;
+package model.rules;
 
 public class DoesNotHaveContainerRule extends RuleExpression {
 

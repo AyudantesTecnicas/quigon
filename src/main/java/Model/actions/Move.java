@@ -1,7 +1,7 @@
-package Model.actions;
+package model.actions;
 
-import Model.elements.Element;
-import Model.rules.IExpression;
+import model.elements.Element;
+import model.rules.IExpression;
 
 import java.util.ArrayList;
 import java.util.Iterator;

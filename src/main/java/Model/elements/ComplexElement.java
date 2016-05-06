@@ -1,6 +1,6 @@
-package Model.elements;
+package model.elements;
 
-import Model.actions.Move;
+import model.actions.Move;
 
 import java.util.ArrayList;
 import java.util.Iterator;
