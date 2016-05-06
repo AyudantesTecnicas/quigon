@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 public class CreationTests {
 
     @Test
-    public void getNameCorrect(){
+    public void getNameCorrect() {
         GameCreator gameCreator = new GameCreator();
         gameCreator.createGame("OpenDoor");
         assertEquals(gameCreator.getGame().getName(), "OpenDoor");

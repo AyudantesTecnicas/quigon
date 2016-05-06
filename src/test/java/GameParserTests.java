@@ -11,63 +11,63 @@ import static org.junit.Assert.assertFalse;
 public class GameParserTests {
     @Test
     public void testParseASupportedActionAndCheckIfItsCorrectActionID() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
-        GameAction aGameAction = aGameParser.parseInstruction("abrir puerta");
-        assertTrue(aGameAction.getActionID().equals("abrir") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
+        GameAction gameAction = gameParser.parseInstruction("abrir puerta");
+        assertTrue(gameAction.getActionID().equals("abrir") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test
     public void testParseInstructionWithUpperCaseAction() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "ABRIR");
+        SupportedAction supportedAction = new SupportedAction(1, "ABRIR");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
-        GameAction aGameAction = aGameParser.parseInstruction("abrir puerta");
-        assertTrue(aGameAction.getActionID().equals("abrir") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
+        GameAction gameAction = gameParser.parseInstruction("abrir puerta");
+        assertTrue(gameAction.getActionID().equals("abrir") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test
     public void testParseInstructionWithUpperCaseMessage() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
-        GameAction aGameAction = aGameParser.parseInstruction("ABRIR puerta");
-        assertTrue(aGameAction.getActionID().equals("abrir") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
+        GameAction gameAction = gameParser.parseInstruction("ABRIR puerta");
+        assertTrue(gameAction.getActionID().equals("abrir") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test
     public void testParseASupportedActionButNotCorrectNumberOfItems() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
-        GameAction aGameAction = aGameParser.parseInstruction("abrir puerta caja");
-        assertFalse(aGameAction.isASupportedAction());
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
+        GameAction gameAction = gameParser.parseInstruction("abrir puerta caja");
+        assertFalse(gameAction.isASupportedAction());
     }
 
     @Test
     public void testSupportAnActionIDWithMoreThanOneWord() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir fuerte");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir fuerte");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
-        GameAction aGameAction = aGameParser.parseInstruction("abrir fuerte puerta");
-        assertTrue(aGameAction.getActionID().equals("abrir fuerte") && aGameAction.getItemsID().size() == aSupportedAction.getNumberOfItemsAffected());
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
+        GameAction gameAction = gameParser.parseInstruction("abrir fuerte puerta");
+        assertTrue(gameAction.getActionID().equals("abrir fuerte") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test
     public void testParseASupportedActionAndCheckCorrectsItemsID() {
-        SupportedAction aSupportedAction = new SupportedAction(3, "abrir");
+        SupportedAction supportedAction = new SupportedAction(3, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
 
-        GameAction aGameAction = aGameParser.parseInstruction("abrir puerta caja cofre");
-        ArrayList<String> itemsIDFromAction = aGameAction.getItemsID();
+        GameAction gameAction = gameParser.parseInstruction("abrir puerta caja cofre");
+        ArrayList<String> itemsIDFromAction = gameAction.getItemsID();
         String firstItem = itemsIDFromAction.get(0);
         String secondItem = itemsIDFromAction.get(1);
         String thirdItem = itemsIDFromAction.get(2);
@@ -77,96 +77,96 @@ public class GameParserTests {
 
     @Test
     public void testParseASupportedActionWithNoItemsAffected() {
-        SupportedAction aSupportedAction = new SupportedAction(0, "abrir");
+        SupportedAction supportedAction = new SupportedAction(0, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
 
-        GameAction aGameAction = aGameParser.parseInstruction("abrir");
-        ArrayList<String> itemsIDFromAction = aGameAction.getItemsID();
+        GameAction gameAction = gameParser.parseInstruction("abrir");
+        ArrayList<String> itemsIDFromAction = gameAction.getItemsID();
 
-        assertTrue(aGameAction.isASupportedAction() && itemsIDFromAction.size() == 0);
+        assertTrue(gameAction.isASupportedAction() && itemsIDFromAction.size() == 0);
     }
 
     @Test
     public void testTwoActionsWithSameIDButDifferentExpectedItems() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(2, "abrir");
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(3, "abrir");
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(2, "abrir");
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(3, "abrir");
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
 
-        GameAction aGameAction = aGameParser.parseInstruction("abrir caja");
-        ArrayList<String> itemsIDFromAction = aGameAction.getItemsID();
+        GameAction gameAction = gameParser.parseInstruction("abrir caja");
+        ArrayList<String> itemsIDFromAction = gameAction.getItemsID();
 
-        assertTrue(aGameAction.isASupportedAction() && itemsIDFromAction.size() == 1);
+        assertTrue(gameAction.isASupportedAction() && itemsIDFromAction.size() == 1);
     }
 
     @Test
     public void testTwoActionsWithSameIDButDifferentExpectedItemsAndInstructionWithThreeItems() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(2, "abrir");
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(3, "abrir");
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(2, "abrir");
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(3, "abrir");
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
 
-        GameAction aGameAction = aGameParser.parseInstruction("abrir caja puerta gato");
-        ArrayList<String> itemsIDFromAction = aGameAction.getItemsID();
+        GameAction gameAction = gameParser.parseInstruction("abrir caja puerta gato");
+        ArrayList<String> itemsIDFromAction = gameAction.getItemsID();
 
-        assertTrue(aGameAction.isASupportedAction() && itemsIDFromAction.size() == 3);
+        assertTrue(gameAction.isASupportedAction() && itemsIDFromAction.size() == 3);
     }
 
     @Test
     public void testThreeSupportedActionButClientActionIsNotSupported() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(2, "cerrar");
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(3, "romper");
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(2, "cerrar");
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(3, "romper");
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
 
-        GameAction aGameAction = aGameParser.parseInstruction("mirar");
+        GameAction gameAction = gameParser.parseInstruction("mirar");
 
-        assertFalse(aGameAction.isASupportedAction());
+        assertFalse(gameAction.isASupportedAction());
     }
 
     @Test
     public void testThreeSupportedActionAndClientActionIsSupported() {
-        SupportedAction aSupportedAction = new SupportedAction(1, "abrir");
+        SupportedAction supportedAction = new SupportedAction(1, "abrir");
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(2, "cerrar");
-        supportedActions.add(aSupportedAction);
-        aSupportedAction = new SupportedAction(3, "romper");
-        supportedActions.add(aSupportedAction);
-        GameParser aGameParser = new GameParser(supportedActions);
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(2, "cerrar");
+        supportedActions.add(supportedAction);
+        supportedAction = new SupportedAction(3, "romper");
+        supportedActions.add(supportedAction);
+        GameParser gameParser = new GameParser(supportedActions);
 
-        GameAction aGameAction = aGameParser.parseInstruction("cerrar puerta cofre");
-        ArrayList<String> itemsIDFromAction = aGameAction.getItemsID();
+        GameAction gameAction = gameParser.parseInstruction("cerrar puerta cofre");
+        ArrayList<String> itemsIDFromAction = gameAction.getItemsID();
 
-        assertTrue(aGameAction.isASupportedAction() && itemsIDFromAction.size() == 2 && aGameAction.getActionID().equals("cerrar"));
+        assertTrue(gameAction.isASupportedAction() && itemsIDFromAction.size() == 2 && gameAction.getActionID().equals("cerrar"));
     }
 
     @Test
     public void testAddASupportedActionAndParserAsCorrect() {
         ArrayList<SupportedAction> supportedActions = new ArrayList<>();
-        GameParser aGameParser = new GameParser(supportedActions);
+        GameParser gameParser = new GameParser(supportedActions);
 
-        GameAction aGameAction = aGameParser.parseInstruction("cerrar puerta cofre");
-        assertFalse(aGameAction.isASupportedAction());
+        GameAction gameAction = gameParser.parseInstruction("cerrar puerta cofre");
+        assertFalse(gameAction.isASupportedAction());
 
-        SupportedAction aSupportedAction = new SupportedAction(2, "cerrar");
-        aGameParser.addSupportedAction(aSupportedAction);
+        SupportedAction supportedAction = new SupportedAction(2, "cerrar");
+        gameParser.addSupportedAction(supportedAction);
 
-        aGameAction = aGameParser.parseInstruction("cerrar puerta cofre");
-        assertTrue(aGameAction.isASupportedAction());
+        gameAction = gameParser.parseInstruction("cerrar puerta cofre");
+        assertTrue(gameAction.isASupportedAction());
     }
 }
