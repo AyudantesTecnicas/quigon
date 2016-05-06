@@ -14,8 +14,8 @@ public abstract class GameBuilder {
     protected Game game;
     protected int amountOfRooms;
 
-    protected static String gameName;
-    protected static String gameDescription;
+    protected String gameName;
+    protected String gameDescription;
     protected ArrayList<SupportedAction> actionsList;
     protected List<Element> elementsList;
 
