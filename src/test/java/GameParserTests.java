@@ -5,8 +5,8 @@ import parser.SupportedAction;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class GameParserTests {
     @Test
@@ -16,7 +16,8 @@ public class GameParserTests {
         supportedActions.add(supportedAction);
         GameParser gameParser = new GameParser(supportedActions);
         GameAction gameAction = gameParser.parseInstruction("abrir puerta");
-        assertTrue(gameAction.getActionID().equals("abrir") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
+        assertTrue( gameAction.getActionID().equals("abrir")
+                    && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test
@@ -26,7 +27,8 @@ public class GameParserTests {
         supportedActions.add(supportedAction);
         GameParser gameParser = new GameParser(supportedActions);
         GameAction gameAction = gameParser.parseInstruction("abrir puerta");
-        assertTrue(gameAction.getActionID().equals("abrir") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
+        assertTrue( gameAction.getActionID().equals("abrir")
+                    && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test
@@ -36,7 +38,8 @@ public class GameParserTests {
         supportedActions.add(supportedAction);
         GameParser gameParser = new GameParser(supportedActions);
         GameAction gameAction = gameParser.parseInstruction("ABRIR puerta");
-        assertTrue(gameAction.getActionID().equals("abrir") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
+        assertTrue( gameAction.getActionID().equals("abrir")
+                    && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test
@@ -56,7 +59,8 @@ public class GameParserTests {
         supportedActions.add(supportedAction);
         GameParser gameParser = new GameParser(supportedActions);
         GameAction gameAction = gameParser.parseInstruction("abrir fuerte puerta");
-        assertTrue(gameAction.getActionID().equals("abrir fuerte") && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
+        assertTrue( gameAction.getActionID().equals("abrir fuerte")
+                    && gameAction.getItemsID().size() == supportedAction.getNumberOfItemsAffected());
     }
 
     @Test

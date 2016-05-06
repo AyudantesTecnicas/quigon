@@ -16,7 +16,9 @@ public class OrExpression extends LogicExpression {
     public String getFailMessage() {
         String failMessage = this.leftExpression.getFailMessage();
 
-        if (failMessage.isEmpty()) return this.rightExpression.getFailMessage();
+        if (failMessage.isEmpty()) {
+            return this.rightExpression.getFailMessage();
+        }
         return failMessage;
     }
 

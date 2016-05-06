@@ -17,9 +17,12 @@ public class AndExpression extends LogicExpression {
         String failMessageLeft = this.leftExpression.getFailMessage();
         String failMessageRight = this.rightExpression.getFailMessage();
 
-        if (!failMessageRight.isEmpty() && !failMessageLeft.isEmpty())
+        if (!failMessageRight.isEmpty() && !failMessageLeft.isEmpty()) {
             return (failMessageLeft + ", " + failMessageRight);
-        if (!failMessageLeft.isEmpty()) return failMessageLeft;
+        }
+        if (!failMessageLeft.isEmpty()) {
+            return failMessageLeft;
+        }
         return failMessageRight;
     }
 

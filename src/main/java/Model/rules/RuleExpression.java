@@ -33,7 +33,9 @@ public abstract class RuleExpression implements IExpression {
 
     @Override
     public String getFailMessage() {
-        if (!this.ruleMet) return this.failMessage;
+        if (!this.ruleMet) {
+            return this.failMessage;
+        }
         return "";
     }
 
