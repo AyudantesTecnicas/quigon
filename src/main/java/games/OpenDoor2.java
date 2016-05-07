@@ -21,6 +21,7 @@ public final class OpenDoor2 extends GameBuilder {
     public OpenDoor2() {
         gameName = "OpenDoor2";
     }
+
     @SuppressWarnings("CPD-START")
     public void setElements() {
 
@@ -31,29 +32,29 @@ public final class OpenDoor2 extends GameBuilder {
         Element openBoxState = new Element("Open");
 
         //Create and add elements
-        ComplexElement room1 = createAndAddElement("room1",null,null);
-        ComplexElement room2 = createAndAddElement("room1",null,null);
-        ComplexElement door = createAndAddElement("door",room1,closedDoorState);
-        ComplexElement box = createAndAddElement("box",room1,closedBoxState);
-        ComplexElement key = createAndAddElement("key",box,null);
-        ComplexElement character = createAndAddElement("character",room1,null);
+        ComplexElement room1 = createAndAddElement("room1", null, null);
+        ComplexElement room2 = createAndAddElement("room1", null, null);
+        ComplexElement door = createAndAddElement("door", room1, closedDoorState);
+        ComplexElement box = createAndAddElement("box", room1, closedBoxState);
+        ComplexElement key = createAndAddElement("key", box, null);
+        ComplexElement character = createAndAddElement("character", room1, null);
         game.character = character;
 
         //Crear reglas para movimientos
-        HasContainerRule victoryRule = checkContainerRule(character,room2,"it's a pitty");
-        HasStateRule closedBoxRule = checkStateRule(box,closedBoxState,"the box was open");
-        HasContainerRule keyIsInRoom1 = checkContainerRule(key,room1,"key is not in room1");
-        HasStateRule closedDoorRule = checkStateRule(door,closedDoorState,"the door was open");
-        HasContainerRule characterHasKey = checkContainerRule(key,character,"character doesn't have the key");
+        HasContainerRule victoryRule = checkContainerRule(character, room2, "it's a pitty");
+        HasStateRule closedBoxRule = checkStateRule(box, closedBoxState, "the box was open");
+        HasContainerRule keyIsInRoom1 = checkContainerRule(key, room1, "key is not in room1");
+        HasStateRule closedDoorRule = checkStateRule(door, closedDoorState, "the door was open");
+        HasContainerRule characterHasKey = checkContainerRule(key, character, "character doesn't have the key");
 
         //Build Actions
-        Action addOpenedStateToBox =  buildAddStatesAction(box,openBoxState);
-        Action removeOpenedStateToBox = buildRemoveStatesAction(box,closedBoxState);
-        Action addKeyToRoom1 = buildChangeContainerAction(key,room1);
-        Action addKeyToCharacter = buildChangeContainerAction(key,character);
-        Action addOpendStateToDoor = buildAddStatesAction(door,openDoorState);
-        Action removeOpenedStateToDoor = buildRemoveStatesAction(door,closedDoorState);
-        Action moveCharacterToRoom2 = buildChangeContainerAction(character,room2);
+        Action addOpenedStateToBox = buildAddStatesAction(box, openBoxState);
+        Action removeOpenedStateToBox = buildRemoveStatesAction(box, closedBoxState);
+        Action addKeyToRoom1 = buildChangeContainerAction(key, room1);
+        Action addKeyToCharacter = buildChangeContainerAction(key, character);
+        Action addOpendStateToDoor = buildAddStatesAction(door, openDoorState);
+        Action removeOpenedStateToDoor = buildRemoveStatesAction(door, closedDoorState);
+        Action moveCharacterToRoom2 = buildChangeContainerAction(character, room2);
 
         //Rules to Open Door
         HashMap<Character, RuleExpression> rules = new HashMap<>();
@@ -62,7 +63,7 @@ public final class OpenDoor2 extends GameBuilder {
         String logic = "(a)&(b)";
 
         ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
-        IExpression openingRules=null;
+        IExpression openingRules = null;
         try {
             openingRules = logicBuilder.parse(rules, logic);
         } catch (WrongLogicException e) {
@@ -70,9 +71,9 @@ public final class OpenDoor2 extends GameBuilder {
         }
 
         //Create moves
-        Move openBox = moveWithActionsAndRules("open",addOpenedStateToBox,closedBoxRule,"The box is opened!");
-        Move pickKey = moveWithActionsAndRules("pick",addKeyToCharacter,keyIsInRoom1,"There you go!");
-        Move openDoor = moveWithActionsAndRules("open",addOpendStateToDoor,openingRules,"You enter room 2.");
+        Move openBox = moveWithActionsAndRules("open", addOpenedStateToBox, closedBoxRule, "The box is opened!");
+        Move pickKey = moveWithActionsAndRules("pick", addKeyToCharacter, keyIsInRoom1, "There you go!");
+        Move openDoor = moveWithActionsAndRules("open", addOpendStateToDoor, openingRules, "You enter room 2.");
 
         //Inject Actions to moves
         openBox.addAction(removeOpenedStateToBox);
@@ -88,10 +89,11 @@ public final class OpenDoor2 extends GameBuilder {
 
         game.setVictoryCondition(victoryRule);
     }
+
     @SuppressWarnings("CPD-END")
     public void setActions() {
-        createAndAddSuportedAction(1,"pick");
-        createAndAddSuportedAction(1,"open");
+        createAndAddSuportedAction(1, "pick");
+        createAndAddSuportedAction(1, "open");
     }
 
 }

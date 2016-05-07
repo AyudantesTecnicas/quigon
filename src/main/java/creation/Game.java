@@ -22,6 +22,7 @@ public class Game {
     void setName(String gameName) {
         this.gameName = gameName;
     }
+
     public void setCharacter(ComplexElement character) {
         this.character = character;
     }
@@ -30,34 +31,42 @@ public class Game {
         return victoryCondition.interpret();
     }
 
-    public String receiveCommands(String command) {
-        String sendCommand;
-        if (command.equals("look around")) {
-            Element actualRoom = character.getContainerElement();
-            StringBuilder elementsInRoom = new StringBuilder();
-
-            for (Element element : elementList) {
-                ComplexElement complexElement = (ComplexElement) element;
-                if ((complexElement.getContainerElement() != null) && complexElement.getContainerElement().equals(actualRoom)) {
-                    elementsInRoom.append(complexElement.getName());
-                    elementsInRoom.append('\n');
-                }
+    private String checkAroundItems(String command) {
+        StringBuilder elementsInRoom = new StringBuilder();
+        Element actualRoom = character.getContainerElement();
+        for (Element element : elementList) {
+            ComplexElement complexElement = (ComplexElement) element;
+            if ((complexElement.getContainerElement() != null) && complexElement.getContainerElement().equals(actualRoom)) {
+                elementsInRoom.append(complexElement.getName());
+                elementsInRoom.append('\n');
             }
-            sendCommand = elementsInRoom.toString();
+        }
+        return (elementsInRoom.toString());
+    }
 
-        } else {
-            GameAction actionToExecute = parser.parseInstruction(command);
-            sendCommand = actionToExecute.getMessage();
-            if (actionToExecute.isASupportedAction()) {
-                sendCommand = "object not found";
-                for (Element anElement : elementList) {
-                    for (String itemsID : actionToExecute.getItemsID()) {
-                        if (anElement.getName().equals(itemsID)) {
-                            sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
-                        }
+    private String commandToSend(String command) {
+        String sendCommand;
+        GameAction actionToExecute = parser.parseInstruction(command);
+        sendCommand = actionToExecute.getMessage();
+        if (actionToExecute.isASupportedAction()) {
+            sendCommand = "object not found";
+            for (Element anElement : elementList) {
+                for (String itemsID : actionToExecute.getItemsID()) {
+                    if (anElement.getName().equals(itemsID)) {
+                        sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
                     }
                 }
             }
+        }
+        return sendCommand;
+    }
+
+    public String receiveCommands(String command) {
+        String sendCommand;
+        if (command.equals("look around")) {
+            sendCommand = checkAroundItems(command);
+        } else {
+            sendCommand = commandToSend(command);
         }
 
         if (checkVictory()) {
@@ -65,7 +74,6 @@ public class Game {
         }
         return sendCommand;
     }
-
 
     public String getName() {
         return gameName;

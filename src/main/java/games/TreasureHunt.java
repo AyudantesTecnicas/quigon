@@ -1,6 +1,7 @@
 package games;
 
 import creation.GameBuilder;
+
 @SuppressWarnings("CPD-START")
 public class TreasureHunt extends GameBuilder {
 
@@ -10,9 +11,11 @@ public class TreasureHunt extends GameBuilder {
         gameName = "TreasureHunt";
 
     }
+
     @SuppressWarnings("CPD-START")
     public void setElements() {
     }
+
     @SuppressWarnings("CPD-END")
     public void setActions() {
     }

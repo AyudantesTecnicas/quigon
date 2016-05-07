@@ -13,9 +13,11 @@ public final class TowerOfHanoi extends GameBuilder {
     public void setAmountOfRooms() {
         amountOfRooms = 3;
     }
+
     @SuppressWarnings("CPD-START")
     public void setElements() {
     }
+
     @SuppressWarnings("CPD-END")
     public void setActions() {
     }
