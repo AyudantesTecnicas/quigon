@@ -18,20 +18,14 @@ public class Move extends Element implements IExecutable {
     //Methods
     public Move() {
         super();
-        this.initMove();
     }
 
     public Move(String name) {
         super(name);
-        this.initMove();
     }
 
     public void addAction(Action action) {
-        if (action != null) {
-            if (!this.actions.contains(action)) {
-                this.actions.add(action);
-            }
-        }
+        addToCollection(action, actions);
     }
 
     public void setRules(IExpression rules) {
@@ -60,7 +54,7 @@ public class Move extends Element implements IExecutable {
         }
     }
 
-    private void initMove() {
+    protected void init() {
         this.actions = new ArrayList<>();
         this.setRules(null);
         this.resultMessage = "Ok";

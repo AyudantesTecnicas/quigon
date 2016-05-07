@@ -16,12 +16,10 @@ public class ComplexElement extends Element {
     //Methods
     public ComplexElement() {
         super();
-        this.initComplexElement();
     }
 
     public ComplexElement(String name) {
         super(name);
-        this.initComplexElement();
     }
 
     public void addState(Element state) {
@@ -39,11 +37,7 @@ public class ComplexElement extends Element {
     }
 
     public void addMove(Move move) {
-        if (move != null) {
-            if (!this.moves.contains(move)) {
-                this.moves.add(move);
-            }
-        }
+        addToCollection(move, moves);
     }
 
     public void setContainerElement(Element containerElement) {
@@ -62,7 +56,7 @@ public class ComplexElement extends Element {
         return this.containerElement.equals(containerElement);
     }
 
-    private void initComplexElement() {
+    protected void init() {
         this.states = new ArrayList<>();
         this.moves = new ArrayList<>();
         this.setContainerElement(null);

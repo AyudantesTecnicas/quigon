@@ -1,5 +1,7 @@
 package model.elements;
 
+import java.util.List;
+
 public class Element {
 
     //Attributes
@@ -16,6 +18,16 @@ public class Element {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    protected void init() {}
+
+    protected static <T> void addToCollection(T item, List<T> collection) {
+        if (item != null) {
+            if (!collection.contains(item)){
+                collection.add(item);
+            }
+        }
     }
 
     public String getName() {
