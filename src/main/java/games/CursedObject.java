@@ -17,7 +17,7 @@ public final class CursedObject extends GameBuilder {
     public CursedObject() {
         gameName = "CursedObject";
     }
-
+    @SuppressWarnings("CPD-START")
     public void setElements() {
 
         //Create element's states
@@ -70,6 +70,7 @@ public final class CursedObject extends GameBuilder {
 
         game.setVictoryCondition(victoryRule);
     }
+    @SuppressWarnings("CPD-END")
 
     public void setActions() {
         createAndAddSuportedAction(1,"pick");

@@ -21,7 +21,7 @@ public final class OpenDoor2 extends GameBuilder {
     public OpenDoor2() {
         gameName = "OpenDoor2";
     }
-
+    @SuppressWarnings("CPD-START")
     public void setElements() {
 
         //Create states
@@ -88,7 +88,7 @@ public final class OpenDoor2 extends GameBuilder {
 
         game.setVictoryCondition(victoryRule);
     }
-
+    @SuppressWarnings("CPD-END")
     public void setActions() {
         createAndAddSuportedAction(1,"pick");
         createAndAddSuportedAction(1,"open");

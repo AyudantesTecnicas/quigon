@@ -15,7 +15,7 @@ import model.rules.RuleExpression;
 import parser.SupportedAction;
 
 import java.util.HashMap;
-
+@SuppressWarnings("CPD-START")
 public class WolfSheep extends GameBuilder {
 
     public static String gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
@@ -24,7 +24,7 @@ public class WolfSheep extends GameBuilder {
         gameName = "WolfSheep";
 
     }
-
+    @SuppressWarnings("CPD-START")
     public void setElements() {
 
         //Create states
@@ -42,7 +42,6 @@ public class WolfSheep extends GameBuilder {
 
         //Add state to elements
         //boat.addState(empty);
-
 
 
         //Create action consequences
@@ -166,7 +165,7 @@ public class WolfSheep extends GameBuilder {
         northShore.addMove(crossNorthShore);
         southShore.addMove(crossSouthShore);
     }
-
+    @SuppressWarnings("CPD-END")
     public void setActions() {
         createAndAddSuportedAction(1,"cross");
         createAndAddSuportedAction(1,"take");

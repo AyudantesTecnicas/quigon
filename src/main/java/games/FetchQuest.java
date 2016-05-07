@@ -13,7 +13,7 @@ public final class FetchQuest extends GameBuilder {
     public FetchQuest() {
         gameName = "FetchQuest";
     }
-
+    @SuppressWarnings("CPD-START")
     public void setElements() {
         //Create elements
         ComplexElement room = createAndAddElement("room",null,null);
@@ -37,7 +37,7 @@ public final class FetchQuest extends GameBuilder {
         //Set victory condition
         game.setVictoryCondition(victoryCondition);
     }
-
+    @SuppressWarnings("CPD-END")
     public void setActions() {
         createAndAddSuportedAction(1,"pick");
     }
