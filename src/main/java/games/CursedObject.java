@@ -19,136 +19,49 @@ public final class CursedObject extends GameBuilder {
     }
 
     public void setElements() {
-        ComplexElement character = new ComplexElement();
-        game.character = character;
-
-        //Create elements
-        ComplexElement room0 = new ComplexElement("Room0");
-        ComplexElement room1 = new ComplexElement("Room1");
-        ComplexElement room2 = new ComplexElement("Room2");
-        ComplexElement door0To1 = new ComplexElement("door");
-        ComplexElement door1To2 = new ComplexElement("golden_door");
-        ComplexElement cursedObject = new ComplexElement("object");
-        ComplexElement thief = new ComplexElement("thief");
-
-        //Add elements to the game
-        elementsList.add(room0);
-        elementsList.add(room1);
-        elementsList.add(room2);
-        elementsList.add(door0To1);
-        elementsList.add(door1To2);
-        elementsList.add(cursedObject);
-        elementsList.add(thief);
-
-        //Add elements to rooms
-        character.setContainerElement(room0);
-        cursedObject.setContainerElement(room0);
-        door0To1.setContainerElement(room0);
-        thief.setContainerElement(room1);
-        door1To2.setContainerElement(room1);
 
         //Create element's states
         Element openState = new Element("abierta");
 
-        //Add state to elemens
-        door0To1.addState(openState);
-        door1To2.addState(openState);
-
-        //Create element's action
-        Move goToRoom1 = new Move("open");
-        Move goToRoom2 = new Move("open");
-        Move talkThief = new Move("talk to");
-        Move pickObject = new Move("pick");
+        //Creates elements and adds to game
+        ComplexElement room0 = createAndAddElement("Room0",null,null);
+        ComplexElement room1 = createAndAddElement("Room1",null,null);
+        ComplexElement room2 = createAndAddElement("Room2",null,null);
+        ComplexElement door0To1 = createAndAddElement("door",room0,openState);
+        ComplexElement door1To2 = createAndAddElement("golden_door",room1,openState);
+        ComplexElement cursedObject = createAndAddElement("object",room0,null);
+        ComplexElement thief = createAndAddElement("thief",room1,null);
+        ComplexElement character = createAndAddElement("character",room0,null);
+        game.character = character;
 
         //Create action consequences
-        Action changeRoom0ForRoom1 = new ChangeContainerAction();
-        changeRoom0ForRoom1.setElementToUpdate(character);
-        changeRoom0ForRoom1.addItemToUpdate(room1);
-
-        Action changeRoom1ForRoom2 = new ChangeContainerAction();
-        changeRoom1ForRoom2.setElementToUpdate(character);
-        changeRoom1ForRoom2.addItemToUpdate(room2);
-
-        Action stolenObject = new ChangeContainerAction();
-        stolenObject.setElementToUpdate(cursedObject);
-        stolenObject.addItemToUpdate(thief);
-
-        Action pickedObject = new ChangeContainerAction();
-        pickedObject.setElementToUpdate(cursedObject);
-        pickedObject.addItemToUpdate(character);
+        Action changeRoom0ForRoom1 = buildChangeContainerAction(character,room1);
+        Action changeRoom1ForRoom2 = buildChangeContainerAction(character,room2);
+        Action stolenObject = buildChangeContainerAction(cursedObject,thief);
+        Action pickedObject =  buildChangeContainerAction(cursedObject,character);
 
         //Create rules
-        HasContainerRule victoryRule = new HasContainerRule();
-        victoryRule.setElementToValidate(character);
-        victoryRule.setElementOfElementToValidate(room2);
+        HasContainerRule victoryRule = checkContainerRule(character,room2,"it's a pitty");
+        HasContainerRule thiefHaveCursedObject = checkContainerRule(cursedObject,thief,"You can't go to the next room");
+        HasContainerRule characterHasCursedObject = checkContainerRule(cursedObject,character,"You need an object");
+        HasContainerRule objectIsInTheRoom = checkContainerRule(cursedObject,room0,"You can't take that!!");
+        HasContainerRule characterIsInRoom1 = checkContainerRule(character,room1,"You are in other room");
+        HasContainerRule characterIsInRoom0 = checkContainerRule(character,room0,"You are in other room");
 
-        HasContainerRule thiefHaveCursedObject = new HasContainerRule();
-        thiefHaveCursedObject.setElementToValidate(cursedObject);
-        thiefHaveCursedObject.setElementOfElementToValidate(thief);
+        //Set complex rules
+        AndExpression conditionToPickObject = new AndExpression();
+        conditionToPickObject.setLeftExpression(objectIsInTheRoom);
+        conditionToPickObject.setRightExpression(characterIsInRoom0);
 
-        HasContainerRule characterHasCursedObject = new HasContainerRule();
-        characterHasCursedObject.setElementToValidate(cursedObject);
-        characterHasCursedObject.setElementOfElementToValidate(character);
+        AndExpression conditionsToTalkWithThief = new AndExpression();
+        conditionsToTalkWithThief.setLeftExpression(characterIsInRoom1);
+        conditionsToTalkWithThief.setRightExpression(characterHasCursedObject);
 
-        HasContainerRule objectIsInTheRoom = new HasContainerRule();
-        objectIsInTheRoom.setElementToValidate(cursedObject);
-        objectIsInTheRoom.setElementOfElementToValidate(room0);
-
-        HasContainerRule characterIsInRoom1 = new HasContainerRule();
-        characterIsInRoom1.setElementToValidate(character);
-        characterIsInRoom1.setElementOfElementToValidate(room1);
-
-        HasContainerRule characterIsInRoom0 = new HasContainerRule();
-        characterIsInRoom0.setElementToValidate(character);
-        characterIsInRoom0.setElementOfElementToValidate(room0);
-
-        //Set messages
-        talkThief.setResultMessage("The thief have robbed you!!!");
-        pickObject.setResultMessage("Ohoh, you have picked a cursed object =( ");
-        goToRoom1.setResultMessage("There is another room! - Room 1 -");
-        goToRoom2.setResultMessage("There is another room! - Room 2 -");
-
-        victoryRule.setFailMessage("it's a pitty");
-        thiefHaveCursedObject.setFailMessage("You can't go to the next room");
-        characterHasCursedObject.setFailMessage("You need an object");
-        objectIsInTheRoom.setFailMessage("You can't take that!!");
-        characterIsInRoom0.setFailMessage("You are in other room");
-        characterIsInRoom1.setFailMessage("You are in other room");
-
-        //Set actions and rules
-        ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
-        HashMap<Character, RuleExpression> rules = new HashMap<>();
-        String logic = "(a)&(b)";
-
-        /* Pick curser object */
-        pickObject.addAction(pickedObject);
-        rules.put('a', objectIsInTheRoom);
-        rules.put('b', characterIsInRoom0);
-        try {
-            IExpression conditionsToPickObject = logicBuilder.parse(rules, logic);
-            pickObject.setRules(conditionsToPickObject);
-        } catch (WrongLogicException e) {
-            System.out.print("La logica esta mal expresada.\n");
-        }
-
-        /* Talk with thief */
-        talkThief.addAction(stolenObject);
-        rules.put('a', characterIsInRoom1);
-        rules.put('b', characterHasCursedObject);
-        try {
-            IExpression conditionsToTalkWithThief = logicBuilder.parse(rules, logic);
-            talkThief.setRules(conditionsToTalkWithThief);
-        } catch (WrongLogicException e) {
-            System.out.print("La logica esta mal expresada.\n");
-        }
-
-        /* Go to room 1*/
-        goToRoom1.addAction(changeRoom0ForRoom1);
-        goToRoom1.setRules(characterHasCursedObject);
-
-        /* Go to room 2*/
-        goToRoom2.addAction(changeRoom1ForRoom2);
-        goToRoom2.setRules(thiefHaveCursedObject);
+        //Create moves with actions and rules
+        Move goToRoom1 = moveWithActionsAndRules("open",changeRoom0ForRoom1,characterHasCursedObject,"There is another room! - Room 1 -");
+        Move goToRoom2 = moveWithActionsAndRules("open",changeRoom1ForRoom2,thiefHaveCursedObject,"There is another room! - Room 2 -");
+        Move talkThief = moveWithActionsAndRules("talk to",stolenObject,conditionsToTalkWithThief,"The thief have robbed you!!!");
+        Move pickObject = moveWithActionsAndRules("pick",pickedObject,conditionToPickObject,"Ohoh, you have picked a cursed object =( ");
 
         door0To1.addMove(goToRoom1);
         door1To2.addMove(goToRoom2);
@@ -159,9 +72,9 @@ public final class CursedObject extends GameBuilder {
     }
 
     public void setActions() {
-        actionsList.add(new SupportedAction(1,"pick"));
-        actionsList.add(new SupportedAction(1,"open"));
-        actionsList.add(new SupportedAction(1,"talk to"));
+        createAndAddSuportedAction(1,"pick");
+        createAndAddSuportedAction(1,"open");
+        createAndAddSuportedAction(1,"talk to");
     }
 
 }

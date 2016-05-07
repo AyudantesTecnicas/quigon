@@ -11,16 +11,19 @@ import java.util.List;
 public class Game {
     private String gameName;
     public ComplexElement character;
-    public List<Element> elementList;
+    List<Element> elementList;
     public IExpression rules;
     public GameParser parser;
-    public IExpression victoryCondition;
+    private IExpression victoryCondition;
 
     Game() {
     }
 
-    public void setName(String gameName) {
+    void setName(String gameName) {
         this.gameName = gameName;
+    }
+    public void setCharacter(ComplexElement character) {
+        this.character = character;
     }
 
     private boolean checkVictory() {

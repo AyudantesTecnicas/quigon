@@ -20,58 +20,24 @@ public final class OpenDoor extends GameBuilder {
     }
 
     public void setElements() {
-        ComplexElement character = new ComplexElement();
-        game.character = character;
-
-        //Create elements
-        ComplexElement room1 = new ComplexElement("room1");
-        ComplexElement room2 = new ComplexElement("room2");
-        ComplexElement door = new ComplexElement("door");
-        ComplexElement key = new ComplexElement("key");
-
-        //Add elementos to game
-        addElement(key);
-        addElement(room1);
-        addElement(room2);
-        addElement(door);
-
-        //Set containers for each element
-        character.setContainerElement(room1);
-        key.setContainerElement(room1);
-        door.setContainerElement(room1);
 
         //Create states
         Element closedDoor = new Element("close");
         Element openedDoor = new Element("open");
 
-        //Set initial states
-        door.addState(closedDoor);
-
-        //Create moves
-        Move pickKey = new Move("pick");
-        Move openDoor = new Move("open");
+        //Create elements
+        ComplexElement room1 = createAndAddElement("room1",null,null);
+        ComplexElement room2 = createAndAddElement("room2",null,null);
+        ComplexElement door = createAndAddElement("door",room1,closedDoor);
+        ComplexElement key = createAndAddElement("key",room1,null);
+        ComplexElement character = createAndAddElement("character",room1,null);
+        game.character = character;
 
         //Create movement rules
-        HasContainerRule roomHasKey = new HasContainerRule();
-        HasContainerRule characterHasKey = new HasContainerRule();
-        HasStateRule doorIsClosed = new HasStateRule();
-        HasContainerRule victoryCondition = new HasContainerRule();
-
-        //Set elements to rules
-        roomHasKey.setElementToValidate(key);
-        roomHasKey.setElementOfElementToValidate(room1);
-        characterHasKey.setElementToValidate(key);
-        characterHasKey.setElementOfElementToValidate(character);
-        doorIsClosed.setElementOfElementToValidate(closedDoor);
-        doorIsClosed.setElementToValidate(door);
-        victoryCondition.setElementToValidate(character);
-        victoryCondition.setElementOfElementToValidate(room2);
-
-        //Set messages
-        roomHasKey.setFailMessage("Key is't in room 1.");
-        characterHasKey.setFailMessage("Ey! Where do you go?! Room 2 is locked.");
-        pickKey.setResultMessage("There you go!");
-        openDoor.setResultMessage("You enter room 2.");
+        HasContainerRule roomHasKey = checkContainerRule(key,room1,"Key is't in room 1.");
+        HasContainerRule characterHasKey = checkContainerRule(key,character,"Ey! Where do you go?! Room 2 is locked.");
+        HasStateRule doorIsClosed = checkStateRule(door,closedDoor,"Door is open");
+        HasContainerRule victoryCondition = checkContainerRule(character,room2,"it's a pitty");
 
         //Rules to open door
         HashMap<Character, RuleExpression> rules = new HashMap<>();
@@ -80,39 +46,24 @@ public final class OpenDoor extends GameBuilder {
         String logic = "(a)&(b)";
 
         ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
-        IExpression conditionsToOpenDoor;
+        IExpression conditionsToOpenDoor=null;
         try {
             conditionsToOpenDoor = logicBuilder.parse(rules, logic);
-            openDoor.setRules(conditionsToOpenDoor);
         } catch (WrongLogicException e) {
-            System.out.print("La logica esta mal expresada.\n");
+            System.out.print(logicMessage + ".\n");
         }
 
-        //Rules to pick key
-        pickKey.setRules(roomHasKey);
-
         //Create actions
-        Action addOpenedDoorState = new AddStatesAction();
-        Action removeClosedDoorState = new RemoveStatesAction();
-        Action addKeyToCharacter = new ChangeContainerAction();
-        Action addCharacterToRoom2 = new ChangeContainerAction();
+        Action addOpenedDoorState = buildAddStatesAction(door,openedDoor);
+        Action removeClosedDoorState = buildRemoveStatesAction(door,closedDoor);
+        Action addKeyToCharacter = buildChangeContainerAction(key,character);
+        Action addCharacterToRoom2 = buildChangeContainerAction(character,room2);
 
-        //Agregar elementos y estados a las acciones
-        addOpenedDoorState.addItemToUpdate(openedDoor);
-        addOpenedDoorState.setElementToUpdate(door);
+        //Create moves
+        Move pickKey = moveWithActionsAndRules("pick",addKeyToCharacter,roomHasKey,"There you go!");
+        Move openDoor = moveWithActionsAndRules("open",addOpenedDoorState,conditionsToOpenDoor,"You enter room 2.");
 
-        removeClosedDoorState.addItemToUpdate(closedDoor);
-        removeClosedDoorState.setElementToUpdate(door);
-
-        addKeyToCharacter.addItemToUpdate(character);
-        addKeyToCharacter.setElementToUpdate(key);
-
-        addCharacterToRoom2.addItemToUpdate(room2);
-        addCharacterToRoom2.setElementToUpdate(character);
-
-        //Inject actions to moves
-        pickKey.addAction(addKeyToCharacter);
-        openDoor.addAction(addOpenedDoorState);
+        //Inject further actions
         openDoor.addAction(removeClosedDoorState);
         openDoor.addAction(addCharacterToRoom2);
 
@@ -124,8 +75,7 @@ public final class OpenDoor extends GameBuilder {
     }
 
     public void setActions() {
-        actionsList.add(new SupportedAction(1, "pick"));
-        actionsList.add(new SupportedAction(1, "open"));
+        createAndAddSuportedAction(1,"pick");
+        createAndAddSuportedAction(1,"open");
     }
-
 }

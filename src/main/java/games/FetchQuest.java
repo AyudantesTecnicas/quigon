@@ -15,52 +15,21 @@ public final class FetchQuest extends GameBuilder {
     }
 
     public void setElements() {
-        ComplexElement character = new ComplexElement();
+        //Create elements
+        ComplexElement room = createAndAddElement("room",null,null);
+        ComplexElement stick = createAndAddElement("stick",room,null);
+        ComplexElement character = createAndAddElement("character",room,null);
         game.character = character;
 
-        //Create elements
-        ComplexElement room = new ComplexElement("room");
-        ComplexElement stick = new ComplexElement("stick");
-
-        //Add elementos to game
-        addElement(room);
-        addElement(stick);
-
-        //Set containers for each element
-        character.setContainerElement(room);
-        stick.setContainerElement(room);
-
-        //Create Moves
-        Move pickStick = new Move("pick");
-        pickStick.setResultMessage("You won the game!");
         //Create rules for movements
-        HasContainerRule keyIsInRoom = new HasContainerRule();
-        HasContainerRule victoryCondition = new HasContainerRule();
-
-        //Set elements to rules
-        keyIsInRoom.setElementToValidate(stick);
-        keyIsInRoom.setElementOfElementToValidate(room);
-        victoryCondition.setElementToValidate(stick);
-        victoryCondition.setElementOfElementToValidate(character);
-
-        //Inject rules to moves
-        pickStick.setRules(keyIsInRoom);
+        HasContainerRule stickIsInRoom = checkContainerRule(stick,room,"There's no stick in room");
+        HasContainerRule victoryCondition = checkContainerRule(stick,character,"it's a pitty");
 
         //Create actions
-        Action addStickToCharacter = new ChangeContainerAction();
-        //Action removeStickFromRoom = new ChangeContainerAction();
+        Action addStickToCharacter = buildChangeContainerAction(character,stick);
 
-
-        //Add elements and states to actions
-        addStickToCharacter.addItemToUpdate(character);
-        addStickToCharacter.setElementToUpdate(stick);
-
-       // removeStickFromRoom.addItemToUpdate(room);
-        //removeStickFromRoom.setElementToUpdate(stick);
-
-        //Inject actions to moves
-        pickStick.addAction(addStickToCharacter);
-        //pickStick.addAction(removeStickFromRoom);
+        //Create Moves
+        Move pickStick = moveWithActionsAndRules("pick",addStickToCharacter,stickIsInRoom,"You won the game!");
 
         //Inject moves to elements
         stick.addMove(pickStick);
@@ -70,7 +39,7 @@ public final class FetchQuest extends GameBuilder {
     }
 
     public void setActions() {
-        actionsList.add(new SupportedAction(1,"pick"));
+        createAndAddSuportedAction(1,"pick");
     }
 
 }
