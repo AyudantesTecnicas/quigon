@@ -1,7 +1,7 @@
 package model.elements;
 
-import logic.Utils;
 import model.actions.Move;
+import logic.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;

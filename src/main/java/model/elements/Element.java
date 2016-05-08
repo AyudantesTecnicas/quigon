@@ -1,7 +1,5 @@
 package model.elements;
 
-import java.util.List;
-
 public class Element {
 
     //Attributes

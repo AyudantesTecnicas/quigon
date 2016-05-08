@@ -6,10 +6,10 @@ import model.rules.OrExpression;
 public class OrLFactory extends LogicFactory {
 
     public OrLFactory() {
-        super();
+        symbol = '|';
     }
 
-    public LogicExpression getExpression() {
+    protected LogicExpression build(){
         return new OrExpression();
     }
 }

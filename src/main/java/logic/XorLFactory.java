@@ -6,10 +6,10 @@ import model.rules.XorExpression;
 public class XorLFactory extends LogicFactory {
 
     public XorLFactory() {
-        super();
+        symbol = '^';
     }
 
-    public LogicExpression getExpression() {
+    protected LogicExpression build(){
         return new XorExpression();
     }
 }

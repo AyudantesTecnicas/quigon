@@ -1,40 +1,29 @@
 package logic;
 
+import model.rules.LogicExpression;
 import model.rules.IExpression;
-import model.rules.RuleExpression;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
+public class LogicBuilder{
 
-public class LogicBuilder extends AbstractLogicBuilder {
+    ArrayList<LogicFactory> logicHandlers = new ArrayList<>();
 
     public LogicBuilder() {
-        super();
+        logicHandlers.add(new AndLFactory());
+        logicHandlers.add(new OrLFactory());
+        logicHandlers.add(new XorLFactory());
     }
 
-    public IExpression parse(HashMap<Character, RuleExpression> rules, String logic)
-            throws WrongLogicException {
-        boolean interpreted;
-        LogicFactory logicFactory;
-        logicParseManager.reset();
-        for (int readingPosition = 0; readingPosition < logic.length(); readingPosition++) {
-            interpreted = false;
-            for (LogicInterpreter handler : parseHandlers) {
-                interpreted |= handler.interpret(logic.charAt(readingPosition));
-            }
-            if (readingPosition == 0 && !interpreted) {
-                return rules.get(logic.charAt(readingPosition));
-            }
-            if ((logicFactory = logicParseManager.getFactoryForFoundSymbol()) != null) {
-                int beginningString1 = 1;
-                int endString1 = readingPosition - 1;
-                int beginningString2 = readingPosition + 2;
-                int endString2 = logic.length() - 1;
-                return logicFactory.build(rules, logic.substring(beginningString1, endString1),
-                        logic.substring(beginningString2, endString2));
+    public LogicExpression build(IExpression exp1, IExpression exp2, char symbol)
+            throws WrongLogicSymbolException {
+        LogicExpression result;
+        for (LogicFactory handler : logicHandlers){
+            result = handler.build(exp1, exp2, symbol);
+            if (result != null) {
+                return result;
             }
         }
-        throw new WrongLogicException();
+        throw new WrongLogicSymbolException();
     }
-
 }

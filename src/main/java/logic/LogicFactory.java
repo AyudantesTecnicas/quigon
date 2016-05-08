@@ -2,29 +2,26 @@ package logic;
 
 import model.rules.IExpression;
 import model.rules.LogicExpression;
-import model.rules.RuleExpression;
-
-import java.util.HashMap;
 
 public abstract class LogicFactory {
 
-    protected AbstractLogicBuilder parser;
+    protected char symbol;
 
-    public LogicFactory() {
-        parser = new ProxyLogicBuilder();
+    public LogicFactory(){}
+
+    public LogicExpression build(IExpression leftExp, IExpression rightExp, char symbol) {
+        if (validExpression(symbol)) {
+            LogicExpression result = build();
+            result.setLeftExpression(leftExp);
+            result.setRightExpression(rightExp);
+            return result;
+        }
+        return null;
     }
 
-    public IExpression build(HashMap<Character, RuleExpression> rules, String logicLeft,
-                             String logicRight)
-            throws WrongLogicException {
-        IExpression right = parser.parse(rules, logicLeft);
-        IExpression left = parser.parse(rules, logicRight);
-        LogicExpression logicExpression = getExpression();
-        logicExpression.setLeftExpression(left);
-        logicExpression.setRightExpression(right);
-        return logicExpression;
+    protected boolean validExpression(char symbol) {
+        return symbol == this.symbol;
     }
-
-    abstract LogicExpression getExpression();
+    abstract LogicExpression build();
 
 }

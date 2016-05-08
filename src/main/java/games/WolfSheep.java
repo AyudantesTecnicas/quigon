@@ -1,18 +1,15 @@
 package games;
 
 import creation.GameBuilder;
-import logic.ProxyLogicBuilder;
-import logic.WrongLogicException;
+import logic.LogicBuilder;
+import logic.WrongLogicSymbolException;
 import model.actions.Action;
-import model.actions.ChangeContainerAction;
 import model.actions.Move;
 import model.elements.ComplexElement;
-import model.elements.Element;
 import model.rules.DoesNotHaveContainerRule;
 import model.rules.HasContainerRule;
 import model.rules.IExpression;
 import model.rules.RuleExpression;
-import parser.SupportedAction;
 
 import java.util.HashMap;
 
@@ -77,62 +74,44 @@ public class WolfSheep extends GameBuilder {
         DoesNotHaveContainerRule northShoreDoesntContainsCabbage = checkDoesntHaveContainerRule(cabbage, northShore, "Cabbage is on the north-shore");
 
         //Rule to cross north shore
-        HashMap<Character, RuleExpression> rules = new HashMap<>();
-        rules.put('a', southShoreDoesntContainsWolf);
-        rules.put('b', southShoreDoesntContainsSheep);
-        rules.put('c', southShoreDoesntContainsCabbage);
+        LogicBuilder logicBuilder = new LogicBuilder();
 
-        rules.put('d', northShoreContainsWolf);
-        rules.put('e', northShoreContainsSheep);
-        rules.put('f', northShoreContainsCabbage);
-
-        rules.put('g', boatHasWolf);
-        rules.put('h', boatHasSheep);
-        rules.put('i', boatHasCabbage);
-
-        rules.put('j', northShoreDoesntContainsWolf);
-        rules.put('k', northShoreDoesntContainsSheep);
-        rules.put('l', northShoreDoesntContainsCabbage);
-
-        rules.put('m', boatHasNoWolf);
-        rules.put('n', boatHasNoSheep);
-        rules.put('o', boatHasNoCabbage);
-
-        String logicToNorth = "(b)|((a)&(c))";
-
-        ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
         IExpression rulesToCrossNorthShore = null;
         try {
-            rulesToCrossNorthShore = logicBuilder.parse(rules, logicToNorth);
-        } catch (WrongLogicException e) {
+            rulesToCrossNorthShore = logicBuilder.build(southShoreDoesntContainsWolf,
+                    southShoreDoesntContainsCabbage, '&');
+            rulesToCrossNorthShore = logicBuilder.build(rulesToCrossNorthShore,
+                    southShoreDoesntContainsSheep, '|');
+        } catch (WrongLogicSymbolException e) {
             System.out.print(logicMessage + ".\n");
         }
 
         //Rule of rules to cross south shore
-        String logicToSouth = "(k)|((j)&(l))";
-
         IExpression rulesToCrossSouthShore = null;
         try {
-            rulesToCrossSouthShore = logicBuilder.parse(rules, logicToSouth);
-        } catch (WrongLogicException e) {
+            rulesToCrossSouthShore = logicBuilder.build(northShoreDoesntContainsWolf,
+                    northShoreDoesntContainsCabbage, '&');
+            rulesToCrossSouthShore = logicBuilder.build(rulesToCrossSouthShore,
+                    northShoreDoesntContainsSheep, '|');
+        } catch (WrongLogicSymbolException e) {
             System.out.print(logicMessage + ".\n");
         }
 
         //Rule to take
-        String takeLogic = "((m)&(n))&(o)";
         IExpression ruleToTake = null;
         try {
-            ruleToTake = logicBuilder.parse(rules, takeLogic);
-        } catch (WrongLogicException e) {
+            ruleToTake = logicBuilder.build(boatHasNoWolf, boatHasNoSheep, '&');
+            ruleToTake = logicBuilder.build(ruleToTake, boatHasNoCabbage, '&');
+        } catch (WrongLogicSymbolException e) {
             System.out.print(logicMessage + ".\n");
         }
 
         //Victory Condition
-        String victoryLogic = "((d)&(e))&(f)";
         IExpression victoryRule = null;
         try {
-            victoryRule = logicBuilder.parse(rules, victoryLogic);
-        } catch (WrongLogicException e) {
+            victoryRule = logicBuilder.build(northShoreContainsWolf, northShoreContainsSheep, '&');
+            victoryRule = logicBuilder.build(victoryRule, northShoreContainsCabbage, '&');
+        } catch (WrongLogicSymbolException e) {
             System.out.print(logicMessage + ".\n");
         }
         game.setVictoryCondition(victoryRule);

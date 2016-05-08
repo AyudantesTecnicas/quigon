@@ -1,8 +1,8 @@
 package games;
 
 import creation.GameBuilder;
-import logic.ProxyLogicBuilder;
-import logic.WrongLogicException;
+import logic.LogicBuilder;
+import logic.WrongLogicSymbolException;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
@@ -10,7 +10,6 @@ import model.rules.HasContainerRule;
 import model.rules.HasStateRule;
 import model.rules.IExpression;
 import model.rules.RuleExpression;
-import parser.SupportedAction;
 
 import java.util.HashMap;
 
@@ -57,16 +56,11 @@ public final class OpenDoor2 extends GameBuilder {
         Action moveCharacterToRoom2 = buildChangeContainerAction(character, room2);
 
         //Rules to Open Door
-        HashMap<Character, RuleExpression> rules = new HashMap<>();
-        rules.put('a', closedDoorRule);
-        rules.put('b', characterHasKey);
-        String logic = "(a)&(b)";
-
-        ProxyLogicBuilder logicBuilder = new ProxyLogicBuilder();
+        LogicBuilder logicBuilder = new LogicBuilder();
         IExpression openingRules = null;
         try {
-            openingRules = logicBuilder.parse(rules, logic);
-        } catch (WrongLogicException e) {
+            openingRules = logicBuilder.build(closedDoorRule, characterHasKey, '&');
+        } catch (WrongLogicSymbolException e) {
             System.out.print(logicMessage + ".\n");
         }
 

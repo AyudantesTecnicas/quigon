@@ -1,14 +1,9 @@
 package games;
 
 import creation.GameBuilder;
-import logic.ProxyLogicBuilder;
-import logic.WrongLogicException;
 import model.actions.*;
 import model.elements.*;
 import model.rules.*;
-import parser.SupportedAction;
-
-import java.util.HashMap;
 
 public final class CursedObject extends GameBuilder {
 

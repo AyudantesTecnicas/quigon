@@ -4,7 +4,6 @@ import creation.GameBuilder;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.rules.HasContainerRule;
-import parser.SupportedAction;
 
 public final class FetchQuest extends GameBuilder {
 

@@ -1,11 +1,10 @@
 package model.actions;
 
-import logic.Utils;
 import model.elements.Element;
 import model.rules.IExpression;
+import logic.Utils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Move extends Element implements IExecutable {

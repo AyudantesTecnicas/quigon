@@ -6,10 +6,10 @@ import model.rules.LogicExpression;
 public class AndLFactory extends LogicFactory {
 
     public AndLFactory() {
-        super();
+        symbol = '&';
     }
 
-    public LogicExpression getExpression() {
+    protected LogicExpression build(){
         return new AndExpression();
     }
 
