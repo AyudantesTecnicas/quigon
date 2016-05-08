@@ -30,6 +30,10 @@ public abstract class GameBuilder {
         return gameDescription;
     }
 
+    public void setDescription(String description) {
+        this.gameDescription = description;
+    }
+
     public Game getGame() {
         return game;
     }

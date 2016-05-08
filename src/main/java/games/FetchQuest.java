@@ -7,7 +7,7 @@ import model.rules.HasContainerRule;
 
 public final class FetchQuest extends GameBuilder {
 
-    public static String gameDescription = "Don't take it!";
+    public static final String gameDescription = "Don't take it!";
 
     public FetchQuest() {
         gameName = "FetchQuest";

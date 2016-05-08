@@ -16,7 +16,7 @@ import java.util.HashMap;
 @SuppressWarnings("CPD-START")
 public class WolfSheep extends GameBuilder {
 
-    public static String gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
+    public static final String gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
 
     public WolfSheep() {
         gameName = "WolfSheep";

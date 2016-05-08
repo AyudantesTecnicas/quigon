@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public final class OpenDoor extends GameBuilder {
 
-    public static String gameDescription = "There is a door on this game. Also, it is locked.";
+    public static final String gameDescription = "There is a door on this game. Also, it is locked.";
 
     public OpenDoor() {
         gameName = "OpenDoor";

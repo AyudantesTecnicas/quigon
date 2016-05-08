@@ -7,7 +7,7 @@ import model.rules.*;
 
 public final class CursedObject extends GameBuilder {
 
-    public static String gameDescription = "There is a cursed object on this game. And the thief...";
+    public static final String gameDescription = "There is a cursed object on this game. And the thief...";
 
     public CursedObject() {
         gameName = "CursedObject";
