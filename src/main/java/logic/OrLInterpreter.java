@@ -1,17 +1,13 @@
 package logic;
 
-public class OrLInterpreter extends LogicSymbolInterpreter {
+class OrLInterpreter extends LogicSymbolInterpreter {
 
-    public OrLInterpreter(final LogicParseManager manager) {
+    OrLInterpreter(final LogicParseManager manager) {
         super(manager);
     }
 
     public boolean interpret(char character) {
-        if (character == '|') {
-            manager.notifySymbolFound(this);
-            return couldInterpret;
-        }
-        return couldNotInterpret;
+        return doInterpret(character, '|');
     }
 
     public LogicFactory getFactory() {

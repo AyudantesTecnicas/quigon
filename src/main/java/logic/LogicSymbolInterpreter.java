@@ -7,5 +7,15 @@ abstract class LogicSymbolInterpreter extends LogicInterpreter {
         super(manager);
     }
 
+
+    boolean doInterpret(char character, char symbol) {
+        if (character == symbol) {
+            manager.notifySymbolFound(this);
+            return couldInterpret;
+        }
+        return couldNotInterpret;
+    }
+
+
     abstract LogicFactory getFactory();
 }

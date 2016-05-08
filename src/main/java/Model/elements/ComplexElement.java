@@ -1,5 +1,6 @@
 package model.elements;
 
+import logic.Utils;
 import model.actions.Move;
 
 import java.util.ArrayList;
@@ -16,18 +17,16 @@ public class ComplexElement extends Element {
     //Methods
     public ComplexElement() {
         super();
+        init();
     }
 
     public ComplexElement(String name) {
         super(name);
+        init();
     }
 
     public void addState(Element state) {
-        if (state != null) {
-            if (!this.states.contains(state)) {
-                this.states.add(state);
-            }
-        }
+        Utils.addToCollection(state, states);
     }
 
     public void removeState(Element state) {
@@ -37,7 +36,7 @@ public class ComplexElement extends Element {
     }
 
     public void addMove(Move move) {
-        addToCollection(move, moves);
+        Utils.addToCollection(move, moves);
     }
 
     public void setContainerElement(Element containerElement) {

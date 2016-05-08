@@ -6,6 +6,7 @@ import model.elements.Element;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import logic.Utils;
 
 public abstract class Action implements IExecutable {
 
@@ -18,11 +19,7 @@ public abstract class Action implements IExecutable {
     }
 
     public void addItemToUpdate(Element elementOfElementToUpdate) {
-        if (elementOfElementToUpdate != null) {
-            if (!this.elementsOfElementToUpdate.contains(elementOfElementToUpdate)) {
-                this.elementsOfElementToUpdate.add(elementOfElementToUpdate);
-            }
-        }
+        Utils.addToCollection(elementOfElementToUpdate, this.elementsOfElementToUpdate);
     }
 
     public void setElementToUpdate(ComplexElement elementToUpdate) {

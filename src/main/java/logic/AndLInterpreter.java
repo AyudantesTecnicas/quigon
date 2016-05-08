@@ -1,17 +1,13 @@
 package logic;
 
-public class AndLInterpreter extends LogicSymbolInterpreter {
+class AndLInterpreter extends LogicSymbolInterpreter {
 
-    public AndLInterpreter(final LogicParseManager manager) {
+    AndLInterpreter(final LogicParseManager manager) {
         super(manager);
     }
 
     public boolean interpret(char character) {
-        if (character == '&') {
-            manager.notifySymbolFound(this);
-            return couldInterpret;
-        }
-        return couldNotInterpret;
+        return doInterpret(character, '&');
     }
 
     public LogicFactory getFactory() {
