@@ -16,19 +16,11 @@ public class Element {
         this.setName(name);
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
     protected void init() {}
-
-    protected static <T> void addToCollection(T item, List<T> collection) {
-        if (item != null) {
-            if (!collection.contains(item)){
-                collection.add(item);
-            }
-        }
-    }
 
     public String getName() {
         return this.name;

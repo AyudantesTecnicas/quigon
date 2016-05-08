@@ -6,12 +6,13 @@ import model.rules.RuleExpression;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class AbstractLogicBuilder {
+abstract class AbstractLogicBuilder {
 
-    protected ArrayList<LogicInterpreter> parseHandlers = new ArrayList<>();
-    protected LogicParseManager logicParseManager;
+    ArrayList<LogicInterpreter> parseHandlers = new ArrayList<>();
+    LogicParseManager logicParseManager;
 
-    public AbstractLogicBuilder() {
+    @SuppressWarnings("CPD-START")
+    AbstractLogicBuilder() {
         logicParseManager = new LogicParseManager();
         parseHandlers.add(new OParenthesisLInterpreter(logicParseManager));
         parseHandlers.add(new CParenthesisLInterpreter(logicParseManager));
@@ -19,7 +20,7 @@ public abstract class AbstractLogicBuilder {
         parseHandlers.add(new OrLInterpreter(logicParseManager));
         parseHandlers.add(new XorLInterpreter(logicParseManager));
     }
-
+    @SuppressWarnings("CPD-END")
     abstract IExpression parse(HashMap<Character, RuleExpression> rules, String logic)
             throws  WrongLogicException;
 

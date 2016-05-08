@@ -1,5 +1,6 @@
 package model.actions;
 
+import logic.Utils;
 import model.elements.Element;
 import model.rules.IExpression;
 
@@ -18,14 +19,16 @@ public class Move extends Element implements IExecutable {
     //Methods
     public Move() {
         super();
+        init();
     }
 
     public Move(String name) {
         super(name);
+        init();
     }
 
     public void addAction(Action action) {
-        addToCollection(action, actions);
+        Utils.addToCollection(action, actions);
     }
 
     public void setRules(IExpression rules) {
@@ -43,11 +46,8 @@ public class Move extends Element implements IExecutable {
     @Override
     public void execute() {
         if (this.rules.interpret()) {
-            Iterator<Action> iterator = this.actions.iterator();
 
-            while (iterator.hasNext()) {
-                iterator.next().execute();
-            }
+            this.actions.forEach(Action::execute);
             this.resultMessage = this.correctMessage;
         } else {
             this.resultMessage = this.rules.getFailMessage();
