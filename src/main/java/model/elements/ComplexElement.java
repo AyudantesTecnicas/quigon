@@ -15,11 +15,6 @@ public class ComplexElement extends Element {
     private Element containerElement;
 
     //Methods
-    public ComplexElement() {
-        super();
-        init();
-    }
-
     public ComplexElement(String name) {
         super(name);
         init();

@@ -1,11 +1,12 @@
 package model.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.elements.Element;
 import model.rules.IExpression;
 import logic.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Move extends Element implements IExecutable {
 
@@ -16,11 +17,6 @@ public class Move extends Element implements IExecutable {
     private String correctMessage;
 
     //Methods
-    public Move() {
-        super();
-        init();
-    }
-
     public Move(String name) {
         super(name);
         init();
