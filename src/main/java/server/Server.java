@@ -3,6 +3,7 @@ package server;
 import creation.GameCreator;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class Server {
     }
 
     protected void run() {
-        BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
         while (!commandIsExit()) {
             try {
