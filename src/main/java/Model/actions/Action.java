@@ -10,8 +10,8 @@ import java.util.List;
 public abstract class Action implements IExecutable {
 
     //Attributes
-    protected List<Element> elementsOfElementToUpdate;
-    protected ComplexElement elementToUpdate;
+    private List<Element> elementsOfElementToUpdate;
+    ComplexElement elementToUpdate;
 
     public Action() {
         this.initAction();
@@ -23,7 +23,6 @@ public abstract class Action implements IExecutable {
                 this.elementsOfElementToUpdate.add(elementOfElementToUpdate);
             }
         }
-
     }
 
     public void setElementToUpdate(ComplexElement elementToUpdate) {
@@ -32,10 +31,9 @@ public abstract class Action implements IExecutable {
 
     @Override
     public void execute() {
-        Iterator<Element> iterator = this.elementsOfElementToUpdate.iterator();
 
-        while (iterator.hasNext()) {
-            this.applyChanges(iterator.next());
+        for (Element anElementsOfElementToUpdate : this.elementsOfElementToUpdate) {
+            this.applyChanges(anElementsOfElementToUpdate);
         }
     }
 
