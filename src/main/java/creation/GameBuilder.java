@@ -3,7 +3,8 @@ package creation;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.rules.*;
+import model.ruleExpressions.rules.*;
+import model.ruleExpressions.expressions.*;
 import parser.GameParser;
 import parser.SupportedAction;
 

@@ -6,12 +6,10 @@ import logic.WrongLogicSymbolException;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.rules.HasContainerRule;
-import model.rules.HasStateRule;
-import model.rules.IExpression;
-import model.rules.RuleExpression;
-
-import java.util.HashMap;
+import model.ruleExpressions.rules.HasContainerRule;
+import model.ruleExpressions.rules.HasStateRule;
+import model.ruleExpressions.expressions.IExpression;
+import model.ruleExpressions.expressions.RuleExpression;
 
 public final class OpenDoor2 extends GameBuilder {
 

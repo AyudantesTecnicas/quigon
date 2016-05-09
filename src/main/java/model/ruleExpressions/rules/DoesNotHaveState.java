@@ -1,6 +1,10 @@
-package model.rules;
+package model.ruleExpressions.rules;
 
 public class DoesNotHaveState extends HasStateRule {
+
+    public DoesNotHaveState() {
+        super();
+    }
 
     @Override
     public Boolean validate() {

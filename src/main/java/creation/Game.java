@@ -2,7 +2,7 @@ package creation;
 
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.rules.IExpression;
+import model.ruleExpressions.expressions.IExpression;
 import parser.GameAction;
 import parser.GameParser;
 

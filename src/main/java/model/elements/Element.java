@@ -35,7 +35,8 @@ public class Element {
         if (!(other instanceof Element)) {
             return false;
         }
-        Element otherElement = (Element) other;
+
+        Element otherElement = (Element)other;
         return (this.name.equals(otherElement.name));
     }
 

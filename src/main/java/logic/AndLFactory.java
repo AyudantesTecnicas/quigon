@@ -1,7 +1,7 @@
 package logic;
 
-import model.rules.AndExpression;
-import model.rules.LogicExpression;
+import model.ruleExpressions.expressions.AndExpression;
+import model.ruleExpressions.expressions.LogicExpression;
 
 public class AndLFactory extends LogicFactory {
 
@@ -9,7 +9,7 @@ public class AndLFactory extends LogicFactory {
         symbol = '&';
     }
 
-    protected LogicExpression build(){
+    protected LogicExpression build() {
         return new AndExpression();
     }
 

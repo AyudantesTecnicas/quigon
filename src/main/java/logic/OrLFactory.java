@@ -1,7 +1,7 @@
 package logic;
 
-import model.rules.LogicExpression;
-import model.rules.OrExpression;
+import model.ruleExpressions.expressions.LogicExpression;
+import model.ruleExpressions.expressions.OrExpression;
 
 public class OrLFactory extends LogicFactory {
 

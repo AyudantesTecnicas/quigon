@@ -6,7 +6,7 @@ public class RemoveStatesAction extends Action {
 
     @Override
     protected void applyChanges(Element state) {
-        this.elementToUpdate.removeState(state);
+        this.elementToUpdate.getElement().removeState(state);
     }
 
 }

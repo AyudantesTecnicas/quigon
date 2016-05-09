@@ -1,7 +1,7 @@
 package logic;
 
-import model.rules.LogicExpression;
-import model.rules.XorExpression;
+import model.ruleExpressions.expressions.LogicExpression;
+import model.ruleExpressions.expressions.XorExpression;
 
 public class XorLFactory extends LogicFactory {
 

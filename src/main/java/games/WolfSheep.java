@@ -6,12 +6,10 @@ import logic.WrongLogicSymbolException;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;
-import model.rules.DoesNotHaveContainerRule;
-import model.rules.HasContainerRule;
-import model.rules.IExpression;
-import model.rules.RuleExpression;
-
-import java.util.HashMap;
+import model.ruleExpressions.rules.DoesNotHaveContainerRule;
+import model.ruleExpressions.rules.HasContainerRule;
+import model.ruleExpressions.expressions.IExpression;
+import model.ruleExpressions.expressions.RuleExpression;
 
 @SuppressWarnings("CPD-START")
 public class WolfSheep extends GameBuilder {

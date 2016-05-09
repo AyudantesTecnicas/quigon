@@ -2,7 +2,8 @@ package model.actions;
 
 import model.elements.ComplexElement;
 import model.elements.Element;
-import logic.Utils;
+import model.elements.IndexedElement;
+import model.ruleExpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,32 +11,46 @@ import java.util.List;
 public abstract class Action implements IExecutable {
 
     //Attributes
-    private List<Element> elementsOfElementToUpdate;
-    ComplexElement elementToUpdate;
+    protected List<Element> elementsOfElementToUpdate;
+    protected IndexedElement elementToUpdate;
+    protected String index;
+    protected IExpression rules;
 
     public Action() {
-        this.initAction();
+        this.elementsOfElementToUpdate = new ArrayList<>();
+        this.elementToUpdate = null;
+        this.index = "";
+        this.rules = null;
     }
 
     public void addItemToUpdate(Element elementOfElementToUpdate) {
-        Utils.addToCollection(elementOfElementToUpdate, this.elementsOfElementToUpdate);
+        if (elementOfElementToUpdate != null) {
+            if (!this.elementsOfElementToUpdate.contains(elementOfElementToUpdate)) {
+                this.elementsOfElementToUpdate.add(elementOfElementToUpdate);
+            }
+        }
+
+    }
+
+    public void setRules(IExpression rules) {
+        this.rules = rules;
     }
 
     public void setElementToUpdate(ComplexElement elementToUpdate) {
-        this.elementToUpdate = elementToUpdate;
+        this.elementToUpdate = new IndexedElement(elementToUpdate);
+    }
+
+    public void setIndex(String index) {
+        this.elementToUpdate.setIndex(index);
     }
 
     @Override
     public void execute() {
-
-        for (Element anElementsOfElementToUpdate : this.elementsOfElementToUpdate) {
-            this.applyChanges(anElementsOfElementToUpdate);
+        for (Element element : this.elementsOfElementToUpdate) {
+            if (this.rules.interpret() || this.rules == null) {
+                this.applyChanges(element);
+            }
         }
-    }
-
-    private void initAction() {
-        this.elementsOfElementToUpdate = new ArrayList<>();
-        this.setElementToUpdate(null);
     }
 
     protected abstract void applyChanges(Element element);

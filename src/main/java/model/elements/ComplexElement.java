@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ComplexElement extends Element {
+public class ComplexElement extends Element implements Comparable<ComplexElement> {
 
     //Attributes
     private List<Element> states;
     private List<Move> moves;
-    private Element containerElement;
+    private ComplexElement containerElement;
+    private Integer size;
+    private Boolean visible;
+    private List<ComplexElement> elements;
 
     //Methods
     public ComplexElement(String name) {
@@ -34,8 +37,15 @@ public class ComplexElement extends Element {
         Utils.addToCollection(move, moves);
     }
 
-    public void setContainerElement(Element containerElement) {
-        this.containerElement = containerElement;
+    public void setContainerElement(ComplexElement containerElement) {
+        if (containerElement != null) {
+            if (this.containerElement != null) {
+                this.containerElement.removeElement(this);
+            }
+
+            this.containerElement = containerElement;
+            containerElement.addElement(this);
+        }
     }
 
     public Element getContainerElement() {
@@ -46,14 +56,33 @@ public class ComplexElement extends Element {
         return this.states.contains(state);
     }
 
-    public Boolean hasContainerElement(Element containerElement) {
+    public Boolean hasContainerElement(ComplexElement containerElement) {
         return this.containerElement.equals(containerElement);
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public Integer getSize() {
+        return this.size;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
+    }
+
+    public Boolean getVisible() {
+        return this.visible;
     }
 
     protected void init() {
         this.states = new ArrayList<>();
         this.moves = new ArrayList<>();
         this.setContainerElement(null);
+        this.size = 0;
+        this.visible = true;
+        this.elements = null;
     }
 
     public String execute(String moveName) {
@@ -71,4 +100,51 @@ public class ComplexElement extends Element {
         return localString;
     }
 
+    @Override
+    public int compareTo(ComplexElement other) {
+        return (this.size - other.getSize());
+    }
+
+    public void addElement(ComplexElement element) {
+        if (element != null) {
+            if (this.elements == null) {
+                this.elements = new ArrayList<>();
+            }
+            if (!this.elements.contains(element)) {
+                this.elements.add(element);
+            }
+        }
+    }
+
+    public void removeElement(ComplexElement element) {
+        this.elements.remove(element);
+    }
+
+    public Boolean hasElement(ComplexElement element) {
+        return this.elements.contains(element);
+    }
+
+    public ComplexElement getElementAt(String index) {
+        Integer intIndex;
+
+        if (!index.isEmpty()) {
+            index = index.toLowerCase();
+
+            if (index.equals("last")) {
+                return this.elements.get(this.elements.size() - 1);
+            }
+
+            if (index.equals("first")) {
+                return this.elements.get(0);
+            }
+
+            intIndex = Integer.parseInt(index);
+
+            if (intIndex >= 0 && intIndex < this.elements.size()) {
+                return this.elements.get(intIndex);
+            }
+        }
+
+        return null;
+    }
 }

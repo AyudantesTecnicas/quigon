@@ -3,7 +3,8 @@ package games;
 import creation.GameBuilder;
 import model.actions.*;
 import model.elements.*;
-import model.rules.*;
+import model.ruleExpressions.rules.*;
+import model.ruleExpressions.expressions.*;
 
 public final class CursedObject extends GameBuilder {
 

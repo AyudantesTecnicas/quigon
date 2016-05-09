@@ -3,7 +3,7 @@ package games;
 import creation.GameBuilder;
 import model.actions.*;
 import model.elements.ComplexElement;
-import model.rules.HasContainerRule;
+import model.ruleExpressions.rules.HasContainerRule;
 
 public final class FetchQuest extends GameBuilder {
 

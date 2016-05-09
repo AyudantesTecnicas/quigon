@@ -1,12 +1,12 @@
 package model.actions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.elements.Element;
-import model.rules.IExpression;
 import logic.Utils;
 
+import model.elements.Element;
+import model.ruleExpressions.expressions.IExpression;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Move extends Element implements IExecutable {
 
@@ -41,9 +41,9 @@ public class Move extends Element implements IExecutable {
     @Override
     public void execute() {
         if (this.rules.interpret()) {
-
             this.actions.forEach(Action::execute);
             this.resultMessage = this.correctMessage;
+
         } else {
             this.resultMessage = this.rules.getFailMessage();
         }

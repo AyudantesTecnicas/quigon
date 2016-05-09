@@ -1,4 +1,4 @@
-package model.rules;
+package model.ruleExpressions.expressions;
 
 public class XorExpression extends LogicExpression {
 

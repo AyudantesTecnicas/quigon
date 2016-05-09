@@ -1,7 +1,7 @@
 package logic;
 
-import model.rules.IExpression;
-import model.rules.LogicExpression;
+import model.ruleExpressions.expressions.IExpression;
+import model.ruleExpressions.expressions.LogicExpression;
 
 public abstract class LogicFactory {
 
@@ -22,6 +22,7 @@ public abstract class LogicFactory {
     protected boolean validExpression(char symbol) {
         return symbol == this.symbol;
     }
+
     abstract LogicExpression build();
 
 }

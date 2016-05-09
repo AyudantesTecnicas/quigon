@@ -6,7 +6,7 @@ public class AddStatesAction extends Action {
 
     @Override
     protected void applyChanges(Element state) {
-        this.elementToUpdate.addState(state);
+        this.elementToUpdate.getElement().addState(state);
     }
 
 }

@@ -1,4 +1,4 @@
-package model.rules;
+package model.ruleExpressions.expressions;
 
 public abstract class LogicExpression implements IExpression {
 
