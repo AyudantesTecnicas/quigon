@@ -23,10 +23,10 @@ public final class OpenDoor2 extends GameBuilder {
     public void setElements() {
 
         //Create states
-        Element closedBoxState = new Element("Closed");
-        Element closedDoorState = new Element("Closed");
-        Element openDoorState = new Element("Open");
-        Element openBoxState = new Element("Open");
+        ComplexElement closedBoxState = new ComplexElement("Closed");
+        ComplexElement closedDoorState = new ComplexElement("Closed");
+        ComplexElement openDoorState = new ComplexElement("Open");
+        ComplexElement openBoxState = new ComplexElement("Open");
 
         //Create and add elements
         ComplexElement room1 = createAndAddElement("room1", null, null);

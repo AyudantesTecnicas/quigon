@@ -55,51 +55,52 @@ public abstract class GameBuilder {
         game.setParser(new GameParser());
     }
 
-    private void addElementsToAction(Action action, ComplexElement contained, Element container) {
+    private void addElementsToAction(Action action, ComplexElement contained, Element state) {
         action.setElementToUpdate(contained);
-        action.addItemToUpdate(container);
+        action.addItemToUpdate(state);
     }
 
-    protected Action buildChangeContainerAction(ComplexElement contained, Element container) {
+    protected Action buildChangeContainerAction(ComplexElement contained, ComplexElement container) {
         Action changeContainer = new ChangeContainerAction();
         addElementsToAction(changeContainer, contained, container);
         return changeContainer;
     }
 
-    protected Action buildAddStatesAction(ComplexElement contained, Element container) {
+    protected Action buildAddStatesAction(ComplexElement contained, Element state) {
         Action changeContainer = new AddStatesAction();
-        addElementsToAction(changeContainer, contained, container);
+        addElementsToAction(changeContainer, contained, state);
         return changeContainer;
     }
 
-    protected Action buildRemoveStatesAction(ComplexElement contained, Element container) {
+    protected Action buildRemoveStatesAction(ComplexElement contained, Element state) {
         Action changeContainer = new RemoveStatesAction();
-        addElementsToAction(changeContainer, contained, container);
+        addElementsToAction(changeContainer, contained, state);
         return changeContainer;
     }
 
-    private void addElementsToRule(RuleExpression rule, ComplexElement contained, Element container, String failMessage) {
+    private void addElementsToContainerRule(ContainerRule rule, ComplexElement contained, ComplexElement container, String failMessage) {
         rule.setElementToValidate(contained);
-        rule.setElementOfElementToValidate(container);
+        rule.setContainerToValidate(container);
         rule.setFailMessage(failMessage);
     }
 
-    protected HasContainerRule checkContainerRule(ComplexElement contained, Element container, String failMessage) {
+    protected HasContainerRule checkContainerRule(ComplexElement contained, ComplexElement container, String failMessage) {
         HasContainerRule rule = new HasContainerRule();
-        addElementsToRule(rule, contained, container, failMessage);
+        addElementsToContainerRule(rule, contained, container, failMessage);
         return rule;
     }
 
-    protected DoesNotHaveContainerRule checkDoesntHaveContainerRule(ComplexElement contained, Element container, String failMessage) {
+    protected DoesNotHaveContainerRule checkDoesntHaveContainerRule(ComplexElement contained, ComplexElement container, String failMessage) {
         DoesNotHaveContainerRule rule = new DoesNotHaveContainerRule();
-        addElementsToRule(rule, contained, container, failMessage);
+        addElementsToContainerRule(rule, contained, container, failMessage);
         return rule;
     }
 
-
-    protected HasStateRule checkStateRule(ComplexElement contained, Element container, String failMessage) {
+    protected HasStateRule checkStateRule(ComplexElement contained, Element state, String failMessage) {
         HasStateRule rule = new HasStateRule();
-        addElementsToRule(rule, contained, container, failMessage);
+        rule.setElementToValidate(contained);
+        rule.setStateToValidate(state);
+        rule.setFailMessage(failMessage);
         return rule;
     }
 
@@ -111,7 +112,7 @@ public abstract class GameBuilder {
         return move;
     }
 
-    protected ComplexElement createAndAddElement(String name, Element container, Element state) {
+    protected ComplexElement createAndAddElement(String name, ComplexElement container, Element state) {
         ComplexElement complexElement = new ComplexElement(name);
         complexElement.setContainerElement(container);
         complexElement.addState(state);

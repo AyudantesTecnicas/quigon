@@ -2,14 +2,11 @@ import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.rules.HasStateRule;
-import model.rules.IExpression;
+import model.ruleExpressions.rules.HasStateRule;
+import model.ruleExpressions.expressions.IExpression;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by francisco on 5/8/16.
- */
 public class LogicBuilderTest {
     private Element state1;
     private Element state2;
@@ -21,7 +18,7 @@ public class LogicBuilderTest {
     private HasStateRule rule2;
     private HasStateRule rule3;
 
-    LogicBuilder logicBuilder;
+    private LogicBuilder logicBuilder;
 
     @Before
     public void setUp() {
@@ -36,15 +33,15 @@ public class LogicBuilderTest {
 
         rule1 = new HasStateRule();
         rule1.setElementToValidate(anItem);
-        rule1.setElementOfElementToValidate(state1);
+        rule1.setStateToValidate(state1);
 
         rule2 = new HasStateRule();
         rule2.setElementToValidate(anItem);
-        rule2.setElementOfElementToValidate(state2);
+        rule2.setStateToValidate(state2);
 
         rule3 = new HasStateRule();
         rule3.setElementToValidate(anItem);
-        rule3.setElementOfElementToValidate(state3);
+        rule3.setStateToValidate(state3);
 
         logicBuilder = new LogicBuilder();
 
@@ -64,22 +61,22 @@ public class LogicBuilderTest {
     public void testAndBuilding(){
         IExpression resultRule = buildExpression(rule1, rule2, '&');
 
-        assert (resultRule.interpret() == true);
+        assert (resultRule.interpret());
 
         anItem.removeState(state2);
 
-        assert (resultRule.interpret() == false);
+        assert (!resultRule.interpret());
     }
 
     @Test
     public void testOrBuilding(){
         IExpression resultRule = buildExpression(rule1, rule2, '|');
 
-        assert (resultRule.interpret() == true);
+        assert (resultRule.interpret());
 
         anItem.removeState(state2);
 
-        assert (resultRule.interpret() == true);
+        assert (resultRule.interpret());
     }
 
     @Test
@@ -87,21 +84,21 @@ public class LogicBuilderTest {
         IExpression resultRule = buildExpression(rule1, rule2, '&');
         resultRule = buildExpression(resultRule, rule3, '&');
 
-        assert (resultRule.interpret() == true);
+        assert (resultRule.interpret());
 
         anItem.removeState(state1);
 
-        assert (resultRule.interpret() == false);
+        assert (!resultRule.interpret());
 
         anItem.addState(state1);
         anItem.removeState(state2);
 
-        assert (resultRule.interpret() == false);
+        assert (!resultRule.interpret());
 
         anItem.addState(state2);
         anItem.removeState(state3);
 
-        assert (resultRule.interpret() == false);
+        assert (!resultRule.interpret());
     }
 
 }

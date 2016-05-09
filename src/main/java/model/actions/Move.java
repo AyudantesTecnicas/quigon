@@ -16,6 +16,7 @@ public class Move extends Element implements IExecutable {
     private String resultMessage;
     private String correctMessage;
 
+
     //Methods
     public Move(String name) {
         super(name);
