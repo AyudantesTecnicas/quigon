@@ -3,7 +3,7 @@ package model.actions;
 import logic.Utils;
 
 import model.elements.Element;
-import model.ruleExpressions.expressions.IExpression;
+import model.rulesexpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,11 +5,9 @@ import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.*;
 import model.elements.ComplexElement;
-import model.elements.Element;
-import model.ruleExpressions.rules.HasContainerRule;
-import model.ruleExpressions.rules.HasStateRule;
-import model.ruleExpressions.expressions.IExpression;
-import model.ruleExpressions.expressions.RuleExpression;
+import model.rulesexpressions.rules.HasContainerRule;
+import model.rulesexpressions.rules.HasStateRule;
+import model.rulesexpressions.expressions.IExpression;
 
 public final class OpenDoor2 extends GameBuilder {
 

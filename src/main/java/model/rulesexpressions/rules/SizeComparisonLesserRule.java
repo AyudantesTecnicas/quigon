@@ -1,8 +1,8 @@
-package model.ruleExpressions.rules;
+package model.rulesexpressions.rules;
 
 import model.elements.ComplexElement;
 import model.elements.IndexedElement;
-import model.ruleExpressions.expressions.RuleExpression;
+import model.rulesexpressions.expressions.RuleExpression;
 
 public class SizeComparisonLesserRule extends RuleExpression {
 

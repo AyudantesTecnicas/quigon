@@ -1,15 +1,15 @@
 package logic;
 
-import model.ruleExpressions.expressions.IExpression;
-import model.ruleExpressions.expressions.LogicExpression;
+import model.rulesexpressions.expressions.IExpression;
+import model.rulesexpressions.expressions.LogicExpression;
 
-public abstract class LogicFactory {
+abstract class LogicFactory {
 
-    protected char symbol;
+    char symbol;
 
-    public LogicFactory(){}
+    LogicFactory(){}
 
-    public LogicExpression build(IExpression leftExp, IExpression rightExp, char symbol) {
+    LogicExpression build(IExpression leftExp, IExpression rightExp, char symbol) {
         if (validExpression(symbol)) {
             LogicExpression result = build();
             result.setLeftExpression(leftExp);
@@ -19,7 +19,7 @@ public abstract class LogicFactory {
         return null;
     }
 
-    protected boolean validExpression(char symbol) {
+    private boolean validExpression(char symbol) {
         return symbol == this.symbol;
     }
 

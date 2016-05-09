@@ -2,7 +2,7 @@ package creation;
 
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.ruleExpressions.expressions.IExpression;
+import model.rulesexpressions.expressions.IExpression;
 import parser.GameAction;
 import parser.GameParser;
 
@@ -13,7 +13,7 @@ public class Game {
     public ComplexElement character;
     List<Element> elementList;
     public IExpression rules;
-    public GameParser parser;
+    GameParser parser;
     private IExpression victoryCondition;
 
     Game() {
@@ -83,7 +83,7 @@ public class Game {
         victoryCondition = condition;
     }
 
-    public void setParser(GameParser parser) {
+    void setParser(GameParser parser) {
         this.parser = parser;
     }
 

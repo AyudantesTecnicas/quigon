@@ -6,10 +6,10 @@ import logic.WrongLogicSymbolException;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;
-import model.ruleExpressions.rules.DoesNotHaveContainerRule;
-import model.ruleExpressions.rules.HasContainerRule;
-import model.ruleExpressions.expressions.IExpression;
-import model.ruleExpressions.expressions.RuleExpression;
+import model.rulesexpressions.expressions.IExpression;
+import model.rulesexpressions.rules.DoesNotHaveContainerRule;
+import model.rulesexpressions.rules.HasContainerRule;
+
 
 @SuppressWarnings("CPD-START")
 public class WolfSheep extends GameBuilder {
@@ -56,20 +56,20 @@ public class WolfSheep extends GameBuilder {
 
         //Create rules
         HasContainerRule boatHasSheep = checkContainerRule(sheep, boat, "Sheep is not on board");
-        DoesNotHaveContainerRule boatHasNoSheep = checkDoesntHaveContainerRule(sheep, boat, "Sheep is on board");
+        DoesNotHaveContainerRule boatHasNoSheep = doesntHaveContainerRule(sheep, boat, "Sheep is on board");
         HasContainerRule boatHasWolf = checkContainerRule(wolf, boat, "Wolf is not on board");
-        DoesNotHaveContainerRule boatHasNoWolf = checkDoesntHaveContainerRule(wolf, boat, "Wolf is on board");
+        DoesNotHaveContainerRule boatHasNoWolf = doesntHaveContainerRule(wolf, boat, "Wolf is on board");
         HasContainerRule boatHasCabbage = checkContainerRule(cabbage, boat, "Cabbage is not on board");
-        DoesNotHaveContainerRule boatHasNoCabbage = checkDoesntHaveContainerRule(cabbage, boat, "Cabbage is on board");
-        DoesNotHaveContainerRule southShoreDoesntContainsWolf = checkDoesntHaveContainerRule(wolf, southShore, "Wolf is is on the south-shore");
+        DoesNotHaveContainerRule boatHasNoCabbage = doesntHaveContainerRule(cabbage, boat, "Cabbage is on board");
+        DoesNotHaveContainerRule southShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, southShore, "Wolf is is on the south-shore");
         HasContainerRule northShoreContainsWolf = checkContainerRule(wolf, northShore, "Wolf is is not on the north-shore");
-        DoesNotHaveContainerRule southShoreDoesntContainsSheep = checkDoesntHaveContainerRule(sheep, southShore, "Sheep is on the south-shore");
+        DoesNotHaveContainerRule southShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, southShore, "Sheep is on the south-shore");
         HasContainerRule northShoreContainsSheep = checkContainerRule(sheep, northShore, "Sheep is is not on the north-shore");
-        DoesNotHaveContainerRule southShoreDoesntContainsCabbage = checkDoesntHaveContainerRule(cabbage, southShore, "Cabbage is on the south-shore");
+        DoesNotHaveContainerRule southShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, southShore, "Cabbage is on the south-shore");
         HasContainerRule northShoreContainsCabbage = checkContainerRule(cabbage, northShore, "Cabbage is is not on the north-shore");
-        DoesNotHaveContainerRule northShoreDoesntContainsWolf = checkDoesntHaveContainerRule(wolf, northShore, "Wolf is on the north-shore");
-        DoesNotHaveContainerRule northShoreDoesntContainsSheep = checkDoesntHaveContainerRule(sheep, northShore, "Sheep is on the north-shore");
-        DoesNotHaveContainerRule northShoreDoesntContainsCabbage = checkDoesntHaveContainerRule(cabbage, northShore, "Cabbage is on the north-shore");
+        DoesNotHaveContainerRule northShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, northShore, "Wolf is on the north-shore");
+        DoesNotHaveContainerRule northShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, northShore, "Sheep is on the north-shore");
+        DoesNotHaveContainerRule northShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, northShore, "Cabbage is on the north-shore");
 
         //Rule to cross north shore
         LogicBuilder logicBuilder = new LogicBuilder();

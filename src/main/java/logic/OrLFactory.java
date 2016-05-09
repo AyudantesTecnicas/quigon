@@ -1,11 +1,11 @@
 package logic;
 
-import model.ruleExpressions.expressions.LogicExpression;
-import model.ruleExpressions.expressions.OrExpression;
+import model.rulesexpressions.expressions.LogicExpression;
+import model.rulesexpressions.expressions.OrExpression;
 
-public class OrLFactory extends LogicFactory {
+class OrLFactory extends LogicFactory {
 
-    public OrLFactory() {
+    OrLFactory() {
         symbol = '|';
     }
 

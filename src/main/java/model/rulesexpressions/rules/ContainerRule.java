@@ -1,15 +1,15 @@
-package model.ruleExpressions.rules;
+package model.rulesexpressions.rules;
 
 import model.elements.ComplexElement;
-import model.ruleExpressions.expressions.RuleExpression;
+import model.rulesexpressions.expressions.RuleExpression;
 
 public abstract class ContainerRule extends RuleExpression {
 
     //Attributes
-    protected ComplexElement containerToValidate;
+    ComplexElement containerToValidate;
 
     //Methods
-    public ContainerRule() {
+    ContainerRule() {
         super();
         this.containerToValidate = null;
     }

@@ -1,4 +1,4 @@
-package model.ruleExpressions.expressions;
+package model.rulesexpressions.expressions;
 
 public interface IExpression {
 

@@ -3,8 +3,8 @@ package creation;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.ruleExpressions.rules.*;
-import model.ruleExpressions.expressions.*;
+import model.rulesexpressions.rules.*;
+import model.rulesexpressions.expressions.*;
 import parser.GameParser;
 import parser.SupportedAction;
 
@@ -90,7 +90,7 @@ public abstract class GameBuilder {
         return rule;
     }
 
-    protected DoesNotHaveContainerRule checkDoesntHaveContainerRule(ComplexElement contained, ComplexElement container, String failMessage) {
+    protected DoesNotHaveContainerRule doesntHaveContainerRule(ComplexElement contained, ComplexElement container, String failMessage) {
         DoesNotHaveContainerRule rule = new DoesNotHaveContainerRule();
         addElementsToContainerRule(rule, contained, container, failMessage);
         return rule;
@@ -137,7 +137,7 @@ public abstract class GameBuilder {
         actionsList.add(supportedAction);
     }
 
-    public void addElement(Element anElement) {
+    private void addElement(Element anElement) {
         elementsList.add(anElement);
     }
 

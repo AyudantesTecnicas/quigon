@@ -1,11 +1,11 @@
 package logic;
 
-import model.ruleExpressions.expressions.AndExpression;
-import model.ruleExpressions.expressions.LogicExpression;
+import model.rulesexpressions.expressions.AndExpression;
+import model.rulesexpressions.expressions.LogicExpression;
 
-public class AndLFactory extends LogicFactory {
+class AndLFactory extends LogicFactory {
 
-    public AndLFactory() {
+    AndLFactory() {
         symbol = '&';
     }
 

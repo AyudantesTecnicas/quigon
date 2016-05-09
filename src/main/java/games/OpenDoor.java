@@ -6,8 +6,8 @@ import logic.WrongLogicSymbolException;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.ruleExpressions.rules.*;
-import model.ruleExpressions.expressions.*;
+import model.rulesexpressions.rules.*;
+import model.rulesexpressions.expressions.*;
 
 public final class OpenDoor extends GameBuilder {
 

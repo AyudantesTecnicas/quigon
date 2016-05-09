@@ -1,11 +1,11 @@
 package logic;
 
-import model.ruleExpressions.expressions.LogicExpression;
-import model.ruleExpressions.expressions.XorExpression;
+import model.rulesexpressions.expressions.LogicExpression;
+import model.rulesexpressions.expressions.XorExpression;
 
-public class XorLFactory extends LogicFactory {
+class XorLFactory extends LogicFactory {
 
-    public XorLFactory() {
+    XorLFactory() {
         symbol = '^';
     }
 

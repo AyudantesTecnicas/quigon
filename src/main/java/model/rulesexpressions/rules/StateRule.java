@@ -1,15 +1,15 @@
-package model.ruleExpressions.rules;
+package model.rulesexpressions.rules;
 
 import model.elements.Element;
-import model.ruleExpressions.expressions.RuleExpression;
+import model.rulesexpressions.expressions.RuleExpression;
 
 public abstract class StateRule extends RuleExpression {
 
     //Attributes
-    protected Element stateToValidate;
+    Element stateToValidate;
 
     //Methods
-    public StateRule() {
+    StateRule() {
         super();
         this.stateToValidate = null;
     }

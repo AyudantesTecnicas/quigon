@@ -3,7 +3,7 @@ package model.actions;
 import model.elements.ComplexElement;
 import model.elements.Element;
 import model.elements.IndexedElement;
-import model.ruleExpressions.expressions.IExpression;
+import model.rulesexpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,6 @@ public abstract class Action implements IExecutable {
                 this.elementsOfElementToUpdate.add(elementOfElementToUpdate);
             }
         }
-
     }
 
     public void setRules(IExpression rules) {

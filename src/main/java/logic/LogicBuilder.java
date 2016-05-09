@@ -1,13 +1,13 @@
 package logic;
 
-import model.ruleExpressions.expressions.LogicExpression;
-import model.ruleExpressions.expressions.IExpression;
+import model.rulesexpressions.expressions.LogicExpression;
+import model.rulesexpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 
 public class LogicBuilder {
 
-    ArrayList<LogicFactory> logicHandlers = new ArrayList<>();
+    private ArrayList<LogicFactory> logicHandlers = new ArrayList<>();
 
     public LogicBuilder() {
         logicHandlers.add(new AndLFactory());

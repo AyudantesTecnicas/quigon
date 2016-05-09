@@ -1,13 +1,13 @@
-package model.ruleExpressions.expressions;
+package model.rulesexpressions.expressions;
 
 public abstract class LogicExpression implements IExpression {
 
     //Attributes
-    protected IExpression leftExpression;
-    protected IExpression rightExpression;
+    IExpression leftExpression;
+    IExpression rightExpression;
 
     //Methods
-    public LogicExpression() {
+    LogicExpression() {
         this.leftExpression = null;
         this.rightExpression = null;
     }

@@ -1,4 +1,4 @@
-package model.ruleExpressions.expressions;
+package model.rulesexpressions.expressions;
 
 import model.elements.ComplexElement;
 import model.elements.IndexedElement;
@@ -6,9 +6,9 @@ import model.elements.IndexedElement;
 public abstract class RuleExpression implements IExpression {
 
     //Attributes
-    protected String failMessage;
+    private String failMessage;
     protected IndexedElement elementToValidate;
-    protected Boolean ruleMet;
+    private Boolean ruleMet;
 
 
     //Methods
