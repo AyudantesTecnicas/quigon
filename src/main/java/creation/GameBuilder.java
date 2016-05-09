@@ -137,7 +137,7 @@ public abstract class GameBuilder {
         actionsList.add(supportedAction);
     }
 
-    private void addElement(Element anElement) {
+    public void addElement(Element anElement) {
         elementsList.add(anElement);
     }
 

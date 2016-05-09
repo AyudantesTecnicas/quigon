@@ -18,7 +18,7 @@ public final class CursedObject extends GameBuilder {
     public void setElements() {
 
         //Create element's states
-        ComplexElement openState = new ComplexElement("open");
+        Element openState = new Element("abierta");
 
         //Creates elements and adds to game
         ComplexElement room0 = createAndAddElement("Room0", null, null);
