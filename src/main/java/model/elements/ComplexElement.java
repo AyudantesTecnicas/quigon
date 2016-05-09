@@ -147,4 +147,12 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
 
         return null;
     }
+
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

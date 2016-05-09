@@ -13,13 +13,11 @@ public abstract class Action implements IExecutable {
     //Attributes
     private List<Element> elementsOfElementToUpdate;
     IndexedElement elementToUpdate;
-    private String index;
     protected IExpression rules;
 
     public Action() {
         this.elementsOfElementToUpdate = new ArrayList<>();
         this.elementToUpdate = null;
-        this.index = "";
         this.rules = null;
     }
 
@@ -45,11 +43,7 @@ public abstract class Action implements IExecutable {
 
     @Override
     public void execute() {
-        for (Element element : this.elementsOfElementToUpdate) {
-            if (this.rules == null || this.rules.interpret()) {
-                this.applyChanges(element);
-            }
-        }
+        this.elementsOfElementToUpdate.stream().filter(element -> this.rules == null || this.rules.interpret()).forEach(this::applyChanges);
     }
 
     protected abstract void applyChanges(Element element);

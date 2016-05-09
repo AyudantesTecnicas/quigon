@@ -16,7 +16,6 @@ public class Move extends Element implements IExecutable {
     private String resultMessage;
     private String correctMessage;
 
-
     //Methods
     public Move(String name) {
         super(name);
@@ -54,6 +53,14 @@ public class Move extends Element implements IExecutable {
         this.actions = new ArrayList<>();
         this.setRules(null);
         this.resultMessage = "Ok";
+    }
+
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

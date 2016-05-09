@@ -37,9 +37,7 @@ public class Server {
     }
 
     private void closeServer() {
-        for (PortThread portThread : threads) {
-            portThread.interrupt();
-        }
+        threads.forEach(PortThread::interrupt);
     }
 
     protected void run() {
@@ -48,7 +46,7 @@ public class Server {
         while (!commandIsExit()) {
             try {
                 line = keyboard.readLine();
-                if (line.matches("^(?i)/load game [a-zA-Z0-9_-]+$")) {
+                if (line != null && line.matches("^(?i)/load game [a-zA-Z0-9_-]+$")) {
                     loadGame(line.split(" ")[2]);
                 }
             } catch (IOException e) {

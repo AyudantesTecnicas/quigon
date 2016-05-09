@@ -12,7 +12,6 @@ public class Game {
     private String gameName;
     public ComplexElement character;
     List<Element> elementList;
-    public IExpression rules;
     GameParser parser;
     private IExpression victoryCondition;
 

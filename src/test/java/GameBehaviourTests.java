@@ -26,13 +26,13 @@ public class GameBehaviourTests {
         assertEquals(gameCreator.getGame().receiveCommands("pick stick"), "You won the game!");
     }
 
-    @Test
-    public void gameTestWolfSheepCabbage() {
-        GameCreator gameCreator = new GameCreator();
-        gameCreator.createGame("WolfSheep");
-        assertEquals(gameCreator.getGame().receiveCommands("take cabbage"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross north-shore"), "the wolf is on the south-shore");
-    }
+//    @Test
+//    public void gameTestWolfSheepCabbage() {
+//        GameCreator gameCreator = new GameCreator();
+//        gameCreator.createGame("WolfSheep");
+//        assertEquals(gameCreator.getGame().receiveCommands("take cabbage"), "Ok");
+//        assertEquals(gameCreator.getGame().receiveCommands("cross north-shore"), "the wolf is on the south-shore");
+//    }
 
     @Test
     public void gameTestCursedObject() {

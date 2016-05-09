@@ -16,7 +16,6 @@ public abstract class GameBuilder {
     protected static final String logicMessage = "Wrong expressed logic";
 
     protected Game game;
-    protected int amountOfRooms;
 
     protected String gameName;
     private String gameDescription;
