@@ -58,7 +58,7 @@ public class LogicBuilderTest {
     }
 
     @Test
-    public void testAndBuilding(){
+    public void testAndBuilding() {
         IExpression resultRule = buildExpression(rule1, rule2, '&');
 
         assert (resultRule.interpret());
@@ -69,7 +69,7 @@ public class LogicBuilderTest {
     }
 
     @Test
-    public void testOrBuilding(){
+    public void testOrBuilding() {
         IExpression resultRule = buildExpression(rule1, rule2, '|');
 
         assert (resultRule.interpret());
@@ -80,7 +80,7 @@ public class LogicBuilderTest {
     }
 
     @Test
-    public void testAndAndBuilding(){
+    public void testAndAndBuilding() {
         IExpression resultRule = buildExpression(rule1, rule2, '&');
         resultRule = buildExpression(resultRule, rule3, '&');
 

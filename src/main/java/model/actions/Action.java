@@ -11,9 +11,9 @@ import java.util.List;
 public abstract class Action implements IExecutable {
 
     //Attributes
-    protected List<Element> elementsOfElementToUpdate;
-    protected IndexedElement elementToUpdate;
-    protected String index;
+    private List<Element> elementsOfElementToUpdate;
+    IndexedElement elementToUpdate;
+    private String index;
     protected IExpression rules;
 
     public Action() {
@@ -47,7 +47,7 @@ public abstract class Action implements IExecutable {
     @Override
     public void execute() {
         for (Element element : this.elementsOfElementToUpdate) {
-            if (this.rules.interpret() || this.rules == null) {
+            if (this.rules == null || this.rules.interpret()) {
                 this.applyChanges(element);
             }
         }
