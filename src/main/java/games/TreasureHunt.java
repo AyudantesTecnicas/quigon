@@ -11,7 +11,6 @@ public class TreasureHunt extends GameBuilder {
 
     public TreasureHunt() {
         gameName = "TreasureHunt";
-
     }
 
     //Character
@@ -39,15 +38,15 @@ public class TreasureHunt extends GameBuilder {
     Element openState;
 
     //Room transition actions
-    Action changeRoomWestForRoomCenter;
-    Action changeRoomEastForRoomCenter;
-    Action changeRoomSouthForRoomCenter;
-    Action changeRoomNorthForRoomCenter;
+    Action passFromWestToCenter;
+    Action passFromEastToCenter;
+    Action passFromSouthToCenter;
+    Action passFromNorthToCenter;
 
-    Action changeRoomCenterForRoomWest;
-    Action changeRoomCenterForRoomEast;
-    Action changeRoomCenterForRoomSouth;
-    Action changeRoomCenterForRoomNorth;
+    Action passFromCenterToWest;
+    Action passFromCenterToEast;
+    Action passFromCenterToSouth;
+    Action passFromCenterToNorth;
 
     //Rules
     HasContainerRule victoryRule;
@@ -68,7 +67,6 @@ public class TreasureHunt extends GameBuilder {
     Move goFromCenterToEast;
     Move goFromCenterToSouth;
     Move goFromCenterToNorth;
-
 
     @SuppressWarnings("CPD-START")
     public void setElements() {
@@ -117,15 +115,15 @@ public class TreasureHunt extends GameBuilder {
     }
 
     private void createRoomTransitionActions() {
-        changeRoomWestForRoomCenter = buildChangeContainerAction(character, roomCenter);
-        changeRoomEastForRoomCenter = buildChangeContainerAction(character, roomCenter);
-        changeRoomSouthForRoomCenter = buildChangeContainerAction(character, roomCenter);
-        changeRoomNorthForRoomCenter = buildChangeContainerAction(character, roomCenter);
+        passFromWestToCenter = buildChangeContainerAction(character, roomCenter);
+        passFromEastToCenter = buildChangeContainerAction(character, roomCenter);
+        passFromSouthToCenter = buildChangeContainerAction(character, roomCenter);
+        passFromNorthToCenter = buildChangeContainerAction(character, roomCenter);
 
-        changeRoomCenterForRoomWest = buildChangeContainerAction(character, roomWest);
-        changeRoomCenterForRoomEast = buildChangeContainerAction(character, roomEast);
-        changeRoomCenterForRoomSouth = buildChangeContainerAction(character, roomSouth);
-        changeRoomCenterForRoomNorth = buildChangeContainerAction(character, roomNorth);
+        passFromCenterToWest = buildChangeContainerAction(character, roomWest);
+        passFromCenterToEast = buildChangeContainerAction(character, roomEast);
+        passFromCenterToSouth = buildChangeContainerAction(character, roomSouth);
+        passFromCenterToNorth = buildChangeContainerAction(character, roomNorth);
     }
 
     private void createRules() {
@@ -142,15 +140,15 @@ public class TreasureHunt extends GameBuilder {
     }
 
     private void createMoves() {
-        goFromWestToCenter = moveWithActionsAndRules("open", changeRoomWestForRoomCenter, characterIsInWestRoom, "You are in center room now.");
-        goFromEastToCenter = moveWithActionsAndRules("open", changeRoomEastForRoomCenter, characterIsInEastRoom, "You are in center room now.");
-        goFromSouthToCenter = moveWithActionsAndRules("open", changeRoomSouthForRoomCenter, characterIsInSouthRoom, "You are in center room now.");
-        goFromNorthToCenter = moveWithActionsAndRules("open", changeRoomNorthForRoomCenter, characterIsInNorthRoom, "You are in center room now.");
+        goFromWestToCenter = moveWithActionsAndRules("open", passFromWestToCenter, characterIsInWestRoom, "You are in center room now.");
+        goFromEastToCenter = moveWithActionsAndRules("open", passFromEastToCenter, characterIsInEastRoom, "You are in center room now.");
+        goFromSouthToCenter = moveWithActionsAndRules("open", passFromSouthToCenter, characterIsInSouthRoom, "You are in center room now.");
+        goFromNorthToCenter = moveWithActionsAndRules("open", passFromNorthToCenter, characterIsInNorthRoom, "You are in center room now.");
 
-        goFromCenterToWest = moveWithActionsAndRules("open", changeRoomCenterForRoomWest, characterIsInCenterRoom, "You are in west room now.");
-        goFromCenterToEast = moveWithActionsAndRules("open", changeRoomCenterForRoomEast, characterIsInCenterRoom, "You are in east room now.");
-        goFromCenterToSouth = moveWithActionsAndRules("open", changeRoomCenterForRoomSouth, characterIsInCenterRoom, "You are in south room now.");
-        goFromCenterToNorth = moveWithActionsAndRules("open", changeRoomCenterForRoomNorth, characterIsInCenterRoom, "You are in north room now.");
+        goFromCenterToWest = moveWithActionsAndRules("open", passFromCenterToWest, characterIsInCenterRoom, "You are in west room now.");
+        goFromCenterToEast = moveWithActionsAndRules("open", passFromCenterToEast, characterIsInCenterRoom, "You are in east room now.");
+        goFromCenterToSouth = moveWithActionsAndRules("open", passFromCenterToSouth, characterIsInCenterRoom, "You are in south room now.");
+        goFromCenterToNorth = moveWithActionsAndRules("open", passFromCenterToNorth, characterIsInCenterRoom, "You are in north room now.");
     }
 
     private void addMoves() {
