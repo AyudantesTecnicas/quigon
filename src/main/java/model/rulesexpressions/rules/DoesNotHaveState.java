@@ -8,7 +8,7 @@ public class DoesNotHaveState extends HasStateRule {
 
     @Override
     public Boolean validate() {
-        return !super.interpret();
+        return !this.interpret();
     }
 
 }

@@ -8,7 +8,7 @@ public class DoesNotHaveContainerRule extends HasContainerRule {
 
     @Override
     public Boolean validate() {
-        return !super.interpret();
+        return !super.validate();
     }
 
 }
