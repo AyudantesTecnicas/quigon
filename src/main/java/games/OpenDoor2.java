@@ -28,7 +28,7 @@ public final class OpenDoor2 extends GameBuilder {
 
         //Create and add elements
         ComplexElement room1 = createAndAddElement("room1", null, null);
-        ComplexElement room2 = createAndAddElement("room1", null, null);
+        ComplexElement room2 = createAndAddElement("room2", null, null);
         ComplexElement door = createAndAddElement("door", room1, closedDoorState);
         ComplexElement box = createAndAddElement("box", room1, closedBoxState);
         ComplexElement key = createAndAddElement("key", box, null);
