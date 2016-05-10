@@ -6,7 +6,7 @@ import model.elements.*;
 import model.rulesexpressions.rules.HasContainerRule;
 
 public class TreasureHunt extends GameBuilder {
-
+    @SuppressWarnings("CPD-START")
     public static final String gameDescription = "Search for the treasure. But be careful.";
 
     public TreasureHunt() {
@@ -84,7 +84,7 @@ public class TreasureHunt extends GameBuilder {
     //Supported moves
     private static final String OPEN_MOVE = "open";
 
-    @SuppressWarnings("CPD-START")
+
     public void setElements() {
         createRooms();
 
