@@ -138,10 +138,6 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
                 return this.elements.get(this.elements.size() - 1);
             }
 
-            if (index.equals("first")) {
-                return this.elements.get(0);
-            }
-
             intIndex = Integer.parseInt(index);
 
             if (intIndex >= 0 && intIndex < this.elements.size()) {
