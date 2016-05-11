@@ -52,7 +52,7 @@ public class Move extends Element implements IExecutable {
     protected void init() {
         this.actions = new ArrayList<>();
         this.setRules(null);
-        this.resultMessage = "Ok";
+        this.correctMessage = "Ok";
     }
 
     public boolean equals(Object other) {
