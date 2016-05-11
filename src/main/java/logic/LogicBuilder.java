@@ -1,7 +1,7 @@
 package logic;
 
-import model.rulesexpressions.expressions.LogicExpression;
 import model.rulesexpressions.expressions.IExpression;
+import model.rulesexpressions.expressions.LogicExpression;
 
 import java.util.ArrayList;
 

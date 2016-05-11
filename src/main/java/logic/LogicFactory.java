@@ -7,7 +7,8 @@ abstract class LogicFactory {
 
     char symbol;
 
-    LogicFactory(){}
+    LogicFactory() {
+    }
 
     LogicExpression build(IExpression leftExp, IExpression rightExp, char symbol) {
         if (validExpression(symbol)) {

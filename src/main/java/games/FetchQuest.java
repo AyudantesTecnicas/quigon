@@ -20,20 +20,15 @@ public final class FetchQuest extends GameBuilder {
         ComplexElement stick = createAndAddElement("stick", room, null);
         ComplexElement character = createAndAddElement("character", room, null);
         game.character = character;
-
         //Create rules for movements
         HasContainerRule stickIsInRoom = checkContainerRule(stick, room, "There's no stick in room");
         HasContainerRule victoryCondition = checkContainerRule(stick, character, "it's a pitty");
-
         //Create actions
         Action addStickToCharacter = buildChangeContainerAction(character, stick);
-
         //Create Moves
         Move pickStick = moveWithActionsAndRules("pick", addStickToCharacter, stickIsInRoom, "You won the game!");
-
         //Inject moves to elements
         stick.addMove(pickStick);
-
         //Set victory condition
         game.setVictoryCondition(victoryCondition);
     }

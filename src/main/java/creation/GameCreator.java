@@ -12,17 +12,8 @@ public final class GameCreator {
         gameMaker = new GameMaker();
     }
 
-    public void createGame(String gameName) throws InvalidParameterException {
+    private void createFurther(String gameName) throws InvalidParameterException {
         switch (gameName) {
-            case "CursedObject":
-                gameBuilder = new CursedObject();
-                break;
-            case "FetchQuest":
-                gameBuilder = new FetchQuest();
-                break;
-            case "OpenDoor":
-                gameBuilder = new OpenDoor();
-                break;
             case "OpenDoor2":
                 gameBuilder = new OpenDoor2();
                 break;
@@ -38,6 +29,26 @@ public final class GameCreator {
             default:
                 throw new InvalidParameterException();
         }
+    }
+
+    private void instantiateGame(String gameName) throws InvalidParameterException {
+        switch (gameName) {
+            case "CursedObject":
+                gameBuilder = new CursedObject();
+                break;
+            case "FetchQuest":
+                gameBuilder = new FetchQuest();
+                break;
+            case "OpenDoor":
+                gameBuilder = new OpenDoor();
+                break;
+            default:
+                createFurther(gameName);
+        }
+    }
+
+    public void createGame(String gameName) throws InvalidParameterException {
+        instantiateGame(gameName);
         gameMaker.setGameBuilder(gameBuilder);
         gameMaker.buildGame();
     }

@@ -9,7 +9,7 @@ class OrLFactory extends LogicFactory {
         symbol = '|';
     }
 
-    protected LogicExpression build(){
+    protected LogicExpression build() {
         return new OrExpression();
     }
 }

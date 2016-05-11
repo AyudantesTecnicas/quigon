@@ -1,7 +1,7 @@
 package model.elements;
 
-import model.actions.Move;
 import logic.Utils;
+import model.actions.Move;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,7 +64,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         this.size = size;
     }
 
-    public Integer getSize() {
+    private Integer getSize() {
         return this.size;
     }
 
@@ -105,7 +105,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         return (this.size - other.getSize());
     }
 
-    public void addElement(ComplexElement element) {
+    private void addElement(ComplexElement element) {
         if (element != null) {
             if (this.elements == null) {
                 this.elements = new ArrayList<>();
@@ -116,7 +116,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         }
     }
 
-    public void removeElement(ComplexElement element) {
+    private void removeElement(ComplexElement element) {
         this.elements.remove(element);
     }
 
@@ -128,7 +128,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         return !this.elements.isEmpty();
     }
 
-    public ComplexElement getElementAt(String index) {
+    ComplexElement getElementAt(String index) {
         Integer intIndex;
 
         if (!index.isEmpty()) {

@@ -52,8 +52,6 @@ public class GameBehaviourTests {
         assertEquals(gameCreator.getGame().receiveCommands("leave sheep"), "You won the game!");
     }
 
-
-
     @Test
     public void gameTestCursedObject() {
         GameCreator gameCreator = new GameCreator();

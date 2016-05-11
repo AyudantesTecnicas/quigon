@@ -9,7 +9,7 @@ class XorLFactory extends LogicFactory {
         symbol = '^';
     }
 
-    protected LogicExpression build(){
+    protected LogicExpression build() {
         return new XorExpression();
     }
 }
