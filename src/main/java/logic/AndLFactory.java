@@ -9,7 +9,7 @@ class AndLFactory extends LogicFactory {
         symbol = '&';
     }
 
-    protected LogicExpression build() {
+    protected LogicExpression buildExpression() {
         return new AndExpression();
     }
 

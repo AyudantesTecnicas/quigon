@@ -10,9 +10,9 @@ abstract class LogicFactory {
     LogicFactory() {
     }
 
-    LogicExpression build(IExpression leftExp, IExpression rightExp, char symbol) {
+    public LogicExpression build(IExpression leftExp, IExpression rightExp, char symbol) {
         if (validExpression(symbol)) {
-            LogicExpression result = build();
+            LogicExpression result = buildExpression();
             result.setLeftExpression(leftExp);
             result.setRightExpression(rightExp);
             return result;
@@ -24,6 +24,6 @@ abstract class LogicFactory {
         return symbol == this.symbol;
     }
 
-    abstract LogicExpression build();
+    abstract LogicExpression buildExpression();
 
 }
