@@ -82,7 +82,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         this.setContainerElement(null);
         this.size = 0;
         this.visible = true;
-        this.elements = null;
+        this.elements = new ArrayList<>();
     }
 
     public String execute(String moveName) {
@@ -122,6 +122,10 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
 
     public Boolean hasElement(ComplexElement element) {
         return this.elements.contains(element);
+    }
+
+    public Boolean hasElements() {
+        return !this.elements.isEmpty();
     }
 
     public ComplexElement getElementAt(String index) {
