@@ -1,6 +1,7 @@
 package games;
 
 import creation.GameBuilder;
+import games.constants.CursedObjectConstants;
 import model.actions.*;
 import model.elements.*;
 import model.rulesexpressions.expressions.*;
@@ -10,6 +11,7 @@ import model.rulesexpressions.rules.*;
 public final class CursedObject extends GameBuilder {
 
     public static final String gameDescription = "There is a cursed object on this game. And the thief...";
+    private CursedObjectConstants constants = new CursedObjectConstants();
     private ComplexElement room0;
     private ComplexElement room1;
     private ComplexElement room2;
@@ -57,10 +59,10 @@ public final class CursedObject extends GameBuilder {
     }
 
     private void createMoves() {
-        goToRoom1 = moveWithActionsAndRules("open", changeRoom0ForRoom1, characterHasCursedObject, "There is another room! - Room 1 -");
-        goToRoom2 = moveWithActionsAndRules("open", changeRoom1ForRoom2, thiefHaveCursedObject, "There is another room! - Room 2 -");
-        talkThief = moveWithActionsAndRules("talk to", stolenObject, conditionsToTalkWithThief, "The thief have robbed you!!!");
-        pickObject = moveWithActionsAndRules("pick", pickedObject, conditionToPickObject, "Ohoh, you have picked a cursed object =( ");
+        goToRoom1 = moveWithActionsAndRules(constants.open, changeRoom0ForRoom1, characterHasCursedObject, constants.goToRoom1);
+        goToRoom2 = moveWithActionsAndRules(constants.open, changeRoom1ForRoom2, thiefHaveCursedObject, constants.goToRoom2);
+        talkThief = moveWithActionsAndRules(constants.talkTo, stolenObject, conditionsToTalkWithThief, constants.talkThief);
+        pickObject = moveWithActionsAndRules(constants.pick, pickedObject, conditionToPickObject, constants.pickObject);
     }
 
     private void createComplexRules() {
@@ -75,12 +77,12 @@ public final class CursedObject extends GameBuilder {
     }
 
     private void createRules() {
-        victoryRule = checkContainerRule(character, room2, "it's a pitty");
-        thiefHaveCursedObject = checkContainerRule(cursedObject, thief, "You can't go to the next room");
-        characterHasCursedObject = checkContainerRule(cursedObject, character, "You need an object");
-        objectIsInTheRoom = checkContainerRule(cursedObject, room0, "You can't take that!!");
-        characterIsInRoom1 = checkContainerRule(character, room1, "You are in other room");
-        characterIsInRoom0 = checkContainerRule(character, room0, "You are in other room");
+        victoryRule = checkContainerRule(character, room2, constants.notWon);
+        thiefHaveCursedObject = checkContainerRule(cursedObject, thief, constants.thiefNeedsObject);
+        characterHasCursedObject = checkContainerRule(cursedObject, character, constants.missingObject);
+        objectIsInTheRoom = checkContainerRule(cursedObject, room0, constants.hasObject);
+        characterIsInRoom1 = checkContainerRule(character, room1, constants.wrongRoom);
+        characterIsInRoom0 = checkContainerRule(character, room0, constants.wrongRoom);
         game.setVictoryCondition(victoryRule);
     }
 
@@ -92,23 +94,23 @@ public final class CursedObject extends GameBuilder {
     }
 
     private void createElements() {
-        openState = new Element("abierta");
-        room0 = createAndAddElement("Room0", null, null);
-        room1 = createAndAddElement("Room1", null, null);
-        room2 = createAndAddElement("Room2", null, null);
-        door0To1 = createAndAddElement("door", room0, openState);
-        door1To2 = createAndAddElement("golden_door", room1, openState);
-        cursedObject = createAndAddElement("object", room0, null);
-        thief = createAndAddElement("thief", room1, null);
-        character = createAndAddElement("character", room0, null);
+        openState = new Element(constants.opened);
+        room0 = createAndAddElement(constants.room0, null, null);
+        room1 = createAndAddElement(constants.room1, null, null);
+        room2 = createAndAddElement(constants.room2, null, null);
+        door0To1 = createAndAddElement(constants.door0to1, room0, openState);
+        door1To2 = createAndAddElement(constants.door1to2, room1, openState);
+        cursedObject = createAndAddElement(constants.cursedObject, room0, null);
+        thief = createAndAddElement(constants.thief, room1, null);
+        character = createAndAddElement(constants.character, room0, null);
         game.character = character;
     }
 
     @SuppressWarnings("CPD-END")
 
     public void setActions() {
-        createAndAddSuportedAction(1, "pick");
-        createAndAddSuportedAction(1, "open");
-        createAndAddSuportedAction(1, "talk to");
+        createAndAddSuportedAction(1, constants.pick);
+        createAndAddSuportedAction(1, constants.open);
+        createAndAddSuportedAction(1, constants.talkTo);
     }
 }

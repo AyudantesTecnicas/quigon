@@ -1,6 +1,7 @@
 package games;
 
 import creation.GameBuilder;
+import games.constants.OpenDoorConstants;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.*;
@@ -13,6 +14,7 @@ import model.rulesexpressions.rules.*;
 public final class OpenDoor extends GameBuilder {
 
     public static final String gameDescription = "There is a door on this game. Also, it is locked.";
+    private OpenDoorConstants constants = new OpenDoorConstants();
     private Element closedDoor;
     private Element openedDoor;
     private ComplexElement room1;
@@ -47,8 +49,8 @@ public final class OpenDoor extends GameBuilder {
 
     private void createMoves() {
         //Create moves
-        pickKey = moveWithActionsAndRules("pick", addKeyToCharacter, roomHasKey, "There you go!");
-        openDoor = moveWithActionsAndRules("open", addOpenedDoorState, conditionsToOpenDoor, "You enter room 2.");
+        pickKey = moveWithActionsAndRules(constants.pick, addKeyToCharacter, roomHasKey, constants.pickKey);
+        openDoor = moveWithActionsAndRules(constants.open, addOpenedDoorState, conditionsToOpenDoor, constants.openDoor);
 
         //Inject further actions
         openDoor.addAction(removeClosedDoorState);
@@ -79,27 +81,27 @@ public final class OpenDoor extends GameBuilder {
     }
 
     private void createRules() {
-        roomHasKey = checkContainerRule(key, room1, "Key is't in room 1.");
-        characterHasKey = checkContainerRule(key, character, "Ey! Where do you go?! Room 2 is locked.");
-        doorIsClosed = checkStateRule(door, closedDoor, "Door is open");
-        victoryCondition = checkContainerRule(character, room2, "it's a pitty");
+        roomHasKey = checkContainerRule(key, room1, constants.keyNotInRoom1);
+        characterHasKey = checkContainerRule(key, character, constants.room2Locked);
+        doorIsClosed = checkStateRule(door, closedDoor, constants.doorOpened);
+        victoryCondition = checkContainerRule(character, room2, constants.notWon);
         game.setVictoryCondition(victoryCondition);
     }
 
     private void createElements() {
-        closedDoor = new Element("close");
-        openedDoor = new Element("open");
-        room1 = createAndAddElement("room1", null, null);
-        room2 = createAndAddElement("room2", null, null);
-        door = createAndAddElement("door", room1, closedDoor);
-        key = createAndAddElement("key", room1, null);
-        character = createAndAddElement("character", room1, null);
+        closedDoor = new Element(constants.closed);
+        openedDoor = new Element(constants.opened);
+        room1 = createAndAddElement(constants.room1, null, null);
+        room2 = createAndAddElement(constants.room2, null, null);
+        door = createAndAddElement(constants.door, room1, closedDoor);
+        key = createAndAddElement(constants.key, room1, null);
+        character = createAndAddElement(constants.character, room1, null);
         game.character = character;
     }
 
     @SuppressWarnings("CPD-END")
     public void setActions() {
-        createAndAddSuportedAction(1, "pick");
-        createAndAddSuportedAction(1, "open");
+        createAndAddSuportedAction(1, constants.pick);
+        createAndAddSuportedAction(1, constants.open);
     }
 }

@@ -1,6 +1,7 @@
 package games;
 
 import creation.GameBuilder;
+import games.constants.OpenDoor2Constants;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.*;
@@ -14,6 +15,7 @@ import model.rulesexpressions.rules.HasStateRule;
 public final class OpenDoor2 extends GameBuilder {
 
     public static final String gameDescription = "There is a door on this game. But no key around.";
+    private OpenDoor2Constants constants = new OpenDoor2Constants();
     private ComplexElement closedBoxState;
     private ComplexElement closedDoorState;
     private ComplexElement openDoorState;
@@ -57,9 +59,9 @@ public final class OpenDoor2 extends GameBuilder {
 
     private void createMoves() {
         //Create moves
-        openBox = moveWithActionsAndRules("open", addOpenedStateToBox, closedBoxRule, "The box is opened!");
-        pickKey = moveWithActionsAndRules("pick", addKeyToCharacter, keyIsInRoom1, "There you go!");
-        openDoor = moveWithActionsAndRules("open", addOpendStateToDoor, openingRules, "You enter room 2.");
+        openBox = moveWithActionsAndRules(constants.open, addOpenedStateToBox, closedBoxRule, constants.openBox);
+        pickKey = moveWithActionsAndRules(constants.pick, addKeyToCharacter, keyIsInRoom1, constants.pickKey);
+        openDoor = moveWithActionsAndRules(constants.open, addOpendStateToDoor, openingRules, constants.openDoor);
 
         //Inject Actions to moves
         openBox.addAction(removeOpenedStateToBox);
@@ -96,35 +98,35 @@ public final class OpenDoor2 extends GameBuilder {
     }
 
     private void createRules() {
-        victoryRule = checkContainerRule(character, room2, "it's a pitty");
-        closedBoxRule = checkStateRule(box, closedBoxState, "the box was open");
-        keyIsInRoom1 = checkContainerRule(key, room1, "key is not in room1");
-        closedDoorRule = checkStateRule(door, closedDoorState, "the door was open");
-        characterHasKey = checkContainerRule(key, character, "character doesn't have the key");
+        victoryRule = checkContainerRule(character, room2, constants.notWon);
+        closedBoxRule = checkStateRule(box, closedBoxState, constants.boxOpened);
+        keyIsInRoom1 = checkContainerRule(key, room1, constants.keyNotInRoom1);
+        closedDoorRule = checkStateRule(door, closedDoorState, constants.doorOpened);
+        characterHasKey = checkContainerRule(key, character, constants.missingKey);
         game.setVictoryCondition(victoryRule);
     }
 
     private void createElements() {
         //Create states
-        closedBoxState = new ComplexElement("Closed");
-        closedDoorState = new ComplexElement("Closed");
-        openDoorState = new ComplexElement("Open");
-        openBoxState = new ComplexElement("Open");
+        closedBoxState = new ComplexElement(constants.closed);
+        closedDoorState = new ComplexElement(constants.closed);
+        openDoorState = new ComplexElement(constants.opened);
+        openBoxState = new ComplexElement(constants.opened);
 
         //Create and add elements
-        room1 = createAndAddElement("room1", null, null);
-        room2 = createAndAddElement("room2", null, null);
-        door = createAndAddElement("door", room1, closedDoorState);
-        box = createAndAddElement("box", room1, closedBoxState);
-        key = createAndAddElement("key", box, null);
-        character = createAndAddElement("character", room1, null);
+        room1 = createAndAddElement(constants.room1, null, null);
+        room2 = createAndAddElement(constants.room2, null, null);
+        door = createAndAddElement(constants.door, room1, closedDoorState);
+        box = createAndAddElement(constants.box, room1, closedBoxState);
+        key = createAndAddElement(constants.key, box, null);
+        character = createAndAddElement(constants.character, room1, null);
         game.character = character;
     }
 
     @SuppressWarnings("CPD-END")
     public void setActions() {
-        createAndAddSuportedAction(1, "pick");
-        createAndAddSuportedAction(1, "open");
+        createAndAddSuportedAction(1, constants.pick);
+        createAndAddSuportedAction(1, constants.open);
     }
 
 }

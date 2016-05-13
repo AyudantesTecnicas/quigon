@@ -1,4 +1,5 @@
 import creation.GameCreator;
+import games.constants.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -8,69 +9,108 @@ public class GameBehaviourTests {
     public void gameTestOpenDoorPickKey() {
         GameCreator gameCreator = new GameCreator();
         gameCreator.createGame("OpenDoor");
-        assertEquals(gameCreator.getGame().receiveCommands("pick key"), "There you go!");
+        OpenDoorConstants ODConstants = new OpenDoorConstants();
+        String pickKeyCommand = ODConstants.pick + " " + ODConstants.key;
+        assertEquals(gameCreator.getGame().receiveCommands(pickKeyCommand), ODConstants.pickKey);
     }
 
     @Test
     public void completeGameTestOpenDoorPickKeyAndOpenDoor() {
         GameCreator gameCreator = new GameCreator();
         gameCreator.createGame("OpenDoor");
-        assertEquals(gameCreator.getGame().receiveCommands("pick key"), "There you go!");
-        assertEquals(gameCreator.getGame().receiveCommands("open door"), "You won the game!");
+        OpenDoorConstants ODConstants = new OpenDoorConstants();
+        String pickKeyCommand = ODConstants.pick + " " + ODConstants.key;
+        assertEquals(gameCreator.getGame().receiveCommands(pickKeyCommand), ODConstants.pickKey);
+        String openDoorCommand = ODConstants.open + " " + ODConstants.door;
+        assertEquals(gameCreator.getGame().receiveCommands(openDoorCommand), "You won the game!");
+    }
+
+    @Test
+    public void completeGameTestOpenDoor2OpenBoxAndPickKeyAndOpenDoor() {
+        GameCreator gameCreator = new GameCreator();
+        gameCreator.createGame("OpenDoor2");
+        OpenDoor2Constants ODConstants = new OpenDoor2Constants();
+        String openBoxCommand = ODConstants.open + " " + ODConstants.box;
+        assertEquals(gameCreator.getGame().receiveCommands(openBoxCommand), ODConstants.openBox);
+        String pickKeyCommand = ODConstants.pick + " " + ODConstants.key;
+        assertEquals(gameCreator.getGame().receiveCommands(pickKeyCommand), ODConstants.pickKey);
+        String openDoorCommand = ODConstants.open + " " + ODConstants.door;
+        assertEquals(gameCreator.getGame().receiveCommands(openDoorCommand), "You won the game!");
     }
 
     @Test
     public void gameTestFetchQuest() {
         GameCreator gameCreator = new GameCreator();
         gameCreator.createGame("FetchQuest");
-        assertEquals(gameCreator.getGame().receiveCommands("pick stick"), "You won the game!");
+        FetchQuestConstants FQConstants = new FetchQuestConstants();
+        String pickStickCommand = FQConstants.pick + " " + FQConstants.stick;
+        assertEquals(gameCreator.getGame().receiveCommands(pickStickCommand), "You won the game!");
     }
 
     @Test
     public void gameTestWolfSheepCabbage() {
         GameCreator gameCreator = new GameCreator();
         gameCreator.createGame("WolfSheep");
-        assertEquals(gameCreator.getGame().receiveCommands("take cabbage"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross north-shore"), "Wolf is is on the south-shore");
-        assertEquals(gameCreator.getGame().receiveCommands("leave cabbage"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("take sheep"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross north-shore"), "you have crossed!");
-        assertEquals(gameCreator.getGame().receiveCommands("leave sheep"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross south-shore"), "you have crossed!");
-        assertEquals(gameCreator.getGame().receiveCommands("take cabbage"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross north-shore"), "you have crossed!");
-        assertEquals(gameCreator.getGame().receiveCommands("leave cabbage"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("take sheep"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross south-shore"), "you have crossed!");
-        assertEquals(gameCreator.getGame().receiveCommands("leave sheep"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("take wolf"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross north-shore"), "you have crossed!");
-        assertEquals(gameCreator.getGame().receiveCommands("leave wolf"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross south-shore"), "you have crossed!");
-        assertEquals(gameCreator.getGame().receiveCommands("take sheep"), "Ok");
-        assertEquals(gameCreator.getGame().receiveCommands("cross north-shore"), "you have crossed!");
-        assertEquals(gameCreator.getGame().receiveCommands("leave sheep"), "You won the game!");
+        WolfSheepConstants WSConstants = new WolfSheepConstants();
+        String takeCabbageCommand = WSConstants.take + " " + WSConstants.cabbage;
+        assertEquals(gameCreator.getGame().receiveCommands(takeCabbageCommand), WSConstants.ok);
+        String crossNorthCommand = WSConstants.cross + " " + WSConstants.northShore;
+        assertEquals(gameCreator.getGame().receiveCommands(crossNorthCommand), WSConstants.wolfOnSouth);
+        String leaveCabbageCommand = WSConstants.leave + " " + WSConstants.cabbage;
+        assertEquals(gameCreator.getGame().receiveCommands(leaveCabbageCommand), WSConstants.ok);
+        String takeSheepCommand = WSConstants.take + " " + WSConstants.sheep;
+        assertEquals(gameCreator.getGame().receiveCommands(takeSheepCommand), WSConstants.ok);
+        assertEquals(gameCreator.getGame().receiveCommands(crossNorthCommand), WSConstants.youCrossed);
+        String leaveSheepCommand = WSConstants.leave + " " + WSConstants.sheep;
+        assertEquals(gameCreator.getGame().receiveCommands(leaveSheepCommand), WSConstants.ok);
+        String crossSouthCommand = WSConstants.cross + " " + WSConstants.southShore;
+        assertEquals(gameCreator.getGame().receiveCommands(crossSouthCommand), WSConstants.youCrossed);
+        assertEquals(gameCreator.getGame().receiveCommands(takeCabbageCommand), WSConstants.ok);
+        assertEquals(gameCreator.getGame().receiveCommands(crossNorthCommand), WSConstants.youCrossed);
+        assertEquals(gameCreator.getGame().receiveCommands(leaveCabbageCommand), WSConstants.ok);
+        assertEquals(gameCreator.getGame().receiveCommands(takeSheepCommand), WSConstants.ok);
+        assertEquals(gameCreator.getGame().receiveCommands(crossSouthCommand), WSConstants.youCrossed);
+        assertEquals(gameCreator.getGame().receiveCommands(leaveSheepCommand), WSConstants.ok);
+        String takeWolfCommand = WSConstants.take + " " + WSConstants.wolf;
+        assertEquals(gameCreator.getGame().receiveCommands(takeWolfCommand), WSConstants.ok);
+        assertEquals(gameCreator.getGame().receiveCommands(crossNorthCommand), WSConstants.youCrossed);
+        String leaveWolfCommand = WSConstants.leave + " " + WSConstants.wolf;
+        assertEquals(gameCreator.getGame().receiveCommands(leaveWolfCommand), WSConstants.ok);
+        assertEquals(gameCreator.getGame().receiveCommands(crossSouthCommand), WSConstants.youCrossed);
+        assertEquals(gameCreator.getGame().receiveCommands(takeSheepCommand), WSConstants.ok);
+        assertEquals(gameCreator.getGame().receiveCommands(crossNorthCommand), WSConstants.youCrossed);
+        assertEquals(gameCreator.getGame().receiveCommands(leaveSheepCommand), "You won the game!");
     }
 
     @Test
     public void gameTestCursedObject() {
         GameCreator gameCreator = new GameCreator();
         gameCreator.createGame("CursedObject");
-        assertEquals(gameCreator.getGame().receiveCommands("pick object"), "Ohoh, you have picked a cursed object =( ");
-        assertEquals(gameCreator.getGame().receiveCommands("open door"), "There is another room! - Room 1 -");
-        assertEquals(gameCreator.getGame().receiveCommands("talk to thief"), "The thief have robbed you!!!");
-        assertEquals(gameCreator.getGame().receiveCommands("open golden_door"), "You won the game!");
+        CursedObjectConstants COConstants = new CursedObjectConstants();
+        String pickObjectCommand = COConstants.pick + " " + COConstants.cursedObject;
+        assertEquals(gameCreator.getGame().receiveCommands(pickObjectCommand), COConstants.pickObject);
+        String openDoor1Command = COConstants.open + " " + COConstants.door0to1;
+        assertEquals(gameCreator.getGame().receiveCommands(openDoor1Command), COConstants.goToRoom1);
+        String talkToThiefCommand = COConstants.talkTo + " " + COConstants.thief;
+        assertEquals(gameCreator.getGame().receiveCommands(talkToThiefCommand), COConstants.talkThief);
+        String openDoor2Command = COConstants.open + " " + COConstants.door1to2;
+        assertEquals(gameCreator.getGame().receiveCommands(openDoor2Command), "You won the game!");
     }
 
     @Test
     public void gameTestCursedObjectFail() {
         GameCreator gameCreator = new GameCreator();
         gameCreator.createGame("CursedObject");
-        assertEquals(gameCreator.getGame().receiveCommands("open door"), "You need an object");
-        assertEquals(gameCreator.getGame().receiveCommands("pick object"), "Ohoh, you have picked a cursed object =( ");
-        assertEquals(gameCreator.getGame().receiveCommands("open door"), "There is another room! - Room 1 -");
-        assertEquals(gameCreator.getGame().receiveCommands("open golden_door"), "You can't go to the next room");
-        assertEquals(gameCreator.getGame().receiveCommands("talk to thief"), "The thief have robbed you!!!");
-        assertEquals(gameCreator.getGame().receiveCommands("open golden_door"), "You won the game!");
+        CursedObjectConstants COConstants = new CursedObjectConstants();
+        String openDoor1Command = COConstants.open + " " + COConstants.door0to1;
+        assertEquals(gameCreator.getGame().receiveCommands(openDoor1Command), COConstants.missingObject);
+        String pickObjectCommand = COConstants.pick + " " + COConstants.cursedObject;
+        assertEquals(gameCreator.getGame().receiveCommands(pickObjectCommand), COConstants.pickObject);
+        assertEquals(gameCreator.getGame().receiveCommands(openDoor1Command), COConstants.goToRoom1);
+        String openDoor2Command = COConstants.open + " " + COConstants.door1to2;
+        assertEquals(gameCreator.getGame().receiveCommands(openDoor2Command), COConstants.thiefNeedsObject);
+        String talkToThiefCommand = COConstants.talkTo + " " + COConstants.thief;
+        assertEquals(gameCreator.getGame().receiveCommands(talkToThiefCommand), COConstants.talkThief);
+        assertEquals(gameCreator.getGame().receiveCommands(openDoor2Command), "You won the game!");
     }
 }

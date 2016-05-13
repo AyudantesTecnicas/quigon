@@ -1,6 +1,7 @@
 package games;
 
 import creation.GameBuilder;
+import games.constants.WolfSheepConstants;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.Action;
@@ -14,6 +15,7 @@ import model.rulesexpressions.rules.HasContainerRule;
 public class WolfSheep extends GameBuilder {
 
     public static final String gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
+    private WolfSheepConstants constants = new WolfSheepConstants();
     private ComplexElement northShore;
     private ComplexElement southShore;
     private ComplexElement sheep;
@@ -68,13 +70,13 @@ public class WolfSheep extends GameBuilder {
 
     private void createElements() {
         //Create elements
-        northShore = createAndAddElement("north-shore", null, null);
-        southShore = createAndAddElement("south-shore", null, null);
-        sheep = createAndAddElement("sheep", southShore, null);
-        wolf = createAndAddElement("wolf", southShore, null);
-        cabbage = createAndAddElement("cabbage", southShore, null);
-        boat = createAndAddElement("boat", southShore, null);
-        game.character = createAndAddElement("character", boat, null);
+        northShore = createAndAddElement(constants.northShore, null, null);
+        southShore = createAndAddElement(constants.southShore, null, null);
+        sheep = createAndAddElement(constants.sheep, southShore, null);
+        wolf = createAndAddElement(constants.wolf, southShore, null);
+        cabbage = createAndAddElement(constants.cabbage, southShore, null);
+        boat = createAndAddElement(constants.boat, southShore, null);
+        game.character = createAndAddElement(constants.character, boat, null);
     }
 
     private void createActions() {
@@ -93,23 +95,23 @@ public class WolfSheep extends GameBuilder {
     }
 
     private void createRules() {
-        boatHasSheep = checkContainerRule(sheep, boat, "Sheep is not on board");
-        boatHasNoSheep = doesntHaveContainerRule(sheep, boat, "Sheep is on board");
-        boatHasWolf = checkContainerRule(wolf, boat, "Wolf is not on board");
-        boatHasNoWolf = doesntHaveContainerRule(wolf, boat, "Wolf is on board");
-        boatHasCabbage = checkContainerRule(cabbage, boat, "Cabbage is not on board");
-        boatHasNoCabbage = doesntHaveContainerRule(cabbage, boat, "Cabbage is on board");
-        southShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, southShore, "Wolf is is on the south-shore");
-        northShoreContainsWolf = checkContainerRule(wolf, northShore, "Wolf is is not on the north-shore");
-        southShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, southShore, "Sheep is on the south-shore");
-        northShoreContainsSheep = checkContainerRule(sheep, northShore, "Sheep is is not on the north-shore");
-        southShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, southShore, "Cabbage is on the south-shore");
-        northShoreContainsCabbage = checkContainerRule(cabbage, northShore, "Cabbage is is not on the north-shore");
-        northShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, northShore, "Wolf is on the north-shore");
-        northShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, northShore, "Sheep is on the north-shore");
-        northShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, northShore, "Cabbage is on the north-shore");
-        boatIsOnSouthShore = checkContainerRule(boat, southShore, "Boat is not on the south-shore");
-        boatIsOnNorthShore = checkContainerRule(boat, northShore, "Boat is not on the north-shore");
+        boatHasSheep = checkContainerRule(sheep, boat, constants.sheepNotOnBoard);
+        boatHasNoSheep = doesntHaveContainerRule(sheep, boat, constants.sheepOnBoard);
+        boatHasWolf = checkContainerRule(wolf, boat, constants.wolfNotOnBoard);
+        boatHasNoWolf = doesntHaveContainerRule(wolf, boat, constants.wolfOnBoard);
+        boatHasCabbage = checkContainerRule(cabbage, boat, constants.cabbageNotOnBoard);
+        boatHasNoCabbage = doesntHaveContainerRule(cabbage, boat, constants.cabbageOnBoard);
+        southShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, southShore, constants.wolfOnSouth);
+        northShoreContainsWolf = checkContainerRule(wolf, northShore, constants.wolfNotOnNorth);
+        southShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, southShore, constants.sheepOnSouth);
+        northShoreContainsSheep = checkContainerRule(sheep, northShore, constants.sheepNotOnNorth);
+        southShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, southShore, constants.cabbageOnSouth);
+        northShoreContainsCabbage = checkContainerRule(cabbage, northShore, constants.cabbageNotOnNorth);
+        northShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, northShore, constants.wolfOnNorth);
+        northShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, northShore, constants.sheepOnNorth);
+        northShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, northShore, constants.cabbageOnNorth);
+        boatIsOnSouthShore = checkContainerRule(boat, southShore, constants.boatNotOnSouth);
+        boatIsOnNorthShore = checkContainerRule(boat, northShore, constants.boatNotOnNorth);
     }
 
     private void createComplexRules() {
@@ -147,14 +149,14 @@ public class WolfSheep extends GameBuilder {
     }
 
     private void createMoves() {
-        crossSouthShore = moveWithActionsAndRules("cross", crossNorthSouth, rulesToCrossSouthShore, "you have crossed!");
-        crossNorthShore = moveWithActionsAndRules("cross", crossSouthNorth, rulesToCrossNorthShore, "you have crossed!");
-        takeSheepAboard = moveWithActionsAndRules("take", takeSheep, ruleToTake, "Ok");
-        takeWolfAboard = moveWithActionsAndRules("take", takeWolf, ruleToTake, "Ok");
-        takeCabbageAboard = moveWithActionsAndRules("take", takeCabbage, ruleToTake, "Ok");
-        leaveSheep = moveWithActionsAndRules("leave", leaveSheepSouth, boatHasSheep, "Ok");
-        leaveWolf = moveWithActionsAndRules("leave", leaveWolfSouth, boatHasWolf, "Ok");
-        leaveCabbage = moveWithActionsAndRules("leave", leaveCabbageSouth, boatHasCabbage, "Ok");
+        crossSouthShore = moveWithActionsAndRules(constants.cross, crossNorthSouth, rulesToCrossSouthShore, constants.youCrossed);
+        crossNorthShore = moveWithActionsAndRules(constants.cross, crossSouthNorth, rulesToCrossNorthShore, constants.youCrossed);
+        takeSheepAboard = moveWithActionsAndRules(constants.take, takeSheep, ruleToTake, constants.ok);
+        takeWolfAboard = moveWithActionsAndRules(constants.take, takeWolf, ruleToTake, constants.ok);
+        takeCabbageAboard = moveWithActionsAndRules(constants.take, takeCabbage, ruleToTake, constants.ok);
+        leaveSheep = moveWithActionsAndRules(constants.leave, leaveSheepSouth, boatHasSheep, constants.ok);
+        leaveWolf = moveWithActionsAndRules(constants.leave, leaveWolfSouth, boatHasWolf, constants.ok);
+        leaveCabbage = moveWithActionsAndRules(constants.leave, leaveCabbageSouth, boatHasCabbage, constants.ok);
     }
 
     private void injectActionsToMoves() {
@@ -197,8 +199,8 @@ public class WolfSheep extends GameBuilder {
 
     @SuppressWarnings("CPD-END")
     public void setActions() {
-        createAndAddSuportedAction(1, "cross");
-        createAndAddSuportedAction(1, "take");
-        createAndAddSuportedAction(1, "leave");
+        createAndAddSuportedAction(1, constants.cross);
+        createAndAddSuportedAction(1, constants.take);
+        createAndAddSuportedAction(1, constants.leave);
     }
 }
