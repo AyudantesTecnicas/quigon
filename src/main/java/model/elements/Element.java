@@ -18,7 +18,8 @@ public class Element {
         this.name = name;
     }
 
-    protected void init() {}
+    protected void init() {
+    }
 
     public String getName() {
         return this.name;
@@ -26,17 +27,13 @@ public class Element {
 
     @Override
     public boolean equals(Object other) {
-        if (other == null) {
+        if (!(other instanceof Element)) {
             return false;
         }
         if (other == this) {
             return true;
         }
-        if (!(other instanceof Element)) {
-            return false;
-        }
-
-        Element otherElement = (Element)other;
+        Element otherElement = (Element) other;
         return (this.name.equals(otherElement.name));
     }
 
