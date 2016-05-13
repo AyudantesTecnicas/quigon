@@ -2,8 +2,8 @@ import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.elements.ComplexElement;
 import model.elements.Element;
-import model.rulesexpressions.rules.HasStateRule;
 import model.rulesexpressions.expressions.IExpression;
+import model.rulesexpressions.rules.HasStateRule;
 import org.junit.Before;
 import org.junit.Test;
 

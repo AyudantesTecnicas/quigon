@@ -1,21 +1,19 @@
 package games.constants;
 
-/**
- * Created by francisco on 5/11/16.
- */
+@SuppressWarnings("CPD-START")
 public class FetchQuestConstants {
     //Elements
-    public final String character = "character";
-    public final String room = "room";
-    public final String stick = "stick";
+    public static final String character = "character";
+    public static final String room = "room";
+    public static final String stick = "stick";
 
     //Actions
-    public final String pick = "pick";
+    public static final String pick = "pick";
 
     //Rules
-    public final String noStick = "There's no stick in room";
-    public final String notWon = "it's a pitty";
+    public static final String noStick = "There's no stick in room";
+    public static final String notWon = "it's a pity";
 
     //Moves
-    public final String pickStick = "You won the game!";
+    public static final String pickStick = "You won the game!";
 }
