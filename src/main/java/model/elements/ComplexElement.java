@@ -37,6 +37,19 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         Utils.addToCollection(move, moves);
     }
 
+    public String listMoves() {
+        StringBuilder stringToReturn = new StringBuilder();
+        if (moves != null && moves.size() > 0) {
+            for (Move aMove : moves) {
+                stringToReturn.append(aMove.getName());
+                stringToReturn.append(" ");
+            }
+        } else {
+            stringToReturn.append("Nothing");
+        }
+        return stringToReturn.toString();
+    }
+
     public void setContainerElement(ComplexElement containerElement) {
         if (containerElement != null) {
             if (this.containerElement != null) {
