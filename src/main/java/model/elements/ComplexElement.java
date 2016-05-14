@@ -40,12 +40,12 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
     public String listMoves() {
         StringBuilder stringToReturn = new StringBuilder();
         if (moves != null && moves.size() > 0) {
-            for (Move aMove : moves) {
-                stringToReturn.append(aMove.getName());
-                stringToReturn.append(" ");
+            for (Move move : moves) {
+                stringToReturn.append(move.getName());
+                stringToReturn.append('\n');
             }
         } else {
-            stringToReturn.append("Nothing");
+            stringToReturn.append("[nothing]\n");
         }
         return stringToReturn.toString();
     }

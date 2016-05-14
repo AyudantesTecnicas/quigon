@@ -6,6 +6,7 @@ import model.rulesexpressions.expressions.IExpression;
 import parser.GameAction;
 import parser.GameParser;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Game {
@@ -30,7 +31,7 @@ public class Game {
         return victoryCondition.interpret();
     }
 
-    private String checkAroundItems(String command) {
+    private String checkAroundItems() {
         StringBuilder elementsInRoom = new StringBuilder();
         Element actualRoom = character.getContainerElement();
         for (Element element : elementList) {
@@ -42,6 +43,24 @@ public class Game {
         }
         return (elementsInRoom.toString());
     }
+
+    private String checkWhatCanIDoWith(String elementName) {
+        String movesOfElement = "object not found";
+        Element actualRoom = character.getContainerElement();
+        boolean objectFound = false;
+        Iterator<Element> iterator = elementList.iterator();
+        while (iterator.hasNext() && !objectFound) {
+            ComplexElement complexElement = (ComplexElement) iterator.next();
+            if (    (complexElement.getContainerElement() != null)
+                    && complexElement.getContainerElement().equals(actualRoom)
+                    && complexElement.getName().equals(elementName) ) {
+                movesOfElement = complexElement.listMoves();
+                objectFound = true;
+            }
+        }
+        return movesOfElement;
+    }
+
 
     private String commandToSend(String command) {
         String sendCommand;
@@ -63,7 +82,11 @@ public class Game {
     public String receiveCommands(String command) {
         String sendCommand;
         if (command.equals("look around")) {
-            sendCommand = checkAroundItems(command);
+            sendCommand = checkAroundItems();
+        } else if (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")) {
+            String elementName = command.split(" ")[5];
+            elementName = elementName.substring(0,elementName.length() - 1);
+            sendCommand = checkWhatCanIDoWith(elementName);
         } else {
             sendCommand = commandToSend(command);
         }
