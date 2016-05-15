@@ -65,10 +65,16 @@ public abstract class GameBuilder {
         return changeContainer;
     }
 
-    protected Action buildAddStatesAction(ComplexElement contained, Element state) {
-        Action changeContainer = new AddStatesAction();
-        addElementsToAction(changeContainer, contained, state);
+    protected Action buildChangeContainerAction(ComplexElement contained, String index, ComplexElement container) {
+        Action changeContainer = this.buildChangeContainerAction(contained, container);
+        changeContainer.setIndex(index);
         return changeContainer;
+    }
+
+    protected Action buildAddStatesAction(ComplexElement contained, Element state) {
+        Action addState = new AddStatesAction();
+        addElementsToAction(addState, contained, state);
+        return addState;
     }
 
     protected Action buildRemoveStatesAction(ComplexElement contained, Element state) {
@@ -77,19 +83,22 @@ public abstract class GameBuilder {
         return changeContainer;
     }
 
-    private void addElementsToContainerRule(ContainerRule rule, ComplexElement contained, ComplexElement container, String failMessage) {
+    private void addElementsToContainerRule(ContainerRule rule, ComplexElement contained, ComplexElement container,
+                                            String failMessage) {
         rule.setElementToValidate(contained);
         rule.setContainerToValidate(container);
         rule.setFailMessage(failMessage);
     }
 
-    protected HasContainerRule checkContainerRule(ComplexElement contained, ComplexElement container, String failMessage) {
+    protected HasContainerRule checkContainerRule(ComplexElement contained, ComplexElement container,
+                                                  String failMessage) {
         HasContainerRule rule = new HasContainerRule();
         addElementsToContainerRule(rule, contained, container, failMessage);
         return rule;
     }
 
-    protected DoesNotHaveContainerRule doesntHaveContainerRule(ComplexElement contained, ComplexElement container, String failMessage) {
+    protected DoesNotHaveContainerRule doesntHaveContainerRule(ComplexElement contained, ComplexElement container,
+                                                               String failMessage) {
         DoesNotHaveContainerRule rule = new DoesNotHaveContainerRule();
         addElementsToContainerRule(rule, contained, container, failMessage);
         return rule;
@@ -99,6 +108,32 @@ public abstract class GameBuilder {
         HasStateRule rule = new HasStateRule();
         rule.setElementToValidate(contained);
         rule.setStateToValidate(state);
+        rule.setFailMessage(failMessage);
+        return rule;
+    }
+
+    protected IsEmptyRule checkIsEmptyRule(ComplexElement element, String failMessage) {
+        IsEmptyRule rule = new IsEmptyRule();
+        rule.setElementToValidate(element);
+        rule.setFailMessage(failMessage);
+        return rule;
+    }
+
+    protected IsNotEmptyRule checkIsNotEmptyRule(ComplexElement element, String failMessage) {
+        IsNotEmptyRule rule = new IsNotEmptyRule();
+        rule.setElementToValidate(element);
+        rule.setFailMessage(failMessage);
+        return rule;
+    }
+
+    protected SizeComparisonLesserRule checkSizeComparisonLesserRule(ComplexElement element, String indexToValidate,
+                                                                     ComplexElement elementToCompare,
+                                                                     String indexToCompare, String failMessage) {
+        SizeComparisonLesserRule rule = new SizeComparisonLesserRule();
+        rule.setElementToValidate(element);
+        rule.setIndexToValidate(indexToValidate);
+        rule.setElementToCompare(elementToCompare);
+        rule.setIndexToCompare(indexToCompare);
         rule.setFailMessage(failMessage);
         return rule;
     }
@@ -116,6 +151,12 @@ public abstract class GameBuilder {
         complexElement.setContainerElement(container);
         complexElement.addState(state);
         addElement(complexElement);
+        return complexElement;
+    }
+
+    protected ComplexElement createAndAddElement(String name, ComplexElement container, Element state, Integer size) {
+        ComplexElement complexElement = this.createAndAddElement(name, container, state);
+        complexElement.setSize(size);
         return complexElement;
     }
 
