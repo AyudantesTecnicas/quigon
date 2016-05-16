@@ -1,3 +1,6 @@
 rootProject.name = 'tp-tp-grupal'
 include 'Client'
+include 'Engine'
+include 'Server'
+include 'FetchQuestBuilder'
 

@@ -38,13 +38,13 @@ public class Server {
         threads.forEach(PortThread::interrupt);
     }
 
-    protected void run() {
+    public void run() {
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
         while (!commandIsExit()) {
             try {
                 line = keyboard.readLine();
-                if (line != null && line.matches("^(?i)/load game [a-zA-Z0-9_-]+$")) {
+                if (line != null && line.matches("^(?i)/load game [a-zA-Z0-9_-]+\\.jar$")) {
                     loadGame(line.split(" ")[2]);
                 }
             } catch (IOException e) {
