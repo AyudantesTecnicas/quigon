@@ -2,6 +2,8 @@ group 'tp-tp-grupal'
 
 check.dependsOn(':cpdCheck')
 
-apply from: 'gradle/fatjar.gradle'
-
-
+jar {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+}
