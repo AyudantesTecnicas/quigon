@@ -92,7 +92,7 @@ public class Client {
         }
     }
 
-    protected void run() {
+    public void run() {
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
         while (currentCommandHandlersChain.useHandlers(line)) {

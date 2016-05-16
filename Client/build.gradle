@@ -1,7 +1,3 @@
-plugins {
-    id 'de.aaschmid.cpd' version '0.4'
-}
-
 group 'ar.fiuba.tdd.tp-tp-grupal'
 
 apply plugin: 'java'
@@ -12,6 +8,7 @@ apply plugin: 'maven'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: "jacoco"
+apply plugin: 'de.aaschmid.cpd'
 apply from: 'gradle/fatjar.gradle'
 apply from: 'gradle/quality.gradle'
 
@@ -34,3 +31,4 @@ configurations.all {
         force 'xml-apis:xml-apis:1.4.01'
     }
 }
+
