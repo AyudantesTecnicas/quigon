@@ -203,25 +203,28 @@ public final class TowerOfHanoi extends GameBuilder {
         this.emptyRuleStack2 = checkIsEmptyRule(this.stack2, "");
         this.emptyRuleStack3 = checkIsEmptyRule(this.stack3, "");
 
-        this.lesserRuleStack1Stack2 = checkSizeComparisonLesserRule(this.stack1, "last", this.stack2, "last",
-                TowerOfHanoiConstants.discIsGreater);
-        this.lesserRuleStack2Stack1 = checkSizeComparisonLesserRule(this.stack2, "last", this.stack1, "last",
-                TowerOfHanoiConstants.discIsGreater);
-        this.lesserRuleStack1Stack3 = checkSizeComparisonLesserRule(this.stack1, "last", this.stack3, "last",
-                TowerOfHanoiConstants.discIsGreater);
-        this.lesserRuleStack3Stack1 = checkSizeComparisonLesserRule(this.stack3, "last", this.stack1, "last",
-                TowerOfHanoiConstants.discIsGreater);
-        this.lesserRuleStack2Stack3 = checkSizeComparisonLesserRule(this.stack2, "last", this.stack3, "last",
-                TowerOfHanoiConstants.discIsGreater);
-        this.lesserRuleStack3Stack2 = checkSizeComparisonLesserRule(this.stack3, "last", this.stack2, "last",
-                TowerOfHanoiConstants.discIsGreater);
+        this.lesserRuleStack1Stack2 = checkSizeComparisonLesserRule(this.stack1, TowerOfHanoiConstants.last,
+                this.stack2, TowerOfHanoiConstants.last, TowerOfHanoiConstants.discIsGreater);
+        this.lesserRuleStack2Stack1 = checkSizeComparisonLesserRule(this.stack2, TowerOfHanoiConstants.last,
+                this.stack1, TowerOfHanoiConstants.last, TowerOfHanoiConstants.discIsGreater);
+        this.lesserRuleStack1Stack3 = checkSizeComparisonLesserRule(this.stack1, TowerOfHanoiConstants.last,
+                this.stack3, TowerOfHanoiConstants.last, TowerOfHanoiConstants.discIsGreater);
+        this.lesserRuleStack3Stack1 = checkSizeComparisonLesserRule(this.stack3, TowerOfHanoiConstants.last,
+                this.stack1, TowerOfHanoiConstants.last, TowerOfHanoiConstants.discIsGreater);
+        this.lesserRuleStack2Stack3 = checkSizeComparisonLesserRule(this.stack2, TowerOfHanoiConstants.last,
+                this.stack3, TowerOfHanoiConstants.last, TowerOfHanoiConstants.discIsGreater);
+        this.lesserRuleStack3Stack2 = checkSizeComparisonLesserRule(this.stack3, TowerOfHanoiConstants.last,
+                this.stack2, TowerOfHanoiConstants.last, TowerOfHanoiConstants.discIsGreater);
     }
 
     private void createElements() {
+        //Room
+        ComplexElement room = createAndAddElement(TowerOfHanoiConstants.room, null, null);
+
         //Stacks
-        this.stack1 = createAndAddElement(TowerOfHanoiConstants.stack1, null, null);
-        this.stack2 = createAndAddElement(TowerOfHanoiConstants.stack2, null, null);
-        this.stack3 = createAndAddElement(TowerOfHanoiConstants.stack3, null, null);
+        this.stack1 = createAndAddElement(TowerOfHanoiConstants.stack1, room, null);
+        this.stack2 = createAndAddElement(TowerOfHanoiConstants.stack2, room, null);
+        this.stack3 = createAndAddElement(TowerOfHanoiConstants.stack3, room, null);
 
         //Discs
         createAndAddElement(TowerOfHanoiConstants.disc6, stack1, null, 6);
@@ -231,8 +234,7 @@ public final class TowerOfHanoi extends GameBuilder {
         createAndAddElement(TowerOfHanoiConstants.disc2, stack1, null, 2);
         createAndAddElement(TowerOfHanoiConstants.disc1, stack1, null, 1);
 
-        //Character
-        game.character = null;
+        game.character = createAndAddElement(TowerOfHanoiConstants.character, room, null);
     }
 
     @SuppressWarnings("CPD-END")

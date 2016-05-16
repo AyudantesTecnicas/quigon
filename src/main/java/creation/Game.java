@@ -70,7 +70,7 @@ public class Game {
             sendCommand = "object not found";
             for (Element anElement : elementList) {
                 for (String itemsID : actionToExecute.getItemsID()) {
-                    if (anElement.getName().equals(itemsID)) {
+                    if (anElement.getName().toLowerCase().equals(itemsID)) {
                         sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
                     }
                 }
