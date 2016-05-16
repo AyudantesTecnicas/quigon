@@ -36,9 +36,6 @@ public final class GameCreator {
             case "CursedObject":
                 gameBuilderImp = new CursedObject();
                 break;
-            case "FetchQuest":
-                gameBuilderImp = new FetchQuest();
-                break;
             case "OpenDoor":
                 gameBuilderImp = new OpenDoor();
                 break;
