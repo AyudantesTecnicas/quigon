@@ -1,11 +1,11 @@
 package games;
 
-import creation.GameBuilder;
+import creation.GameBuilderImp;
 import model.actions.*;
 import model.elements.*;
 import model.rulesexpressions.rules.HasContainerRule;
 
-public class TreasureHunt extends GameBuilder {
+public class TreasureHunt extends GameBuilderImp {
     @SuppressWarnings("CPD-START")
     public static final String gameDescription = "Search for the treasure. But be careful.";
 

@@ -1,6 +1,6 @@
 package server;
 
-import creation.GameBuilder;
+import creation.GameBuilderImp;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class BuilderLoader {
         return foundClasses;
     }
 
-    public static GameBuilder load(String filePath)
+    public static GameBuilderImp load(String filePath)
             throws ClassNotFoundException, IOException,
             IllegalAccessException, InstantiationException {
         File file = new File(filePath);
@@ -57,8 +57,8 @@ public class BuilderLoader {
                 foundClass = Class.forName(classFile, true, loader);
             }
 
-            if (GameBuilder.class.isAssignableFrom(foundClass) && !foundClass.equals(GameBuilder.class)) {
-                return (GameBuilder)foundClass.newInstance();
+            if (GameBuilderImp.class.isAssignableFrom(foundClass) && !foundClass.equals(GameBuilderImp.class)) {
+                return (GameBuilderImp)foundClass.newInstance();
             }
         }
         return null;

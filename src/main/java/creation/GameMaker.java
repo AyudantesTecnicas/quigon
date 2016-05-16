@@ -1,26 +1,26 @@
 package creation;
 
 class GameMaker {
-    private GameBuilder gameBuilder;
+    private GameBuilderImp gameBuilderImp;
 
-    void setGameBuilder(GameBuilder gameBuilder) {
-        this.gameBuilder = gameBuilder;
+    void setGameBuilderImp(GameBuilderImp gameBuilderImp) {
+        this.gameBuilderImp = gameBuilderImp;
     }
 
     public Game getGame() {
-        return gameBuilder.getGame();
+        return gameBuilderImp.getGame();
     }
 
     public void buildGame() {
-        gameBuilder.createNewGame();
-        gameBuilder.setNameDescription();
-        gameBuilder.createParser();
-        gameBuilder.createElementList();
-        gameBuilder.setElements();
-        gameBuilder.setElementsToGame();
-        gameBuilder.createActionsList();
-        gameBuilder.setActions();
-        gameBuilder.addActionsToParser();
-        gameBuilder.setElementsToGame();
+        gameBuilderImp.createNewGame();
+        gameBuilderImp.setNameDescription();
+        gameBuilderImp.createParser();
+        gameBuilderImp.createElementList();
+        gameBuilderImp.setElements();
+        gameBuilderImp.setElementsToGame();
+        gameBuilderImp.createActionsList();
+        gameBuilderImp.setActions();
+        gameBuilderImp.addActionsToParser();
+        gameBuilderImp.setElementsToGame();
     }
 }

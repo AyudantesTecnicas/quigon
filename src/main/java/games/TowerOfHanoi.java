@@ -1,6 +1,6 @@
 package games;
 
-import creation.GameBuilder;
+import creation.GameBuilderImp;
 import games.constants.TowerOfHanoiConstants;
 import model.actions.Action;
 import model.actions.Move;
@@ -12,7 +12,7 @@ import model.rulesexpressions.rules.IsNotEmptyRule;
 import model.rulesexpressions.rules.SizeComparisonLesserRule;
 
 @SuppressWarnings("CPD-START")
-public final class TowerOfHanoi extends GameBuilder {
+public final class TowerOfHanoi extends GameBuilderImp {
 
     public static final String gameDescription = "There are tree stacks with plates on this game.";
 

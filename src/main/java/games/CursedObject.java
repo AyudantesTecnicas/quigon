@@ -1,6 +1,6 @@
 package games;
 
-import creation.GameBuilder;
+import creation.GameBuilderImp;
 import games.constants.CursedObjectConstants;
 import model.actions.*;
 import model.elements.*;
@@ -8,7 +8,7 @@ import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
 @SuppressWarnings("CPD-START")
-public final class CursedObject extends GameBuilder {
+public final class CursedObject extends GameBuilderImp {
 
     public static final String gameDescription = "There is a cursed object on this game. And the thief...";
     private CursedObjectConstants constants = new CursedObjectConstants();

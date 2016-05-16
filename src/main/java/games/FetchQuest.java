@@ -1,12 +1,12 @@
 package games;
 
-import creation.GameBuilder;
+import creation.GameBuilderImp;
 import games.constants.FetchQuestConstants;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.rulesexpressions.rules.HasContainerRule;
 
-public final class FetchQuest extends GameBuilder {
+public final class FetchQuest extends GameBuilderImp {
 
     public static final String gameDescription = "Don't take it!";
     private FetchQuestConstants constants = new FetchQuestConstants();

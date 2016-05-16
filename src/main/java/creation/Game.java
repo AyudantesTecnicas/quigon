@@ -92,7 +92,7 @@ public class Game {
         }
 
         if (checkVictory()) {
-            sendCommand = GameBuilder.winText;
+            sendCommand = GameBuilderImp.winText;
         }
         return sendCommand;
     }

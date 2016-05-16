@@ -1,7 +1,6 @@
 package server;
 
-import creation.GameBuilder;
-import creation.GameCreator;
+import creation.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -13,7 +12,8 @@ public class PortThread extends Thread {
     private ServerSocket serverSocket;
     private Socket socket;
     private int port;
-    private GameCreator gameCreator;
+    private GameBuilder gameBuilder;
+    private Game game;
 
     boolean clientConnected = false;
 
@@ -24,9 +24,9 @@ public class PortThread extends Thread {
 
     String sendByClient = "";
 
-    public PortThread(int port, GameCreator gameCreator) {
+    public PortThread(int port, GameBuilder gameBuilder) {
         this.port = port;
-        this.gameCreator = gameCreator;
+        this.gameBuilder = gameBuilder;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class PortThread extends Thread {
                 setConnection();
             } catch (IOException e) {
                 System.out.println( "Server socket " + serverSocket.getLocalPort()
-                                    + " with game " + gameCreator.getGame().getName()
+                                    + " with game " + game.getName()
                                     + " has closed, no client." );
             }
 
@@ -60,7 +60,9 @@ public class PortThread extends Thread {
             System.out.println("Unable to create new server socket!");
         }
 
-        System.out.println(gameCreator.getGame().getName() + " is ready and listening port " + serverSocket.getLocalPort() + ".");
+        game = gameBuilder.build();
+
+        System.out.println(game.getName() + " is ready and listening port " + serverSocket.getLocalPort() + ".");
         socket = serverSocket.accept();    // waiting for client
         serverSocket.close();
         System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
@@ -71,7 +73,7 @@ public class PortThread extends Thread {
         dataInputStream = new DataInputStream(inputStream);
         dataOutputStream = new DataOutputStream(outputStream);
 
-        sendAnswer("Welcome to game " + gameCreator.getGame().getName() + "!");
+        sendAnswer("Welcome to game " + game.getName() + "!");
         clientConnected = true;
     }
 
@@ -81,15 +83,15 @@ public class PortThread extends Thread {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
                 String answer = getAnswer();
-                if (answer.equals(GameBuilder.winText)) {
+                if (answer.equals(GameBuilderImp.winText)) {
                     answer = answer + " The game will be reset to initial state.";
-                    gameCreator.resetGame();
+                    game = gameBuilder.build();
                 }
                 sendAnswer(answer);
 
             } catch (EOFException e) {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " has disconnected.");
-                gameCreator.resetGame();
+                game = gameBuilder.build();
                 clientConnected = false;
             } catch (SocketException e) {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " was disconnected.");
@@ -105,7 +107,7 @@ public class PortThread extends Thread {
         if (this.sendByClient.matches("^(?i)/help [a-zA-Z0-9_-]+$")) {
             return Helper.getHelp(sendByClient.split(" ")[1]);
         } else {
-            return gameCreator.getGame().receiveCommands(sendByClient);
+            return game.receiveCommands(sendByClient);
         }
     }
 

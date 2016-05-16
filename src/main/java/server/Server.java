@@ -1,6 +1,6 @@
 package server;
 
-import creation.GameCreator;
+import creation.GameBuilder;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -13,7 +13,7 @@ public class Server {
     private int actualPort = 8000;
     private ArrayList<PortThread> threads = new ArrayList<>();
 
-    private GameCreator gameCreator;
+    private GameBuilder gameBuilder;
 
     private boolean commandIsExit() {
         return line.equalsIgnoreCase("/exit");
@@ -21,17 +21,15 @@ public class Server {
 
     protected void loadGame(String gameName) {
         try {
-            gameCreator = new GameCreator();
-            gameCreator.createGame(gameName);
+            gameBuilder = BuilderLoader.load(gameName);
             setPort();
-        } catch (InvalidParameterException e) {
-            System.out.println("Invalid game name!");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     private void setPort() {
-        PortThread portThread = new PortThread(actualPort++,gameCreator);
+        PortThread portThread = new PortThread(actualPort++,gameBuilder);
         threads.add(portThread);
         portThread.start();
     }
