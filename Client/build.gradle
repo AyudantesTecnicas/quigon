@@ -1,34 +1,7 @@
-group 'ar.fiuba.tdd.tp-tp-grupal'
+group 'tp-tp-grupal'
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'checkstyle'
-apply plugin: 'maven'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: "jacoco"
-apply plugin: 'de.aaschmid.cpd'
+check.dependsOn(':cpdCheck')
+
 apply from: 'gradle/fatjar.gradle'
-apply from: 'gradle/quality.gradle'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    jcenter()
-    maven {
-        url "http://nexus-tecnicas7510.rhcloud.com/nexus/content/repositories/third-party"
-    }
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-}
-
-configurations.all {
-    resolutionStrategy {
-        force 'xml-apis:xml-apis:1.4.01'
-    }
-}
 

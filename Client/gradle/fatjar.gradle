@@ -1,7 +1,7 @@
 //create a single Jar with all dependencies
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'ar.fiuba.tdd.tp.Main'
+        attributes 'Main-Class': 'Main'
     }
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
