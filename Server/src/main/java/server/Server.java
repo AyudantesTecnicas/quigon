@@ -44,7 +44,7 @@ public class Server {
         while (!commandIsExit()) {
             try {
                 line = keyboard.readLine();
-                if (line != null && line.matches("^(?i)/load game [a-zA-Z0-9_-]+\\.jar$")) {
+                if (line != null && line.matches("^(?i)/load game .+\\.jar$")) {
                     loadGame(line.split(" ")[2]);
                 }
             } catch (IOException e) {
