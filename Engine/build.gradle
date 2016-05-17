@@ -1,6 +1,3 @@
 group 'tp-tp-grupal'
 
-check.dependsOn(':cpdCheck')
-check.dependsOn(':Client:cpdCheck')
-
 apply from: 'gradle/fatjar.gradle'

@@ -1,7 +1,5 @@
 group 'tp-tp-grupal'
 
-check.dependsOn(':cpdCheck')
-
 jar {
     manifest {
         attributes 'Main-Class': 'Main'
