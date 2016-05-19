@@ -17,21 +17,22 @@ public class ConcreteGameDriver implements GameDriver {
             gameBuilder = BuilderLoader.load(jarPath);
             if (gameBuilder != null) {
                 game = gameBuilder.build();
-            }
-            else
+            } else {
                 throw new GameLoadFailedException();
-            gameState=GameState.Ready;
+            }
+            gameState = GameState.Ready;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public String sendCommand(String cmd) {
-        gameState=GameState.InProgress;
-        String answer= game.receiveCommands(cmd);
+        gameState = GameState.InProgress;
+        String answer = game.receiveCommands(cmd);
         if (answer.equals(GameBuilderImp.winText)) {
-            gameState=GameState.Won;
+            gameState = GameState.Won;
         }
         return answer;
     }
