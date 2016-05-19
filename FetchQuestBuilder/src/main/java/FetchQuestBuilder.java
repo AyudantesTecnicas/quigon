@@ -5,11 +5,11 @@ import model.rulesexpressions.rules.HasContainerRule;
 
 public final class FetchQuestBuilder extends GameBuilderImp {
 
-        gameDescription = "Don't take it!";
     private FetchQuestConstants constants = new FetchQuestConstants();
 
     public FetchQuestBuilder() {
         gameName = "FetchQuest";
+        gameDescription = "Don't take it!";
     }
 
     @SuppressWarnings("CPD-START")
