@@ -104,7 +104,7 @@ public class PortThread extends Thread {
     }
 
     private String getAnswer() {
-        if (this.sendByClient.matches("^(?i)/help [a-zA-Z0-9_-]+$")) {
+        if (this.sendByClient.matches("^(?i)/help$")) {
             return "help jajaja";
         } else {
             return game.receiveCommands(sendByClient);
