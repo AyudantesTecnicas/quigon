@@ -14,7 +14,7 @@ public class TreasureHuntBuilder extends GameBuilderImp {
 
     public TreasureHuntBuilder() {
         gameName = "TreasureHunt";
-        gameDescription = "Search for the treasure. But be careful. Better take some antidotes";
+        gameDescription = "Search for the treasure. But be careful. Better take some antidotes.";
     }
 
     //Character

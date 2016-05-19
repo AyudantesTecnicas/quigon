@@ -86,12 +86,14 @@ public class PortThread extends Thread {
                 if (answer.equals(GameBuilderImp.winText)) {
                     answer = answer + " The game will be reset to initial state.";
                     game = gameBuilder.build();
+                    System.out.println(game.getName() + " reset.");
                 }
                 sendAnswer(answer);
 
             } catch (EOFException e) {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " has disconnected.");
                 game = gameBuilder.build();
+                System.out.println(game.getName() + " reset.");
                 clientConnected = false;
             } catch (SocketException e) {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " was disconnected.");
