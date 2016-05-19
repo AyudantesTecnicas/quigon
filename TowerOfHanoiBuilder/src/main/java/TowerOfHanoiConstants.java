@@ -11,9 +11,9 @@ public class TowerOfHanoiConstants {
     public static final String last = "last";
 
     //Stacks
-    public static final String stack1 = "Stack1";
-    public static final String stack2 = "Stack2";
-    public static final String stack3 = "Stack3";
+    public static final String stack1 = "stack1";
+    public static final String stack2 = "stack2";
+    public static final String stack3 = "stack3";
 
     //Discs
     public static final String disc1 = "Disc1";
@@ -24,9 +24,9 @@ public class TowerOfHanoiConstants {
     public static final String disc6 = "Disc6";
 
     //Moves
-    public static final String moveStack1 = "Move1";
-    public static final String moveStack2 = "Move2";
-    public static final String moveStack3 = "Move3";
+    public static final String moveStack1 = "move stack1";
+    public static final String moveStack2 = "move stack2";
+    public static final String moveStack3 = "move stack3";
 
     //Messages
     public static final String moved = "Moved!";
