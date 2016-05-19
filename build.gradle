@@ -61,6 +61,7 @@ subprojects{
     check.dependsOn(':WolfSheepBuilder:cpdCheck')
     check.dependsOn(':CursedObjectBuilder:cpdCheck')
     check.dependsOn(':TreasureHuntBuilder:cpdCheck')
+    check.dependsOn(':EntregaBuilder:cpdCheck')
 
     repositories {
         jcenter()
