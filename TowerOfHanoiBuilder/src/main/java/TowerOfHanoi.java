@@ -1,7 +1,4 @@
-package games;
-
 import creation.GameBuilderImp;
-import games.constants.TowerOfHanoiConstants;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;

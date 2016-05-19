@@ -8,7 +8,6 @@ public class Helper {
             case "CursedObject":    return CursedObject.gameDescription;
             case "OpenDoor2":   return OpenDoor2.gameDescription;
             case "TreasureHunt":    return TreasureHunt.gameDescription;
-            case "TowerOfHanoi":    return TowerOfHanoi.gameDescription;
             case "WolfSheep":   return WolfSheep.gameDescription;
             default:    return "Invalid game name!";
         }
