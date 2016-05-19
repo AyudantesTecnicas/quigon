@@ -13,6 +13,7 @@ public class OpenDoor2Constants {
     //States
     public static final String opened = "Open";
     public static final String closed = "Closed";
+    public static final String visible = "Visible";
 
     //Actions
     public static final String open = "open";

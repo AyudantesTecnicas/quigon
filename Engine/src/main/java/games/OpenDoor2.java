@@ -20,6 +20,7 @@ public final class OpenDoor2 extends GameBuilderImp {
     private ComplexElement closedDoorState;
     private ComplexElement openDoorState;
     private ComplexElement openBoxState;
+    private ComplexElement visibleKeyState;
     private ComplexElement room1;
     private ComplexElement room2;
     private ComplexElement door;
@@ -38,6 +39,7 @@ public final class OpenDoor2 extends GameBuilderImp {
     private Action addOpendStateToDoor;
     private Action removeOpenedStateToDoor;
     private Action moveCharacterToRoom2;
+    private Action makeVisibleKey;
     private Move openBox;
     private Move pickKey;
     private Move openDoor;
@@ -51,6 +53,7 @@ public final class OpenDoor2 extends GameBuilderImp {
 
     public void setElements() {
         createElements();
+        setNotVisibleElements();
         createRules();
         createActions();
         createComplexRules();
@@ -66,6 +69,7 @@ public final class OpenDoor2 extends GameBuilderImp {
         //Inject Actions to moves
         openBox.addAction(removeOpenedStateToBox);
         openBox.addAction(addKeyToRoom1);
+        openBox.addAction(makeVisibleKey);
 
         openDoor.addAction(removeOpenedStateToDoor);
         openDoor.addAction(moveCharacterToRoom2);
@@ -95,6 +99,7 @@ public final class OpenDoor2 extends GameBuilderImp {
         addOpendStateToDoor = buildAddStatesAction(door, openDoorState);
         removeOpenedStateToDoor = buildRemoveStatesAction(door, closedDoorState);
         moveCharacterToRoom2 = buildChangeContainerAction(character, room2);
+        makeVisibleKey = buildChangeVisibilityAction(key, visibleKeyState);
     }
 
     private void createRules() {
@@ -112,6 +117,8 @@ public final class OpenDoor2 extends GameBuilderImp {
         closedDoorState = new ComplexElement(constants.closed);
         openDoorState = new ComplexElement(constants.opened);
         openBoxState = new ComplexElement(constants.opened);
+        visibleKeyState = new ComplexElement(constants.visible);
+        visibleKeyState.setVisible(true);
 
         //Create and add elements
         room1 = createAndAddElement(constants.room1, null, null);
@@ -121,6 +128,10 @@ public final class OpenDoor2 extends GameBuilderImp {
         key = createAndAddElement(constants.key, box, null);
         character = createAndAddElement(constants.character, room1, null);
         game.character = character;
+    }
+
+    private void setNotVisibleElements() {
+        key.setVisible(false);
     }
 
     @SuppressWarnings("CPD-END")

@@ -79,6 +79,12 @@ public abstract class GameBuilderImp implements GameBuilder {
         return changeContainer;
     }
 
+    protected Action buildChangeVisibilityAction(ComplexElement object, ComplexElement visibility) {
+        Action changeVisibilityAction = new ChangeVisibleAction();
+        addElementsToAction(changeVisibilityAction, object, visibility);
+        return  changeVisibilityAction;
+    }
+
     protected Action buildChangeContainerAction(ComplexElement contained, String index, ComplexElement container) {
         Action changeContainer = this.buildChangeContainerAction(contained, container);
         changeContainer.setIndex(index);
