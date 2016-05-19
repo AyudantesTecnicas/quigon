@@ -42,16 +42,16 @@ public class TreasureHunt extends GameBuilder {
 
     //Items
     private ComplexElement wardrobe;
-    private ComplexElement box_in_center_room;
-    private ComplexElement box_in_trunk;
-    private ComplexElement box_in_wardrobe;
-    private ComplexElement box_in_west_room;
-    private ComplexElement trunk_in_south_room;
-    private ComplexElement trunk_in_north_room;
-    private ComplexElement trunk_in_east_room;
-    private ComplexElement key_east;
-    private ComplexElement key_north;
-    private ComplexElement key_south;
+    private ComplexElement boxInCenterRoom;
+    private ComplexElement boxInTrunk;
+    private ComplexElement boxInWardrobe;
+    private ComplexElement boxInWestRoom;
+    private ComplexElement trunkInSouthRoom;
+    private ComplexElement trunkInNorthRoom;
+    private ComplexElement trunkInEastRoom;
+    private ComplexElement keyEast;
+    private ComplexElement keyNorth;
+    private ComplexElement keySouth;
     private ComplexElement antidote1;
     private ComplexElement antidote2;
     private ComplexElement treasure;
@@ -120,19 +120,10 @@ public class TreasureHunt extends GameBuilder {
     private HasStateRule closedCEDoorRule;
     private HasStateRule closedCNDoorRule;
     private HasStateRule closedCSDoorRule;
-    private HasStateRule closedBoxCRule;
-    private HasStateRule closedBoxWRule;
-    private HasStateRule closedBoxERule;
-    private HasStateRule closedBoxSRule;
-    private HasStateRule closedTrunkERule;
-    private HasStateRule closedTrunkNRule;
-    private HasStateRule closedTrunkSRule;
-    private HasStateRule closedWardrobe;
     private HasStateRule openedCEDoorRule;
     private HasStateRule openedCNDoorRule;
     private HasStateRule openedCSDoorRule;
     private HasStateRule openedBoxCRule;
-    private HasStateRule openedBoxWRule;
     private HasStateRule openedBoxERule;
     private HasStateRule openedBoxSRule;
     private HasStateRule openedTrunkERule;
@@ -272,31 +263,31 @@ public class TreasureHunt extends GameBuilder {
     }
 
     private void createTrunks() {
-        trunk_in_north_room = createAndAddElement(TreasureHuntConstants.trunkN, roomNorth, closedState);
-        trunk_in_south_room = createAndAddElement(TreasureHuntConstants.trunkS, roomSouth, closedState);
-        trunk_in_east_room = createAndAddElement(TreasureHuntConstants.trunkE, roomEast, closedState);
+        trunkInNorthRoom = createAndAddElement(TreasureHuntConstants.trunkN, roomNorth, closedState);
+        trunkInSouthRoom = createAndAddElement(TreasureHuntConstants.trunkS, roomSouth, closedState);
+        trunkInEastRoom = createAndAddElement(TreasureHuntConstants.trunkE, roomEast, closedState);
     }
 
     private void createBoxes() {
-        box_in_west_room = createAndAddElement(TreasureHuntConstants.boxW, roomWest, closedState);
-        box_in_center_room = createAndAddElement(TreasureHuntConstants.boxC, roomCenter, closedState);
-        box_in_trunk = createAndAddElement(TreasureHuntConstants.boxE, trunk_in_east_room, closedState);
-        box_in_wardrobe = createAndAddElement(TreasureHuntConstants.boxS, wardrobe, closedState);
+        boxInWestRoom = createAndAddElement(TreasureHuntConstants.boxW, roomWest, closedState);
+        boxInCenterRoom = createAndAddElement(TreasureHuntConstants.boxC, roomCenter, closedState);
+        boxInTrunk = createAndAddElement(TreasureHuntConstants.boxE, trunkInEastRoom, closedState);
+        boxInWardrobe = createAndAddElement(TreasureHuntConstants.boxS, wardrobe, closedState);
     }
 
     private void createKeys() {
-        key_south = createAndAddElement(TreasureHuntConstants.keyS, box_in_center_room, null);
-        key_north = createAndAddElement(TreasureHuntConstants.keyN, box_in_trunk, null);
-        key_east = createAndAddElement(TreasureHuntConstants.keyE, trunk_in_south_room, null);
+        keySouth = createAndAddElement(TreasureHuntConstants.keyS, boxInCenterRoom, null);
+        keyNorth = createAndAddElement(TreasureHuntConstants.keyN, boxInTrunk, null);
+        keyEast = createAndAddElement(TreasureHuntConstants.keyE, trunkInSouthRoom, null);
     }
 
     private void createAntidotes() {
-        antidote1 = createAndAddElement(TreasureHuntConstants.antidote1, trunk_in_south_room, null);
-        antidote2 = createAndAddElement(TreasureHuntConstants.antidote2, box_in_wardrobe, null);
+        antidote1 = createAndAddElement(TreasureHuntConstants.antidote1, trunkInSouthRoom, null);
+        antidote2 = createAndAddElement(TreasureHuntConstants.antidote2, boxInWardrobe, null);
     }
 
     private void createTreasure() {
-        treasure = createAndAddElement(TreasureHuntConstants.treasure, trunk_in_north_room, null);
+        treasure = createAndAddElement(TreasureHuntConstants.treasure, trunkInNorthRoom, null);
     }
 
     private void defineCharacter() {
@@ -342,39 +333,39 @@ public class TreasureHunt extends GameBuilder {
     }
 
     private void createTrunkActions() {
-        addOpenStateTrunkEast = buildAddStatesAction(trunk_in_east_room, openState);
-        removeClosedStateTrunkEast = buildRemoveStatesAction(trunk_in_east_room, closedState);
-        addOpenStateTrunkNorth = buildAddStatesAction(trunk_in_north_room, openState);
-        removeClosedStateTrunkNorth = buildRemoveStatesAction(trunk_in_north_room, closedState);
-        addOpenStateTrunkSouth = buildAddStatesAction(trunk_in_south_room, openState);
-        removeClosedStateTrunkSouth = buildRemoveStatesAction(trunk_in_south_room, closedState);
+        addOpenStateTrunkEast = buildAddStatesAction(trunkInEastRoom, openState);
+        removeClosedStateTrunkEast = buildRemoveStatesAction(trunkInEastRoom, closedState);
+        addOpenStateTrunkNorth = buildAddStatesAction(trunkInNorthRoom, openState);
+        removeClosedStateTrunkNorth = buildRemoveStatesAction(trunkInNorthRoom, closedState);
+        addOpenStateTrunkSouth = buildAddStatesAction(trunkInSouthRoom, openState);
+        removeClosedStateTrunkSouth = buildRemoveStatesAction(trunkInSouthRoom, closedState);
     }
 
     private void createBoxActions() {
-        addOpenStateBoxWest = buildAddStatesAction(box_in_west_room, openState);
-        removeClosedStateBoxWest = buildRemoveStatesAction(box_in_west_room, closedState);
-        addOpenStateBoxCenter = buildAddStatesAction(box_in_center_room, openState);
-        removeClosedStateBoxCenter = buildRemoveStatesAction(box_in_center_room, closedState);
-        addOpenStateBoxTrunk = buildAddStatesAction(box_in_trunk, openState);
-        removeClosedStateBoxTrunk = buildRemoveStatesAction(box_in_trunk, closedState);
-        addOpenStateBoxWardrobe = buildAddStatesAction(box_in_wardrobe, openState);
-        removeClosedStateBoxWardrobe = buildRemoveStatesAction(box_in_wardrobe, closedState);
+        addOpenStateBoxWest = buildAddStatesAction(boxInWestRoom, openState);
+        removeClosedStateBoxWest = buildRemoveStatesAction(boxInWestRoom, closedState);
+        addOpenStateBoxCenter = buildAddStatesAction(boxInCenterRoom, openState);
+        removeClosedStateBoxCenter = buildRemoveStatesAction(boxInCenterRoom, closedState);
+        addOpenStateBoxTrunk = buildAddStatesAction(boxInTrunk, openState);
+        removeClosedStateBoxTrunk = buildRemoveStatesAction(boxInTrunk, closedState);
+        addOpenStateBoxWardrobe = buildAddStatesAction(boxInWardrobe, openState);
+        removeClosedStateBoxWardrobe = buildRemoveStatesAction(boxInWardrobe, closedState);
     }
 
     private void createKeyActions() {
-        addKeyEast = buildChangeContainerAction(key_east, character);
-        removeKeyEast = buildChangeContainerAction(key_east, trunk_in_south_room);
-        addKeyNorth = buildChangeContainerAction(key_north, character);
-        removeKeyNorth = buildChangeContainerAction(key_north, box_in_trunk);
-        addKeySouth = buildChangeContainerAction(key_south, character);
-        removeKeySouth = buildChangeContainerAction(key_south, box_in_center_room);
+        addKeyEast = buildChangeContainerAction(keyEast, character);
+        removeKeyEast = buildChangeContainerAction(keyEast, trunkInSouthRoom);
+        addKeyNorth = buildChangeContainerAction(keyNorth, character);
+        removeKeyNorth = buildChangeContainerAction(keyNorth, boxInTrunk);
+        addKeySouth = buildChangeContainerAction(keySouth, character);
+        removeKeySouth = buildChangeContainerAction(keySouth, boxInCenterRoom);
     }
 
     private void createAntidoteActions() {
         addAntidote1 = buildChangeContainerAction(antidote1, character);
-        removeAntidote1 = buildChangeContainerAction(antidote1, trunk_in_south_room);
+        removeAntidote1 = buildChangeContainerAction(antidote1, trunkInSouthRoom);
         addAntidote2 = buildChangeContainerAction(antidote2, character);
-        removeAntidote2 = buildChangeContainerAction(antidote2, box_in_wardrobe);
+        removeAntidote2 = buildChangeContainerAction(antidote2, boxInWardrobe);
     }
 
     private void createPoisonActions() {
@@ -418,25 +409,16 @@ public class TreasureHunt extends GameBuilder {
         closedCEDoorRule = checkStateRule(doorCtoE, closedState, TreasureHuntConstants.doorOpen);
         closedCNDoorRule = checkStateRule(doorCtoN, closedState, TreasureHuntConstants.doorOpen);
         closedCSDoorRule = checkStateRule(doorCtoS, closedState, TreasureHuntConstants.doorOpen);
-        closedBoxCRule = checkStateRule(box_in_center_room, closedState, TreasureHuntConstants.boxOpen);
-        closedBoxWRule = checkStateRule(box_in_west_room, closedState, TreasureHuntConstants.boxOpen);
-        closedBoxERule = checkStateRule(box_in_trunk, closedState, TreasureHuntConstants.boxOpen);
-        closedBoxSRule = checkStateRule(box_in_wardrobe, closedState, TreasureHuntConstants.boxOpen);
-        closedTrunkERule = checkStateRule(trunk_in_east_room, closedState, TreasureHuntConstants.trunkOpen);
-        closedTrunkNRule = checkStateRule(trunk_in_north_room, closedState, TreasureHuntConstants.trunkOpen);
-        closedTrunkSRule = checkStateRule(trunk_in_south_room, closedState, TreasureHuntConstants.trunkOpen);
-        closedWardrobe = checkStateRule(wardrobe, closedState, TreasureHuntConstants.wardrobeOpen);
 
         openedCEDoorRule = checkStateRule(doorCtoE, openState, TreasureHuntConstants.doorClosed);
         openedCNDoorRule = checkStateRule(doorCtoN, openState, TreasureHuntConstants.doorClosed);
         openedCSDoorRule = checkStateRule(doorCtoS, openState, TreasureHuntConstants.doorClosed);
-        openedBoxCRule = checkStateRule(box_in_center_room, openState, TreasureHuntConstants.boxClosed);
-        openedBoxWRule = checkStateRule(box_in_west_room, openState, TreasureHuntConstants.boxClosed);
-        openedBoxERule = checkStateRule(box_in_trunk, openState, TreasureHuntConstants.boxClosed);
-        openedBoxSRule = checkStateRule(box_in_wardrobe, openState, TreasureHuntConstants.boxClosed);
-        openedTrunkERule = checkStateRule(trunk_in_east_room, openState, TreasureHuntConstants.trunkClosed);
-        openedTrunkNRule = checkStateRule(trunk_in_north_room, openState, TreasureHuntConstants.trunkClosed);
-        openedTrunkSRule = checkStateRule(trunk_in_south_room, openState, TreasureHuntConstants.trunkClosed);
+        openedBoxCRule = checkStateRule(boxInCenterRoom, openState, TreasureHuntConstants.boxClosed);
+        openedBoxERule = checkStateRule(boxInTrunk, openState, TreasureHuntConstants.boxClosed);
+        openedBoxSRule = checkStateRule(boxInWardrobe, openState, TreasureHuntConstants.boxClosed);
+        openedTrunkERule = checkStateRule(trunkInEastRoom, openState, TreasureHuntConstants.trunkClosed);
+        openedTrunkNRule = checkStateRule(trunkInNorthRoom, openState, TreasureHuntConstants.trunkClosed);
+        openedTrunkSRule = checkStateRule(trunkInSouthRoom, openState, TreasureHuntConstants.trunkClosed);
         openedWardrobe = checkStateRule(wardrobe, openState, TreasureHuntConstants.wardrobeClosed);
 
         characterIsntPoisoned = new DoesNotHaveState();
@@ -446,15 +428,15 @@ public class TreasureHunt extends GameBuilder {
     }
 
     private void createLocationRules() {
-        freeKeyS = doesntHaveContainerRule(key_south, character, TreasureHuntConstants.holdsKey);
-        freeKeyE = doesntHaveContainerRule(key_east, character, TreasureHuntConstants.holdsKey);
-        freeKeyN = doesntHaveContainerRule(key_north, character, TreasureHuntConstants.holdsKey);
+        freeKeyS = doesntHaveContainerRule(keySouth, character, TreasureHuntConstants.holdsKey);
+        freeKeyE = doesntHaveContainerRule(keyEast, character, TreasureHuntConstants.holdsKey);
+        freeKeyN = doesntHaveContainerRule(keyNorth, character, TreasureHuntConstants.holdsKey);
         freeAntidote1 = doesntHaveContainerRule(antidote1, character, TreasureHuntConstants.holdsAntidote);
         freeAntidote2 = doesntHaveContainerRule(antidote2, character, TreasureHuntConstants.holdsAntidote);
         freeTreasure = doesntHaveContainerRule(antidote2, character, TreasureHuntConstants.holdsTreasure);
-        holdsKeyS = checkContainerRule(key_south, character, TreasureHuntConstants.missingKey);
-        holdsKeyE = checkContainerRule(key_east, character, TreasureHuntConstants.missingKey);
-        holdsKeyN = checkContainerRule(key_north, character, TreasureHuntConstants.missingKey);
+        holdsKeyS = checkContainerRule(keySouth, character, TreasureHuntConstants.missingKey);
+        holdsKeyE = checkContainerRule(keyEast, character, TreasureHuntConstants.missingKey);
+        holdsKeyN = checkContainerRule(keyNorth, character, TreasureHuntConstants.missingKey);
         holdsAntidote1 = checkContainerRule(antidote1, character, TreasureHuntConstants.missingAntidote);
         holdsAntidote2 = checkContainerRule(antidote2, character, TreasureHuntConstants.missingAntidote);
         holdsTreasure = checkContainerRule(treasure, character, TreasureHuntConstants.missingTreasure);
@@ -516,72 +498,110 @@ public class TreasureHunt extends GameBuilder {
     }
 
     private void createRoomMoves() {
-        goFromWestToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromWestToCenter, goThroughDoorWCCondition, TreasureHuntConstants.movedToCenter);
-        goFromEastToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromEastToCenter, characterIsInEastRoom, TreasureHuntConstants.movedToCenter);
-        goFromSouthToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromSouthToCenter, characterIsInSouthRoom, TreasureHuntConstants.movedToCenter);
-        goFromNorthToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromNorthToCenter, goThroughDoorNCCondition, TreasureHuntConstants.movedToCenter);
+        goFromWestToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromWestToCenter,
+                goThroughDoorWCCondition, TreasureHuntConstants.movedToCenter);
+        goFromEastToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromEastToCenter,
+                characterIsInEastRoom,TreasureHuntConstants.movedToCenter);
+        goFromSouthToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromSouthToCenter,
+                characterIsInSouthRoom, TreasureHuntConstants.movedToCenter);
+        goFromNorthToCenter = moveWithActionsAndRules(TreasureHuntConstants.open, passFromNorthToCenter,
+                goThroughDoorNCCondition, TreasureHuntConstants.movedToCenter);
 
-        goFromCenterToWest = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToWest, characterIsInCenterRoom, TreasureHuntConstants.movedToWest);
-        goFromCenterToEast = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToEast, goThroughDoorEConditions, TreasureHuntConstants.movedToEast);
-        goFromCenterToSouth = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToSouth, goThroughDoorSConditions, TreasureHuntConstants.movedToSouth);
-        goFromCenterToNorth = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToNorth, goThroughDoorNConditions, TreasureHuntConstants.movedToNorth);
+        goFromCenterToWest = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToWest,
+                characterIsInCenterRoom, TreasureHuntConstants.movedToWest);
+        goFromCenterToEast = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToEast,
+                goThroughDoorEConditions, TreasureHuntConstants.movedToEast);
+        goFromCenterToSouth = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToSouth,
+                goThroughDoorSConditions, TreasureHuntConstants.movedToSouth);
+        goFromCenterToNorth = moveWithActionsAndRules(TreasureHuntConstants.open, passFromCenterToNorth,
+                goThroughDoorNConditions, TreasureHuntConstants.movedToNorth);
     }
     
     private void createPickMoves() {
-        pickKeySouth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeySouth, keySPickConditionRule, TreasureHuntConstants.pickKey);
-        pickKeyEast = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyEast, keyEPickConditionRule, TreasureHuntConstants.pickKey);
-        pickKeyNorth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyNorth, keyNPickConditionRule, TreasureHuntConstants.pickKey);
-        pickAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote1, antidote1PickConditionRule, TreasureHuntConstants.pickAntidote);
-        pickAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote2, antidote2PickConditionRule, TreasureHuntConstants.pickAntidote);
-        pickTreasure = moveWithActionsAndRules(TreasureHuntConstants.pick, addTreasure, treasurePickConditionRule, TreasureHuntConstants.pickTreasure);
+        pickKeySouth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeySouth,
+                keySPickConditionRule, TreasureHuntConstants.pickKey);
+        pickKeyEast = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyEast,
+                keyEPickConditionRule, TreasureHuntConstants.pickKey);
+        pickKeyNorth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyNorth,
+                keyNPickConditionRule, TreasureHuntConstants.pickKey);
+        pickAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote1,
+                antidote1PickConditionRule, TreasureHuntConstants.pickAntidote);
+        pickAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote2,
+                antidote2PickConditionRule, TreasureHuntConstants.pickAntidote);
+        pickTreasure = moveWithActionsAndRules(TreasureHuntConstants.pick, addTreasure,
+                treasurePickConditionRule, TreasureHuntConstants.pickTreasure);
     }
 
     private void createDropMoves() {
-        dropKeySouth = moveWithActionsAndRules(TreasureHuntConstants.drop, removeKeySouth, holdsKeyS, TreasureHuntConstants.dropKey);
-        dropKeyEast = moveWithActionsAndRules(TreasureHuntConstants.drop, removeKeyEast, holdsKeyE, TreasureHuntConstants.dropKey);
-        dropKeyNorth = moveWithActionsAndRules(TreasureHuntConstants.drop, removeKeyNorth, holdsKeyN, TreasureHuntConstants.dropKey);
-        dropAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.drop, removeAntidote1, holdsAntidote1, TreasureHuntConstants.dropAntidote);
-        dropAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.drop, removeAntidote2, holdsAntidote2, TreasureHuntConstants.dropAntidote);
+        dropKeySouth = moveWithActionsAndRules(TreasureHuntConstants.drop, removeKeySouth,
+                holdsKeyS, TreasureHuntConstants.dropKey);
+        dropKeyEast = moveWithActionsAndRules(TreasureHuntConstants.drop, removeKeyEast,
+                holdsKeyE, TreasureHuntConstants.dropKey);
+        dropKeyNorth = moveWithActionsAndRules(TreasureHuntConstants.drop, removeKeyNorth,
+                holdsKeyN, TreasureHuntConstants.dropKey);
+        dropAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.drop, removeAntidote1,
+                holdsAntidote1, TreasureHuntConstants.dropAntidote);
+        dropAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.drop, removeAntidote2,
+                holdsAntidote2, TreasureHuntConstants.dropAntidote);
     }
 
     private void createUseMoves() {
-        useAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.use, removePoisonState, holdsAntidote1, TreasureHuntConstants.healed);
+        useAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.use, removePoisonState,
+                holdsAntidote1, TreasureHuntConstants.healed);
         useAntidote1.addAction(removeAntidote1);
-        useAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.use, removePoisonState, holdsAntidote2, TreasureHuntConstants.healed);
+        useAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.use, removePoisonState,
+                holdsAntidote2, TreasureHuntConstants.healed);
         useAntidote2.addAction(removeAntidote2);
     }
 
     private void createUnlockMoves() {
-        unlockEastDoor = moveWithActionsAndRules(TreasureHuntConstants.unlock, addOpenStateDoorE, unlockDoorECondition, TreasureHuntConstants.doorUnlocked);
+        unlockEastDoor = moveWithActionsAndRules(TreasureHuntConstants.unlock, addOpenStateDoorE,
+                unlockDoorECondition, TreasureHuntConstants.doorUnlocked);
         unlockEastDoor.addAction(removeClosedStateDoorE);
-        unlockNorthDoor = moveWithActionsAndRules(TreasureHuntConstants.unlock, addOpenStateDoorN, unlockDoorNCondition, TreasureHuntConstants.doorUnlocked);
+        unlockNorthDoor = moveWithActionsAndRules(TreasureHuntConstants.unlock, addOpenStateDoorN,
+                unlockDoorNCondition, TreasureHuntConstants.doorUnlocked);
         unlockNorthDoor.addAction(removeClosedStateDoorN);
-        unlockSouthDoor = moveWithActionsAndRules(TreasureHuntConstants.unlock, addOpenStateDoorS, unlockDoorSCondition, TreasureHuntConstants.doorUnlocked);
+        unlockSouthDoor = moveWithActionsAndRules(TreasureHuntConstants.unlock, addOpenStateDoorS,
+                unlockDoorSCondition, TreasureHuntConstants.doorUnlocked);
         unlockSouthDoor.addAction(removeClosedStateDoorS);
     }
 
     private void createOpenItemMoves() {
-        openBoxW = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxWest, characterIsInWestRoom, TreasureHuntConstants.openPoisonBox);
+        openBoxW = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxWest,
+                characterIsInWestRoom, TreasureHuntConstants.openPoisonBox);
         openBoxW.addAction(removeClosedStateBoxWest);
         openBoxW.addAction(addPoisonState);
-        openBoxE = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxTrunk, openBoxECondition, TreasureHuntConstants.openBox);
+        openBoxE = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxTrunk,
+                openBoxECondition, TreasureHuntConstants.openBox);
         openBoxE.addAction(removeClosedStateBoxTrunk);
-        openBoxS = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxWardrobe, openBoxSCondition, TreasureHuntConstants.openBox);
+        openBoxS = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxWardrobe,
+                openBoxSCondition, TreasureHuntConstants.openBox);
         openBoxS.addAction(removeClosedStateBoxWardrobe);
-        openBoxC = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxCenter, characterIsInCenterRoom, TreasureHuntConstants.openBox);
+        openBoxC = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateBoxCenter,
+                characterIsInCenterRoom, TreasureHuntConstants.openBox);
         openBoxC.addAction(removeClosedStateBoxCenter);
-        openTrunkE = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateTrunkEast, characterIsInEastRoom, TreasureHuntConstants.openTrunk);
+        openTrunkE = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateTrunkEast,
+                characterIsInEastRoom, TreasureHuntConstants.openTrunk);
         openTrunkE.addAction(removeClosedStateTrunkEast);
-        openTrunkS = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateTrunkSouth, characterIsInSouthRoom, TreasureHuntConstants.openTrunk);
+        openTrunkS = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateTrunkSouth,
+                characterIsInSouthRoom, TreasureHuntConstants.openTrunk);
         openTrunkS.addAction(removeClosedStateTrunkSouth);
-        openTrunkN = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateTrunkNorth, characterIsInNorthRoom, TreasureHuntConstants.openPoisonTrunk);
+        openTrunkN = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateTrunkNorth,
+                characterIsInNorthRoom, TreasureHuntConstants.openPoisonTrunk);
         openTrunkN.addAction(removeClosedStateTrunkNorth);
         openTrunkN.addAction(addPoisonState);
-        openWardrobe = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateWardrobe, characterIsInSouthRoom, TreasureHuntConstants.openWardrobe);
+        openWardrobe = moveWithActionsAndRules(TreasureHuntConstants.open, addOpenStateWardrobe,
+                characterIsInSouthRoom, TreasureHuntConstants.openWardrobe);
         openWardrobe.addAction(removeClosedStateWardrobe);
     }
 
     private void addMoves() {
+        addDoorMoves();
+        addPickDropUseMoves();
+        addOpenItemMoves();
+    }
+
+    private void addDoorMoves() {
         doorWtoC.addMove(goFromWestToCenter);
         doorEtoC.addMove(goFromEastToCenter);
         doorStoC.addMove(goFromSouthToCenter);
@@ -595,31 +615,35 @@ public class TreasureHunt extends GameBuilder {
         doorCtoE.addMove(unlockEastDoor);
         doorCtoN.addMove(unlockNorthDoor);
         doorCtoS.addMove(unlockSouthDoor);
+    }
 
-        key_south.addMove(pickKeySouth);
-        key_east.addMove(pickKeyEast);
-        key_north.addMove(pickKeyNorth);
+    private void addPickDropUseMoves() {
+        keySouth.addMove(pickKeySouth);
+        keyEast.addMove(pickKeyEast);
+        keyNorth.addMove(pickKeyNorth);
         antidote1.addMove(pickAntidote1);
         antidote2.addMove(pickAntidote2);
         treasure.addMove(pickTreasure);
 
-        key_south.addMove(dropKeySouth);
-        key_east.addMove(dropKeyEast);
-        key_north.addMove(dropKeyNorth);
+        keySouth.addMove(dropKeySouth);
+        keyEast.addMove(dropKeyEast);
+        keyNorth.addMove(dropKeyNorth);
         antidote1.addMove(dropAntidote1);
         antidote2.addMove(dropAntidote2);
 
-        box_in_wardrobe.addMove(openBoxS);
-        box_in_trunk.addMove(openBoxE);
-        box_in_west_room.addMove(openBoxW);
-        box_in_center_room.addMove(openBoxC);
-        trunk_in_east_room.addMove(openTrunkE);
-        trunk_in_south_room.addMove(openTrunkS);
-        trunk_in_north_room.addMove(openTrunkN);
-        wardrobe.addMove(openWardrobe);
-
         antidote1.addMove(useAntidote1);
         antidote2.addMove(useAntidote2);
+    }
+
+    private void addOpenItemMoves() {
+        boxInWardrobe.addMove(openBoxS);
+        boxInTrunk.addMove(openBoxE);
+        boxInWestRoom.addMove(openBoxW);
+        boxInCenterRoom.addMove(openBoxC);
+        trunkInEastRoom.addMove(openTrunkE);
+        trunkInSouthRoom.addMove(openTrunkS);
+        trunkInNorthRoom.addMove(openTrunkN);
+        wardrobe.addMove(openWardrobe);
     }
 
     @SuppressWarnings("CPD-END")
