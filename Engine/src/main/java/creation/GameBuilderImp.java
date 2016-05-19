@@ -182,6 +182,7 @@ public abstract class GameBuilderImp implements GameBuilder {
 
     void setNameDescription() {
         game.setName(gameName);
+        game.setGameDescription(gameDescription);
     }
 
     protected GameBuilderImp() {
