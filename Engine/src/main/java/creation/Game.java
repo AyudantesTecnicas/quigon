@@ -15,6 +15,7 @@ public class Game {
     List<Element> elementList;
     GameParser parser;
     private IExpression victoryCondition;
+    private IExpression gameOverCondition = null;
     private String gameDescription;
 
     Game() {
@@ -38,6 +39,14 @@ public class Game {
 
     private boolean checkVictory() {
         return victoryCondition.interpret();
+    }
+
+    private boolean checkGameOver() {
+        if (gameOverCondition != null) {
+            return gameOverCondition.interpret();
+        } else {
+            return false;
+        }
     }
 
     private String checkAroundItems() {
@@ -102,6 +111,10 @@ public class Game {
 
         if (checkVictory()) {
             sendCommand = GameBuilderImp.winText;
+        } else {
+            if (checkGameOver()) {
+                sendCommand = GameBuilderImp.loseText;
+            }
         }
         return sendCommand;
     }
@@ -112,6 +125,10 @@ public class Game {
 
     public void setVictoryCondition(IExpression condition) {
         victoryCondition = condition;
+    }
+
+    public void setGameOverCondition(IExpression condition) {
+        gameOverCondition = condition;
     }
 
     void setParser(GameParser parser) {
