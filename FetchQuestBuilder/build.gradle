@@ -1,3 +1,7 @@
 group 'tp-tp-grupal'
 
-apply from: 'gradle/fatjar.gradle'
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

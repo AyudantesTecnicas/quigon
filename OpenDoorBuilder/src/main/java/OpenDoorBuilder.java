@@ -1,7 +1,4 @@
-package games;
-
 import creation.GameBuilderImp;
-import games.constants.OpenDoorConstants;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.*;
@@ -11,7 +8,7 @@ import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
 @SuppressWarnings("CPD-START")
-public final class OpenDoor extends GameBuilderImp {
+public final class OpenDoorBuilder extends GameBuilderImp {
 
     public static final String gameDescription = "There is a door on this game. Also, it is locked.";
     private OpenDoorConstants constants = new OpenDoorConstants();
@@ -35,7 +32,7 @@ public final class OpenDoor extends GameBuilderImp {
     private Move pickKey;
     private Move openDoor;
 
-    public OpenDoor() {
+    public OpenDoorBuilder() {
         gameName = "OpenDoor";
     }
 

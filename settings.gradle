@@ -3,4 +3,5 @@ include 'Client'
 include 'Engine'
 include 'Server'
 include 'FetchQuestBuilder'
+include 'OpenDoorBuilder'
 
