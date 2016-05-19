@@ -11,7 +11,6 @@ import model.rulesexpressions.rules.HasStateRule;
 @SuppressWarnings("CPD-START")
 public final class OpenDoor2Builder extends GameBuilderImp {
 
-    public static final String gameDescription = "There is a door on this game. But no key around.";
     private OpenDoor2Constants constants = new OpenDoor2Constants();
     private ComplexElement closedBoxState;
     private ComplexElement closedDoorState;
@@ -45,6 +44,7 @@ public final class OpenDoor2Builder extends GameBuilderImp {
 
     public OpenDoor2Builder() {
         gameName = "OpenDoor2";
+        gameDescription = "There is a door on this game. But no key around.";
     }
 
 

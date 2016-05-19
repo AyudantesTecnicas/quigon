@@ -18,7 +18,7 @@ public abstract class GameBuilderImp implements GameBuilder {
     protected Game game;
 
     protected String gameName;
-    private String gameDescription;
+    protected String gameDescription;
     private ArrayList<SupportedAction> actionsList;
     private List<Element> elementsList;
 

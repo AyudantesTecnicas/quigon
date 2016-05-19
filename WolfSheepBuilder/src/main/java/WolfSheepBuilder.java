@@ -11,7 +11,6 @@ import model.rulesexpressions.rules.HasContainerRule;
 @SuppressWarnings("CPD-START")
 public class WolfSheepBuilder extends GameBuilderImp {
 
-    public static final String gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
     private WolfSheepConstants constants = new WolfSheepConstants();
     private ComplexElement northShore;
     private ComplexElement southShore;
@@ -63,6 +62,7 @@ public class WolfSheepBuilder extends GameBuilderImp {
 
     public WolfSheepBuilder() {
         gameName = "WolfSheep";
+        gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
     }
 
     private void createElements() {

@@ -10,7 +10,6 @@ import model.rulesexpressions.rules.*;
 @SuppressWarnings("CPD-START")
 public final class OpenDoorBuilder extends GameBuilderImp {
 
-    public static final String gameDescription = "There is a door on this game. Also, it is locked.";
     private OpenDoorConstants constants = new OpenDoorConstants();
     private Element closedDoor;
     private Element openedDoor;
@@ -34,6 +33,7 @@ public final class OpenDoorBuilder extends GameBuilderImp {
 
     public OpenDoorBuilder() {
         gameName = "OpenDoor";
+        gameDescription = "There is a door on this game. Also, it is locked.";
     }
 
     public void setElements() {

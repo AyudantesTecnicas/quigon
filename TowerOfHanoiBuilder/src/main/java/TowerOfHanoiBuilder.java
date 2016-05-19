@@ -11,8 +11,6 @@ import model.rulesexpressions.rules.SizeComparisonLesserRule;
 @SuppressWarnings("CPD-START")
 public final class TowerOfHanoiBuilder extends GameBuilderImp {
 
-    public static final String gameDescription = "There are tree stacks with plates on this game.";
-
     //stacks
     private ComplexElement stack1;
     private ComplexElement stack2;
@@ -54,6 +52,7 @@ public final class TowerOfHanoiBuilder extends GameBuilderImp {
 
     public TowerOfHanoiBuilder() {
         gameName = "TowerOfHanoi";
+        gameDescription = "There are tree stacks with plates on this game.";
     }
 
     public void setElements() {

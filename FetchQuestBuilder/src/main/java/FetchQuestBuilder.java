@@ -5,7 +5,7 @@ import model.rulesexpressions.rules.HasContainerRule;
 
 public final class FetchQuestBuilder extends GameBuilderImp {
 
-    public static final String gameDescription = "Don't take it!";
+        gameDescription = "Don't take it!";
     private FetchQuestConstants constants = new FetchQuestConstants();
 
     public FetchQuestBuilder() {
