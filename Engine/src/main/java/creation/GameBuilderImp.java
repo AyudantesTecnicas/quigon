@@ -68,7 +68,7 @@ public abstract class GameBuilderImp implements GameBuilder {
         return game;
     }
 
-    private void addElementsToAction(Action action, ComplexElement contained, Element state) {
+    protected void addElementsToAction(Action action, ComplexElement contained, Element state) {
         action.setElementToUpdate(contained);
         action.addItemToUpdate(state);
     }
@@ -77,10 +77,6 @@ public abstract class GameBuilderImp implements GameBuilder {
         Action changeContainer = new ChangeContainerAction();
         addElementsToAction(changeContainer, contained, container);
         return changeContainer;
-    }
-
-    protected void setChangeAction(Action action , ComplexElement contained, ComplexElement container){
-        addElementsToAction(action, contained, contained);
     }
 
     protected Action buildChangeContainerAction(ComplexElement contained, String index, ComplexElement container) {

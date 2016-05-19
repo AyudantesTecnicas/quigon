@@ -100,7 +100,7 @@ public final class OpenDoor2 extends GameBuilderImp {
         removeOpenedStateToDoor = buildRemoveStatesAction(door, closedDoorState);
         moveCharacterToRoom2 = buildChangeContainerAction(character, room2);
         makeVisibleKey = new ChangeVisibleAction();
-        setChangeAction(makeVisibleKey, key, visibleKeyState);
+        addElementsToAction(makeVisibleKey, key, visibleKeyState);
     }
 
     private void createRules() {
