@@ -1,7 +1,4 @@
-package games;
-
 import creation.GameBuilderImp;
-import games.constants.WolfSheepConstants;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.Action;
@@ -12,7 +9,7 @@ import model.rulesexpressions.rules.DoesNotHaveContainerRule;
 import model.rulesexpressions.rules.HasContainerRule;
 
 @SuppressWarnings("CPD-START")
-public class WolfSheep extends GameBuilderImp {
+public class WolfSheepBuilder extends GameBuilderImp {
 
     public static final String gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
     private WolfSheepConstants constants = new WolfSheepConstants();
@@ -64,7 +61,7 @@ public class WolfSheep extends GameBuilderImp {
     private Move leaveWolf;
     private Move leaveCabbage;
 
-    public WolfSheep() {
+    public WolfSheepBuilder() {
         gameName = "WolfSheep";
     }
 

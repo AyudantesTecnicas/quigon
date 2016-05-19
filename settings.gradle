@@ -5,4 +5,6 @@ include 'Server'
 include 'FetchQuestBuilder'
 include 'OpenDoorBuilder'
 include 'TowerOfHanoiBuilder'
+include 'OpenDoor2Builder'
+include 'WolfSheepBuilder'
 

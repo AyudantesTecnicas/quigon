@@ -9,7 +9,7 @@ import model.rulesexpressions.rules.IsNotEmptyRule;
 import model.rulesexpressions.rules.SizeComparisonLesserRule;
 
 @SuppressWarnings("CPD-START")
-public final class TowerOfHanoi extends GameBuilderImp {
+public final class TowerOfHanoiBuilder extends GameBuilderImp {
 
     public static final String gameDescription = "There are tree stacks with plates on this game.";
 
@@ -52,7 +52,7 @@ public final class TowerOfHanoi extends GameBuilderImp {
     private Action actionToMoveFromStack2ToStack3;
     private Action actionToMoveFromStack3ToStack2;
 
-    public TowerOfHanoi() {
+    public TowerOfHanoiBuilder() {
         gameName = "TowerOfHanoi";
     }
 

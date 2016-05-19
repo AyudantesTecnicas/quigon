@@ -1,7 +1,4 @@
-package games;
-
 import creation.GameBuilderImp;
-import games.constants.OpenDoor2Constants;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.*;
@@ -12,7 +9,7 @@ import model.rulesexpressions.rules.HasStateRule;
 
 
 @SuppressWarnings("CPD-START")
-public final class OpenDoor2 extends GameBuilderImp {
+public final class OpenDoor2Builder extends GameBuilderImp {
 
     public static final String gameDescription = "There is a door on this game. But no key around.";
     private OpenDoor2Constants constants = new OpenDoor2Constants();
@@ -46,7 +43,7 @@ public final class OpenDoor2 extends GameBuilderImp {
     private LogicBuilder logicBuilder;
     private IExpression openingRules;
 
-    public OpenDoor2() {
+    public OpenDoor2Builder() {
         gameName = "OpenDoor2";
     }
 
