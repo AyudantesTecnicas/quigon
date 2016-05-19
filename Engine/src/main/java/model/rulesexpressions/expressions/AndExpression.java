@@ -13,7 +13,7 @@ public class AndExpression extends LogicExpression {
     }
 
     @Override
-    public String getFinalMessage() {
+    protected String getFinalMessage() {
         String failMessageLeft = this.leftExpression.getFailMessage();
         String failMessageRight = this.rightExpression.getFailMessage();
 

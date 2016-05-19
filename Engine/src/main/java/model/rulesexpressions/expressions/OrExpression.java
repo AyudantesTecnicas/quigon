@@ -13,7 +13,7 @@ public class OrExpression extends LogicExpression {
     }
 
     @Override
-    public String getFinalMessage() {
+    protected String getFinalMessage() {
         String failMessage = this.leftExpression.getFailMessage();
 
         if (failMessage.isEmpty()) {
