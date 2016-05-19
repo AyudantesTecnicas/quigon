@@ -20,10 +20,12 @@ public final class CursedObject extends GameBuilderImp {
     private ComplexElement cursedObject;
     private ComplexElement thief;
     private ComplexElement character;
+    private ComplexElement notVisibleObjectState;
     private Action changeRoom0ForRoom1;
     private Action changeRoom1ForRoom2;
     private Action stolenObject;
     private Action pickedObject;
+    private Action makeNotVisibleObject;
     private HasContainerRule victoryRule;
     private HasContainerRule thiefHaveCursedObject;
     private HasContainerRule characterHasCursedObject;
@@ -62,6 +64,7 @@ public final class CursedObject extends GameBuilderImp {
         goToRoom1 = moveWithActionsAndRules(constants.open, changeRoom0ForRoom1, characterHasCursedObject, constants.goToRoom1);
         goToRoom2 = moveWithActionsAndRules(constants.open, changeRoom1ForRoom2, thiefHaveCursedObject, constants.goToRoom2);
         talkThief = moveWithActionsAndRules(constants.talkTo, stolenObject, conditionsToTalkWithThief, constants.talkThief);
+        talkThief.addAction(makeNotVisibleObject);
         pickObject = moveWithActionsAndRules(constants.pick, pickedObject, conditionToPickObject, constants.pickObject);
     }
 
@@ -91,10 +94,14 @@ public final class CursedObject extends GameBuilderImp {
         changeRoom1ForRoom2 = buildChangeContainerAction(character, room2);
         stolenObject = buildChangeContainerAction(cursedObject, thief);
         pickedObject = buildChangeContainerAction(cursedObject, character);
+        makeNotVisibleObject = new ChangeVisibleAction();
+        addElementsToAction(makeNotVisibleObject, cursedObject, notVisibleObjectState);
     }
 
     private void createElements() {
         openState = new Element(constants.opened);
+        notVisibleObjectState = new ComplexElement(constants.notVisible);
+        notVisibleObjectState.setVisible(false);
         room0 = createAndAddElement(constants.room0, null, null);
         room1 = createAndAddElement(constants.room1, null, null);
         room2 = createAndAddElement(constants.room2, null, null);
@@ -103,10 +110,12 @@ public final class CursedObject extends GameBuilderImp {
         cursedObject = createAndAddElement(constants.cursedObject, room0, null);
         thief = createAndAddElement(constants.thief, room1, null);
         character = createAndAddElement(constants.character, room0, null);
+
         game.character = character;
     }
 
     @SuppressWarnings("CPD-END")
+
 
     public void setActions() {
         createAndAddSuportedAction(1, constants.pick);

@@ -14,7 +14,7 @@ public class CursedObjectConstants {
 
     //States
     public static final String opened = "Open";
-
+    public static final String notVisible = "notVisible";
     //Actions
     public static final String open = "open";
     public static final String pick = "pick";
