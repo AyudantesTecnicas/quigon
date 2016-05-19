@@ -59,6 +59,7 @@ subprojects{
     check.dependsOn(':TowerOfHanoiBuilder:cpdCheck')
     check.dependsOn(':OpenDoor2Builder:cpdCheck')
     check.dependsOn(':WolfSheepBuilder:cpdCheck')
+    check.dependsOn(':CursedObjectBuilder:cpdCheck')
 
     repositories {
         jcenter()

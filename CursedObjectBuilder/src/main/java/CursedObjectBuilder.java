@@ -1,16 +1,12 @@
-package games;
-
 import creation.GameBuilderImp;
-import games.constants.CursedObjectConstants;
 import model.actions.*;
 import model.elements.*;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
 @SuppressWarnings("CPD-START")
-public final class CursedObject extends GameBuilderImp {
+public final class CursedObjectBuilder extends GameBuilderImp {
 
-    public static final String gameDescription = "There is a cursed object on this game. And the thief...";
     private CursedObjectConstants constants = new CursedObjectConstants();
     private ComplexElement room0;
     private ComplexElement room1;
@@ -40,8 +36,9 @@ public final class CursedObject extends GameBuilderImp {
     private Move pickObject;
     private Element openState;
 
-    public CursedObject() {
+    public CursedObjectBuilder() {
         gameName = "CursedObject";
+        gameDescription = "There is a cursed object on this game. And the thief...";
     }
 
     public void setElements() {

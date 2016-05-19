@@ -60,9 +60,9 @@ public class Game {
         Iterator<Element> iterator = elementList.iterator();
         while (iterator.hasNext() && !objectFound) {
             ComplexElement complexElement = (ComplexElement) iterator.next();
-            if (    (complexElement.getContainerElement() != null)
+            if ((complexElement.getContainerElement() != null)
                     && complexElement.getContainerElement().equals(actualRoom)
-                    && complexElement.getName().equals(elementName) ) {
+                    && complexElement.getName().equals(elementName)) {
                 movesOfElement = complexElement.listMoves();
                 objectFound = true;
             }
@@ -94,7 +94,7 @@ public class Game {
             sendCommand = checkAroundItems();
         } else if (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")) {
             String elementName = command.split(" ")[5];
-            elementName = elementName.substring(0,elementName.length() - 1);
+            elementName = elementName.substring(0, elementName.length() - 1);
             sendCommand = checkWhatCanIDoWith(elementName);
         } else {
             sendCommand = commandToSend(command);

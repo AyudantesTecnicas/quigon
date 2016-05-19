@@ -1,5 +1,3 @@
-package games.constants;
-
 @SuppressWarnings("CPD-START")
 public class CursedObjectConstants {
     //Elements
