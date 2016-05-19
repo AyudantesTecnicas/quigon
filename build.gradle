@@ -60,6 +60,7 @@ subprojects{
     check.dependsOn(':OpenDoor2Builder:cpdCheck')
     check.dependsOn(':WolfSheepBuilder:cpdCheck')
     check.dependsOn(':CursedObjectBuilder:cpdCheck')
+    check.dependsOn(':TreasureHuntBuilder:cpdCheck')
 
     repositories {
         jcenter()

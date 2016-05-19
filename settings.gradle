@@ -8,4 +8,5 @@ include 'TowerOfHanoiBuilder'
 include 'OpenDoor2Builder'
 include 'WolfSheepBuilder'
 include 'CursedObjectBuilder'
+include 'TreasureHuntBuilder'
 
