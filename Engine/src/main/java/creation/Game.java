@@ -16,6 +16,7 @@ public class Game {
     GameParser parser;
     private IExpression victoryCondition;
     private String gameDescription;
+
     Game() {
     }
 
@@ -23,12 +24,14 @@ public class Game {
         this.gameName = gameName;
     }
 
-    void setGameDescription(String description){
-        gameDescription=description;
+    void setGameDescription(String description) {
+        gameDescription = description;
     }
-    public String getHelp(){
+
+    public String getHelp() {
         return gameDescription;
     }
+
     public void setCharacter(ComplexElement character) {
         this.character = character;
     }
