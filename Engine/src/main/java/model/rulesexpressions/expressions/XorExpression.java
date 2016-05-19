@@ -13,7 +13,7 @@ public class XorExpression extends LogicExpression {
     }
 
     @Override
-    public String getFailMessage() {
+    public String getFinalMessage() {
         return this.leftExpression.getFailMessage();
     }
 

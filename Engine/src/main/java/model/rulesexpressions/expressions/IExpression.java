@@ -6,4 +6,6 @@ public interface IExpression {
 
     String getFailMessage();
 
+    void setFailMessage(String failMessage);
+
 }
