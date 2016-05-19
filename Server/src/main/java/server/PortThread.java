@@ -14,7 +14,7 @@ public class PortThread extends Thread {
     private int port;
     private GameBuilder gameBuilder;
     private Game game;
-
+    private String answer;
     boolean clientConnected = false;
 
     InputStream inputStream = null;
@@ -35,9 +35,9 @@ public class PortThread extends Thread {
             try {
                 setConnection();
             } catch (IOException e) {
-                System.out.println( "Server socket " + serverSocket.getLocalPort()
-                                    + " with game " + game.getName()
-                                    + " has closed, no client." );
+                System.out.println("Server socket " + serverSocket.getLocalPort()
+                        + " with game " + game.getName()
+                        + " has closed, no client.");
             }
 
             listenClient();
@@ -77,19 +77,22 @@ public class PortThread extends Thread {
         clientConnected = true;
     }
 
+    private void checkAnswer() {
+        if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
+            answer = answer + " The game will be reset to initial state.";
+        }
+    }
+
     private void listenClient() {
         while (clientConnected) {
             try {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
-                String answer = getAnswer();
-                if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
-                    answer = answer + " The game will be reset to initial state.";
-                    game = gameBuilder.build();
-                    System.out.println(game.getName() + " reset.");
-                }
+                answer = getAnswer();
+                checkAnswer();
+                game = gameBuilder.build();
+                System.out.println(game.getName() + " reset.");
                 sendAnswer(answer);
-
             } catch (EOFException e) {
                 System.out.println("Client at port " + serverSocket.getLocalPort() + " has disconnected.");
                 game = gameBuilder.build();

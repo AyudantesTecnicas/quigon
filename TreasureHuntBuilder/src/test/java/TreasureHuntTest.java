@@ -6,10 +6,13 @@ import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("CPD-START")
 public class TreasureHuntTest {
-    @Test
-    public void gameTestTreasureHunt() {
-        GameBuilderImp gameBuilderImp = new TreasureHuntBuilder();
-        Game treasureHunt = gameBuilderImp.build();
+
+    GameBuilderImp gameBuilderImp;
+    Game treasureHunt;
+
+    public void gameMoveToSouth(){
+        gameBuilderImp = new TreasureHuntBuilder();
+        treasureHunt = gameBuilderImp.build();
         TreasureHuntConstants wsConstants = new TreasureHuntConstants();
 
         String openDoorWCCommand = TreasureHuntConstants.open + " " + TreasureHuntConstants.doorWC;
@@ -23,11 +26,13 @@ public class TreasureHuntTest {
         assertEquals(treasureHunt.receiveCommands(unlockDoorCSCommand), TreasureHuntConstants.doorUnlocked);
         String openDoorCSCommand = TreasureHuntConstants.open + " " + TreasureHuntConstants.doorCS;
         assertEquals(treasureHunt.receiveCommands(openDoorCSCommand), TreasureHuntConstants.movedToSouth);
-
         String openTrunkSCommand = TreasureHuntConstants.open + " " + TreasureHuntConstants.trunkS;
         assertEquals(treasureHunt.receiveCommands(openTrunkSCommand), TreasureHuntConstants.openTrunk);
         String pickAntidote1Command = TreasureHuntConstants.pick + " " + TreasureHuntConstants.antidote1;
         assertEquals(treasureHunt.receiveCommands(pickAntidote1Command), TreasureHuntConstants.pickAntidote);
+    }
+
+    public void gameTestDropKey() {
         String dropKeySCommand = TreasureHuntConstants.drop + " " + TreasureHuntConstants.keyS;
         assertEquals(treasureHunt.receiveCommands(dropKeySCommand), TreasureHuntConstants.dropKey);
         String pickKeyECommand = TreasureHuntConstants.pick + " " + TreasureHuntConstants.keyE;
@@ -46,11 +51,13 @@ public class TreasureHuntTest {
         assertEquals(treasureHunt.receiveCommands(openBoxECommand), TreasureHuntConstants.openBox);
         String dropKeyECommand = TreasureHuntConstants.drop + " " + TreasureHuntConstants.keyE;
         assertEquals(treasureHunt.receiveCommands(dropKeyECommand), TreasureHuntConstants.dropKey);
+    }
+
+    public void gameTestKeys() {
         String pickKeyNCommand = TreasureHuntConstants.pick + " " + TreasureHuntConstants.keyN;
         assertEquals(treasureHunt.receiveCommands(pickKeyNCommand), TreasureHuntConstants.pickKey);
         String openDoorECCommand = TreasureHuntConstants.open + " " + TreasureHuntConstants.doorEC;
         assertEquals(treasureHunt.receiveCommands(openDoorECCommand), TreasureHuntConstants.movedToCenter);
-
         String unlockDoorCNCommand = TreasureHuntConstants.unlock + " " + TreasureHuntConstants.doorCN;
         assertEquals(treasureHunt.receiveCommands(unlockDoorCNCommand), TreasureHuntConstants.doorUnlocked);
         String openDoorCNCommand = TreasureHuntConstants.open + " " + TreasureHuntConstants.doorCN;
@@ -64,7 +71,13 @@ public class TreasureHuntTest {
         assertEquals(treasureHunt.receiveCommands(pickTreasureCommand), TreasureHuntConstants.pickTreasure);
         String openDoorNCCommand = TreasureHuntConstants.open + " " + TreasureHuntConstants.doorNC;
         assertEquals(treasureHunt.receiveCommands(openDoorNCCommand), TreasureHuntConstants.movedToCenter);
+    }
 
+    @Test
+    public void gameTestTreasureHunt() {
+        gameMoveToSouth();
+        gameTestDropKey();
+        gameTestKeys();
         String openDoorCWCommand = TreasureHuntConstants.open + " " + TreasureHuntConstants.doorCW;
         assertEquals(treasureHunt.receiveCommands(openDoorCWCommand), gameBuilderImp.winText);
     }
