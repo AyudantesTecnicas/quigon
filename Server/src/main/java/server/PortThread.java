@@ -83,7 +83,7 @@ public class PortThread extends Thread {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + serverSocket.getLocalPort() + " send a message: " + sendByClient);
                 String answer = getAnswer();
-                if (answer.equals(GameBuilderImp.winText)) {
+                if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
                     answer = answer + " The game will be reset to initial state.";
                     game = gameBuilder.build();
                     System.out.println(game.getName() + " reset.");

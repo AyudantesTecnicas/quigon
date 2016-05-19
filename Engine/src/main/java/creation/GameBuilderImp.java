@@ -13,6 +13,7 @@ import java.util.*;
 public abstract class GameBuilderImp implements GameBuilder {
 
     public static final String winText = "You won the game!";
+    public static final String loseText = "You lost the game!";
     protected static final String logicMessage = "Wrong expressed logic";
 
     protected Game game;
