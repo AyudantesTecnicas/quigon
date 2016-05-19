@@ -21,8 +21,6 @@ public class ConcreteGameDriver implements GameDriver {
                 throw new GameLoadFailedException();
             }
             gameState = GameState.Ready;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,6 +31,9 @@ public class ConcreteGameDriver implements GameDriver {
         String answer = game.receiveCommands(cmd);
         if (answer.equals(GameBuilderImp.winText)) {
             gameState = GameState.Won;
+        }
+        if (answer.equals(GameBuilderImp.loseText)) {
+            gameState = GameState.Lost;
         }
         return answer;
     }
