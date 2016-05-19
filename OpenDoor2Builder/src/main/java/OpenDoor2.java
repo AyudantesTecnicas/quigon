@@ -1,7 +1,4 @@
-package games;
-
 import creation.GameBuilderImp;
-import games.constants.OpenDoor2Constants;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.*;
