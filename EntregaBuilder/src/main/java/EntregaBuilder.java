@@ -252,7 +252,7 @@ public final class EntregaBuilder extends GameBuilderImp {
                 EntregaConstants.tomadoMartillo);
         moveTomarDestornillador1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
                 null, EntregaConstants.tomadoDestornillador);
-        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
+        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador2,
                 null, EntregaConstants.tomadoDestornillador);
         moveTomarVaso1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso1, null,
                 EntregaConstants.tomadoVaso);
@@ -260,10 +260,28 @@ public final class EntregaBuilder extends GameBuilderImp {
                 EntregaConstants.tomadoVaso);
     }
 
-    private void addMoves() {
+    private void addMovesItemsInSalon1() {
         itemCuadroBarco.addMove(moveMoverCuadro);
         itemCajaFuerte.addMove(moveAbrirCajaFuerte);
+
         itemCredencial.addMove(moveTomarCredencial);
+        itemCredencial.addMove(movePonerFotoEnCredencial);
+
+        itemBotella.addMove(moveTomarBotella);
+        itemVaso1.addMove(moveTomarVaso1);
+        itemVaso2.addMove(moveTomarVaso2);
+    }
+
+    private void addMovesItemsInSalon2() {
+        itemMartillo.addMove(moveTomarMartillo);
+        itemDestornillador1.addMove(moveTomarDestornillador1);
+        itemDestornillador2.addMove(moveTomarDestornillador2);
+    }
+
+    private void addMoves() {
+        addMovesItemsInSalon1();
+        addMovesItemsInSalon2();
+        itemLlave.addMove(moveTomarLlave);
 
         doorAccesoBibliotecaToPasillo.addMove(moveIrAPasillo);
         doorSalon1ToPasillo.addMove(moveIrAPasillo);
@@ -275,8 +293,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         doorPasilloToSalon1.addMove(moveIrASalon1);
         doorPasilloToSalon2.addMove(moveIrASalon2);
         doorPasilloToSalon3.addMove(moveIrASalon3);
-
-        itemCredencial.addMove(movePonerFotoEnCredencial);
     }
 
     private void createItems() {
