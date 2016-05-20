@@ -66,6 +66,9 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemLibro7;
     private ComplexElement itemLibro8;
     private ComplexElement itemLibro9;
+    //Items Sotano
+    private ComplexElement itemEscalera;
+    private ComplexElement itemBaranda;
 
     //Rules
     private LogicBuilder logicBuilder = new LogicBuilder();
@@ -91,6 +94,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionChangeToSalon3;
     private Action actionChangeToAccesoBiblioteca;
     private Action actionChangeToBiblioteca;
+    private Action actionChangeToSubSotano;
     private Action actionPutFotoEnCredencial;
     private Action actionSetCredencialToValida;
     private Action actionSetCredencialToInvalida;
@@ -219,6 +223,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionChangeToSalon3 = buildChangeContainerAction(character,roomSalon3);
         actionChangeToAccesoBiblioteca = buildChangeContainerAction(character, roomAccesoBiblioteca);
         actionChangeToBiblioteca = buildChangeContainerAction(character, roomBiblioteca);
+        actionChangeToSubSotano = buildChangeContainerAction(character, roomSubSotano);
     }
 
     private void createItemActions() {
@@ -373,6 +378,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         createItemsSalon3();
         createItemsAccesoBiblioteca();
         createItemsBiblioteca();
+        createItemsSotano();
     }
 
     private void createItemsSalon1() {
@@ -415,5 +421,10 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemLibro7 = createAndAddElement(EntregaConstants.libro7, roomBiblioteca,null);
         itemLibro8 = createAndAddElement(EntregaConstants.libro8, roomBiblioteca,null);
         itemLibro9 = createAndAddElement(EntregaConstants.libro9, roomBiblioteca,null);
+    }
+
+    private void createItemsSotano() {
+        itemBibliotecario = createAndAddElement(EntregaConstants.baranda, roomSotano, null);
+        itemBibliotecario = createAndAddElement(EntregaConstants.escaleraOxidada, roomSotano, null);
     }
 }

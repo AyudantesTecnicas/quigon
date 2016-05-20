@@ -48,6 +48,8 @@ public class EntregaConstants {
     public static final String libro7 = "libroRosa";
     public static final String libro8 = "libroNaranja";
     public static final String libro9 = "libroBlanco";
+    public static final String baranda = "baranda";
+    public static final String escaleraOxidada = "escalera";
 
 
     //Actions
