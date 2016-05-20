@@ -74,6 +74,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasContainerRule ruleTenerLlave;
     private HasContainerRule ruleTenerMartillo;
     private HasStateRule ruleCredencialValida;
+    private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
 
@@ -97,6 +98,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionChangeToBiblioteca;
     private Action actionChangeToSubSotano;
     private Action actionChangeToSotano;
+    private Action actionChangeToPatio;
     private Action actionPutFotoEnCredencial;
     private Action actionSetCredencialToValida;
     private Action actionSetCredencialToInvalida;
@@ -115,6 +117,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveIrAAccesoBiblioteca;
     private Move moveIrABiblioteca;
     private Move moveIrASotano;
+    private Move moveIrAPatio;
     private Move movePonerFotoEnCredencial;
     private Move moveEmborracharAlBibliotecario;
     private Move moveTomarBotella;
@@ -236,6 +239,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionChangeToBiblioteca = buildChangeContainerAction(character, roomBiblioteca);
         actionChangeToSubSotano = buildChangeContainerAction(character, roomSubSotano);
         actionChangeToSotano = buildChangeContainerAction(character, roomSotano);
+        actionChangeToPatio = buildChangeContainerAction(character, roomPatio);
     }
 
     private void createItemActions() {
@@ -260,6 +264,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void createRules() {
         ruleTenerLlave = checkContainerRule(itemLlave,character,EntregaConstants.necesitaTenerLlaveSalon3);
         ruleTenerMartillo = checkContainerRule(itemMartillo,character,EntregaConstants.necesitaTenerMartillo);
+        ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
 
         //Reglas para poder emborrachar al bibliotecario
@@ -314,6 +319,8 @@ public final class EntregaBuilder extends GameBuilderImp {
                 ruleParaIngresarALaBiblioteca, EntregaConstants.cambiadoAAccesoBiblioteca);
         moveIrASotano = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSotano,
                 null, EntregaConstants.cambiadoASotano);
+        moveIrAPatio = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPatio, ruleVentanaRota,
+                EntregaConstants.cambiadoAPatio);
 
         movePonerFotoEnCredencial = moveWithActionsAndRules(EntregaConstants.movePutFoto, actionPutFotoEnCredencial,
                 null, EntregaConstants.cambiadoFotoDeCredencial);
@@ -405,7 +412,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
 
         doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
-
+        roomPatio.addMove(moveIrAPatio);
     }
 
     private void createItems() {
