@@ -54,6 +54,18 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemLlave;
     //Items Acceso Bilioteca
     private ComplexElement itemBibliotecario;
+    //Items Bilioteca
+    private ComplexElement itemLibroViejo;
+    private ComplexElement itemEstante;
+    private ComplexElement itemLibro1;
+    private ComplexElement itemLibro2;
+    private ComplexElement itemLibro3;
+    private ComplexElement itemLibro4;
+    private ComplexElement itemLibro5;
+    private ComplexElement itemLibro6;
+    private ComplexElement itemLibro7;
+    private ComplexElement itemLibro8;
+    private ComplexElement itemLibro9;
 
     //Rules
     private LogicBuilder logicBuilder = new LogicBuilder();
@@ -292,7 +304,7 @@ public final class EntregaBuilder extends GameBuilderImp {
                 EntregaConstants.tomadoMartillo);
         moveTomarDestornillador1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
                 null, EntregaConstants.tomadoDestornillador);
-        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
+        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador2,
                 null, EntregaConstants.tomadoDestornillador);
         moveTomarVaso1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso1, null,
                 EntregaConstants.tomadoVaso);
@@ -301,10 +313,37 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     }
 
-    private void addMoves() {
+    private void addMovesItemsInSalon1() {
         itemCuadroBarco.addMove(moveMoverCuadro);
         itemCajaFuerte.addMove(moveAbrirCajaFuerte);
+
         itemCredencial.addMove(moveTomarCredencial);
+        itemCredencial.addMove(movePonerFotoEnCredencial);
+
+        itemBotella.addMove(moveTomarBotella);
+        itemVaso1.addMove(moveTomarVaso1);
+        itemVaso2.addMove(moveTomarVaso2);
+    }
+
+    private void addMovesItemsInSalon2() {
+        itemMartillo.addMove(moveTomarMartillo);
+        itemDestornillador1.addMove(moveTomarDestornillador1);
+        itemDestornillador2.addMove(moveTomarDestornillador2);
+    }
+
+    private void addMovesItemsInSalon3() {
+        itemLlave.addMove(moveTomarLlave);
+    }
+
+    private void addMovesItemsInAccesoBiblioteca() {
+        itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
+    }
+
+    private void addMoves() {
+        addMovesItemsInSalon1();
+        addMovesItemsInSalon2();
+        addMovesItemsInSalon3();
+        addMovesItemsInAccesoBiblioteca();
 
         doorAccesoBibliotecaToPasillo.addMove(moveIrAPasillo);
         doorSalon1ToPasillo.addMove(moveIrAPasillo);
@@ -321,6 +360,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
 
         doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
+
     }
 
     private void createItems() {
@@ -332,6 +372,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         createItemsSalon2();
         createItemsSalon3();
         createItemsAccesoBiblioteca();
+        createItemsBiblioteca();
     }
 
     private void createItemsSalon1() {
@@ -360,5 +401,19 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createItemsAccesoBiblioteca() {
         itemBibliotecario = createAndAddElement(EntregaConstants.bibliotecario, roomAccesoBiblioteca,null);
+    }
+
+    private void createItemsBiblioteca() {
+        itemLibroViejo = createAndAddElement(EntregaConstants.libroViejo, roomBiblioteca,null);
+        itemEstante = createAndAddElement(EntregaConstants.estante, roomBiblioteca,null);
+        itemLibro1 = createAndAddElement(EntregaConstants.libro1, roomBiblioteca,null);
+        itemLibro2 = createAndAddElement(EntregaConstants.libro2, roomBiblioteca,null);
+        itemLibro3 = createAndAddElement(EntregaConstants.libro3, roomBiblioteca,null);
+        itemLibro4 = createAndAddElement(EntregaConstants.libro4, roomBiblioteca,null);
+        itemLibro5 = createAndAddElement(EntregaConstants.libro5, roomBiblioteca,null);
+        itemLibro6 = createAndAddElement(EntregaConstants.libro6, roomBiblioteca,null);
+        itemLibro7 = createAndAddElement(EntregaConstants.libro7, roomBiblioteca,null);
+        itemLibro8 = createAndAddElement(EntregaConstants.libro8, roomBiblioteca,null);
+        itemLibro9 = createAndAddElement(EntregaConstants.libro9, roomBiblioteca,null);
     }
 }

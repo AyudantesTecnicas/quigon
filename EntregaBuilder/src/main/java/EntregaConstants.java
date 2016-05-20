@@ -37,6 +37,17 @@ public class EntregaConstants {
     public static final String destornillador2Salon2 = "destornilladorAzul";
     public static final String keySalon3 = "llave";
     public static final String bibliotecario = "bibliotecario";
+    public static final String estante = "estante";
+    public static final String libroViejo = "libroViejo";
+    public static final String libro1 = "libroAzul";
+    public static final String libro2 = "libroRojo";
+    public static final String libro3 = "libroAmarillo";
+    public static final String libro4 = "libroVioleta";
+    public static final String libro5 = "libroVerde";
+    public static final String libro6 = "libroCeleste";
+    public static final String libro7 = "libroRosa";
+    public static final String libro8 = "libroNaranja";
+    public static final String libro9 = "libroBlanco";
 
 
     //Actions
