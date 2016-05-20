@@ -84,6 +84,8 @@ public class EntregaConstants {
 
     public static final String movedCuadroBarco = "Hay algo atras del cuadro...";
     public static final String movedLibroViejo = "Parece que la biblioteca se esta moviendo!";
+    public static final String movedLibro = "Es solo un libro";
+
     public static final String abiertaCajaFuerte = "Parece que hay algo en la caja fuerte!";
 
     public static final String tomadoCredencial = "Ahora tienes una credencial.. de donde puede ser?";

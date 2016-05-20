@@ -123,6 +123,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveTomarVaso1;
     private Move moveTomarVaso2;
     private Move moveMoverLibroViejo;
+    private Move moveMoverLibro;
 
     //Doors
     private ComplexElement doorPasilloToSalon1;
@@ -288,6 +289,8 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         moveMoverLibroViejo = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisiblePasajeSecreto, null,
                 EntregaConstants.movedLibroViejo);
+        moveMoverLibro = moveWithActionsAndRules(EntregaConstants.moveMover, null, null,
+                EntregaConstants.movedLibro);
 
         moveIrAPasillo = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPasillo,
                 null, EntregaConstants.cambiadoAPasillo);
@@ -356,6 +359,15 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void addMovesItemsInBiblioteca() {
         itemLibroViejo.addMove(moveMoverLibroViejo);
+        itemLibro1.addMove(moveMoverLibro);
+        itemLibro2.addMove(moveMoverLibro);
+        itemLibro3.addMove(moveMoverLibro);
+        itemLibro4.addMove(moveMoverLibro);
+        itemLibro5.addMove(moveMoverLibro);
+        itemLibro6.addMove(moveMoverLibro);
+        itemLibro7.addMove(moveMoverLibro);
+        itemLibro8.addMove(moveMoverLibro);
+        itemLibro9.addMove(moveMoverLibro);
     }
 
     private void addMoves() {
