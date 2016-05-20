@@ -30,7 +30,7 @@ public class EntregaConstants {
     public static final String chair1Salon1 = "sillaRoja";
     public static final String chair2Salon1 = "sillaAzul";
     public static final String cuadroBarcoSalon1 = "cuadroBarco";
-    public static final String cajaFuerteSalon1 = "cajaFuerte";
+    public static final String cajaFuerteSalon1 = "CajaFuerte";
     public static final String credencialSalon1 = "credencial";
     public static final String cuadroTrenSalon1 = "cuadroTren";
     public static final String martilloSalon2 = "martillo";
@@ -51,6 +51,7 @@ public class EntregaConstants {
     public static final String libro9 = "libroBlanco";
     public static final String baranda = "baranda";
     public static final String escaleraOxidada = "escalera";
+    public static final String ventana = "Ventana";
 
 
     //Actions
@@ -59,7 +60,7 @@ public class EntregaConstants {
     public static final String invalido = "invalida";
     public static final String feliz = "feliz";
     public static final String borracho = "borracho";
-
+    public static final String roto = "roto";
 
     //Rules
     public static final String necesitaTenerLlaveSalon3 = "Necesitas una llave para eso!";
@@ -71,6 +72,7 @@ public class EntregaConstants {
     public static final String noEstaFeliz = "No esta feliz de verte otra vez";
     public static final String noEstaBorracho = "No esta borracho como para dejarte pasar";
     public static final String noSePuedePasarALaBiblioteca = "No tienes permitido ingresar a la biblioteca";
+    public static final String necesitaTenerMartillo = "Necesitas el martillo";
 
     //Moves
     public static final String cambiadoAPasillo = "Es un pasillo";
@@ -95,10 +97,14 @@ public class EntregaConstants {
     public static final String tomadoDestornillador = "Ahora tienes un destornillador";
     public static final String tomadoVaso = "Ahora tienes un vaso";
 
+    public static final String seRompioVentana = "Se rompio la ventana, puedo ver afuera!";
+
     public static final String movePick = "pick";
     public static final String moveIrA = "go to";
     public static final String movePutFoto = "put foto";
     public static final String moveMover = "move";
-    public static final String moveAbrirCajaFuerte = "open";
+    public static final String moveAbrirCajaFuerte = "open CajaFuerte using";
     public static final String moveEmborrachar = "emborrachar";
+    public static final String moveRomperVentana = "break Ventana using";
+
 }

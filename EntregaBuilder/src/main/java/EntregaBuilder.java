@@ -3,9 +3,7 @@ import logic.LogicBuilder;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;
-import model.rulesexpressions.expressions.AndExpression;
-import model.rulesexpressions.expressions.IExpression;
-import model.rulesexpressions.expressions.OrExpression;
+import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
 public final class EntregaBuilder extends GameBuilderImp {
@@ -68,10 +66,13 @@ public final class EntregaBuilder extends GameBuilderImp {
     //Items Sotano
     private ComplexElement itemEscalera;
     private ComplexElement itemBaranda;
+    //Items SubSotano
+    private ComplexElement itemVentana;
 
     //Rules
     private LogicBuilder logicBuilder = new LogicBuilder();
     private HasContainerRule ruleTenerLlave;
+    private HasContainerRule ruleTenerMartillo;
     private HasStateRule ruleCredencialValida;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
@@ -101,6 +102,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionSetCredencialToInvalida;
     private Action actionMakeBibliotecarioFeliz;
     private Action actionMakeBibliotecarioBorracho;
+    private Action actionRomperVentana;
 
     //Moves
     private Move moveMoverCuadro;
@@ -124,6 +126,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveTomarVaso2;
     private Move moveMoverLibroViejo;
     private Move moveMoverLibro;
+    private Move moveRomperVentana;
 
     //Doors
     private ComplexElement doorPasilloToSalon1;
@@ -144,6 +147,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement stateOpen;
     private ComplexElement stateFeliz;
     private ComplexElement stateBorracho;
+    private ComplexElement stateRoto;
 
     protected void setActions() {}
 
@@ -190,6 +194,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         stateValido = new ComplexElement(EntregaConstants.valido);
         stateFeliz = new ComplexElement(EntregaConstants.feliz);
         stateBorracho = new ComplexElement(EntregaConstants.borracho);
+        stateRoto = new ComplexElement(EntregaConstants.roto);
     }
 
     private void createDoors() {
@@ -248,10 +253,13 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
         actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
+
+        actionRomperVentana = buildAddStatesAction(itemVentana,stateRoto);
     }
 
     private void createRules() {
         ruleTenerLlave = checkContainerRule(itemLlave,character,EntregaConstants.necesitaTenerLlaveSalon3);
+        ruleTenerMartillo = checkContainerRule(itemMartillo,character,EntregaConstants.necesitaTenerMartillo);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
 
         //Reglas para poder emborrachar al bibliotecario
@@ -313,6 +321,9 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho, ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
 
+        moveRomperVentana = moveWithActionsAndRules(EntregaConstants.moveRomperVentana, actionRomperVentana, ruleTenerMartillo,
+                EntregaConstants.seRompioVentana);
+
         //Moves for pick items
         moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null,
                 EntregaConstants.tomadaBotella);
@@ -345,6 +356,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void addMovesItemsInSalon2() {
         itemMartillo.addMove(moveTomarMartillo);
+        itemMartillo.addMove(moveRomperVentana);
         itemDestornillador1.addMove(moveTomarDestornillador1);
         itemDestornillador2.addMove(moveTomarDestornillador2);
     }
@@ -407,6 +419,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         createItemsAccesoBiblioteca();
         createItemsBiblioteca();
         createItemsSotano();
+        createItemsSubSotano();
     }
 
     private void createItemsSalon1() {
@@ -454,5 +467,9 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void createItemsSotano() {
         itemBibliotecario = createAndAddElement(EntregaConstants.baranda, roomSotano, null);
         itemBibliotecario = createAndAddElement(EntregaConstants.escaleraOxidada, roomSotano, null);
+    }
+
+    private void createItemsSubSotano() {
+        itemVentana = createAndAddElement(EntregaConstants.ventana, roomSubSotano, null);
     }
 }
