@@ -104,6 +104,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionSetCredencialToInvalida;
     private Action actionMakeBibliotecarioFeliz;
     private Action actionMakeBibliotecarioBorracho;
+    private Action actionKillCharacter;
     private Action actionRomperVentana;
 
     //Moves
@@ -117,9 +118,12 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveIrAAccesoBiblioteca;
     private Move moveIrABiblioteca;
     private Move moveIrASotano;
+    private Move moveIrASubSotano;
     private Move moveIrAPatio;
+
     private Move movePonerFotoEnCredencial;
     private Move moveEmborracharAlBibliotecario;
+    private Move moveUsarEscalera;
     private Move moveTomarBotella;
     private Move moveTomarLlave;
     private Move moveTomarMartillo;
@@ -150,6 +154,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement stateOpen;
     private ComplexElement stateFeliz;
     private ComplexElement stateBorracho;
+    private ComplexElement stateMuerto;
     private ComplexElement stateRoto;
 
     protected void setActions() {}
@@ -197,6 +202,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         stateValido = new ComplexElement(EntregaConstants.valido);
         stateFeliz = new ComplexElement(EntregaConstants.feliz);
         stateBorracho = new ComplexElement(EntregaConstants.borracho);
+        stateMuerto = new ComplexElement(EntregaConstants.muerto);
         stateRoto = new ComplexElement(EntregaConstants.roto);
     }
 
@@ -257,7 +263,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
         actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
-
+        actionKillCharacter = buildAddStatesAction(character, stateMuerto);
         actionRomperVentana = buildAddStatesAction(itemVentana,stateRoto);
     }
 
@@ -316,17 +322,24 @@ public final class EntregaBuilder extends GameBuilderImp {
         moveIrAAccesoBiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToAccesoBiblioteca,
                 null, EntregaConstants.cambiadoAAccesoBiblioteca);
         moveIrABiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToBiblioteca,
-                ruleParaIngresarALaBiblioteca, EntregaConstants.cambiadoAAccesoBiblioteca);
+                ruleParaIngresarALaBiblioteca, EntregaConstants.cambiadoABiblioteca);
         moveIrASotano = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSotano,
                 null, EntregaConstants.cambiadoASotano);
         moveIrAPatio = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPatio, ruleVentanaRota,
                 EntregaConstants.cambiadoAPatio);
 
+        moveIrASubSotano = moveWithActionsAndRules(EntregaConstants.moveUse, actionChangeToSubSotano,
+                null, EntregaConstants.cambiadoASubSotano);
+
         movePonerFotoEnCredencial = moveWithActionsAndRules(EntregaConstants.movePutFoto, actionPutFotoEnCredencial,
                 null, EntregaConstants.cambiadoFotoDeCredencial);
         movePonerFotoEnCredencial.addAction(actionSetCredencialToValida);
 
-        moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho, ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
+        moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho,
+                ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
+
+        moveUsarEscalera = moveWithActionsAndRules(EntregaConstants.moveUse, actionKillCharacter,
+                null, EntregaConstants.escaleraEnMalasCondiciones);
 
         moveRomperVentana = moveWithActionsAndRules(EntregaConstants.moveRomperVentana, actionRomperVentana, ruleTenerMartillo,
                 EntregaConstants.seRompioVentana);
@@ -346,6 +359,9 @@ public final class EntregaBuilder extends GameBuilderImp {
                 EntregaConstants.tomadoVaso);
         moveTomarVaso2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso2, null,
                 EntregaConstants.tomadoVaso);
+
+
+
 
     }
 
@@ -389,12 +405,18 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemLibro9.addMove(moveMoverLibro);
     }
 
+    private void addMovesItemsInSotano() {
+        itemBaranda.addMove(moveIrASubSotano);
+        itemEscalera.addMove(moveUsarEscalera);
+    }
+
     private void addMoves() {
         addMovesItemsInSalon1();
         addMovesItemsInSalon2();
         addMovesItemsInSalon3();
         addMovesItemsInAccesoBiblioteca();
         addMovesItemsInBiblioteca();
+        addMovesItemsInSotano();
 
         doorAccesoBibliotecaToPasillo.addMove(moveIrAPasillo);
         doorSalon1ToPasillo.addMove(moveIrAPasillo);
@@ -412,6 +434,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
 
         doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
+
         roomPatio.addMove(moveIrAPatio);
     }
 
@@ -472,8 +495,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createItemsSotano() {
-        itemBibliotecario = createAndAddElement(EntregaConstants.baranda, roomSotano, null);
-        itemBibliotecario = createAndAddElement(EntregaConstants.escaleraOxidada, roomSotano, null);
+        itemBaranda = createAndAddElement(EntregaConstants.baranda, roomSotano, null);
+        itemEscalera = createAndAddElement(EntregaConstants.escaleraOxidada, roomSotano, null);
     }
 
     private void createItemsSubSotano() {
