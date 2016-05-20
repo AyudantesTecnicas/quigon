@@ -1,8 +1,12 @@
+import com.sun.org.apache.xpath.internal.operations.Or;
 import creation.GameBuilderImp;
 import logic.LogicBuilder;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;
+import model.rulesexpressions.expressions.AndExpression;
+import model.rulesexpressions.expressions.IExpression;
+import model.rulesexpressions.expressions.OrExpression;
 import model.rulesexpressions.rules.*;
 
 public final class EntregaBuilder extends GameBuilderImp {
@@ -55,6 +59,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private LogicBuilder logicBuilder = new LogicBuilder();
     private HasContainerRule ruleTenerLlave;
     private HasStateRule ruleCredencialValida;
+    private IExpression ruleParaEmborracharAlBibliotecario;
 
     //Item actions
     private Action actionPickKey;
@@ -77,6 +82,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionSetCredencialToValida;
     private Action actionSetCredencialToInvalida;
     private Action actionMakeBibliotecarioFeliz;
+    private Action actionMakeBibliotecarioBorracho;
 
     //Moves
     private Move moveMoverCuadro;
@@ -88,6 +94,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveIrASalon3;
     private Move moveIrAAccesoBiblioteca;
     private Move movePonerFotoEnCredencial;
+    private Move moveEmborracharAlBibliotecario;
     private Move moveTomarBotella;
     private Move moveTomarLlave;
     private Move moveTomarMartillo;
@@ -113,6 +120,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement stateInvalido;
     private ComplexElement stateOpen;
     private ComplexElement stateFeliz;
+    private ComplexElement stateBorracho;
 
     protected void setActions() {}
 
@@ -158,6 +166,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         stateInvalido = new ComplexElement(EntregaConstants.invalido);
         stateValido = new ComplexElement(EntregaConstants.valido);
         stateFeliz = new ComplexElement(EntregaConstants.feliz);
+        stateBorracho = new ComplexElement(EntregaConstants.borracho);
     }
 
     private void createDoors() {
@@ -213,11 +222,24 @@ public final class EntregaBuilder extends GameBuilderImp {
         // Con el anterior y el actionMakeBibliotecarioFeliz se va a validar si se puede pasar a biblioteca
         actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
+        actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
     }
 
     private void createRules() {
         ruleTenerLlave = checkContainerRule(itemLlave,character,EntregaConstants.necesitaTenerLlaveSalon3);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
+        HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, character, EntregaConstants.necesitaLaBotella);
+        HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, character, EntregaConstants.necesitaElVaso);
+        HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, character, EntregaConstants.necesitaElVaso);
+        OrExpression orExpressionParaVasos = new OrExpression();
+        orExpressionParaVasos.setLeftExpression(ruleTieneVaso1);
+        orExpressionParaVasos.setRightExpression(ruleTieneVaso2);
+        orExpressionParaVasos.setFailMessage(EntregaConstants.noTieneVasos);
+        AndExpression andExpressionParaEmborrachar = new AndExpression();
+        andExpressionParaEmborrachar.setLeftExpression(ruleTieneBotella);
+        andExpressionParaEmborrachar.setRightExpression(orExpressionParaVasos);
+        andExpressionParaEmborrachar.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
+        ruleParaEmborracharAlBibliotecario = andExpressionParaEmborrachar;
     }
 
     private void createMoves() {
@@ -243,6 +265,9 @@ public final class EntregaBuilder extends GameBuilderImp {
                 null, EntregaConstants.cambiadoFotoDeCredencial);
         movePonerFotoEnCredencial.addAction(actionSetCredencialToValida);
 
+        moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho, ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
+
+
         //Moves for pick items
         moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null,
                 EntregaConstants.tomadaBotella);
@@ -258,6 +283,7 @@ public final class EntregaBuilder extends GameBuilderImp {
                 EntregaConstants.tomadoVaso);
         moveTomarVaso2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso2, null,
                 EntregaConstants.tomadoVaso);
+
     }
 
     private void addMovesItemsInSalon1() {
@@ -278,10 +304,19 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemDestornillador2.addMove(moveTomarDestornillador2);
     }
 
+    private void addMovesItemsInSalon3() {
+        itemLlave.addMove(moveTomarLlave);
+    }
+
+    private void addMovesItemsInAccesoBiblioteca() {
+        itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
+    }
+
     private void addMoves() {
         addMovesItemsInSalon1();
         addMovesItemsInSalon2();
-        itemLlave.addMove(moveTomarLlave);
+        addMovesItemsInSalon3();
+        addMovesItemsInAccesoBiblioteca();
 
         doorAccesoBibliotecaToPasillo.addMove(moveIrAPasillo);
         doorSalon1ToPasillo.addMove(moveIrAPasillo);

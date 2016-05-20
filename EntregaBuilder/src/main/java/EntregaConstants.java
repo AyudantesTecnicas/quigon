@@ -44,11 +44,16 @@ public class EntregaConstants {
     public static final String valido = "valida";
     public static final String invalido = "invalida";
     public static final String feliz = "feliz";
+    public static final String borracho = "borracho";
+
 
     //Rules
     public static final String necesitaTenerLlaveSalon3 = "Necesitas una llave para eso!";
     public static final String necesitaSerValida = "Parece que eso no es valido...";
-
+    public static final String necesitaLaBotella = "No agarraste la botella";
+    public static final String necesitaElVaso = "No agarraste el vaso";
+    public static final String noTieneVasos = "Necesitas algo donde servir una bebida";
+    public static final String noSePuedeEmborrachar = "No se pudo emborrachar al bibliotecario";
     //Moves
     public static final String cambiadoAPasillo = "Es un pasillo";
     public static final String cambiadoASalon1 = "Es un salon";
@@ -56,6 +61,7 @@ public class EntregaConstants {
     public static final String cambiadoASalon3 = "Es un salon";
     public static final String cambiadoAAccesoBiblioteca = "Es el acceso a una biblioteca";
     public static final String cambiadoFotoDeCredencial = "Ahora la credencial parece tuya!";
+    public static final String bibliotecarioBorracho = "El bibliotecario esta boracho, hip!";
 
     public static final String movedCuadroBarco = "Hay algo atras del cuadro...";
     public static final String abiertaCajaFuerte = "Parece que hay algo en la caja fuerte!";
@@ -72,4 +78,5 @@ public class EntregaConstants {
     public static final String movePutFoto = "put foto";
     public static final String moveCuadro = "move";
     public static final String moveAbrirCajaFuerte = "open";
+    public static final String moveEmborrachar = "emborrachar";
 }
