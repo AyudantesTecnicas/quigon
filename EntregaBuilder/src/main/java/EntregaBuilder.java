@@ -71,6 +71,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasContainerRule ruleTenerLlave;
     private HasStateRule ruleCredencialValida;
     private IExpression ruleParaEmborracharAlBibliotecario;
+    private IExpression ruleParaIngresarALaBiblioteca;
 
     //Item actions
     private Action actionPickKey;
@@ -105,6 +106,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveIrASalon2;
     private Move moveIrASalon3;
     private Move moveIrAAccesoBiblioteca;
+    private Move moveIrABiblioteca;
     private Move moveIrASotano;
     private Move movePonerFotoEnCredencial;
     private Move moveEmborracharAlBibliotecario;
@@ -234,8 +236,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionSetCredencialToValida = buildAddStatesAction(itemCredencial, stateValido);
         actionSetCredencialToInvalida = buildAddStatesAction(itemCredencial, stateInvalido);
 
-        // TODO: Agregar makeBibliotecarioBorracho
-        // Con el anterior y el actionMakeBibliotecarioFeliz se va a validar si se puede pasar a biblioteca
         actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
         actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
@@ -244,6 +244,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void createRules() {
         ruleTenerLlave = checkContainerRule(itemLlave,character,EntregaConstants.necesitaTenerLlaveSalon3);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
+
+        //Reglas para poder emborrachar al bibliotecario
         HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, character, EntregaConstants.necesitaLaBotella);
         HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, character, EntregaConstants.necesitaElVaso);
         HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, character, EntregaConstants.necesitaElVaso);
@@ -256,6 +258,16 @@ public final class EntregaBuilder extends GameBuilderImp {
         andExpressionParaEmborrachar.setRightExpression(orExpressionParaVasos);
         andExpressionParaEmborrachar.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
         ruleParaEmborracharAlBibliotecario = andExpressionParaEmborrachar;
+
+        //Reglas para poder pasar a la biblioteca
+        OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
+        HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
+        HasStateRule ruleBibliotecarioBorracho = checkStateRule(itemBibliotecario, stateBorracho,EntregaConstants.noEstaBorracho);
+        orExpressionParaPasarABiblioteca.setLeftExpression(ruleBibliotecarioFeliz);
+        orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
+        orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
+        ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
+
     }
 
     private void createMoves() {
@@ -276,6 +288,8 @@ public final class EntregaBuilder extends GameBuilderImp {
                 null, EntregaConstants.cambiadoASalon3);
         moveIrAAccesoBiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToAccesoBiblioteca,
                 null, EntregaConstants.cambiadoAAccesoBiblioteca);
+        moveIrABiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToBiblioteca,
+                ruleParaIngresarALaBiblioteca, EntregaConstants.cambiadoAAccesoBiblioteca);
         moveIrASotano = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSotano,
                 null, EntregaConstants.cambiadoASotano);
 
@@ -346,6 +360,12 @@ public final class EntregaBuilder extends GameBuilderImp {
         doorPasilloToSalon1.addMove(moveIrASalon1);
         doorPasilloToSalon2.addMove(moveIrASalon2);
         doorPasilloToSalon3.addMove(moveIrASalon3);
+
+        itemCredencial.addMove(movePonerFotoEnCredencial);
+        itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
+
+        doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
+
     }
 
     private void createItems() {
