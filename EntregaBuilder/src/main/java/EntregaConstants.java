@@ -81,6 +81,7 @@ public class EntregaConstants {
     public static final String bibliotecarioBorracho = "El bibliotecario esta boracho, hip!";
 
     public static final String movedCuadroBarco = "Hay algo atras del cuadro...";
+    public static final String movedLibroViejo = "Parece que la biblioteca se esta moviendo!";
     public static final String abiertaCajaFuerte = "Parece que hay algo en la caja fuerte!";
 
     public static final String tomadoCredencial = "Ahora tienes una credencial.. de donde puede ser?";
@@ -93,7 +94,7 @@ public class EntregaConstants {
     public static final String movePick = "pick";
     public static final String moveIrA = "go to";
     public static final String movePutFoto = "put foto";
-    public static final String moveCuadro = "move";
+    public static final String moveMover = "move";
     public static final String moveAbrirCajaFuerte = "open";
     public static final String moveEmborrachar = "emborrachar";
 }
