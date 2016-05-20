@@ -31,13 +31,13 @@ public class EntregaConstants {
     public static final String chair2Salon1 = "sillaAzul";
     public static final String cuadroBarcoSalon1 = "cuadroBarco";
     public static final String cajaFuerteSalon1 = "CajaFuerte";
-    public static final String credencialSalon1 = "credencial";
+    public static final String credencialSalon1 = "Credencial";
     public static final String cuadroTrenSalon1 = "cuadroTren";
     public static final String martilloSalon2 = "martillo";
     public static final String destornillador1Salon2 = "destornilladorRojo";
     public static final String destornillador2Salon2 = "destornilladorAzul";
     public static final String keySalon3 = "llave";
-    public static final String bibliotecario = "bibliotecario";
+    public static final String bibliotecario = "Bibliotecario";
     public static final String estante = "estante";
     public static final String libroViejo = "libroViejo";
     public static final String libro1 = "libroAzul";
@@ -89,6 +89,7 @@ public class EntregaConstants {
 
     public static final String cambiadoFotoDeCredencial = "Ahora la credencial parece tuya!";
     public static final String bibliotecarioBorracho = "El bibliotecario esta boracho, hip!";
+    public static final String bibliotecarioFeliz = "Parece que el bibliotecario te deja pasar...";
     public static final String escaleraEnMalasCondiciones = "Hay un escalon roto.  Moriste al caer";
 
     public static final String movedCuadroBarco = "Hay algo atras del cuadro...";
@@ -113,6 +114,7 @@ public class EntregaConstants {
     public static final String moveMover = "move";
     public static final String moveAbrirCajaFuerte = "open CajaFuerte using";
     public static final String moveEmborrachar = "emborrachar";
+    public static final String moveMostrarCredencial = "show Credencial in";
     public static final String moveRomperVentana = "break Ventana using";
 
 }
