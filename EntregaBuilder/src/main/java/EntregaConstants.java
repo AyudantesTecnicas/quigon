@@ -55,7 +55,6 @@ public class EntregaConstants {
     public static final String noTieneVasos = "Necesitas algo donde servir una bebida";
     public static final String noSePuedeEmborrachar = "No se pudo emborrachar al bibliotecario";
     //Moves
-    public static final String tomarCredencialSalon1 = "Has obtenido una credencial";
     public static final String cambiadoAPasillo = "Es un pasillo";
     public static final String cambiadoASalon1 = "Es un salon";
     public static final String cambiadoASalon2 = "Es un salon";
@@ -66,8 +65,15 @@ public class EntregaConstants {
 
     public static final String movedCuadroBarco = "Hay algo atras del cuadro...";
     public static final String abiertaCajaFuerte = "Parece que hay algo en la caja fuerte!";
-    public static final String tomadoCredencial = "Ahora tienes una credencial.. de donde puede ser?";
 
+    public static final String tomadoCredencial = "Ahora tienes una credencial.. de donde puede ser?";
+    public static final String tomadaBotella = "Ahora tienes una botella.. Parece alcoholica";
+    public static final String tomadaLlave = "Ahora tienes una llave";
+    public static final String tomadoMartillo = "Ahora tienes un martillo";
+    public static final String tomadoDestornillador = "Ahora tienes un destornillador";
+    public static final String tomadoVaso = "Ahora tienes un vaso";
+
+    public static final String movePick = "pick";
     public static final String moveIrA = "go to";
     public static final String movePutFoto = "put foto";
     public static final String moveCuadro = "move";
