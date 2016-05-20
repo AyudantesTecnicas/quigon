@@ -68,6 +68,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemBaranda;
     //Items SubSotano
     private ComplexElement itemVentana;
+    private ComplexElement itemEscaleraSubSotano;
 
     //Rules
     private LogicBuilder logicBuilder = new LogicBuilder();
@@ -435,6 +436,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
 
+        itemEscaleraSubSotano.addMove(moveUsarEscalera);
         roomPatio.addMove(moveIrAPatio);
     }
 
@@ -501,5 +503,6 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createItemsSubSotano() {
         itemVentana = createAndAddElement(EntregaConstants.ventana, roomSubSotano, null);
+        itemEscaleraSubSotano = createAndAddElement(EntregaConstants.escaleraOxidada, roomSubSotano, null);
     }
 }
