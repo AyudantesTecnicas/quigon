@@ -68,6 +68,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemBaranda;
     //Items SubSotano
     private ComplexElement itemVentana;
+    private ComplexElement itemEscaleraSubSotano;
 
     //Rules
     private LogicBuilder logicBuilder = new LogicBuilder();
@@ -122,6 +123,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveIrAPatio;
 
     private Move movePonerFotoEnCredencial;
+    private Move moveMostrarCredencialAlBibliotecario;
     private Move moveEmborracharAlBibliotecario;
     private Move moveUsarEscalera;
     private Move moveTomarBotella;
@@ -340,6 +342,9 @@ public final class EntregaBuilder extends GameBuilderImp {
                 null, EntregaConstants.cambiadoFotoDeCredencial);
         movePonerFotoEnCredencial.addAction(actionSetCredencialToValida);
 
+        moveMostrarCredencialAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveMostrarCredencial, actionMakeBibliotecarioFeliz,
+                ruleCredencialValida, EntregaConstants.bibliotecarioFeliz);
+        moveMostrarCredencialAlBibliotecario.addAction(actionSetCredencialToInvalida);
         moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho,
                 ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
 
@@ -395,6 +400,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void addMovesItemsInAccesoBiblioteca() {
         itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
+        itemBibliotecario.addMove(moveMostrarCredencialAlBibliotecario);
     }
 
     private void addMovesItemsInBiblioteca() {
@@ -415,6 +421,11 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemEscalera.addMove(moveUsarEscalera);
     }
 
+    private void addMovesItemsInSubSotano() {
+        itemEscaleraSubSotano.addMove(moveUsarEscalera);
+        roomPatio.addMove(moveIrAPatio);
+    }
+
     private void addMoves() {
         addMovesItemsInSalon1();
         addMovesItemsInSalon2();
@@ -422,6 +433,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         addMovesItemsInAccesoBiblioteca();
         addMovesItemsInBiblioteca();
         addMovesItemsInSotano();
+        addMovesItemsInSubSotano();
 
         doorAccesoBibliotecaToPasillo.addMove(moveIrAPasillo);
         doorSalon1ToPasillo.addMove(moveIrAPasillo);
@@ -434,13 +446,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         doorPasilloToSalon1.addMove(moveIrASalon1);
         doorPasilloToSalon2.addMove(moveIrASalon2);
         doorPasilloToSalon3.addMove(moveIrASalon3);
-
-        itemCredencial.addMove(movePonerFotoEnCredencial);
-        itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
-
         doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
-
-        roomPatio.addMove(moveIrAPatio);
     }
 
     private void createItems() {
@@ -506,5 +512,6 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createItemsSubSotano() {
         itemVentana = createAndAddElement(EntregaConstants.ventana, roomSubSotano, null);
+        itemEscaleraSubSotano = createAndAddElement(EntregaConstants.escaleraOxidada, roomSubSotano, null);
     }
 }
