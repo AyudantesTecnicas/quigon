@@ -18,6 +18,7 @@ public class EntregaConstants {
     public static final String doorAccesoBiblioteca = "doorAccesoBiblioteca";
     public static final String doorPasillo = "doorPasillo";
     public static final String doorBiblioteca = "doorBiblioteca";
+    public static final String doorBibliotecaToSotano = "doorPasajeSecreto";
 
     //Items
     public static final String pen = "lapicera";
@@ -71,6 +72,7 @@ public class EntregaConstants {
     public static final String cambiadoASalon2 = "Es un salon";
     public static final String cambiadoASalon3 = "Es un salon";
     public static final String cambiadoAAccesoBiblioteca = "Es el acceso a una biblioteca";
+    public static final String cambiadoASotano = "Es un sotano frio y humedo";
     public static final String cambiadoFotoDeCredencial = "Ahora la credencial parece tuya!";
     public static final String bibliotecarioBorracho = "El bibliotecario esta boracho, hip!";
 

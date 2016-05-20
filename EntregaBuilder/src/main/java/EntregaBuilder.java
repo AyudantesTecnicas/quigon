@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Or;
 import creation.GameBuilderImp;
 import logic.LogicBuilder;
 import model.actions.Action;
@@ -90,6 +89,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionChangeToSalon3;
     private Action actionChangeToAccesoBiblioteca;
     private Action actionChangeToBiblioteca;
+    private Action actionChangeToSotano;
     private Action actionPutFotoEnCredencial;
     private Action actionSetCredencialToValida;
     private Action actionSetCredencialToInvalida;
@@ -105,6 +105,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveIrASalon2;
     private Move moveIrASalon3;
     private Move moveIrAAccesoBiblioteca;
+    private Move moveIrASotano;
     private Move movePonerFotoEnCredencial;
     private Move moveEmborracharAlBibliotecario;
     private Move moveTomarBotella;
@@ -126,6 +127,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement doorAccesoBibliotecaToPasillo;
     private ComplexElement doorAccesoBibliotecaToBiblioteca;
     private ComplexElement doorBibliotecaToAccesoBiblioteca;
+    private ComplexElement doorBibliotecaToSotano;
 
     //States
     private ComplexElement stateValido;
@@ -197,6 +199,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         //Others doors
         doorAccesoBibliotecaToBiblioteca = createAndAddElement(EntregaConstants.doorBiblioteca, roomAccesoBiblioteca, stateOpen);
         doorBibliotecaToAccesoBiblioteca = createAndAddElement(EntregaConstants.doorAccesoBiblioteca, roomBiblioteca, stateOpen);
+        doorBibliotecaToSotano = createAndAddElement(EntregaConstants.doorBibliotecaToSotano, itemLibroViejo, stateOpen);
     }
 
     private void createPickItemsAction() {
@@ -217,6 +220,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionChangeToSalon3 = buildChangeContainerAction(character,roomSalon3);
         actionChangeToAccesoBiblioteca = buildChangeContainerAction(character, roomAccesoBiblioteca);
         actionChangeToBiblioteca = buildChangeContainerAction(character, roomBiblioteca);
+        actionChangeToSotano = buildChangeContainerAction(character, roomSotano);
     }
 
     private void createItemActions() {
@@ -272,13 +276,14 @@ public final class EntregaBuilder extends GameBuilderImp {
                 null, EntregaConstants.cambiadoASalon3);
         moveIrAAccesoBiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToAccesoBiblioteca,
                 null, EntregaConstants.cambiadoAAccesoBiblioteca);
+        moveIrASotano = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSotano,
+                null, EntregaConstants.cambiadoASotano);
 
         movePonerFotoEnCredencial = moveWithActionsAndRules(EntregaConstants.movePutFoto, actionPutFotoEnCredencial,
                 null, EntregaConstants.cambiadoFotoDeCredencial);
         movePonerFotoEnCredencial.addAction(actionSetCredencialToValida);
 
         moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho, ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
-
 
         //Moves for pick items
         moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null,
@@ -337,6 +342,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         doorPasilloToAccesoBiblioteca.addMove(moveIrAAccesoBiblioteca);
         doorBibliotecaToAccesoBiblioteca.addMove(moveIrAAccesoBiblioteca);
+        doorBibliotecaToSotano.addMove(moveIrASotano);
         doorPasilloToSalon1.addMove(moveIrASalon1);
         doorPasilloToSalon2.addMove(moveIrASalon2);
         doorPasilloToSalon3.addMove(moveIrASalon3);
