@@ -54,6 +54,10 @@ public class EntregaConstants {
     public static final String necesitaElVaso = "No agarraste el vaso";
     public static final String noTieneVasos = "Necesitas algo donde servir una bebida";
     public static final String noSePuedeEmborrachar = "No se pudo emborrachar al bibliotecario";
+    public static final String noEstaFeliz = "No esta feliz de verte otra vez";
+    public static final String noEstaBorracho = "No esta borracho como para dejarte pasar";
+    public static final String noSePuedePasarALaBiblioteca = "No tienes permitido ingresar a la biblioteca";
+
     //Moves
     public static final String cambiadoAPasillo = "Es un pasillo";
     public static final String cambiadoASalon1 = "Es un salon";
