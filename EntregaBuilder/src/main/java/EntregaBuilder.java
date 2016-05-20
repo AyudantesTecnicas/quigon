@@ -271,7 +271,12 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionRomperVentana = buildAddStatesAction(itemVentana,stateRoto);
     }
 
+    private void createRulesCharacterInRooms() {
+
+    }
+
     private void createRules() {
+        createRulesCharacterInRooms();
         ruleTenerLlave = checkContainerRule(itemLlave,character,EntregaConstants.necesitaTenerLlaveSalon3);
         ruleTenerMartillo = checkContainerRule(itemMartillo,character,EntregaConstants.necesitaTenerMartillo);
         ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
