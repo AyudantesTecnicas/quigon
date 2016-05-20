@@ -74,6 +74,7 @@ public class EntregaConstants {
     public static final String noEstaBorracho = "No esta borracho como para dejarte pasar";
     public static final String noSePuedePasarALaBiblioteca = "No tienes permitido ingresar a la biblioteca";
     public static final String necesitaTenerMartillo = "Necesitas el martillo";
+    public static final String necesitaEstarRotaLaVentana = "No puedes pasar por la ventana!";
 
     //Moves
     public static final String cambiadoAPasillo = "Es un pasillo";
@@ -84,6 +85,8 @@ public class EntregaConstants {
     public static final String cambiadoABiblioteca = "Es una biblioteca";
     public static final String cambiadoASotano = "Es un sotano frio y humedo";
     public static final String cambiadoASubSotano = "Es la parte mas baja del sotano";
+    public static final String cambiadoAPatio = "Estas afuera!!";
+
     public static final String cambiadoFotoDeCredencial = "Ahora la credencial parece tuya!";
     public static final String bibliotecarioBorracho = "El bibliotecario esta boracho, hip!";
     public static final String escaleraEnMalasCondiciones = "Hay un escalon roto.  Moriste al caer";
