@@ -88,6 +88,13 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveIrASalon3;
     private Move moveIrAAccesoBiblioteca;
     private Move movePonerFotoEnCredencial;
+    private Move moveTomarBotella;
+    private Move moveTomarLlave;
+    private Move moveTomarMartillo;
+    private Move moveTomarDestornillador1;
+    private Move moveTomarDestornillador2;
+    private Move moveTomarVaso1;
+    private Move moveTomarVaso2;
 
     //Doors
     private ComplexElement doorPasilloToSalon1;
@@ -218,7 +225,7 @@ public final class EntregaBuilder extends GameBuilderImp {
                 null, EntregaConstants.movedCuadroBarco);
         moveAbrirCajaFuerte = moveWithActionsAndRules(EntregaConstants.moveAbrirCajaFuerte, actionSetVisibleCredencial,
                 ruleTenerLlave, EntregaConstants.abiertaCajaFuerte);
-        moveTomarCredencial = moveWithActionsAndRules(EntregaConstants.tomarCredencialSalon1, actionPickCredencial,
+        moveTomarCredencial = moveWithActionsAndRules(EntregaConstants.movePick, actionPickCredencial,
                 null, EntregaConstants.tomadoCredencial);
 
         moveIrAPasillo = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPasillo,
@@ -235,6 +242,22 @@ public final class EntregaBuilder extends GameBuilderImp {
         movePonerFotoEnCredencial = moveWithActionsAndRules(EntregaConstants.movePutFoto, actionPutFotoEnCredencial,
                 null, EntregaConstants.cambiadoFotoDeCredencial);
         movePonerFotoEnCredencial.addAction(actionSetCredencialToValida);
+
+        //Moves for pick items
+        moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null,
+                EntregaConstants.tomadaBotella);
+        moveTomarLlave = moveWithActionsAndRules(EntregaConstants.movePick, actionPickKey, null,
+                EntregaConstants.tomadaLlave);
+        moveTomarMartillo = moveWithActionsAndRules(EntregaConstants.movePick, actionPickMartillo, null,
+                EntregaConstants.tomadoMartillo);
+        moveTomarDestornillador1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
+                null, EntregaConstants.tomadoDestornillador);
+        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
+                null, EntregaConstants.tomadoDestornillador);
+        moveTomarVaso1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso1, null,
+                EntregaConstants.tomadoVaso);
+        moveTomarVaso2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso2, null,
+                EntregaConstants.tomadoVaso);
     }
 
     private void addMoves() {
