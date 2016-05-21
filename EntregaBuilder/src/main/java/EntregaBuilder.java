@@ -86,6 +86,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
+    private HasStateRule ruleCharacterMuerto;
 
     //Item actions
     private Action actionPickKey;
@@ -297,6 +298,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createRules() {
         createRulesCharacterInRooms();
+        ruleCharacterMuerto = checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto);
         ruleTenerLlave = checkContainerRule(itemLlave,character,EntregaConstants.necesitaTenerLlaveSalon3);
         ruleTenerMartillo = checkContainerRule(itemMartillo,character,EntregaConstants.necesitaTenerMartillo);
         ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
@@ -324,6 +326,9 @@ public final class EntregaBuilder extends GameBuilderImp {
         orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
         orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
         ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
+
+        //Regla para perder
+        game.setGameOverCondition(ruleCharacterMuerto);
     }
 
     private void createMoves() {
