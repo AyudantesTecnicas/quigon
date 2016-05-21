@@ -12,13 +12,14 @@ public class EntregaConstants {
     public static final String roomSubSotano = "subsotano";
     public static final String roomPatio = "patio";
 
-    public static final String doorPasilloToSalon1 = "doorSalon1";
-    public static final String doorPasilloToSalon2 = "doorSalon2";
-    public static final String doorPasilloToSalon3 = "doorSalon3";
-    public static final String doorAccesoBiblioteca = "doorAccesoBiblioteca";
-    public static final String doorPasillo = "doorPasillo";
-    public static final String doorBiblioteca = "doorBiblioteca";
-    public static final String doorBibliotecaToSotano = "doorPasajeSecreto";
+    public static final String doorPasilloToSalon1 = "Salon1";
+    public static final String doorPasilloToSalon2 = "Salon2";
+    public static final String doorPasilloToSalon3 = "Salon3";
+    public static final String doorAccesoBiblioteca = "BibliotecaAcceso";
+    public static final String doorPasillo = "Pasillo";
+    public static final String doorBiblioteca = "Biblioteca";
+    public static final String doorBibliotecaToSotano = "Sotano";
+    public static final String doorSubSotanoToPatio = "Afuera";
 
     //Items
     public static final String pen = "lapicera";

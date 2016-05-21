@@ -157,6 +157,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement doorAccesoBibliotecaToBiblioteca;
     private ComplexElement doorBibliotecaToAccesoBiblioteca;
     private ComplexElement doorBibliotecaToSotano;
+    private ComplexElement doorSubSotanoToPatio;
 
     //States
     private ComplexElement stateValido;
@@ -233,6 +234,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         doorAccesoBibliotecaToBiblioteca = createAndAddElement(EntregaConstants.doorBiblioteca, roomAccesoBiblioteca, stateOpen);
         doorBibliotecaToAccesoBiblioteca = createAndAddElement(EntregaConstants.doorAccesoBiblioteca, roomBiblioteca, stateOpen);
         doorBibliotecaToSotano = createAndAddElement(EntregaConstants.doorBibliotecaToSotano, itemLibroViejo, stateOpen);
+        doorSubSotanoToPatio = createAndAddElement(EntregaConstants.doorSubSotanoToPatio, roomSubSotano,stateOpen);
     }
 
     private void createPickItemsAction() {
@@ -462,6 +464,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         doorPasilloToSalon2.addMove(moveIrASalon2);
         doorPasilloToSalon3.addMove(moveIrASalon3);
         doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
+        doorSubSotanoToPatio.addMove(moveIrAPatio);
     }
 
     private void createItems() {
