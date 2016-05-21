@@ -324,7 +324,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createMoves() {
         moveMoverCuadro = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisibleCajaFuerte,
-                null, EntregaConstants.movedCuadroBarco);
+                ruleCharacterInSalon1, EntregaConstants.movedCuadroBarco);
         moveAbrirCajaFuerte = moveWithActionsAndRules(EntregaConstants.moveAbrirCajaFuerte, actionSetVisibleCredencial,
                 ruleTenerLlave, EntregaConstants.abiertaCajaFuerte);
         moveTomarCredencial = moveWithActionsAndRules(EntregaConstants.movePick, actionPickCredencial,
