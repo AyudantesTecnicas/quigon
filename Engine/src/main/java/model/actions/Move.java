@@ -40,7 +40,7 @@ public class Move extends Element implements IExecutable {
 
     @Override
     public void execute() {
-        if (this.rules.interpret()) {
+        if (this.rules == null || this.rules.interpret()) {
             this.actions.forEach(Action::execute);
             this.resultMessage = this.correctMessage;
 

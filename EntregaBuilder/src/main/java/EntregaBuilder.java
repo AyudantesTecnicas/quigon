@@ -328,7 +328,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
 
         //Regla para perder
-        game.setGameOverCondition(ruleCharacterMuerto);
+        //game.setGameOverCondition(ruleCharacterMuerto);
 
         //Ganancia
         game.setVictoryCondition(checkContainerRule(this.character, this.roomPatio, ""));
@@ -341,17 +341,17 @@ public final class EntregaBuilder extends GameBuilderImp {
         moveAbrirCajaFuerte = moveWithActionsAndRules(EntregaConstants.moveAbrirCajaFuerte, actionSetVisibleCredencial,
                 ruleTenerLlave, EntregaConstants.abiertaCajaFuerte);
         moveTomarCredencial = moveWithActionsAndRules(EntregaConstants.movePick, actionPickCredencial,
-                null, EntregaConstants.tomadoCredencial);
+                ruleCharacterInSalon1, EntregaConstants.tomadoCredencial);
 
-        moveMoverLibroViejo = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisiblePasajeSecreto, null,
-                EntregaConstants.movedLibroViejo);
+        moveMoverLibroViejo = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisiblePasajeSecreto,
+                null, EntregaConstants.movedLibroViejo);
         moveMoverLibro = moveWithActionsAndRules(EntregaConstants.moveMover, null, null,
                 EntregaConstants.movedLibro);
 
         moveIrAPasillo = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPasillo,
                 null, EntregaConstants.cambiadoAPasillo);
         moveIrASalon1 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSalon1,
-                null, EntregaConstants.cambiadoASalon1);
+                ruleCharacterInPasillo, EntregaConstants.cambiadoASalon1);
         moveIrASalon2 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSalon2,
                 null, EntregaConstants.cambiadoASalon2);
         moveIrASalon3 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSalon3,
@@ -407,7 +407,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void addMovesItemsInSalon1() {
         itemCuadroBarco.addMove(moveMoverCuadro);
-        itemCajaFuerte.addMove(moveAbrirCajaFuerte);
+        itemLlave.addMove(moveAbrirCajaFuerte);
 
         itemCredencial.addMove(moveTomarCredencial);
         itemCredencial.addMove(movePonerFotoEnCredencial);
