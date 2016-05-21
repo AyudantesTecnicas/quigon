@@ -84,6 +84,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasContainerRule ruleTenerMartillo;
     private HasStateRule ruleCredencialValida;
     private HasContainerRule ruleCredencialInvalida;
+    private HasContainerRule ruleBajaAlSubSotanoSinElMartillo;
     private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
@@ -116,6 +117,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionMakeBibliotecarioFeliz;
     private Action actionMakeBibliotecarioBorracho;
     private Action actionKillCharacter;
+    private Action actionKillCharacterNoMartillo;
     private Action actionRomperVentana;
 
     //Moves
@@ -188,8 +190,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         createStates();
         createDoors();
         createItems();
-        createItemActions();
         createRules();
+        createItemActions();
         defineVictoryRule();
         createMoves();
         addMoves();
@@ -284,6 +286,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
         actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
         actionKillCharacter = buildAddStatesAction(character, stateMuerto);
+        actionKillCharacterNoMartillo = buildAddStatesAction(character, stateMuerto);
+        actionKillCharacterNoMartillo.setRules(ruleBajaAlSubSotanoSinElMartillo);
         actionRomperVentana = buildAddStatesAction(itemVentana,stateRoto);
     }
 
@@ -333,6 +337,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
         ruleCredencialInvalida = checkContainerRule(itemFoto,character,EntregaConstants.fotoNoPegada);
+        ruleBajaAlSubSotanoSinElMartillo = checkContainerRule(itemMartillo,roomSalon2,EntregaConstants.noTieneElMartillo);
 
         //Reglas para poder emborrachar al bibliotecario
         this.createRulesForGetDrunkToLibrarian();
@@ -385,6 +390,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         moveIrASubSotano = moveWithActionsAndRules(EntregaConstants.moveUse, actionChangeToSubSotano,
                 null, EntregaConstants.cambiadoASubSotano);
+        moveIrASubSotano.addAction(actionKillCharacterNoMartillo);
     }
 
     private void createMoves() {
