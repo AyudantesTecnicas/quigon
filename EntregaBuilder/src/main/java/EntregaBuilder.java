@@ -73,6 +73,14 @@ public final class EntregaBuilder extends GameBuilderImp {
     //Rules
     private LogicBuilder logicBuilder = new LogicBuilder();
     private HasContainerRule ruleTenerLlave;
+    private HasContainerRule ruleCharacterInSalon1;
+    private HasContainerRule ruleCharacterInSalon2;
+    private HasContainerRule ruleCharacterInSalon3;
+    private HasContainerRule ruleCharacterInAccesoBiblioteca;
+    private HasContainerRule ruleCharacterInPasillo;
+    private HasContainerRule  ruleCharacterInBiblioteca;
+    private HasContainerRule ruleCharacterInSotano;
+    private HasContainerRule ruleCharacterInSubSotano;
     private HasContainerRule ruleTenerMartillo;
     private HasStateRule ruleCredencialValida;
     private HasStateRule ruleVentanaRota;
@@ -270,7 +278,14 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createRulesCharacterInRooms() {
-
+        ruleCharacterInSalon1 = checkContainerRule(character,roomSalon1,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInSalon2 = checkContainerRule(character,roomSalon2,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInSalon3 = checkContainerRule(character,roomSalon3,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInAccesoBiblioteca = checkContainerRule(character,roomAccesoBiblioteca,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInPasillo = checkContainerRule(character,roomPasillo,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInBiblioteca = checkContainerRule(character,roomBiblioteca,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInSotano = checkContainerRule(character,roomSotano,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInSubSotano = checkContainerRule(character,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
     private void createRules() {
