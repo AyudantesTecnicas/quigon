@@ -22,40 +22,39 @@ public class EntregaConstants {
     public static final String doorSubSotanoToPatio = "Afuera";
 
     //Items
-    public static final String pen = "lapicera";
-    public static final String photo = "foto";
-    public static final String tableSalon1 = "mesa";
-    public static final String bottleSalon1 = "botella";
-    public static final String glass1Salon1 = "vasoRojo";
-    public static final String glass2Salon1 = "vasoAzul";
-    public static final String chair1Salon1 = "sillaRoja";
-    public static final String chair2Salon1 = "sillaAzul";
-    public static final String cuadroBarcoSalon1 = "cuadroBarco";
+    public static final String pen = "Lapicera";
+    public static final String photo = "Foto";
+    public static final String tableSalon1 = "Mesa";
+    public static final String bottleSalon1 = "Botella";
+    public static final String glass1Salon1 = "VasoRojo";
+    public static final String glass2Salon1 = "VasoAzul";
+    public static final String chair1Salon1 = "SillaRoja";
+    public static final String chair2Salon1 = "SillaAzul";
+    public static final String cuadroBarcoSalon1 = "CuadroBarco";
     public static final String cajaFuerteSalon1 = "CajaFuerte";
     public static final String credencialSalon1 = "Credencial";
-    public static final String cuadroTrenSalon1 = "cuadroTren";
-    public static final String martilloSalon2 = "martillo";
-    public static final String destornillador1Salon2 = "destornilladorRojo";
-    public static final String destornillador2Salon2 = "destornilladorAzul";
-    public static final String keySalon3 = "llave";
+    public static final String cuadroTrenSalon1 = "CuadroTren";
+    public static final String martilloSalon2 = "Martillo";
+    public static final String destornillador1Salon2 = "DestornilladorRojo";
+    public static final String destornillador2Salon2 = "DestornilladorAzul";
+    public static final String keySalon3 = "Llave";
     public static final String bibliotecario = "Bibliotecario";
-    public static final String estante = "estante";
-    public static final String libroViejo = "libroViejo";
-    public static final String libro1 = "libroAzul";
-    public static final String libro2 = "libroRojo";
-    public static final String libro3 = "libroAmarillo";
-    public static final String libro4 = "libroVioleta";
-    public static final String libro5 = "libroVerde";
-    public static final String libro6 = "libroCeleste";
-    public static final String libro7 = "libroRosa";
-    public static final String libro8 = "libroNaranja";
-    public static final String libro9 = "libroBlanco";
-    public static final String baranda = "baranda";
-    public static final String escaleraOxidada = "escalera";
+    public static final String estante = "Estante";
+    public static final String libroViejo = "LibroViejo";
+    public static final String libro1 = "LibroAzul";
+    public static final String libro2 = "LibroRojo";
+    public static final String libro3 = "LibroAmarillo";
+    public static final String libro4 = "LibroVioleta";
+    public static final String libro5 = "LibroVerde";
+    public static final String libro6 = "LibroCeleste";
+    public static final String libro7 = "LibroRosa";
+    public static final String libro8 = "LibroNaranja";
+    public static final String libro9 = "LibroBlanco";
+    public static final String baranda = "Baranda";
+    public static final String escaleraOxidada = "Escalera";
     public static final String ventana = "Ventana";
 
-
-    //Actions
+    //States
     public static final String abierta = "abierta";
     public static final String valido = "valida";
     public static final String invalido = "invalida";
@@ -110,12 +109,12 @@ public class EntregaConstants {
     public static final String seRompioVentana = "Se rompio la ventana, puedo ver afuera!";
 
     public static final String movePick = "pick";
-    public static final String moveIrA = "go to";
+    public static final String moveIrA = "goto";
     public static final String moveUse = "use";
-    public static final String movePutFoto = "put foto";
+    public static final String movePutFoto = "put Foto in";
     public static final String moveMover = "move";
     public static final String moveAbrirCajaFuerte = "open CajaFuerte using";
-    public static final String moveEmborrachar = "emborrachar";
+    public static final String moveEmborrachar = "make drunk";
     public static final String moveMostrarCredencial = "show Credencial in";
     public static final String moveRomperVentana = "break Ventana using";
 

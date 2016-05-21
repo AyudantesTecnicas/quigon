@@ -168,7 +168,17 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement stateMuerto;
     private ComplexElement stateRoto;
 
-    protected void setActions() {}
+    protected void setActions() {
+        createAndAddSuportedAction(1, EntregaConstants.movePick);
+        createAndAddSuportedAction(1, EntregaConstants.moveIrA);
+        createAndAddSuportedAction(1, EntregaConstants.moveUse);
+        createAndAddSuportedAction(1, EntregaConstants.movePutFoto);
+        createAndAddSuportedAction(1, EntregaConstants.moveMover);
+        createAndAddSuportedAction(1, EntregaConstants.moveAbrirCajaFuerte);
+        createAndAddSuportedAction(1, EntregaConstants.moveEmborrachar);
+        createAndAddSuportedAction(1, EntregaConstants.moveMostrarCredencial);
+        createAndAddSuportedAction(1, EntregaConstants.moveRomperVentana);
+    }
 
     public void setElements() {
         createRooms();
@@ -176,8 +186,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         createStates();
         createDoors();
         createItems();
-        createRoomTransitionActions();
-        createDoorActions();
         createItemActions();
         createRules();
         defineVictoryRule();
@@ -185,10 +193,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         addMoves();
     }
 
-    private void createRoomTransitionActions() {}
-    private void createDoorActions() {}
     private void defineVictoryRule() {}
-
 
     private void defineCharacter() {
         character = createAndAddElement(EntregaConstants.character, roomPasillo, null);
@@ -319,7 +324,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
         orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
         ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
-
     }
 
     private void createMoves() {
