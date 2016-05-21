@@ -298,6 +298,33 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleCharacterInSubSotano = checkContainerRule(character,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
+    private void createRulesForAccessToLibrary() {
+        OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
+        HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
+        HasStateRule ruleBibliotecarioBorracho = checkStateRule(itemBibliotecario, stateBorracho,EntregaConstants.noEstaBorracho);
+        orExpressionParaPasarABiblioteca.setLeftExpression(ruleBibliotecarioFeliz);
+        orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
+        orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
+        ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
+    }
+
+    private void createRulesForGetDrunkToLibrarian() {
+        HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, character, EntregaConstants.necesitaElVaso);
+        HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, character, EntregaConstants.necesitaElVaso);
+
+        OrExpression orExpressionParaVasos = new OrExpression();
+        orExpressionParaVasos.setLeftExpression(ruleTieneVaso1);
+        orExpressionParaVasos.setRightExpression(ruleTieneVaso2);
+        orExpressionParaVasos.setFailMessage(EntregaConstants.noTieneVasos);
+
+        HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, character, EntregaConstants.necesitaLaBotella);
+        AndExpression andExpressionParaEmborrachar = new AndExpression();
+        andExpressionParaEmborrachar.setLeftExpression(ruleTieneBotella);
+        andExpressionParaEmborrachar.setRightExpression(orExpressionParaVasos);
+        andExpressionParaEmborrachar.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
+        ruleParaEmborracharAlBibliotecario = andExpressionParaEmborrachar;
+    }
+
     private void createRules() {
         createRulesCharacterInRooms();
         ruleCharacterMuerto = checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto);
@@ -306,50 +333,39 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
         ruleCredencialInvalida = checkContainerRule(itemFoto,character,EntregaConstants.fotoNoPegada);
+
         //Reglas para poder emborrachar al bibliotecario
-        HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, character, EntregaConstants.necesitaLaBotella);
-        HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, character, EntregaConstants.necesitaElVaso);
-        HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, character, EntregaConstants.necesitaElVaso);
-        OrExpression orExpressionParaVasos = new OrExpression();
-        orExpressionParaVasos.setLeftExpression(ruleTieneVaso1);
-        orExpressionParaVasos.setRightExpression(ruleTieneVaso2);
-        orExpressionParaVasos.setFailMessage(EntregaConstants.noTieneVasos);
-        AndExpression andExpressionParaEmborrachar = new AndExpression();
-        andExpressionParaEmborrachar.setLeftExpression(ruleTieneBotella);
-        andExpressionParaEmborrachar.setRightExpression(orExpressionParaVasos);
-        andExpressionParaEmborrachar.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
-        ruleParaEmborracharAlBibliotecario = andExpressionParaEmborrachar;
+        this.createRulesForGetDrunkToLibrarian();
 
         //Reglas para poder pasar a la biblioteca
-        OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
-        HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
-        HasStateRule ruleBibliotecarioBorracho = checkStateRule(itemBibliotecario, stateBorracho,EntregaConstants.noEstaBorracho);
-        orExpressionParaPasarABiblioteca.setLeftExpression(ruleBibliotecarioFeliz);
-        orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
-        orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
-        ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
+        this.createRulesForAccessToLibrary();
 
         //Regla para perder
-        //game.setGameOverCondition(ruleCharacterMuerto);
+        game.setGameOverCondition(ruleCharacterMuerto);
 
         //Ganancia
         game.setVictoryCondition(checkContainerRule(this.character, this.roomPatio, ""));
 
     }
 
-    private void createMoves() {
-        moveMoverCuadro = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisibleCajaFuerte,
-                ruleCharacterInSalon1, EntregaConstants.movedCuadroBarco);
-        moveAbrirCajaFuerte = moveWithActionsAndRules(EntregaConstants.moveAbrirCajaFuerte, actionSetVisibleCredencial,
-                ruleTenerLlave, EntregaConstants.abiertaCajaFuerte);
-        moveTomarCredencial = moveWithActionsAndRules(EntregaConstants.movePick, actionPickCredencial,
-                ruleCharacterInSalon1, EntregaConstants.tomadoCredencial);
+    private void createMovesToPickElements() {
+        moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null,
+                EntregaConstants.tomadaBotella);
+        moveTomarLlave = moveWithActionsAndRules(EntregaConstants.movePick, actionPickKey, null,
+                EntregaConstants.tomadaLlave);
+        moveTomarMartillo = moveWithActionsAndRules(EntregaConstants.movePick, actionPickMartillo, null,
+                EntregaConstants.tomadoMartillo);
+        moveTomarDestornillador1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
+                null, EntregaConstants.tomadoDestornillador);
+        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador2,
+                null, EntregaConstants.tomadoDestornillador);
+        moveTomarVaso1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso1, null,
+                EntregaConstants.tomadoVaso);
+        moveTomarVaso2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso2, null,
+                EntregaConstants.tomadoVaso);
+    }
 
-        moveMoverLibroViejo = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisiblePasajeSecreto,
-                null, EntregaConstants.movedLibroViejo);
-        moveMoverLibro = moveWithActionsAndRules(EntregaConstants.moveMover, null, null,
-                EntregaConstants.movedLibro);
-
+    private void createAccessMoves() {
         moveIrAPasillo = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPasillo,
                 null, EntregaConstants.cambiadoAPasillo);
         moveIrASalon1 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSalon1,
@@ -369,6 +385,23 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         moveIrASubSotano = moveWithActionsAndRules(EntregaConstants.moveUse, actionChangeToSubSotano,
                 null, EntregaConstants.cambiadoASubSotano);
+    }
+
+    private void createMoves() {
+        moveMoverCuadro = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisibleCajaFuerte,
+                ruleCharacterInSalon1, EntregaConstants.movedCuadroBarco);
+        moveAbrirCajaFuerte = moveWithActionsAndRules(EntregaConstants.moveAbrirCajaFuerte, actionSetVisibleCredencial,
+                ruleTenerLlave, EntregaConstants.abiertaCajaFuerte);
+        moveTomarCredencial = moveWithActionsAndRules(EntregaConstants.movePick, actionPickCredencial,
+                ruleCharacterInSalon1, EntregaConstants.tomadoCredencial);
+
+        moveMoverLibroViejo = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisiblePasajeSecreto,
+                null, EntregaConstants.movedLibroViejo);
+        moveMoverLibro = moveWithActionsAndRules(EntregaConstants.moveMover, null, null,
+                EntregaConstants.movedLibro);
+
+        //Moves para acceder a lugares
+        this.createAccessMoves();
 
         movePonerFotoEnCredencial = moveWithActionsAndRules(EntregaConstants.movePutFoto, actionPutFotoEnCredencial,
                 null, EntregaConstants.cambiadoFotoDeCredencial);
@@ -387,23 +420,7 @@ public final class EntregaBuilder extends GameBuilderImp {
                 EntregaConstants.seRompioVentana);
 
         //Moves for pick items
-        moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null,
-                EntregaConstants.tomadaBotella);
-        moveTomarLlave = moveWithActionsAndRules(EntregaConstants.movePick, actionPickKey, null,
-                EntregaConstants.tomadaLlave);
-        moveTomarMartillo = moveWithActionsAndRules(EntregaConstants.movePick, actionPickMartillo, null,
-                EntregaConstants.tomadoMartillo);
-        moveTomarDestornillador1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
-                null, EntregaConstants.tomadoDestornillador);
-        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador2,
-                null, EntregaConstants.tomadoDestornillador);
-        moveTomarVaso1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso1, null,
-                EntregaConstants.tomadoVaso);
-        moveTomarVaso2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso2, null,
-                EntregaConstants.tomadoVaso);
-
-
-
+        this.createMovesToPickElements();
 
     }
 
