@@ -70,7 +70,7 @@ public class Game {
         while (iterator.hasNext() && !objectFound) {
             ComplexElement complexElement = (ComplexElement) iterator.next();
             if ((complexElement.getContainerElement() != null)
-                    && complexElement.getContainerElement().equals(actualRoom)
+                    && (complexElement.getContainerElement().equals(actualRoom) || complexElement.getContainerElement().equals(character))
                     && complexElement.getName().equals(elementName)) {
                 movesOfElement = complexElement.listMoves();
                 objectFound = true;

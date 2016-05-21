@@ -68,6 +68,7 @@ public class EntregaConstants {
     public static final String necesitaTenerLlaveSalon3 = "Necesitas una llave para eso!";
     public static final String estasMuerto = "Moriste";
     public static final String necesitaSerValida = "Parece que eso no es valido...";
+    public static final String fotoNoPegada = "No eres tu el de la credencial";
     public static final String necesitaLaBotella = "No agarraste la botella";
     public static final String necesitaElVaso = "No agarraste el vaso";
     public static final String noTieneVasos = "Necesitas algo donde servir una bebida";

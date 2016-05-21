@@ -83,6 +83,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasContainerRule ruleCharacterInSubSotano;
     private HasContainerRule ruleTenerMartillo;
     private HasStateRule ruleCredencialValida;
+    private HasContainerRule ruleCredencialInvalida;
     private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
@@ -277,6 +278,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionPutFotoEnCredencial = buildChangeContainerAction(itemFoto, itemCredencial);
         actionSetCredencialToValida = buildAddStatesAction(itemCredencial, stateValido);
         actionSetCredencialToInvalida = buildAddStatesAction(itemCredencial, stateInvalido);
+        actionSetCredencialToInvalida.setRules(ruleCredencialInvalida);
 
         actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
@@ -303,7 +305,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleTenerMartillo = checkContainerRule(itemMartillo,character,EntregaConstants.necesitaTenerMartillo);
         ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
-
+        ruleCredencialInvalida = checkContainerRule(itemFoto,character,EntregaConstants.fotoNoPegada);
         //Reglas para poder emborrachar al bibliotecario
         HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, character, EntregaConstants.necesitaLaBotella);
         HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, character, EntregaConstants.necesitaElVaso);

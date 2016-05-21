@@ -105,7 +105,7 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         while (iterator.hasNext()) {
             move = iterator.next();
 
-            if (move.getName().equals(moveName)) {
+            if (move.getName().toLowerCase().equals(moveName)) {
                 move.execute();
                 localString = move.getResultMessage();
             }
