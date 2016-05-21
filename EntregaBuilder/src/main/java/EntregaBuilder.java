@@ -324,6 +324,9 @@ public final class EntregaBuilder extends GameBuilderImp {
         orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
         orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
         ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
+
+        //Ganancia
+        game.setVictoryCondition(checkContainerRule(this.character, this.roomPatio, ""));
     }
 
     private void createMoves() {
