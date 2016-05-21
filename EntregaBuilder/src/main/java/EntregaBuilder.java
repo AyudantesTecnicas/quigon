@@ -1,5 +1,4 @@
 import creation.GameBuilderImp;
-import logic.LogicBuilder;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;
@@ -31,15 +30,10 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     //Items
     private ComplexElement itemFoto;
-    private ComplexElement itemLapicera;
     //Items salon 1
-    private ComplexElement itemMesa;
     private ComplexElement itemBotella;
     private ComplexElement itemVaso1;
     private ComplexElement itemVaso2;
-    private ComplexElement itemSilla1;
-    private ComplexElement itemSilla2;
-    private ComplexElement itemCuadroTren;
     private ComplexElement itemCuadroBarco;
     private ComplexElement itemCajaFuerte;
     private ComplexElement itemCredencial;
@@ -53,7 +47,6 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemBibliotecario;
     //Items Bilioteca
     private ComplexElement itemLibroViejo;
-    private ComplexElement itemEstante;
     private ComplexElement itemLibro1;
     private ComplexElement itemLibro2;
     private ComplexElement itemLibro3;
@@ -71,16 +64,9 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemEscaleraSubSotano;
 
     //Rules
-    private LogicBuilder logicBuilder = new LogicBuilder();
     private HasContainerRule ruleTenerLlave;
     private HasContainerRule ruleCharacterInSalon1;
-    private HasContainerRule ruleCharacterInSalon2;
-    private HasContainerRule ruleCharacterInSalon3;
-    private HasContainerRule ruleCharacterInAccesoBiblioteca;
     private HasContainerRule ruleCharacterInPasillo;
-    private HasContainerRule  ruleCharacterInBiblioteca;
-    private HasContainerRule ruleCharacterInSotano;
-    private HasContainerRule ruleCharacterInSubSotano;
     private HasContainerRule ruleTenerMartillo;
     private HasStateRule ruleCredencialValida;
     private HasContainerRule ruleCredencialInvalida;
@@ -88,7 +74,6 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
-    private HasStateRule ruleCharacterMuerto;
 
     //Item actions
     private Action actionPickKey;
@@ -293,13 +278,13 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createRulesCharacterInRooms() {
         ruleCharacterInSalon1 = checkContainerRule(character,roomSalon1,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInSalon2 = checkContainerRule(character,roomSalon2,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInSalon3 = checkContainerRule(character,roomSalon3,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInAccesoBiblioteca = checkContainerRule(character,roomAccesoBiblioteca,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(character,roomSalon2,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(character,roomSalon3,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(character,roomAccesoBiblioteca,EntregaConstants.noEstaEnLaRoom);
         ruleCharacterInPasillo = checkContainerRule(character,roomPasillo,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInBiblioteca = checkContainerRule(character,roomBiblioteca,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInSotano = checkContainerRule(character,roomSotano,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInSubSotano = checkContainerRule(character,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(character,roomBiblioteca,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(character,roomSotano,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(character,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
     private void createRulesForAccessToLibrary() {
@@ -331,7 +316,6 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createRules() {
         createRulesCharacterInRooms();
-        ruleCharacterMuerto = checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto);
         ruleTenerLlave = checkContainerRule(itemLlave,character,EntregaConstants.necesitaTenerLlaveSalon3);
         ruleTenerMartillo = checkContainerRule(itemMartillo,character,EntregaConstants.necesitaTenerMartillo);
         ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
@@ -346,7 +330,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         this.createRulesForAccessToLibrary();
 
         //Regla para perder
-        game.setGameOverCondition(ruleCharacterMuerto);
+        game.setGameOverCondition(checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto));
 
         //Ganancia
         game.setVictoryCondition(checkContainerRule(this.character, this.roomPatio, ""));
@@ -508,7 +492,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void createItems() {
         // Items from character
         itemFoto = createAndAddElement(EntregaConstants.photo, character,null);
-        itemLapicera = createAndAddElement(EntregaConstants.pen, character,null);
+        createAndAddElement(EntregaConstants.pen, character,null);
 
         createItemsSalon1();
         createItemsSalon2();
@@ -520,13 +504,13 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createItemsSalon1() {
-        itemMesa = createAndAddElement(EntregaConstants.tableSalon1, roomSalon1,null);
+        createAndAddElement(EntregaConstants.tableSalon1, roomSalon1,null);
         itemBotella = createAndAddElement(EntregaConstants.bottleSalon1, roomSalon1,null);
         itemVaso1 = createAndAddElement(EntregaConstants.glass1Salon1, roomSalon1,null);
         itemVaso2 = createAndAddElement(EntregaConstants.glass2Salon1, roomSalon1,null);
-        itemSilla1 = createAndAddElement(EntregaConstants.chair1Salon1, roomSalon1,null);
-        itemSilla2 = createAndAddElement(EntregaConstants.chair2Salon1, roomSalon1,null);
-        itemCuadroTren = createAndAddElement(EntregaConstants.cuadroTrenSalon1, roomSalon1,null);
+        createAndAddElement(EntregaConstants.chair1Salon1, roomSalon1,null);
+        createAndAddElement(EntregaConstants.chair2Salon1, roomSalon1,null);
+        createAndAddElement(EntregaConstants.cuadroTrenSalon1, roomSalon1,null);
 
         itemCuadroBarco = createAndAddElement(EntregaConstants.cuadroBarcoSalon1, roomSalon1,null);
         itemCajaFuerte = createAndAddElement(EntregaConstants.cajaFuerteSalon1, itemCuadroBarco,null);
@@ -549,7 +533,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createItemsBiblioteca() {
         itemLibroViejo = createAndAddElement(EntregaConstants.libroViejo, roomBiblioteca,null);
-        itemEstante = createAndAddElement(EntregaConstants.estante, roomBiblioteca,null);
+        createAndAddElement(EntregaConstants.estante, roomBiblioteca,null);
         itemLibro1 = createAndAddElement(EntregaConstants.libro1, roomBiblioteca,null);
         itemLibro2 = createAndAddElement(EntregaConstants.libro2, roomBiblioteca,null);
         itemLibro3 = createAndAddElement(EntregaConstants.libro3, roomBiblioteca,null);
