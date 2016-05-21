@@ -329,6 +329,10 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         //Regla para perder
         game.setGameOverCondition(ruleCharacterMuerto);
+
+        //Ganancia
+        game.setVictoryCondition(checkContainerRule(this.character, this.roomPatio, ""));
+
     }
 
     private void createMoves() {
