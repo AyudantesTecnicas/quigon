@@ -89,8 +89,8 @@ public class ClientThread extends Thread {
     }
 
     public void interrupt() {
-        closeSocket();
         super.interrupt();
+        closeSocket();
     }
 
 }

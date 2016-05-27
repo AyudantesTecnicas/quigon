@@ -19,7 +19,7 @@ public class Server {
     protected void loadGame(String gameName) {
         try {
             GameBuilder gameBuilder = BuilderLoader.load(gameName);
-            PortThread portThread = new PortThread(actualPort++,gameBuilder);
+            PortThread portThread = new PortThread(actualPort++, gameBuilder);
             portThreads.add(portThread);
             portThread.start();
         } catch (Exception e) {

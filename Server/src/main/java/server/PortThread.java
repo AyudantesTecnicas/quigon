@@ -15,7 +15,7 @@ public class PortThread extends Thread {
     private GameBuilder gameBuilder;
     private Game game;
 
-    ClientThread clientThread;
+    private ArrayList<ClientThread> clientThreads = new ArrayList<>();
 
     public PortThread(int port, GameBuilder gameBuilder) {
         this.port = port;
@@ -32,11 +32,14 @@ public class PortThread extends Thread {
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
-                clientThread = new ClientThread(socket, this);
+                ClientThread clientThread = new ClientThread(socket, this);
+                clientThreads.add(clientThread);
                 clientThread.start();
-            } catch (IOException e) {
+            } catch (SocketException e) {
                 System.out.println("Server socket " + serverSocket.getLocalPort()
-                                                    + " with game " + game.getName() + " has closed, no client.");
+                                                    + " with game " + game.getName() + " has closed.");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -66,8 +69,8 @@ public class PortThread extends Thread {
     }
 
     public void interrupt() {
-        closeServerSocket();
-        clientThread.interrupt();
         super.interrupt();
+        clientThreads.forEach(ClientThread::interrupt);
+        closeServerSocket();
     }
 }
