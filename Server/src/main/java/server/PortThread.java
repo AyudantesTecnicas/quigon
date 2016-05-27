@@ -68,6 +68,14 @@ public class PortThread extends Thread {
         game = gameBuilder.build();
     }
 
+    public void notifyOtherClients(String msg, ClientThread informer) {
+        for (ClientThread clientThread : clientThreads) {
+            if (clientThread != informer) {
+                clientThread.sendToClient(msg);
+            }
+        }
+    }
+
     public void interrupt() {
         super.interrupt();
         clientThreads.forEach(ClientThread::interrupt);

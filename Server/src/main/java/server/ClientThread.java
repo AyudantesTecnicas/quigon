@@ -33,7 +33,8 @@ public class ClientThread extends Thread {
         dataInputStream = new DataInputStream(inputStream);
         dataOutputStream = new DataOutputStream(outputStream);
 
-        sendAnswer("Welcome to game " + portThread.getGame().getName() + "!");
+        sendToClient("Welcome to game " + portThread.getGame().getName() + "!");
+        portThread.notifyOtherClients("New client joined!", this);
     }
 
     private String getAnswer() {
@@ -44,9 +45,9 @@ public class ClientThread extends Thread {
         }
     }
 
-    private void sendAnswer(String answer) {
+    public void sendToClient(String msg) {
         try {
-            dataOutputStream.writeUTF(answer);
+            dataOutputStream.writeUTF(msg);
             dataOutputStream.flush();
         } catch (IOException e) {
             System.out.println("Unable to send answer to client connected to port " + socket.getLocalPort());
@@ -71,8 +72,9 @@ public class ClientThread extends Thread {
                     answer = answer + " The game will be reset to initial state.";
                     portThread.resetGame();
                     System.out.println(portThread.getGame().getName() + " reset.");
+                    portThread.notifyOtherClients("We have a winner! The game will be reset to initial state.", this);
                 }
-                sendAnswer(answer);
+                sendToClient(answer);
 
             } catch (EOFException e) {
                 System.out.println("Client at port " + socket.getLocalPort() + " has disconnected.");
