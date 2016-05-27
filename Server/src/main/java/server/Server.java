@@ -12,25 +12,19 @@ public class Server {
     private int actualPort = 8000;
     private ArrayList<PortThread> portThreads = new ArrayList<>();
 
-    private GameBuilder gameBuilder;
-
     private boolean commandIsExit() {
         return line.equalsIgnoreCase("/exit");
     }
 
     protected void loadGame(String gameName) {
         try {
-            gameBuilder = BuilderLoader.load(gameName);
-            setPort();
+            GameBuilder gameBuilder = BuilderLoader.load(gameName);
+            PortThread portThread = new PortThread(actualPort++,gameBuilder);
+            portThreads.add(portThread);
+            portThread.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void setPort() {
-        PortThread portThread = new PortThread(actualPort++,gameBuilder);
-        portThreads.add(portThread);
-        portThread.start();
     }
 
     private void closeServer() {

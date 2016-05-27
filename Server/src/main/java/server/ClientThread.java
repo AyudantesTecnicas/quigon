@@ -32,6 +32,8 @@ public class ClientThread extends Thread {
 
         dataInputStream = new DataInputStream(inputStream);
         dataOutputStream = new DataOutputStream(outputStream);
+
+        sendAnswer("Welcome to game " + portThread.getGame().getName() + "!");
     }
 
     private String getAnswer() {
