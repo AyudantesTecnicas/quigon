@@ -18,6 +18,7 @@ public class Client {
     DataOutputStream dataOutputStream = null;
 
     private CommandHandlersChain currentCommandHandlersChain = null;
+    private ServerListenerThread serverListenerThread;
 
     /* 'observer' and 'chain of responsibility' mix */
     public void setCurrentCommandHandlersChain(CommandHandlersChain chc) {
@@ -50,7 +51,8 @@ public class Client {
             dataInputStream = new DataInputStream(inputStream);
             dataOutputStream = new DataOutputStream(outputStream);
 
-            waitAnswer();   // waiting welcome message
+            serverListenerThread = new ServerListenerThread(this, dataInputStream);
+            serverListenerThread.start();
 
         } catch (UnknownHostException e) {
             System.out.println("There is no such ip address!");
@@ -71,18 +73,9 @@ public class Client {
         }
     }
 
-    protected void waitAnswer() {
-        try {
-            String sendByServer = dataInputStream.readUTF();
-            System.out.println(sendByServer);
-        } catch (IOException e) {
-            System.out.println("Unable to read answer from server! Server has closed.");
-            disconnect();
-        }
-    }
-
     protected void disconnect() {
         try {
+            serverListenerThread.interrupt();
             int oldPort = socket.getPort();
             this.socket.close();    // after closing a socket, you cannot reuse it to share other data
             this.socket = null;
