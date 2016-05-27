@@ -1,0 +1,94 @@
+package server;
+
+import creation.GameBuilderImp;
+
+import java.io.*;
+import java.net.Socket;
+import java.net.SocketException;
+
+public class ClientThread extends Thread {
+
+    private Socket socket;
+
+    PortThread portThread;
+
+    InputStream inputStream = null;
+    DataInputStream dataInputStream = null;
+    OutputStream outputStream = null;
+    DataOutputStream dataOutputStream = null;
+
+    String sendByClient = "";
+
+    public ClientThread(Socket socket, PortThread portThread) {
+        this.socket = socket;
+        this.portThread = portThread;
+
+        try {
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        dataInputStream = new DataInputStream(inputStream);
+        dataOutputStream = new DataOutputStream(outputStream);
+    }
+
+    private String getAnswer() {
+        if (this.sendByClient.matches("^(?i)/help$")) {
+            return portThread.getGame().getHelp();
+        } else {
+            return portThread.getGame().receiveCommands(sendByClient);
+        }
+    }
+
+    private void sendAnswer(String answer) {
+        try {
+            dataOutputStream.writeUTF(answer);
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            System.out.println("Unable to send answer to client connected to port " + socket.getLocalPort());
+        }
+    }
+
+    private void closeSocket() {
+        try {
+            this.socket.close();
+        } catch (IOException e) {
+            System.out.println("Unable to close client socket!");
+        }
+    }
+
+    public void run() {
+        while (!this.isInterrupted()) {
+            try {
+                sendByClient = dataInputStream.readUTF();
+                System.out.println("Port " + socket.getLocalPort() + " send a message: " + sendByClient);
+                String answer = getAnswer();
+                if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
+                    answer = answer + " The game will be reset to initial state.";
+                    portThread.resetGame();
+                    System.out.println(portThread.getGame().getName() + " reset.");
+                }
+                sendAnswer(answer);
+
+            } catch (EOFException e) {
+                System.out.println("Client at port " + socket.getLocalPort() + " has disconnected.");
+                portThread.resetGame();
+                System.out.println(portThread.getGame().getName() + " reset.");
+                this.interrupt();
+            } catch (SocketException e) {
+                System.out.println("Client at port " + socket.getLocalPort() + " was disconnected.");
+            } catch (IOException e) {
+                e.printStackTrace();
+                this.interrupt();
+            }
+        }
+    }
+
+    public void interrupt() {
+        closeSocket();
+        super.interrupt();
+    }
+
+}
