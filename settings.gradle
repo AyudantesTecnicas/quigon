@@ -1,4 +1,13 @@
 rootProject.name = 'tp-tp-grupal'
 include 'Client'
+include 'Engine'
 include 'Server'
+include 'FetchQuestBuilder'
+include 'OpenDoorBuilder'
+include 'TowerOfHanoiBuilder'
+include 'OpenDoor2Builder'
+include 'WolfSheepBuilder'
+include 'CursedObjectBuilder'
+include 'TreasureHuntBuilder'
+include 'EntregaBuilder'
 

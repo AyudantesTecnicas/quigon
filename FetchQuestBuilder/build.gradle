@@ -1,0 +1,7 @@
+group 'tp-tp-grupal'
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

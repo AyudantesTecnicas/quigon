@@ -4,9 +4,9 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
+*.iml
 
 !gradle-wrapper.jar
 
@@ -15,5 +15,4 @@ hs_err_pid*
 .gradle
 .idea
 build
-Client/META-INF
-Server/META-INF
+META-INF/

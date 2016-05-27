@@ -2,8 +2,7 @@ plugins {
     id 'de.aaschmid.cpd' version '0.4'
 }
 
-group 'ar.fiuba.tdd.tp-tp-grupal'
-version '1.0'
+group 'tp-tp-grupal'
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -33,5 +32,55 @@ dependencies {
 configurations.all {
     resolutionStrategy {
         force 'xml-apis:xml-apis:1.4.01'
+    }
+}
+
+subprojects{
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'checkstyle'
+    apply plugin: 'maven'
+    apply plugin: 'findbugs'
+    apply plugin: 'pmd'
+    apply plugin: "jacoco"
+    apply plugin: 'de.aaschmid.cpd'
+    apply from: 'gradle/quality.gradle'
+
+    check.dependsOn(':cpdCheck')
+    check.dependsOn(':Client:cpdCheck')
+    check.dependsOn(':Engine:cpdCheck')
+    check.dependsOn(':Server:cpdCheck')
+    check.dependsOn(':FetchQuestBuilder:cpdCheck')
+    check.dependsOn(':OpenDoorBuilder:cpdCheck')
+    check.dependsOn(':TowerOfHanoiBuilder:cpdCheck')
+    check.dependsOn(':OpenDoor2Builder:cpdCheck')
+    check.dependsOn(':WolfSheepBuilder:cpdCheck')
+    check.dependsOn(':CursedObjectBuilder:cpdCheck')
+    check.dependsOn(':TreasureHuntBuilder:cpdCheck')
+    check.dependsOn(':EntregaBuilder:cpdCheck')
+
+    repositories {
+        jcenter()
+        maven {
+            url "http://nexus-tecnicas7510.rhcloud.com/nexus/content/repositories/third-party"
+        }
+        flatDir {
+            dirs "$rootProject.projectDir/libs"
+        }
+    }
+
+    dependencies {
+        compile name: 'Engine'
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'xml-apis:xml-apis:1.4.01'
+        }
     }
 }
