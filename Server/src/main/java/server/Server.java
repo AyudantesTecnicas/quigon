@@ -4,38 +4,31 @@ import creation.GameBuilder;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class Server {
 
     private String line = "";
     private int actualPort = 8000;
-    private ArrayList<PortThread> threads = new ArrayList<>();
-
-    private GameBuilder gameBuilder;
+    private ArrayList<PortThread> portThreads = new ArrayList<>();
 
     private boolean commandIsExit() {
         return line.equalsIgnoreCase("/exit");
     }
 
-    protected void loadGame(String gameName) {
+    protected void loadGame(String gamePath) {
         try {
-            gameBuilder = BuilderLoader.load(gameName);
-            setPort();
+            GameBuilder gameBuilder = BuilderLoader.load(gamePath);
+            PortThread portThread = new PortThread(actualPort++, gameBuilder);
+            portThreads.add(portThread);
+            portThread.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void setPort() {
-        PortThread portThread = new PortThread(actualPort++,gameBuilder);
-        threads.add(portThread);
-        portThread.start();
-    }
-
     private void closeServer() {
-        threads.forEach(PortThread::interrupt);
+        portThreads.forEach(PortThread::interrupt);
     }
 
     public void run() {

@@ -8,9 +8,6 @@ public class SendToServerHandler extends CommandHandler {
     public void handle() {
         if (client.isCurrentlyConnected()) {
             client.sendLine();
-            if (client.isCurrentlyConnected()) {
-                client.waitAnswer();
-            }
         } else {
             next.handle();
         }
