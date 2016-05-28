@@ -27,33 +27,37 @@ public class Client {
         return (socket != null);
     }
 
+    private boolean connectedSameAddress(String address, int port) {
+        return isCurrentlyConnected() && socket.getInetAddress().toString().equals("/" + address) && socket.getPort() == port;
+    }
+
     protected void connectToServer(String address, int port) {
-        try {
+        if (!connectedSameAddress(address, port)) {
+            try {
 
-            InetAddress ipAddress = InetAddress.getByName(address);
-            Socket tempSocket = new Socket(ipAddress,port);
+                InetAddress ipAddress = InetAddress.getByName(address);
+                Socket tempSocket = new Socket(ipAddress, port);
 
-            if (isCurrentlyConnected()) {
-                disconnect();
+                if (isCurrentlyConnected()) {
+                    disconnect();
+                }
+
+                socket = tempSocket;
+
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+                serverListenerThread = new ServerListenerThread(this, new DataInputStream(socket.getInputStream()));
+                serverListenerThread.start();
+
+            } catch (UnknownHostException e) {
+                System.out.println("There is no such ip address!");
+            } catch (IOException e) {
+                System.out.println("Unable to connect to server! Port " + port);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Port should be <= 65535!");
             }
-
-            socket = tempSocket;
-
-            InputStream inputStream = socket.getInputStream();
-            OutputStream outputStream = socket.getOutputStream();
-
-            DataInputStream dataInputStream = new DataInputStream(inputStream);
-            dataOutputStream = new DataOutputStream(outputStream);
-
-            serverListenerThread = new ServerListenerThread(this, dataInputStream);
-            serverListenerThread.start();
-
-        } catch (UnknownHostException e) {
-            System.out.println("There is no such ip address!");
-        } catch (IOException e) {
-            System.out.println("Unable to connect to server! Port " + port);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Port should be <= 65535!");
+        } else {
+            System.out.println("Already connected!");
         }
     }
 

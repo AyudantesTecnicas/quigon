@@ -73,6 +73,14 @@ public class PortThread extends Thread {
         game = gameBuilder.build();
     }
 
+    public void excludeClient(ClientThread client) {
+        clientThreads.remove(client);
+        if (clientThreads.isEmpty()) {
+            resetGame();
+            System.out.println(game.getName() + " reset, last player abandoned the game.");
+        }
+    }
+
     public void notifyOtherClients(String msg, ClientThread informer) {
         for (ClientThread clientThread : clientThreads) {
             if (clientThread != informer) {

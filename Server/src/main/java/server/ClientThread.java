@@ -78,8 +78,7 @@ public class ClientThread extends Thread {
 
             } catch (EOFException e) {
                 System.out.println("Client at port " + socket.getLocalPort() + " has disconnected.");
-                portThread.resetGame();
-                System.out.println(portThread.getGame().getName() + " reset.");
+                portThread.excludeClient(this);
                 this.interrupt();
             } catch (SocketException e) {
                 System.out.println("Client at port " + socket.getLocalPort() + " was disconnected.");
