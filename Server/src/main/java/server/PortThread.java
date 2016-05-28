@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.HashMap;
 
 public class PortThread extends Thread {
 
@@ -14,7 +15,7 @@ public class PortThread extends Thread {
     private GameBuilder gameBuilder;
     private Game game;
 
-    private SlotsOfClientThreads clientThreads;
+    private HashMap<ClientThread, Integer> clientThreads = new HashMap<>();
 
     public PortThread(int port, GameBuilder gameBuilder) {
         this.port = port;
@@ -24,17 +25,16 @@ public class PortThread extends Thread {
     @Override
     public void run() {
         game = gameBuilder.build();
-        clientThreads = new SlotsOfClientThreads(game.getNumberOfPlayers());
         createServerSocket();
         System.out.println(game.getName() + " is ready and waiting clients in port " + serverSocket.getLocalPort() + ".");
 
         while (!this.isInterrupted()) {
             try {
                 Socket socket = serverSocket.accept();
-                if (clientThreads.numberOfUsedSlots() < game.getNumberOfPlayers()) {
+                if (clientThreads.size() < game.getNumberOfPlayers()) {
                     System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
                     ClientThread clientThread = new ClientThread(socket, this);
-                    clientThreads.add(clientThread);
+                    addNewClientThread(clientThread);
                     clientThread.start();
                 } else {
                     socket.close();
@@ -47,6 +47,20 @@ public class PortThread extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void addNewClientThread(ClientThread clientThread) {
+        int currentNumber = 0;
+        boolean inserted = false;
+        while (!inserted) {
+            if (clientThreads.values().contains(currentNumber)) {
+                currentNumber++;
+            } else {
+                clientThreads.put(clientThread, currentNumber);
+                inserted = true;
+            }
+        }
+
     }
 
     private void createServerSocket() {
@@ -75,23 +89,27 @@ public class PortThread extends Thread {
 
     public void excludeClient(ClientThread client) {
         clientThreads.remove(client);
-        if (clientThreads.numberOfUsedSlots() == 0) {
+        if (clientThreads.size() == 0) {
             resetGame();
             System.out.println(game.getName() + " reset, last player abandoned the game.");
         }
     }
 
     public int getNumberOfPlayer(ClientThread clientThread) {
-        return clientThreads.getIndexOf(clientThread);
+        return clientThreads.get(clientThread);
     }
 
     public void notifyOtherClients(String msg, ClientThread informer) {
-        clientThreads.notifyOtherClients(msg, informer);
+        for (ClientThread clientThread : clientThreads.keySet()) {
+            if ((clientThread != null) && (clientThread != informer)) {
+                clientThread.sendToClient(msg);
+            }
+        }
     }
 
     public void interrupt() {
         super.interrupt();
-        clientThreads.interruptAllClients();
+        clientThreads.keySet().forEach(ClientThread::interrupt);
         closeServerSocket();
     }
 }
