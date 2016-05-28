@@ -20,10 +20,10 @@ public class ServerListenerThread extends Thread {
         while (!this.isInterrupted()) {
             try {
                 System.out.println(dataInputStream.readUTF());
-            } catch (EOFException e) {
-                System.out.println("Unable to read from server!");
+            } catch (EOFException e) {  // remote socket is closed (server side)
+//                System.out.println("Unable to read from server!");
                 client.disconnect();
-            } catch (SocketException e) {
+            } catch (SocketException e) {   // local socket is closed (client side)
 //                System.out.println("Stopped listening server.");
             } catch (IOException e) {
                 e.printStackTrace();

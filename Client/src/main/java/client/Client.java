@@ -66,7 +66,7 @@ public class Client {
             dataOutputStream.writeUTF(line);
             dataOutputStream.flush();
         } catch (IOException e) {
-            System.out.println("Unable to send line! Server has closed.");
+            System.out.println("Unable to send line!");
             disconnect();
         }
     }

@@ -32,9 +32,6 @@ public class ClientThread extends Thread {
 
         dataInputStream = new DataInputStream(inputStream);
         dataOutputStream = new DataOutputStream(outputStream);
-
-        sendToClient("Welcome to game " + portThread.getGame().getName() + "!");
-        portThread.notifyOtherClients("New client joined!", this);
     }
 
     private String getAnswer() {
@@ -63,6 +60,9 @@ public class ClientThread extends Thread {
     }
 
     public void run() {
+        sendToClient("Welcome to game " + portThread.getGame().getName() + "! You are Player " + portThread.getNumberOfPlayer(this) + ".");
+        portThread.notifyOtherClients("Player " + portThread.getNumberOfPlayer(this) + " joined!", this);
+
         while (!this.isInterrupted()) {
             try {
                 sendByClient = dataInputStream.readUTF();
