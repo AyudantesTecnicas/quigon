@@ -1,7 +1,5 @@
 package server;
 
-import creation.GameBuilderImp;
-
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -14,8 +12,6 @@ public class ClientThread extends Thread {
     private DataInputStream dataInputStream = null;
     private DataOutputStream dataOutputStream = null;
 
-    private String sendByClient = "";
-
     public ClientThread(Socket socket, PortThread portThread) {
         this.socket = socket;
         this.portThread = portThread;
@@ -25,14 +21,6 @@ public class ClientThread extends Thread {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private String getAnswer() {
-        if (this.sendByClient.matches("^(?i)/help$")) {
-            return portThread.getGame().getHelp();
-        } else {
-            return portThread.getGame().receiveCommands(sendByClient);
         }
     }
 
@@ -50,16 +38,9 @@ public class ClientThread extends Thread {
 
         while (!this.isInterrupted()) {
             try {
-                sendByClient = dataInputStream.readUTF();
-                System.out.println("Port " + socket.getLocalPort() + " send a message: " + sendByClient);
+                String sendByClient = dataInputStream.readUTF();
+                System.out.println("Port " + socket.getLocalPort() + " " + socket.getRemoteSocketAddress() + " send a message: " + sendByClient);
                 portThread.playerSendCommandEvent(this, sendByClient);
-                String answer = getAnswer();
-                if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
-                    portThread.playerWonEvent(this);
-                    answer = answer + " Game reset.";
-                }
-                sendToClient(answer);
-
             } catch (EOFException e) {
                 System.out.println("Client at port " + socket.getLocalPort() + " has disconnected.");
                 portThread.playerLeftGameEvent(this);

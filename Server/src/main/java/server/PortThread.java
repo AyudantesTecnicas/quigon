@@ -77,11 +77,21 @@ public class PortThread extends Thread {
 
     public void playerSendCommandEvent(ClientThread clientThread, String cmd) {
         notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " send this: " + cmd, clientThread);
-    }
 
-    public void playerWonEvent(ClientThread clientThread) {
-        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " won!" + " Game reset.", clientThread);
-        resetGame();
+        String answer;
+        if (cmd.matches("^(?i)/help$")) {
+            answer = game.getHelp();
+        } else {
+            answer = game.receiveCommands(cmd);
+        }
+
+        if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
+            notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " won (lose)!" + " Game reset.", clientThread);
+            resetGame();
+            answer = answer + " Game reset.";
+        }
+
+        clientThread.sendToClient(answer);
     }
 
     public void playerLeftGameEvent(ClientThread clientThread) {
@@ -89,20 +99,16 @@ public class PortThread extends Thread {
 
         clientThreads.remove(clientThread);
         if (clientThreads.size() == 0) {
+            System.out.println("Last player abandoned " + serverSocket.getLocalPort() + ".");
             resetGame();
-            System.out.println(game.getName() + " reset, last player abandoned the game.");
         }
 
         clientThread.interrupt();
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     public void resetGame() {
         game = gameBuilder.build();
-        System.out.print(game.getName() + " reset.");
+        System.out.println(game.getName() + " reset.");
     }
 
     public int getNumberOfPlayer(ClientThread clientThread) {
