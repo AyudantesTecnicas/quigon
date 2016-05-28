@@ -21,7 +21,7 @@ public class ServerListenerThread extends Thread {
             try {
                 System.out.println(dataInputStream.readUTF());
             } catch (EOFException e) {
-                System.out.println("Unable to read from server! Server has closed.");
+                System.out.println("Unable to read from server!");
                 client.disconnect();
             } catch (SocketException e) {
 //                System.out.println("Stopped listening server.");

@@ -31,10 +31,15 @@ public class PortThread extends Thread {
         while (!this.isInterrupted()) {
             try {
                 Socket socket = serverSocket.accept();
-                System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
-                ClientThread clientThread = new ClientThread(socket, this);
-                clientThreads.add(clientThread);
-                clientThread.start();
+                if (clientThreads.size() < game.getNumberOfPlayers()) {
+                    System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
+                    ClientThread clientThread = new ClientThread(socket, this);
+                    clientThreads.add(clientThread);
+                    clientThread.start();
+                } else {
+                    socket.close();
+                    System.out.println("Port " + serverSocket.getLocalPort() + " rejected a client: limit of players reached.");
+                }
             } catch (SocketException e) {
                 System.out.println("Server socket " + serverSocket.getLocalPort()
                                                     + " with game " + game.getName() + " has closed.");

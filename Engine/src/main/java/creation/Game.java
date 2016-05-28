@@ -33,6 +33,10 @@ public class Game {
         return gameDescription;
     }
 
+    public int getNumberOfPlayers() {
+        return 2;
+    }
+
     public void setCharacter(ComplexElement character) {
         this.character = character;
     }

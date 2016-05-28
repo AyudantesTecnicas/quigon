@@ -16,9 +16,9 @@ public class Server {
         return line.equalsIgnoreCase("/exit");
     }
 
-    protected void loadGame(String gameName) {
+    protected void loadGame(String gamePath) {
         try {
-            GameBuilder gameBuilder = BuilderLoader.load(gameName);
+            GameBuilder gameBuilder = BuilderLoader.load(gamePath);
             PortThread portThread = new PortThread(actualPort++, gameBuilder);
             portThreads.add(portThread);
             portThread.start();
