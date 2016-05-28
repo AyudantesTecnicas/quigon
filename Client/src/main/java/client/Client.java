@@ -9,14 +9,8 @@ import java.nio.charset.StandardCharsets;
 public class Client {
 
     private String line = "";
-
     private Socket socket = null;
-
-    InputStream inputStream = null;
-    DataInputStream dataInputStream = null;
-    OutputStream outputStream = null;
-    DataOutputStream dataOutputStream = null;
-
+    private DataOutputStream dataOutputStream = null;
     private CommandHandlersChain currentCommandHandlersChain = null;
     private ServerListenerThread serverListenerThread;
 
@@ -45,10 +39,10 @@ public class Client {
 
             socket = tempSocket;
 
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
+            InputStream inputStream = socket.getInputStream();
+            OutputStream outputStream = socket.getOutputStream();
 
-            dataInputStream = new DataInputStream(inputStream);
+            DataInputStream dataInputStream = new DataInputStream(inputStream);
             dataOutputStream = new DataOutputStream(outputStream);
 
             serverListenerThread = new ServerListenerThread(this, dataInputStream);
@@ -72,7 +66,7 @@ public class Client {
             disconnect();
         }
     }
-
+    
     protected void disconnect() {
         try {
             serverListenerThread.interrupt();
