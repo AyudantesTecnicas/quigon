@@ -60,7 +60,6 @@ public class PortThread extends Thread {
                 inserted = true;
             }
         }
-
     }
 
     private void createServerSocket() {
@@ -71,12 +70,18 @@ public class PortThread extends Thread {
         }
     }
 
-    private void closeServerSocket() {
-        try {
-            this.serverSocket.close();
-        } catch (IOException e) {
-            System.out.println("Unable to close server socket!");
-        }
+    public void newPlayerJoinedEvent(ClientThread clientThread) {
+        clientThread.sendToClient("Welcome to game " + game.getName() + "! You are Player " + getNumberOfPlayer(clientThread) + ".");
+        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " joined!", clientThread);
+    }
+
+    public void playerSendCommandEvent(ClientThread clientThread, String cmd) {
+        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " send this: " + cmd, clientThread);
+    }
+
+    public void playerWonEvent(ClientThread clientThread) {
+        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " won!" + " Game reset.", clientThread);
+        resetGame();
     }
 
     public Game getGame() {
@@ -85,6 +90,7 @@ public class PortThread extends Thread {
 
     public void resetGame() {
         game = gameBuilder.build();
+        System.out.print(game.getName() + " reset.");
     }
 
     public void excludeClient(ClientThread client) {
@@ -101,7 +107,7 @@ public class PortThread extends Thread {
 
     public void notifyOtherClients(String msg, ClientThread informer) {
         for (ClientThread clientThread : clientThreads.keySet()) {
-            if ((clientThread != null) && (clientThread != informer)) {
+            if (clientThread != informer) {
                 clientThread.sendToClient(msg);
             }
         }
@@ -109,7 +115,13 @@ public class PortThread extends Thread {
 
     public void interrupt() {
         super.interrupt();
+
         clientThreads.keySet().forEach(ClientThread::interrupt);
-        closeServerSocket();
+
+        try {
+            this.serverSocket.close();
+        } catch (IOException e) {
+            System.out.println("Unable to close server socket!");
+        }
     }
 }

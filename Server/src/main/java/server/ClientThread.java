@@ -9,29 +9,23 @@ import java.net.SocketException;
 public class ClientThread extends Thread {
 
     private Socket socket;
+    private PortThread portThread;
 
-    PortThread portThread;
+    private DataInputStream dataInputStream = null;
+    private DataOutputStream dataOutputStream = null;
 
-    InputStream inputStream = null;
-    DataInputStream dataInputStream = null;
-    OutputStream outputStream = null;
-    DataOutputStream dataOutputStream = null;
-
-    String sendByClient = "";
+    private String sendByClient = "";
 
     public ClientThread(Socket socket, PortThread portThread) {
         this.socket = socket;
         this.portThread = portThread;
 
         try {
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
+            dataInputStream = new DataInputStream(socket.getInputStream());
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        dataInputStream = new DataInputStream(inputStream);
-        dataOutputStream = new DataOutputStream(outputStream);
     }
 
     private String getAnswer() {
@@ -60,19 +54,17 @@ public class ClientThread extends Thread {
     }
 
     public void run() {
-        sendToClient("Welcome to game " + portThread.getGame().getName() + "! You are Player " + portThread.getNumberOfPlayer(this) + ".");
-        portThread.notifyOtherClients("Player " + portThread.getNumberOfPlayer(this) + " joined!", this);
+        portThread.newPlayerJoinedEvent(this);
 
         while (!this.isInterrupted()) {
             try {
                 sendByClient = dataInputStream.readUTF();
                 System.out.println("Port " + socket.getLocalPort() + " send a message: " + sendByClient);
+                portThread.playerSendCommandEvent(this, sendByClient);
                 String answer = getAnswer();
                 if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
-                    answer = answer + " The game will be reset to initial state.";
-                    portThread.resetGame();
-                    System.out.println(portThread.getGame().getName() + " reset.");
-                    portThread.notifyOtherClients("We have a winner! The game will be reset to initial state.", this);
+                    portThread.playerWonEvent(this);
+                    answer = answer + " Game reset.";
                 }
                 sendToClient(answer);
 
