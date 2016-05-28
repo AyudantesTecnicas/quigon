@@ -32,7 +32,7 @@ public class PortThread extends Thread {
             try {
                 Socket socket = serverSocket.accept();
                 if (clientThreads.size() < game.getNumberOfPlayers()) {
-                    System.out.println("Port " + serverSocket.getLocalPort() + " got a client.");
+                    System.out.println("Port " + serverSocket.getLocalPort() + " got a client: " + socket.getRemoteSocketAddress());
                     ClientThread clientThread = new ClientThread(socket, this);
                     addNewClientThread(clientThread);
                     clientThread.start();
@@ -41,8 +41,7 @@ public class PortThread extends Thread {
                     System.out.println("Port " + serverSocket.getLocalPort() + " rejected a client: limit of players reached.");
                 }
             } catch (SocketException e) {
-                System.out.println("Server socket " + serverSocket.getLocalPort()
-                                                    + " with game " + game.getName() + " has closed.");
+                System.out.println("Server socket " + serverSocket.getLocalPort() + " with game " + game.getName() + " has closed.");
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -3,6 +3,7 @@ package client;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
@@ -43,7 +44,7 @@ public class Client {
                 }
 
                 socket = tempSocket;
-
+                System.err.println("Your address is " + socket.getLocalSocketAddress());
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
                 serverListenerThread = new ServerListenerThread(this, new DataInputStream(socket.getInputStream()));
@@ -74,10 +75,10 @@ public class Client {
     protected void disconnect() {
         try {
             serverListenerThread.interrupt();
-            int oldPort = socket.getPort();
+            SocketAddress old = socket.getRemoteSocketAddress();
             this.socket.close();    // after closing a socket, you cannot reuse it to share other data
             this.socket = null;
-            System.out.println("Disconnected from server. Port: " + oldPort);
+            System.out.println("Disconnected from server " + old);
         } catch (IOException e) {
             System.out.println("Unable to close socket!");
         }

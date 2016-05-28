@@ -29,7 +29,7 @@ public class ClientThread extends Thread {
             dataOutputStream.writeUTF(msg);
             dataOutputStream.flush();
         } catch (IOException e) {
-            System.out.println("Unable to send answer to client connected to port " + socket.getLocalPort());
+            System.out.println(portAndRemoteBase() + ": unable to answer.");
         }
     }
 
@@ -39,13 +39,13 @@ public class ClientThread extends Thread {
         while (!this.isInterrupted()) {
             try {
                 String sendByClient = dataInputStream.readUTF();
-                System.out.println("Port " + socket.getLocalPort() + " " + socket.getRemoteSocketAddress() + " send a message: " + sendByClient);
+                System.out.println(portAndRemoteBase() + " send: " + sendByClient);
                 portThread.playerSendCommandEvent(this, sendByClient);
-            } catch (EOFException e) {
-                System.out.println("Client at port " + socket.getLocalPort() + " has disconnected.");
+            } catch (EOFException e) {  // remote socket is closed (client side)
+                System.out.println(portAndRemoteBase() + " has disconnected.");
                 portThread.playerLeftGameEvent(this);
-            } catch (SocketException e) {
-                System.out.println("Client at port " + socket.getLocalPort() + " was disconnected.");
+            } catch (SocketException e) {   // local socket is closed (server side)
+                System.out.println(portAndRemoteBase() + " was disconnected.");
             } catch (IOException e) {
                 e.printStackTrace();
                 this.interrupt();
@@ -63,4 +63,7 @@ public class ClientThread extends Thread {
         }
     }
 
+    private String portAndRemoteBase() {
+        return "Port " + socket.getLocalPort() + ", " + socket.getRemoteSocketAddress();
+    }
 }
