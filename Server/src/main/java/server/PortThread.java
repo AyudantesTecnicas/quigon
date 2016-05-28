@@ -84,6 +84,18 @@ public class PortThread extends Thread {
         resetGame();
     }
 
+    public void playerLeftGameEvent(ClientThread clientThread) {
+        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " escaped.", clientThread);
+
+        clientThreads.remove(clientThread);
+        if (clientThreads.size() == 0) {
+            resetGame();
+            System.out.println(game.getName() + " reset, last player abandoned the game.");
+        }
+
+        clientThread.interrupt();
+    }
+
     public Game getGame() {
         return game;
     }
@@ -91,14 +103,6 @@ public class PortThread extends Thread {
     public void resetGame() {
         game = gameBuilder.build();
         System.out.print(game.getName() + " reset.");
-    }
-
-    public void excludeClient(ClientThread client) {
-        clientThreads.remove(client);
-        if (clientThreads.size() == 0) {
-            resetGame();
-            System.out.println(game.getName() + " reset, last player abandoned the game.");
-        }
     }
 
     public int getNumberOfPlayer(ClientThread clientThread) {

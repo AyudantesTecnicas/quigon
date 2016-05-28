@@ -45,14 +45,6 @@ public class ClientThread extends Thread {
         }
     }
 
-    private void closeSocket() {
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            System.out.println("Unable to close client socket!");
-        }
-    }
-
     public void run() {
         portThread.newPlayerJoinedEvent(this);
 
@@ -70,8 +62,7 @@ public class ClientThread extends Thread {
 
             } catch (EOFException e) {
                 System.out.println("Client at port " + socket.getLocalPort() + " has disconnected.");
-                portThread.excludeClient(this);
-                this.interrupt();
+                portThread.playerLeftGameEvent(this);
             } catch (SocketException e) {
                 System.out.println("Client at port " + socket.getLocalPort() + " was disconnected.");
             } catch (IOException e) {
@@ -83,7 +74,12 @@ public class ClientThread extends Thread {
 
     public void interrupt() {
         super.interrupt();
-        closeSocket();
+
+        try {
+            this.socket.close();
+        } catch (IOException e) {
+            System.out.println("Unable to close client socket!");
+        }
     }
 
 }
