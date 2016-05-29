@@ -58,12 +58,15 @@ public class Game {
 
     private String checkAroundItems() {
         if (currentPlayer == null)
-            currentPlayer = characters.get(0);
+            return "An error have occour - Player not defined";
+
         StringBuilder elementsInRoom = new StringBuilder();
         Element actualRoom = currentPlayer.getContainerElement();
         for (Element element : elementList) {
             ComplexElement complexElement = (ComplexElement) element;
-            if ((complexElement.getContainerElement() != null) && complexElement.getContainerElement().equals(actualRoom)) {
+            if ((complexElement.getContainerElement() != null)
+                    && !(complexElement.equals(currentPlayer))
+                    && complexElement.getContainerElement().equals(actualRoom)) {
                 elementsInRoom.append(complexElement.getName());
                 elementsInRoom.append('\n');
             }
