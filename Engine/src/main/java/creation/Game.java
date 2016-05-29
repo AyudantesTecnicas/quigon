@@ -73,7 +73,8 @@ public class Game {
 
     private String checkWhatCanIDoWith(String elementName) {
         if (currentPlayer == null)
-            currentPlayer = characters.get(0);
+            return "An error have occour - Player not defined";
+
         String movesOfElement = "object not found";
         Element actualRoom = currentPlayer.getContainerElement();
         boolean objectFound = false;

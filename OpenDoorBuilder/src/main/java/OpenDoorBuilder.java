@@ -7,6 +7,8 @@ import model.elements.Element;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("CPD-START")
 public final class OpenDoorBuilder extends GameBuilderImp {
 
@@ -17,7 +19,7 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     private ComplexElement room2;
     private ComplexElement door;
     private ComplexElement key;
-    private ComplexElement character;
+    private ArrayList<ComplexElement> characters;
     private HasContainerRule roomHasKey;
     private HasContainerRule characterHasKey;
     private HasStateRule doorIsClosed;
@@ -34,14 +36,24 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     public OpenDoorBuilder() {
         gameName = "OpenDoor";
         gameDescription = "There is a door on this game. Also, it is locked.";
+        characters = new ArrayList<>();
     }
 
     public void setElements() {
         createElements();
+        loadPlayers();
         createRules();
         createActions();
         createComplexRules();
         createMoves();
+    }
+
+    private void loadPlayers() {
+        for (int i = 0; i < constants.numberOfPlayers; i++) {
+            characters.add(createAndAddElement("character" + i, room1, null));
+        }
+        game.currentPlayer = characters.get(0);
+        game.characters = characters;
     }
 
     private void createMoves() {
@@ -53,7 +65,7 @@ public final class OpenDoorBuilder extends GameBuilderImp {
         openDoor.addAction(removeClosedDoorState);
         openDoor.addAction(addCharacterToRoom2);
 
-        //Inyectar Moves a Elements
+        //Inject Moves a Elements
         key.addMove(pickKey);
         door.addMove(openDoor);
     }
@@ -70,14 +82,15 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     }
 
     private void createActions() {
+        ComplexElement character = characters.get(0);
         addOpenedDoorState = buildAddStatesAction(door, openedDoor);
         removeClosedDoorState = buildRemoveStatesAction(door, closedDoor);
         addKeyToCharacter = buildChangeContainerAction(key, character);
         addCharacterToRoom2 = buildChangeContainerAction(character, room2);
-
     }
 
     private void createRules() {
+        ComplexElement character = characters.get(0);
         roomHasKey = checkContainerRule(key, room1, constants.keyNotInRoom1);
         characterHasKey = checkContainerRule(key, character, constants.room2Locked);
         doorIsClosed = checkStateRule(door, closedDoor, constants.doorOpened);
@@ -92,8 +105,6 @@ public final class OpenDoorBuilder extends GameBuilderImp {
         room2 = createAndAddElement(constants.room2, null, null);
         door = createAndAddElement(constants.door, room1, closedDoor);
         key = createAndAddElement(constants.key, room1, null);
-        character = createAndAddElement(constants.character, room1, null);
-        game.character = character;
     }
 
     @SuppressWarnings("CPD-END")
