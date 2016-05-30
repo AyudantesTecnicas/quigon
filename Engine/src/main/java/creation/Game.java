@@ -36,7 +36,7 @@ public class Game {
     }
 
     public int getNumberOfPlayers() {
-        return 2;
+        return characters.size();
     }
 
     public void setCharacter(Player character) {
@@ -46,7 +46,7 @@ public class Game {
         characters.add(character);
     }
 
-    private boolean IsRechableElement(ComplexElement element) {
+    private boolean isRechableElement(ComplexElement element) {
         //If isn't current player
         //If item is in the room OR item is in the current player
         return ((element.getContainerElement() != null)
@@ -62,8 +62,8 @@ public class Game {
 
         StringBuilder elementsInRoom = new StringBuilder();
         for (Element element : elementList) {
-            if (IsRechableElement((ComplexElement) element)) {
-                elementsInRoom.append(((ComplexElement) element).getName());
+            if (isRechableElement((ComplexElement) element)) {
+                elementsInRoom.append(element.getName());
                 elementsInRoom.append('\n');
             }
         }
@@ -80,7 +80,7 @@ public class Game {
         Iterator<Element> iterator = elementList.iterator();
         while (iterator.hasNext() && !objectFound) {
             ComplexElement complexElement = (ComplexElement) iterator.next();
-            if (IsRechableElement(complexElement) && complexElement.getName().equalsIgnoreCase(elementName)) {
+            if (isRechableElement(complexElement) && complexElement.getName().equalsIgnoreCase(elementName)) {
                 movesOfElement = complexElement.listMoves();
                 objectFound = true;
             }
@@ -88,15 +88,21 @@ public class Game {
         return movesOfElement;
     }
 
-
     private String commandToSend(String command) {
         String sendCommand;
+
+        // TODO: parser must to return witch player is sending the command
+        /* it could be:
+        *   parser.parseInstuction(command)     -> return void
+        *   this.currentPlayer = parser.getCharacterWhoSendCommand   -> return Player
+        *   GameAction actionToExecute = parser.getInstruction
+        */
         GameAction actionToExecute = parser.parseInstruction(command);
         sendCommand = actionToExecute.getMessage();
         if (actionToExecute.isASupportedAction()) {
             sendCommand = "object not found";
             for (Element anElement : elementList) {
-                if (IsRechableElement((ComplexElement) anElement)) {
+                if (isRechableElement((ComplexElement) anElement)) {
                     for (String itemsID : actionToExecute.getItemsID()) {
                         if (anElement.getName().toLowerCase().equals(itemsID)) {
                             sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
@@ -110,12 +116,8 @@ public class Game {
 
     public String receiveCommands(String command) {
         String sendCommand;
-        if (command.equals("look around")) {
-            sendCommand = checkAroundItems();
-        } else if (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")) {
-            String elementName = command.split(" ")[5];
-            elementName = elementName.substring(0, elementName.length() - 1);
-            sendCommand = checkWhatCanIDoWith(elementName);
+        if (commandOfGame(command)) {
+            sendCommand = interpretCommand(command);
         } else {
             sendCommand = commandToSend(command);
         }
@@ -126,6 +128,21 @@ public class Game {
             sendCommand = GameBuilderImp.loseText;
         }
         return sendCommand;
+    }
+
+    private boolean commandOfGame(String command) {
+        return (command.equals("look around") || (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")));
+    }
+
+    private String interpretCommand(String command) {
+        if (command.equals("look around")) {
+            return checkAroundItems();
+        } else if (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")) {
+            String elementName = command.split(" ")[5];
+            elementName = elementName.substring(0, elementName.length() - 1);
+            return checkWhatCanIDoWith(elementName);
+        }
+        return "BUG - can't find game's command";
     }
 
     public String getName() {
