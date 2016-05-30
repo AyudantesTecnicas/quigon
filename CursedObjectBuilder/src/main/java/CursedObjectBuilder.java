@@ -89,22 +89,22 @@ public final class CursedObjectBuilder extends GameBuilderImp {
     }
 
     private void createRules() {
-        Player character = characters.get(0);
-        victoryRule = checkContainerRule(character, room2, constants.notWon);
         thiefHaveCursedObject = checkContainerRule(cursedObject, thief, constants.thiefNeedsObject);
-        characterHasCursedObject = checkContainerRule(cursedObject, character, constants.missingObject);
+        characterHasCursedObject = checkContainerRule(cursedObject, game.currentPlayer, constants.missingObject);
         objectIsInTheRoom = checkContainerRule(cursedObject, room0, constants.hasObject);
-        characterIsInRoom1 = checkContainerRule(character, room1, constants.wrongRoom);
-        characterIsInRoom0 = checkContainerRule(character, room0, constants.wrongRoom);
-        character.setVictoryCondition(victoryRule);
+        characterIsInRoom1 = checkContainerRule(game.currentPlayer, room1, constants.wrongRoom);
+        characterIsInRoom0 = checkContainerRule(game.currentPlayer, room0, constants.wrongRoom);
+        for (Player character : characters) {
+            victoryRule = checkContainerRule(character, room2, constants.notWon);
+            character.setVictoryCondition(victoryRule);
+        }
     }
 
     private void createActions() {
-        Player character = characters.get(0);
-        changeRoom0ForRoom1 = buildChangeContainerAction(character, room1);
-        changeRoom1ForRoom2 = buildChangeContainerAction(character, room2);
+        changeRoom0ForRoom1 = buildChangeContainerAction(game.currentPlayer, room1);
+        changeRoom1ForRoom2 = buildChangeContainerAction(game.currentPlayer, room2);
         stolenObject = buildChangeContainerAction(cursedObject, thief);
-        pickedObject = buildChangeContainerAction(cursedObject, character);
+        pickedObject = buildChangeContainerAction(cursedObject, game.currentPlayer);
         makeNotVisibleObject = new ChangeVisibleAction();
         addElementsToAction(makeNotVisibleObject, cursedObject, notVisibleObjectState);
     }

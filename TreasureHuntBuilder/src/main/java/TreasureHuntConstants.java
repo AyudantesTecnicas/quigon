@@ -1,5 +1,7 @@
 @SuppressWarnings("CPD-START")
 public class TreasureHuntConstants {
+
+    public static final int numberOfPlayers = 1;
     //Elements
     public static final String antidote1 = "antidote1";
     public static final String antidote2 = "antidote2";
@@ -7,7 +9,6 @@ public class TreasureHuntConstants {
     public static final String boxE = "box_trunk";
     public static final String boxS = "box_wardrobe";
     public static final String boxW = "box_west";
-    public static final String character = "character";
     public static final String doorCE = "door_to_east";
     public static final String doorCN = "door_to_north";
     public static final String doorCS = "door_to_south";

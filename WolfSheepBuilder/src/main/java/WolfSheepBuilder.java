@@ -14,10 +14,12 @@ public class WolfSheepBuilder extends GameBuilderImp {
     private WolfSheepConstants constants = new WolfSheepConstants();
     private ComplexElement northShore;
     private ComplexElement southShore;
+    private ComplexElement goToNorthShore;
+    private ComplexElement goToSouthShore;
     private ComplexElement sheep;
     private ComplexElement wolf;
     private ComplexElement cabbage;
-    private ComplexElement boat;
+//    private ComplexElement boat;
     private Action crossSouthNorth;
     private Action crossNorthSouth;
     private Action leaveSheepSouth;
@@ -67,37 +69,41 @@ public class WolfSheepBuilder extends GameBuilderImp {
 
     private void createElements() {
         //Create elements
-        northShore = createAndAddElement(constants.northShore, null, null);
-        southShore = createAndAddElement(constants.southShore, null, null);
+        northShore = createAndAddElement("costaNorte", null, null);
+        southShore = createAndAddElement("costaSur", null, null);
+        goToNorthShore = createAndAddElement(constants.northShore, southShore, null);
+        goToSouthShore = createAndAddElement(constants.southShore, northShore, null);
         sheep = createAndAddElement(constants.sheep, southShore, null);
         wolf = createAndAddElement(constants.wolf, southShore, null);
         cabbage = createAndAddElement(constants.cabbage, southShore, null);
-        boat = createAndAddElement(constants.boat, southShore, null);
-        game.character = createAndAddElement(constants.character, boat, null);
+//        boat = createAndAddElement(constants.boat, southShore, null);
+
+//        game.currentPlayer = createAndAddPlayer(constants.character, boat, null);
+        game.currentPlayer = createAndAddPlayer(constants.character, southShore, null);
     }
 
     private void createActions() {
         //Create action consequences
-        crossSouthNorth = buildChangeContainerAction(boat, northShore);
-        crossNorthSouth = buildChangeContainerAction(boat, southShore);
+        crossSouthNorth = buildChangeContainerAction(game.currentPlayer, northShore);
+        crossNorthSouth = buildChangeContainerAction(game.currentPlayer, southShore);
         leaveSheepSouth = buildChangeContainerAction(sheep, southShore);
         leaveWolfSouth = buildChangeContainerAction(wolf, southShore);
         leaveCabbageSouth = buildChangeContainerAction(cabbage, southShore);
         leaveSheepNorth = buildChangeContainerAction(sheep, northShore);
         leaveWolfNorth = buildChangeContainerAction(wolf, northShore);
         leaveCabbageNorth = buildChangeContainerAction(cabbage, northShore);
-        takeSheep = buildChangeContainerAction(sheep, boat);
-        takeWolf = buildChangeContainerAction(wolf, boat);
-        takeCabbage = buildChangeContainerAction(cabbage, boat);
+        takeSheep = buildChangeContainerAction(sheep, game.currentPlayer);
+        takeWolf = buildChangeContainerAction(wolf, game.currentPlayer);
+        takeCabbage = buildChangeContainerAction(cabbage, game.currentPlayer);
     }
 
     private void createRules() {
-        boatHasSheep = checkContainerRule(sheep, boat, constants.sheepNotOnBoard);
-        boatHasNoSheep = doesntHaveContainerRule(sheep, boat, constants.sheepOnBoard);
-        boatHasWolf = checkContainerRule(wolf, boat, constants.wolfNotOnBoard);
-        boatHasNoWolf = doesntHaveContainerRule(wolf, boat, constants.wolfOnBoard);
-        boatHasCabbage = checkContainerRule(cabbage, boat, constants.cabbageNotOnBoard);
-        boatHasNoCabbage = doesntHaveContainerRule(cabbage, boat, constants.cabbageOnBoard);
+        boatHasSheep = checkContainerRule(sheep, game.currentPlayer, constants.sheepNotOnBoard);
+        boatHasNoSheep = doesntHaveContainerRule(sheep, game.currentPlayer, constants.sheepOnBoard);
+        boatHasWolf = checkContainerRule(wolf, game.currentPlayer, constants.wolfNotOnBoard);
+        boatHasNoWolf = doesntHaveContainerRule(wolf, game.currentPlayer, constants.wolfOnBoard);
+        boatHasCabbage = checkContainerRule(cabbage, game.currentPlayer, constants.cabbageNotOnBoard);
+        boatHasNoCabbage = doesntHaveContainerRule(cabbage, game.currentPlayer, constants.cabbageOnBoard);
         southShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, southShore, constants.wolfOnSouth);
         northShoreContainsWolf = checkContainerRule(wolf, northShore, constants.wolfNotOnNorth);
         southShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, southShore, constants.sheepOnSouth);
@@ -107,8 +113,8 @@ public class WolfSheepBuilder extends GameBuilderImp {
         northShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, northShore, constants.wolfOnNorth);
         northShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, northShore, constants.sheepOnNorth);
         northShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, northShore, constants.cabbageOnNorth);
-        boatIsOnSouthShore = checkContainerRule(boat, southShore, constants.boatNotOnSouth);
-        boatIsOnNorthShore = checkContainerRule(boat, northShore, constants.boatNotOnNorth);
+        boatIsOnSouthShore = checkContainerRule(game.currentPlayer, southShore, constants.boatNotOnSouth);
+        boatIsOnNorthShore = checkContainerRule(game.currentPlayer, northShore, constants.boatNotOnNorth);
     }
 
     private void createComplexRules() {
@@ -142,7 +148,7 @@ public class WolfSheepBuilder extends GameBuilderImp {
         } catch (WrongLogicSymbolException e) {
             System.out.print(logicMessage + ".\n");
         }
-        game.setVictoryCondition(victoryRule);
+        game.currentPlayer.setVictoryCondition(victoryRule);
     }
 
     private void createMoves() {
@@ -178,8 +184,8 @@ public class WolfSheepBuilder extends GameBuilderImp {
         sheep.addMove(takeSheepAboard);
         cabbage.addMove(leaveCabbage);
         cabbage.addMove(takeCabbageAboard);
-        northShore.addMove(crossNorthShore);
-        southShore.addMove(crossSouthShore);
+        goToNorthShore.addMove(crossNorthShore);
+        goToSouthShore.addMove(crossSouthShore);
     }
 
     public void setElements() {

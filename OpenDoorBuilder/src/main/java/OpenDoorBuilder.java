@@ -83,20 +83,21 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     }
 
     private void createActions() {
-        Player character = characters.get(0);
         addOpenedDoorState = buildAddStatesAction(door, openedDoor);
         removeClosedDoorState = buildRemoveStatesAction(door, closedDoor);
-        addKeyToCharacter = buildChangeContainerAction(key, character);
-        addCharacterToRoom2 = buildChangeContainerAction(character, room2);
+        addKeyToCharacter = buildChangeContainerAction(key, game.currentPlayer);
+        addCharacterToRoom2 = buildChangeContainerAction(game.currentPlayer, room2);
     }
 
     private void createRules() {
-        Player character = characters.get(0);
         roomHasKey = checkContainerRule(key, room1, constants.keyNotInRoom1);
-        characterHasKey = checkContainerRule(key, character, constants.room2Locked);
+        characterHasKey = checkContainerRule(key, game.currentPlayer, constants.room2Locked);
         doorIsClosed = checkStateRule(door, closedDoor, constants.doorOpened);
-        victoryCondition = checkContainerRule(character, room2, constants.notWon);
-        character.setVictoryCondition(victoryCondition);
+
+        for (Player character:characters) {
+            victoryCondition = checkContainerRule(character, room2, constants.notWon);
+            character.setVictoryCondition(victoryCondition);
+        }
     }
 
     private void createElements() {
