@@ -3,6 +3,7 @@ package creation;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
+import model.elements.Player;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 import parser.GameParser;
@@ -159,6 +160,14 @@ public abstract class GameBuilderImp implements GameBuilder {
         move.setRules(rule);
         move.setResultMessage(message);
         return move;
+    }
+
+    protected Player createAndAddPlayer(String name, ComplexElement container, Element state) {
+        Player player = new Player(name);
+        player.setContainerElement(container);
+        player.addState(state);
+        addElement(player);
+        return player;
     }
 
     protected ComplexElement createAndAddElement(String name, ComplexElement container, Element state) {

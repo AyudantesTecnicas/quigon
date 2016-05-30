@@ -2,6 +2,7 @@ package creation;
 
 import model.elements.ComplexElement;
 import model.elements.Element;
+import model.elements.Player;
 import model.rulesexpressions.expressions.IExpression;
 import parser.GameAction;
 import parser.GameParser;
@@ -12,12 +13,10 @@ import java.util.List;
 
 public class Game {
     private String gameName;
-    public ComplexElement currentPlayer;
-    public ArrayList<ComplexElement> characters;
+    public Player currentPlayer;
+    public ArrayList<Player> characters;
     List<Element> elementList;
     GameParser parser;
-    private IExpression victoryCondition;
-    private IExpression gameOverCondition = null;
     private String gameDescription;
 
     Game() {
@@ -40,43 +39,40 @@ public class Game {
         return 2;
     }
 
-    public void setCharacter(ComplexElement character) {
+    public void setCharacter(Player character) {
+        if (currentPlayer == null) {
+            currentPlayer = character;
+        }
         characters.add(character);
     }
 
-    private boolean checkVictory() {
-        return victoryCondition.interpret();
-    }
-
-    private boolean checkGameOver() {
-        if (gameOverCondition != null) {
-            return gameOverCondition.interpret();
-        } else {
-            return false;
-        }
-    }
-
     private String checkAroundItems() {
-        if (currentPlayer == null)
+        if (currentPlayer == null) {
             return "An error have occour - Player not defined";
+        }
 
         StringBuilder elementsInRoom = new StringBuilder();
         Element actualRoom = currentPlayer.getContainerElement();
         for (Element element : elementList) {
             ComplexElement complexElement = (ComplexElement) element;
+            //If isn't current player
+            //If item is in the room OR item is in the current player
             if ((complexElement.getContainerElement() != null)
                     && !(complexElement.equals(currentPlayer))
-                    && complexElement.getContainerElement().equals(actualRoom)) {
+                    && (complexElement.getContainerElement().equals(actualRoom)
+                        || complexElement.getContainerElement().equals(currentPlayer))) {
                 elementsInRoom.append(complexElement.getName());
                 elementsInRoom.append('\n');
             }
         }
+
         return (elementsInRoom.toString());
     }
 
     private String checkWhatCanIDoWith(String elementName) {
-        if (currentPlayer == null)
+        if (currentPlayer == null) {
             return "An error have occour - Player not defined";
+        }
 
         String movesOfElement = "object not found";
         Element actualRoom = currentPlayer.getContainerElement();
@@ -86,7 +82,7 @@ public class Game {
             ComplexElement complexElement = (ComplexElement) iterator.next();
             if ((complexElement.getContainerElement() != null)
                     && (complexElement.getContainerElement().equals(actualRoom)
-                    || complexElement.getContainerElement().equals(currentPlayer))
+                    || complexElement.getContainerElement().getName().equals(currentPlayer.getName()))
                     && complexElement.getName().equalsIgnoreCase(elementName)) {
                 movesOfElement = complexElement.listMoves();
                 objectFound = true;
@@ -125,26 +121,16 @@ public class Game {
             sendCommand = commandToSend(command);
         }
 
-        if (checkVictory()) {
+        if (currentPlayer.hasWon()) {
             sendCommand = GameBuilderImp.winText;
-        } else {
-            if (checkGameOver()) {
-                sendCommand = GameBuilderImp.loseText;
-            }
+        } else if (currentPlayer.hasLost()) {
+            sendCommand = GameBuilderImp.loseText;
         }
         return sendCommand;
     }
 
     public String getName() {
         return gameName;
-    }
-
-    public void setVictoryCondition(IExpression condition) {
-        victoryCondition = condition;
-    }
-
-    public void setGameOverCondition(IExpression condition) {
-        gameOverCondition = condition;
     }
 
     void setParser(GameParser parser) {
