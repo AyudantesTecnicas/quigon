@@ -4,6 +4,7 @@ import logic.WrongLogicSymbolException;
 import model.actions.*;
 import model.elements.ComplexElement;
 import model.elements.Element;
+import model.elements.Player;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
@@ -19,7 +20,7 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     private ComplexElement room2;
     private ComplexElement door;
     private ComplexElement key;
-    private ArrayList<ComplexElement> characters;
+    private ArrayList<Player> characters;
     private HasContainerRule roomHasKey;
     private HasContainerRule characterHasKey;
     private HasStateRule doorIsClosed;
@@ -50,7 +51,7 @@ public final class OpenDoorBuilder extends GameBuilderImp {
 
     private void loadPlayers() {
         for (int i = 0; i < constants.numberOfPlayers; i++) {
-            characters.add(createAndAddElement("character" + i, room1, null));
+            characters.add(createAndAddPlayer("character" + i, room1, null));
         }
         game.currentPlayer = characters.get(0);
         game.characters = characters;
@@ -82,7 +83,7 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     }
 
     private void createActions() {
-        ComplexElement character = characters.get(0);
+        Player character = characters.get(0);
         addOpenedDoorState = buildAddStatesAction(door, openedDoor);
         removeClosedDoorState = buildRemoveStatesAction(door, closedDoor);
         addKeyToCharacter = buildChangeContainerAction(key, character);
@@ -90,12 +91,12 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     }
 
     private void createRules() {
-        ComplexElement character = characters.get(0);
+        Player character = characters.get(0);
         roomHasKey = checkContainerRule(key, room1, constants.keyNotInRoom1);
         characterHasKey = checkContainerRule(key, character, constants.room2Locked);
         doorIsClosed = checkStateRule(door, closedDoor, constants.doorOpened);
         victoryCondition = checkContainerRule(character, room2, constants.notWon);
-        game.setVictoryCondition(victoryCondition);
+        character.setVictoryCondition(victoryCondition);
     }
 
     private void createElements() {
