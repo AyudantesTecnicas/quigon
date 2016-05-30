@@ -1,8 +1,8 @@
 @SuppressWarnings("CPD-START")
 public class OpenDoor2Constants {
     //Elements
+    public static final int numberOfPlayers = 2;
     public static final String box = "box";
-    public static final String character = "character";
     public static final String door = "door";
     public static final String key = "key";
     public static final String room1 = "room1";
