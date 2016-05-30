@@ -46,26 +46,27 @@ public class Game {
         characters.add(character);
     }
 
+    private boolean IsRechableElement(ComplexElement element) {
+        //If isn't current player
+        //If item is in the room OR item is in the current player
+        return ((element.getContainerElement() != null)
+                && !(element.equals(currentPlayer))
+                && (element.getContainerElement().equals(currentPlayer.getContainerElement())
+                    || element.getContainerElement().equals(currentPlayer)));
+    }
+
     private String checkAroundItems() {
         if (currentPlayer == null) {
             return "An error have occour - Player not defined";
         }
 
         StringBuilder elementsInRoom = new StringBuilder();
-        Element actualRoom = currentPlayer.getContainerElement();
         for (Element element : elementList) {
-            ComplexElement complexElement = (ComplexElement) element;
-            //If isn't current player
-            //If item is in the room OR item is in the current player
-            if ((complexElement.getContainerElement() != null)
-                    && !(complexElement.equals(currentPlayer))
-                    && (complexElement.getContainerElement().equals(actualRoom)
-                        || complexElement.getContainerElement().equals(currentPlayer))) {
-                elementsInRoom.append(complexElement.getName());
+            if (IsRechableElement((ComplexElement) element)) {
+                elementsInRoom.append(((ComplexElement) element).getName());
                 elementsInRoom.append('\n');
             }
         }
-
         return (elementsInRoom.toString());
     }
 
@@ -75,15 +76,11 @@ public class Game {
         }
 
         String movesOfElement = "object not found";
-        Element actualRoom = currentPlayer.getContainerElement();
         boolean objectFound = false;
         Iterator<Element> iterator = elementList.iterator();
         while (iterator.hasNext() && !objectFound) {
             ComplexElement complexElement = (ComplexElement) iterator.next();
-            if ((complexElement.getContainerElement() != null)
-                    && (complexElement.getContainerElement().equals(actualRoom)
-                    || complexElement.getContainerElement().getName().equals(currentPlayer.getName()))
-                    && complexElement.getName().equalsIgnoreCase(elementName)) {
+            if (IsRechableElement(complexElement) && complexElement.getName().equalsIgnoreCase(elementName)) {
                 movesOfElement = complexElement.listMoves();
                 objectFound = true;
             }
@@ -99,9 +96,11 @@ public class Game {
         if (actionToExecute.isASupportedAction()) {
             sendCommand = "object not found";
             for (Element anElement : elementList) {
-                for (String itemsID : actionToExecute.getItemsID()) {
-                    if (anElement.getName().toLowerCase().equals(itemsID)) {
-                        sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
+                if (IsRechableElement((ComplexElement) anElement)) {
+                    for (String itemsID : actionToExecute.getItemsID()) {
+                        if (anElement.getName().toLowerCase().equals(itemsID)) {
+                            sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
+                        }
                     }
                 }
             }
