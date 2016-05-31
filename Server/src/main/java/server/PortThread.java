@@ -81,7 +81,7 @@ public class PortThread extends Thread {
         if (cmd.matches("^(?i)/help$")) {
             answer = game.getHelp();
         } else {
-            answer = game.receiveCommands(cmd);
+            answer = game.receiveCommands(clientThreads.get(clientThread) + ":" + cmd);
         }
 
         if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {

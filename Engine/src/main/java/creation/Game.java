@@ -46,6 +46,14 @@ public class Game {
         characters.add(character);
     }
 
+    private void updateCurrentCharacter(String command) {
+        int characterIndex = Integer.parseInt(command);
+        if (characters.size() < characterIndex) {
+            currentPlayer = null;
+        }
+        currentPlayer = characters.get(characterIndex);
+    }
+
     private boolean isRechableElement(ComplexElement element) {
         //If isn't current player
         //If item is in the room OR item is in the current player
@@ -91,12 +99,6 @@ public class Game {
     private String commandToSend(String command) {
         String sendCommand;
 
-        // TODO: parser must to return witch player is sending the command
-        /* it could be:
-        *   parser.parseInstuction(command)     -> return void
-        *   this.currentPlayer = parser.getCharacterWhoSendCommand   -> return Player
-        *   GameAction actionToExecute = parser.getInstruction
-        */
         GameAction actionToExecute = parser.parseInstruction(command);
         sendCommand = actionToExecute.getMessage();
         if (actionToExecute.isASupportedAction()) {
@@ -115,11 +117,21 @@ public class Game {
     }
 
     public String receiveCommands(String command) {
+        System.out.print("Recieved command " + command);
+        String playerIdentifier = command.substring(0,command.indexOf(":")); //exclude ':'
+        System.out.print("   PlayerIdentifier " + playerIdentifier);
+        String gameCommand = command.substring(command.indexOf(":") + 1);
+        System.out.print(" GameCommand " + gameCommand + '\n');
+        updateCurrentCharacter(playerIdentifier);
+        if (currentPlayer == null) {
+            return "BUG - Invalid player identifier - " + command;
+        }
+
         String sendCommand;
-        if (commandOfGame(command)) {
-            sendCommand = interpretCommand(command);
+        if (commandOfGame(gameCommand)) {
+            sendCommand = interpretCommand(gameCommand);
         } else {
-            sendCommand = commandToSend(command);
+            sendCommand = commandToSend(gameCommand);
         }
 
         if (currentPlayer.hasWon()) {
