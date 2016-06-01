@@ -4,14 +4,18 @@ import logic.WrongLogicSymbolException;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;
+import model.elements.Player;
 import model.rulesexpressions.expressions.IExpression;
 import model.rulesexpressions.rules.DoesNotHaveContainerRule;
 import model.rulesexpressions.rules.HasContainerRule;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("CPD-START")
 public class WolfSheepBuilder extends GameBuilderImp {
 
     private WolfSheepConstants constants = new WolfSheepConstants();
+    private ArrayList<Player> characters;
     private ComplexElement northShore;
     private ComplexElement southShore;
     private ComplexElement goToNorthShore;
@@ -19,7 +23,6 @@ public class WolfSheepBuilder extends GameBuilderImp {
     private ComplexElement sheep;
     private ComplexElement wolf;
     private ComplexElement cabbage;
-//    private ComplexElement boat;
     private Action crossSouthNorth;
     private Action crossNorthSouth;
     private Action leaveSheepSouth;
@@ -65,6 +68,7 @@ public class WolfSheepBuilder extends GameBuilderImp {
     public WolfSheepBuilder() {
         gameName = "WolfSheep";
         gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
+        characters = new ArrayList<>();
     }
 
     private void createElements() {
@@ -76,10 +80,10 @@ public class WolfSheepBuilder extends GameBuilderImp {
         sheep = createAndAddElement(constants.sheep, southShore, null);
         wolf = createAndAddElement(constants.wolf, southShore, null);
         cabbage = createAndAddElement(constants.cabbage, southShore, null);
-//        boat = createAndAddElement(constants.boat, southShore, null);
 
-//        game.currentPlayer = createAndAddPlayer(constants.character, boat, null);
-        game.currentPlayer = createAndAddPlayer(constants.character, southShore, null);
+        characters.add(createAndAddPlayer(constants.character, southShore, null));
+        game.characters = characters;
+        game.currentPlayer = characters.get(0);
     }
 
     private void createActions() {

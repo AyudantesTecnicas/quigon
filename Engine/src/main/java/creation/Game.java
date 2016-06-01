@@ -117,11 +117,8 @@ public class Game {
     }
 
     public String receiveCommands(String command) {
-        System.out.print("Recieved command " + command);
         String playerIdentifier = command.substring(0,command.indexOf(":")); //exclude ':'
-        System.out.print("   PlayerIdentifier " + playerIdentifier);
         String gameCommand = command.substring(command.indexOf(":") + 1);
-        System.out.print(" GameCommand " + gameCommand + '\n');
         updateCurrentCharacter(playerIdentifier);
         if (currentPlayer == null) {
             return "BUG - Invalid player identifier - " + command;
