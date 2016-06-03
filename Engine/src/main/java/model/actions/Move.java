@@ -11,10 +11,10 @@ import java.util.List;
 public class Move extends Element implements IExecutable {
 
     //Attributes
-    private List<Action> actions;
-    private IExpression rules;
-    private String resultMessage;
-    private String correctMessage;
+    protected List<Action> actions;
+    protected IExpression rules;
+    protected String resultMessage;
+    protected String correctMessage;
 
     //Methods
     public Move(String name) {
@@ -38,10 +38,14 @@ public class Move extends Element implements IExecutable {
         return this.resultMessage;
     }
 
+    protected void executeActions() {
+        this.actions.forEach(Action::execute);
+    }
+
     @Override
     public void execute() {
         if (this.rules == null || this.rules.interpret()) {
-            this.actions.forEach(Action::execute);
+            this.executeActions();
             this.resultMessage = this.correctMessage;
 
         } else {
