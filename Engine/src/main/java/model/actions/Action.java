@@ -7,8 +7,9 @@ import model.rulesexpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public abstract class Action implements IExecutable {
+public abstract class Action extends Observable implements IExecutable {
 
     //Attributes
     private List<Element> elementsOfElementToUpdate;
