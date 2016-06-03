@@ -70,12 +70,12 @@ public class PortThread extends Thread {
     }
 
     public void newPlayerJoinedEvent(ClientThread clientThread) {
-        clientThread.sendToClient("Welcome to game " + game.getName() + "! You are Player " + getNumberOfPlayer(clientThread) + ".");
-        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " joined!", clientThread);
+        clientThread.sendToClient("Welcome to game " + game.getName() + "! You are Player " + clientThreads.get(clientThread) + ".");
+        notifyOtherClients("Player " + clientThreads.get(clientThread) + " joined!", clientThread);
     }
 
     public void playerSendCommandEvent(ClientThread clientThread, String cmd) {
-        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " send this: " + cmd, clientThread);
+        notifyOtherClients("Player " + clientThreads.get(clientThread) + " send this: " + cmd, clientThread);
 
         String answer;
         if (cmd.matches("^(?i)/help$")) {
@@ -85,7 +85,7 @@ public class PortThread extends Thread {
         }
 
         if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
-            notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " won (lose)!" + " Game reset.", clientThread);
+            notifyOtherClients("Player " + clientThreads.get(clientThread) + " won (lose)!" + " Game reset.", clientThread);
             resetGame();
             answer = answer + " Game reset.";
         }
@@ -94,7 +94,7 @@ public class PortThread extends Thread {
     }
 
     public void playerLeftGameEvent(ClientThread clientThread) {
-        notifyOtherClients("Player " + getNumberOfPlayer(clientThread) + " escaped.", clientThread);
+        notifyOtherClients("Player " + clientThreads.get(clientThread) + " escaped.", clientThread);
 
         clientThreads.remove(clientThread);
         if (clientThreads.size() == 0) {
@@ -108,10 +108,6 @@ public class PortThread extends Thread {
     public void resetGame() {
         game = gameBuilder.build();
         System.out.println(game.getName() + " reset.");
-    }
-
-    public int getNumberOfPlayer(ClientThread clientThread) {
-        return clientThreads.get(clientThread);
     }
 
     public void notifyOtherClients(String msg, ClientThread informer) {
