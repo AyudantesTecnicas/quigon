@@ -15,7 +15,6 @@ public final class EntregaBuilder extends GameBuilderImp {
     public EntregaBuilder() {
         gameName = "EntregaBuilder";
         gameDescription = "EjercicioEntrega";
-        characters = new ArrayList<>();
     }
 
     //Characters
@@ -189,6 +188,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void defineVictoryRule() {}
 
     private void defineCharacter() {
+        characters = new ArrayList<>();
         for (int i = 0; i < EntregaConstants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, roomPasillo, null));
         }

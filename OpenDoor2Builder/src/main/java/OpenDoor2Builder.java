@@ -48,7 +48,6 @@ public final class OpenDoor2Builder extends GameBuilderImp {
     public OpenDoor2Builder() {
         gameName = "OpenDoor2";
         gameDescription = "There is a door on this game. But no key around.";
-        characters = new ArrayList<>();
     }
 
     public void setElements() {
@@ -62,6 +61,7 @@ public final class OpenDoor2Builder extends GameBuilderImp {
     }
 
     private void loadPlayers() {
+        characters = new ArrayList<>();
         for (int i = 0; i < constants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, room1, null));
         }

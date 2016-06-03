@@ -37,7 +37,6 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     public OpenDoorBuilder() {
         gameName = "OpenDoor";
         gameDescription = "There is a door on this game. Also, it is locked.";
-        characters = new ArrayList<>();
     }
 
     public void setElements() {
@@ -50,6 +49,7 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     }
 
     private void loadPlayers() {
+        characters = new ArrayList<>();
         for (int i = 0; i < constants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, room1, null));
         }

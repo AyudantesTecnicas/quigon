@@ -14,7 +14,6 @@ public final class FetchQuestBuilder extends GameBuilderImp {
     public FetchQuestBuilder() {
         gameName = "FetchQuest";
         gameDescription = "Don't take it!";
-        characters = new ArrayList<>();
     }
 
     @SuppressWarnings("CPD-START")
@@ -23,6 +22,7 @@ public final class FetchQuestBuilder extends GameBuilderImp {
         ComplexElement room = createAndAddElement(constants.room, null, null);
         ComplexElement stick = createAndAddElement(constants.stick, room, null);
 
+        characters = new ArrayList<>();
         for (int i = 0; i < constants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, room, null));
         }

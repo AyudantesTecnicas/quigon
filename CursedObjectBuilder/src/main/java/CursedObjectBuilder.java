@@ -41,7 +41,6 @@ public final class CursedObjectBuilder extends GameBuilderImp {
     public CursedObjectBuilder() {
         gameName = "CursedObject";
         gameDescription = "There is a cursed object on this game. And the thief...";
-        characters = new ArrayList<>();
     }
 
     public void setElements() {
@@ -55,6 +54,7 @@ public final class CursedObjectBuilder extends GameBuilderImp {
     }
 
     private void loadPlayers() {
+        characters = new ArrayList<>();
         for (int i = 0; i < constants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, room0, null));
         }

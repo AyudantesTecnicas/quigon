@@ -17,7 +17,6 @@ public class TreasureHuntBuilder extends GameBuilderImp {
     public TreasureHuntBuilder() {
         gameName = "TreasureHunt";
         gameDescription = "Search for the treasure. But be careful. Better take some antidotes.";
-        characters = new ArrayList<>();
     }
 
     //Characters
@@ -297,6 +296,7 @@ public class TreasureHuntBuilder extends GameBuilderImp {
     }
 
     private void defineCharacter() {
+        characters = new ArrayList<>();
         for (int i = 0; i < TreasureHuntConstants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, roomWest, null));
         }
