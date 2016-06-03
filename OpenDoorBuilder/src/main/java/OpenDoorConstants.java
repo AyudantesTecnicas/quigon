@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 @SuppressWarnings("CPD-START")
 public class OpenDoorConstants {
     //Elements
-    public static final String character = "character";
+    public static final int numberOfPlayers = 1;
     public static final String door = "door";
     public static final String key = "key";
     public static final String room1 = "room1";

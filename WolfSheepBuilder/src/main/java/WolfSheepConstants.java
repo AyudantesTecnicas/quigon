@@ -1,7 +1,6 @@
 @SuppressWarnings("CPD-START")
 public class WolfSheepConstants {
     //Elements
-    public static final String boat = "boat";
     public static final String cabbage = "cabbage";
     public static final String character = "character";
     public static final String northShore = "north-shore";

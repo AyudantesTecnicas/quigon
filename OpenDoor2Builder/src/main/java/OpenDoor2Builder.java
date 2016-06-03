@@ -3,9 +3,12 @@ import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.*;
 import model.elements.ComplexElement;
+import model.elements.Player;
 import model.rulesexpressions.expressions.IExpression;
 import model.rulesexpressions.rules.HasContainerRule;
 import model.rulesexpressions.rules.HasStateRule;
+
+import java.util.ArrayList;
 
 
 @SuppressWarnings("CPD-START")
@@ -22,7 +25,7 @@ public final class OpenDoor2Builder extends GameBuilderImp {
     private ComplexElement door;
     private ComplexElement box;
     private ComplexElement key;
-    private ComplexElement character;
+    private ArrayList<Player> characters;
     private HasStateRule closedBoxRule;
     private HasStateRule closedDoorRule;
     private HasContainerRule victoryRule;
@@ -45,16 +48,25 @@ public final class OpenDoor2Builder extends GameBuilderImp {
     public OpenDoor2Builder() {
         gameName = "OpenDoor2";
         gameDescription = "There is a door on this game. But no key around.";
+        characters = new ArrayList<>();
     }
-
 
     public void setElements() {
         createElements();
+        loadPlayers();
         setNotVisibleElements();
         createRules();
         createActions();
         createComplexRules();
         createMoves();
+    }
+
+    private void loadPlayers() {
+        for (int i = 0; i < constants.numberOfPlayers; i++) {
+            characters.add(createAndAddPlayer("character" + i, room1, null));
+        }
+        game.currentPlayer = characters.get(0);
+        game.characters = characters;
     }
 
     private void createMoves() {
@@ -92,21 +104,23 @@ public final class OpenDoor2Builder extends GameBuilderImp {
         addOpenedStateToBox = buildAddStatesAction(box, openBoxState);
         removeOpenedStateToBox = buildRemoveStatesAction(box, closedBoxState);
         addKeyToRoom1 = buildChangeContainerAction(key, room1);
-        addKeyToCharacter = buildChangeContainerAction(key, character);
+        addKeyToCharacter = buildChangeContainerAction(key, game.currentPlayer);
         addOpendStateToDoor = buildAddStatesAction(door, openDoorState);
         removeOpenedStateToDoor = buildRemoveStatesAction(door, closedDoorState);
-        moveCharacterToRoom2 = buildChangeContainerAction(character, room2);
+        moveCharacterToRoom2 = buildChangeContainerAction(game.currentPlayer, room2);
         makeVisibleKey = new ChangeVisibleAction();
         addElementsToAction(makeVisibleKey, key, visibleKeyState);
     }
 
     private void createRules() {
-        victoryRule = checkContainerRule(character, room2, constants.notWon);
         closedBoxRule = checkStateRule(box, closedBoxState, constants.boxOpened);
         keyIsInRoom1 = checkContainerRule(key, room1, constants.keyNotInRoom1);
         closedDoorRule = checkStateRule(door, closedDoorState, constants.doorOpened);
-        characterHasKey = checkContainerRule(key, character, constants.missingKey);
-        game.setVictoryCondition(victoryRule);
+        characterHasKey = checkContainerRule(key, game.currentPlayer, constants.missingKey);
+        for (Player character:characters) {
+            victoryRule = checkContainerRule(character, room2, constants.notWon);
+            character.setVictoryCondition(victoryRule);
+        }
     }
 
     private void createElements() {
@@ -124,8 +138,6 @@ public final class OpenDoor2Builder extends GameBuilderImp {
         door = createAndAddElement(constants.door, room1, closedDoorState);
         box = createAndAddElement(constants.box, room1, closedBoxState);
         key = createAndAddElement(constants.key, box, null);
-        character = createAndAddElement(constants.character, room1, null);
-        game.character = character;
     }
 
     private void setNotVisibleElements() {

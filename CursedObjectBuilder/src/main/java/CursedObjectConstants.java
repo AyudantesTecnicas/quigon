@@ -1,7 +1,7 @@
 @SuppressWarnings("CPD-START")
 public class CursedObjectConstants {
     //Elements
-    public static final String character = "character";
+    public static final int numberOfPlayers = 1;
     public static final String cursedObject = "object";
     public static final String door0to1 = "door";
     public static final String door1to2 = "golden_door";

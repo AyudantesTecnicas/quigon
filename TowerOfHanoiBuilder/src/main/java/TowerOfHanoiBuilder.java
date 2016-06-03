@@ -2,6 +2,7 @@ import creation.GameBuilderImp;
 import model.actions.Action;
 import model.actions.Move;
 import model.elements.ComplexElement;
+import model.elements.Player;
 import model.rulesexpressions.expressions.AndExpression;
 import model.rulesexpressions.expressions.OrExpression;
 import model.rulesexpressions.rules.IsEmptyRule;
@@ -10,6 +11,8 @@ import model.rulesexpressions.rules.SizeComparisonLesserRule;
 
 @SuppressWarnings("CPD-START")
 public final class TowerOfHanoiBuilder extends GameBuilderImp {
+
+    private Player character;
 
     //stacks
     private ComplexElement stack1;
@@ -187,7 +190,7 @@ public final class TowerOfHanoiBuilder extends GameBuilderImp {
         victoryRule.setRightExpression(stack1andStack2Empty);
         victoryRule.setLeftExpression(stack1andStack3Empty);
 
-        game.setVictoryCondition(victoryRule);
+        character.setVictoryCondition(victoryRule);
     }
 
     private void createRules() {
@@ -230,7 +233,8 @@ public final class TowerOfHanoiBuilder extends GameBuilderImp {
         createAndAddElement(TowerOfHanoiConstants.disc2, stack1, null, 2);
         createAndAddElement(TowerOfHanoiConstants.disc1, stack1, null, 1);
 
-        game.character = createAndAddElement(TowerOfHanoiConstants.character, room, null);
+        character = createAndAddPlayer(TowerOfHanoiConstants.character, room, null);
+        game.currentPlayer = character;
     }
 
     @SuppressWarnings("CPD-END")

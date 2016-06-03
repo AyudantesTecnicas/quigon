@@ -2,23 +2,25 @@ package creation;
 
 import model.elements.ComplexElement;
 import model.elements.Element;
+import model.elements.Player;
 import model.rulesexpressions.expressions.IExpression;
 import parser.GameAction;
 import parser.GameParser;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Game {
     private String gameName;
-    public ComplexElement character;
+    public Player currentPlayer;
+    public ArrayList<Player> characters;
     List<Element> elementList;
     GameParser parser;
-    private IExpression victoryCondition;
-    private IExpression gameOverCondition = null;
     private String gameDescription;
 
     Game() {
+        characters = new ArrayList<>();
     }
 
     void setName(String gameName) {
@@ -34,32 +36,42 @@ public class Game {
     }
 
     public int getNumberOfPlayers() {
-        return 2;
+        return characters.size();
     }
 
-    public void setCharacter(ComplexElement character) {
-        this.character = character;
-    }
-
-    private boolean checkVictory() {
-        return victoryCondition.interpret();
-    }
-
-    private boolean checkGameOver() {
-        if (gameOverCondition != null) {
-            return gameOverCondition.interpret();
-        } else {
-            return false;
+    public void setCharacter(Player character) {
+        if (currentPlayer == null) {
+            currentPlayer = character;
         }
+        characters.add(character);
+    }
+
+    private void updateCurrentCharacter(String command) {
+        int characterIndex = Integer.parseInt(command);
+        if (characters.size() < characterIndex) {
+            currentPlayer = null;
+        }
+        currentPlayer = characters.get(characterIndex);
+    }
+
+    private boolean isRechableElement(ComplexElement element) {
+        //If isn't current player
+        //If item is in the room OR item is in the current player
+        return ((element.getContainerElement() != null)
+                && !(element.equals(currentPlayer))
+                && (element.getContainerElement().equals(currentPlayer.getContainerElement())
+                    || element.getContainerElement().equals(currentPlayer)));
     }
 
     private String checkAroundItems() {
+        if (currentPlayer == null) {
+            return "An error have occour - Player not defined";
+        }
+
         StringBuilder elementsInRoom = new StringBuilder();
-        Element actualRoom = character.getContainerElement();
         for (Element element : elementList) {
-            ComplexElement complexElement = (ComplexElement) element;
-            if ((complexElement.getContainerElement() != null) && complexElement.getContainerElement().equals(actualRoom)) {
-                elementsInRoom.append(complexElement.getName());
+            if (isRechableElement((ComplexElement) element)) {
+                elementsInRoom.append(element.getName());
                 elementsInRoom.append('\n');
             }
         }
@@ -67,15 +79,16 @@ public class Game {
     }
 
     private String checkWhatCanIDoWith(String elementName) {
+        if (currentPlayer == null) {
+            return "An error have occour - Player not defined";
+        }
+
         String movesOfElement = "object not found";
-        Element actualRoom = character.getContainerElement();
         boolean objectFound = false;
         Iterator<Element> iterator = elementList.iterator();
         while (iterator.hasNext() && !objectFound) {
             ComplexElement complexElement = (ComplexElement) iterator.next();
-            if ((complexElement.getContainerElement() != null)
-                    && (complexElement.getContainerElement().equals(actualRoom) || complexElement.getContainerElement().equals(character))
-                    && complexElement.getName().equalsIgnoreCase(elementName)) {
+            if (isRechableElement(complexElement) && complexElement.getName().equalsIgnoreCase(elementName)) {
                 movesOfElement = complexElement.listMoves();
                 objectFound = true;
             }
@@ -83,17 +96,19 @@ public class Game {
         return movesOfElement;
     }
 
-
     private String commandToSend(String command) {
         String sendCommand;
+
         GameAction actionToExecute = parser.parseInstruction(command);
         sendCommand = actionToExecute.getMessage();
         if (actionToExecute.isASupportedAction()) {
             sendCommand = "object not found";
             for (Element anElement : elementList) {
-                for (String itemsID : actionToExecute.getItemsID()) {
-                    if (anElement.getName().toLowerCase().equals(itemsID)) {
-                        sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
+                if (isRechableElement((ComplexElement) anElement)) {
+                    for (String itemsID : actionToExecute.getItemsID()) {
+                        if (anElement.getName().toLowerCase().equals(itemsID)) {
+                            sendCommand = ((ComplexElement) anElement).execute(actionToExecute.getActionID());
+                        }
                     }
                 }
             }
@@ -102,37 +117,45 @@ public class Game {
     }
 
     public String receiveCommands(String command) {
-        String sendCommand;
-        if (command.equals("look around")) {
-            sendCommand = checkAroundItems();
-        } else if (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")) {
-            String elementName = command.split(" ")[5];
-            elementName = elementName.substring(0, elementName.length() - 1);
-            sendCommand = checkWhatCanIDoWith(elementName);
-        } else {
-            sendCommand = commandToSend(command);
+        String playerIdentifier = command.substring(0,command.indexOf(":")); //exclude ':'
+        String gameCommand = command.substring(command.indexOf(":") + 1);
+        updateCurrentCharacter(playerIdentifier);
+        if (currentPlayer == null) {
+            return "BUG - Invalid player identifier - " + command;
         }
 
-        if (checkVictory()) {
-            sendCommand = GameBuilderImp.winText;
+        String sendCommand;
+        if (commandOfGame(gameCommand)) {
+            sendCommand = interpretCommand(gameCommand);
         } else {
-            if (checkGameOver()) {
-                sendCommand = GameBuilderImp.loseText;
-            }
+            sendCommand = commandToSend(gameCommand);
+        }
+
+        if (currentPlayer.hasWon()) {
+            sendCommand = GameBuilderImp.winText;
+        } else if (currentPlayer.hasLost()) {
+            sendCommand = GameBuilderImp.loseText;
         }
         return sendCommand;
     }
 
+    private boolean commandOfGame(String command) {
+        return (command.equals("look around") || (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")));
+    }
+
+    private String interpretCommand(String command) {
+        if (command.equals("look around")) {
+            return checkAroundItems();
+        } else if (command.matches("^(?i)what can i do with [a-zA-Z0-9_-]+\\?$")) {
+            String elementName = command.split(" ")[5];
+            elementName = elementName.substring(0, elementName.length() - 1);
+            return checkWhatCanIDoWith(elementName);
+        }
+        return "BUG - can't find game's command";
+    }
+
     public String getName() {
         return gameName;
-    }
-
-    public void setVictoryCondition(IExpression condition) {
-        victoryCondition = condition;
-    }
-
-    public void setGameOverCondition(IExpression condition) {
-        gameOverCondition = condition;
     }
 
     void setParser(GameParser parser) {

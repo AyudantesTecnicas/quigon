@@ -1,7 +1,7 @@
 @SuppressWarnings("CPD-START")
 public class FetchQuestConstants {
     //Elements
-    public static final String character = "character";
+    public static final int numberOfPlayers = 1;
     public static final String room = "room";
     public static final String stick = "stick";
 
