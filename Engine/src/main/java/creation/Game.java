@@ -3,6 +3,7 @@ package creation;
 import model.elements.ComplexElement;
 import model.elements.Element;
 import model.elements.Player;
+import model.elements.PlayerManager;
 import model.rulesexpressions.expressions.IExpression;
 import parser.GameAction;
 import parser.GameParser;
@@ -13,14 +14,13 @@ import java.util.List;
 
 public class Game {
     private String gameName;
-    public Player currentPlayer;
-    public ArrayList<Player> characters;
+    public PlayerManager playerManager;
     List<Element> elementList;
     GameParser parser;
     private String gameDescription;
 
     Game() {
-        characters = new ArrayList<>();
+        playerManager = new PlayerManager();
     }
 
     void setName(String gameName) {
@@ -36,38 +36,23 @@ public class Game {
     }
 
     public int getNumberOfPlayers() {
-        return characters.size();
+        return playerManager.getNumberOfPlayers();
     }
 
-    public void setCharacter(Player character) {
-        if (currentPlayer == null) {
-            currentPlayer = character;
-        }
-        characters.add(character);
-    }
-
-    private void updateCurrentCharacter(String command) {
-        int characterIndex = Integer.parseInt(command);
-        if (characters.size() < characterIndex) {
-            currentPlayer = null;
-        }
-        currentPlayer = characters.get(characterIndex);
+    public void addCharacter(Player character) {
+        playerManager.addCharacter(character);
     }
 
     private boolean isRechableElement(ComplexElement element) {
         //If isn't current player
         //If item is in the room OR item is in the current player
         return ((element.getContainerElement() != null)
-                && !(element.equals(currentPlayer))
-                && (element.getContainerElement().equals(currentPlayer.getContainerElement())
-                    || element.getContainerElement().equals(currentPlayer)));
+                && !(element.equals(playerManager.currentPlayer))
+                && (element.getContainerElement().equals(playerManager.currentPlayer.getContainerElement())
+                    || element.getContainerElement().equals(playerManager.currentPlayer)));
     }
 
     private String checkAroundItems() {
-        if (currentPlayer == null) {
-            return "An error have occour - Player not defined";
-        }
-
         StringBuilder elementsInRoom = new StringBuilder();
         for (Element element : elementList) {
             if (isRechableElement((ComplexElement) element)) {
@@ -79,10 +64,6 @@ public class Game {
     }
 
     private String checkWhatCanIDoWith(String elementName) {
-        if (currentPlayer == null) {
-            return "An error have occour - Player not defined";
-        }
-
         String movesOfElement = "object not found";
         boolean objectFound = false;
         Iterator<Element> iterator = elementList.iterator();
@@ -119,8 +100,7 @@ public class Game {
     public String receiveCommands(String command) {
         String playerIdentifier = command.substring(0,command.indexOf(":")); //exclude ':'
         String gameCommand = command.substring(command.indexOf(":") + 1);
-        updateCurrentCharacter(playerIdentifier);
-        if (currentPlayer == null) {
+        if (playerManager.updateCurrentCharacter(playerIdentifier) == null) {
             return "BUG - Invalid player identifier - " + command;
         }
 
@@ -131,9 +111,9 @@ public class Game {
             sendCommand = commandToSend(gameCommand);
         }
 
-        if (currentPlayer.hasWon()) {
+        if (playerManager.currentPlayer.hasWon()) {
             sendCommand = GameBuilderImp.winText;
-        } else if (currentPlayer.hasLost()) {
+        } else if (playerManager.currentPlayer.hasLost()) {
             sendCommand = GameBuilderImp.loseText;
         }
         return sendCommand;

@@ -120,6 +120,14 @@ public abstract class GameBuilderImp implements GameBuilder {
         return rule;
     }
 
+    protected IsEqualRule checkEqualRule(ComplexElement elementToValidate, ComplexElement elementToCompare, String failMessage) {
+        IsEqualRule rule = new IsEqualRule();
+        rule.setElementToValidate(elementToValidate);
+        rule.setElementToCompare(elementToCompare);
+        rule.setFailMessage(failMessage);
+        return rule;
+    }
+
     protected HasStateRule checkStateRule(ComplexElement contained, Element state, String failMessage) {
         HasStateRule rule = new HasStateRule();
         rule.setElementToValidate(contained);
