@@ -56,10 +56,9 @@ public final class CursedObjectBuilder extends GameBuilderImp {
     private void loadPlayers() {
         characters = new ArrayList<>();
         for (int i = 0; i < constants.numberOfPlayers; i++) {
-            characters.add(createAndAddPlayer("character" + i, room0, null));
+            characters.add(createAndAddPlayer("character" + i, room1, null));
         }
-        game.currentPlayer = characters.get(0);
-        game.characters = characters;
+        game.playerManager.characters = characters;
     }
 
     private void addMovesToElements() {
@@ -74,7 +73,17 @@ public final class CursedObjectBuilder extends GameBuilderImp {
         goToRoom2 = moveWithActionsAndRules(constants.open, changeRoom1ForRoom2, thiefHaveCursedObject, constants.goToRoom2);
         talkThief = moveWithActionsAndRules(constants.talkTo, stolenObject, conditionsToTalkWithThief, constants.talkThief);
         talkThief.addAction(makeNotVisibleObject);
-        pickObject = moveWithActionsAndRules(constants.pick, pickedObject, conditionToPickObject, constants.pickObject);
+
+//        pickObject = moveWithActionsAndRules(constants.pick, pickedObject, conditionToPickObject, constants.pickObject);
+        pickObject = new Move(constants.pick);
+        pickObject.setRules(conditionToPickObject);
+        pickObject.setResultMessage(constants.pickObject);
+
+        for (Player character: game.playerManager.characters) {
+            pickedObject = buildChangeContainerAction(cursedObject, character);
+            pickedObject.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickObject.addAction(pickedObject);
+        }
     }
 
     private void createComplexRules() {
@@ -90,10 +99,10 @@ public final class CursedObjectBuilder extends GameBuilderImp {
 
     private void createRules() {
         thiefHaveCursedObject = checkContainerRule(cursedObject, thief, constants.thiefNeedsObject);
-        characterHasCursedObject = checkContainerRule(cursedObject, game.currentPlayer, constants.missingObject);
+        characterHasCursedObject = checkContainerRule(cursedObject, game.playerManager, constants.missingObject);
         objectIsInTheRoom = checkContainerRule(cursedObject, room0, constants.hasObject);
-        characterIsInRoom1 = checkContainerRule(game.currentPlayer, room1, constants.wrongRoom);
-        characterIsInRoom0 = checkContainerRule(game.currentPlayer, room0, constants.wrongRoom);
+        characterIsInRoom1 = checkContainerRule(game.playerManager, room1, constants.wrongRoom);
+        characterIsInRoom0 = checkContainerRule(game.playerManager, room0, constants.wrongRoom);
         for (Player character : characters) {
             victoryRule = checkContainerRule(character, room2, constants.notWon);
             character.setVictoryCondition(victoryRule);
@@ -101,10 +110,10 @@ public final class CursedObjectBuilder extends GameBuilderImp {
     }
 
     private void createActions() {
-        changeRoom0ForRoom1 = buildChangeContainerAction(game.currentPlayer, room1);
-        changeRoom1ForRoom2 = buildChangeContainerAction(game.currentPlayer, room2);
+        changeRoom0ForRoom1 = buildChangeContainerAction(game.playerManager, room1);
+        changeRoom1ForRoom2 = buildChangeContainerAction(game.playerManager, room2);
         stolenObject = buildChangeContainerAction(cursedObject, thief);
-        pickedObject = buildChangeContainerAction(cursedObject, game.currentPlayer);
+//        pickedObject = buildChangeContainerAction(cursedObject, game.currentPlayer);
         makeNotVisibleObject = new ChangeVisibleAction();
         addElementsToAction(makeNotVisibleObject, cursedObject, notVisibleObjectState);
     }
