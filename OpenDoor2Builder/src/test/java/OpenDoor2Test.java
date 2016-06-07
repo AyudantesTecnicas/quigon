@@ -4,17 +4,44 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("CPD-START")
 public class OpenDoor2Test {
     @Test
-    public void TestCompleteGameOpenDoor2WithOnePlayer() {
+    public void TestWinPlayer2GameOpenDoor2() {
         GameBuilderImp gameBuilderImp = new OpenDoor2Builder();
         Game openDoor2 = gameBuilderImp.build();
         OpenDoor2Constants od2Constants = new OpenDoor2Constants();
-        String openBoxCommand = "0:" + od2Constants.open + " " + od2Constants.box;
+        String openBoxCommand = "1:" + od2Constants.open + " " + od2Constants.box;
         assertEquals(openDoor2.receiveCommands(openBoxCommand), od2Constants.openBox);
-        String pickKeyCommand = "0:" + od2Constants.pick + " " + od2Constants.key;
+        String pickKeyCommand = "1:" + od2Constants.pick + " " + od2Constants.key;
+        assertEquals(openDoor2.receiveCommands(pickKeyCommand), od2Constants.pickKey);
+        String openDoorCommand = "1:" + od2Constants.open + " " + od2Constants.door;
+        assertEquals(openDoor2.receiveCommands(openDoorCommand), gameBuilderImp.winText);
+    }
+
+    @Test
+    public void TestCantOpenDoorWhenOtherPlayerHasKey() {
+        GameBuilderImp gameBuilderImp = new OpenDoor2Builder();
+        Game openDoor2 = gameBuilderImp.build();
+        OpenDoor2Constants od2Constants = new OpenDoor2Constants();
+        String openBoxCommand = "1:" + od2Constants.open + " " + od2Constants.box;
+        assertEquals(openDoor2.receiveCommands(openBoxCommand), od2Constants.openBox);
+        String pickKeyCommand = "1:" + od2Constants.pick + " " + od2Constants.key;
         assertEquals(openDoor2.receiveCommands(pickKeyCommand), od2Constants.pickKey);
         String openDoorCommand = "0:" + od2Constants.open + " " + od2Constants.door;
-        assertEquals(openDoor2.receiveCommands(openDoorCommand), gameBuilderImp.winText);
+        assertEquals(openDoor2.receiveCommands(openDoorCommand), od2Constants.missingKey);
+    }
+
+    @Test
+    public void TestCantPickElementFromOtherPlayer() {
+        GameBuilderImp gameBuilderImp = new OpenDoor2Builder();
+        Game openDoor2 = gameBuilderImp.build();
+        OpenDoor2Constants od2Constants = new OpenDoor2Constants();
+        String openBoxCommand = "1:" + od2Constants.open + " " + od2Constants.box;
+        assertEquals(openDoor2.receiveCommands(openBoxCommand), od2Constants.openBox);
+        String pickKeyPlayer2Command = "1:" + od2Constants.pick + " " + od2Constants.key;
+        assertEquals(openDoor2.receiveCommands(pickKeyPlayer2Command), od2Constants.pickKey);
+        String pickKeyPlayer1Command = "0:" + od2Constants.pick + " " + od2Constants.key;
+        assertEquals(openDoor2.receiveCommands(pickKeyPlayer1Command), "object not found");
     }
 }

@@ -65,14 +65,12 @@ public final class OpenDoor2Builder extends GameBuilderImp {
         for (int i = 0; i < constants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, room1, null));
         }
-        game.currentPlayer = characters.get(0);
-        game.characters = characters;
+        game.playerManager.characters = characters;
     }
 
     private void createMoves() {
         //Create moves
         openBox = moveWithActionsAndRules(constants.open, addOpenedStateToBox, closedBoxRule, constants.openBox);
-        pickKey = moveWithActionsAndRules(constants.pick, addKeyToCharacter, keyIsInRoom1, constants.pickKey);
         openDoor = moveWithActionsAndRules(constants.open, addOpendStateToDoor, openingRules, constants.openDoor);
 
         //Inject Actions to moves
@@ -84,7 +82,6 @@ public final class OpenDoor2Builder extends GameBuilderImp {
         openDoor.addAction(moveCharacterToRoom2);
 
         //Inject Moves to Elements
-        key.addMove(pickKey);
         door.addMove(openDoor);
         box.addMove(openBox);
     }
@@ -104,10 +101,21 @@ public final class OpenDoor2Builder extends GameBuilderImp {
         addOpenedStateToBox = buildAddStatesAction(box, openBoxState);
         removeOpenedStateToBox = buildRemoveStatesAction(box, closedBoxState);
         addKeyToRoom1 = buildChangeContainerAction(key, room1);
-        addKeyToCharacter = buildChangeContainerAction(key, game.currentPlayer);
+
+        pickKey = new Move(constants.pick);
+        pickKey.setRules(keyIsInRoom1);
+        pickKey.setResultMessage(constants.pickKey);
+
+        for (Player character: game.playerManager.characters) {
+            addKeyToCharacter = buildChangeContainerAction(key, character);
+            addKeyToCharacter.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickKey.addAction(addKeyToCharacter);
+        }
+        key.addMove(pickKey);
+
         addOpendStateToDoor = buildAddStatesAction(door, openDoorState);
         removeOpenedStateToDoor = buildRemoveStatesAction(door, closedDoorState);
-        moveCharacterToRoom2 = buildChangeContainerAction(game.currentPlayer, room2);
+        moveCharacterToRoom2 = buildChangeContainerAction(game.playerManager, room2);
         makeVisibleKey = new ChangeVisibleAction();
         addElementsToAction(makeVisibleKey, key, visibleKeyState);
     }
@@ -116,7 +124,7 @@ public final class OpenDoor2Builder extends GameBuilderImp {
         closedBoxRule = checkStateRule(box, closedBoxState, constants.boxOpened);
         keyIsInRoom1 = checkContainerRule(key, room1, constants.keyNotInRoom1);
         closedDoorRule = checkStateRule(door, closedDoorState, constants.doorOpened);
-        characterHasKey = checkContainerRule(key, game.currentPlayer, constants.missingKey);
+        characterHasKey = checkContainerRule(key, game.playerManager, constants.missingKey);
         for (Player character:characters) {
             victoryRule = checkContainerRule(character, room2, constants.notWon);
             character.setVictoryCondition(victoryRule);
