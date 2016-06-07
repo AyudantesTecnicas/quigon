@@ -34,7 +34,7 @@ public class Element {
             return true;
         }
         Element otherElement = (Element) other;
-        return (this.name.equals(otherElement.name));
+        return (this.getName().equals(otherElement.getName()));
     }
 
     @Override

@@ -23,6 +23,15 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
         init();
     }
 
+    protected void init() {
+        this.states = new ArrayList<>();
+        this.moves = new ArrayList<>();
+        this.setContainerElement(null);
+        this.size = 0;
+        this.visible = true;
+        this.elements = new ArrayList<>();
+    }
+
     public void addState(Element state) {
         Utils.addToCollection(state, states);
     }
@@ -87,15 +96,6 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
 
     public Boolean getVisible() {
         return this.visible;
-    }
-
-    protected void init() {
-        this.states = new ArrayList<>();
-        this.moves = new ArrayList<>();
-        this.setContainerElement(null);
-        this.size = 0;
-        this.visible = true;
-        this.elements = new ArrayList<>();
     }
 
     public String execute(String moveName) {
