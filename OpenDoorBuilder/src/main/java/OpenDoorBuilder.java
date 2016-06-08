@@ -53,13 +53,22 @@ public final class OpenDoorBuilder extends GameBuilderImp {
         for (int i = 0; i < constants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, room1, null));
         }
-        game.currentPlayer = characters.get(0);
-        game.characters = characters;
+        game.playerManager.characters = characters;
     }
 
     private void createMoves() {
         //Create moves
-        pickKey = moveWithActionsAndRules(constants.pick, addKeyToCharacter, roomHasKey, constants.pickKey);
+//        pickKey = moveWithActionsAndRules(constants.pick, addKeyToCharacter, roomHasKey, constants.pickKey);
+        pickKey = new Move(constants.pick);
+        pickKey.setRules(roomHasKey);
+        pickKey.setResultMessage(constants.pickKey);
+
+        for (Player character:characters) {
+            addKeyToCharacter = buildChangeContainerAction(key, character);
+            addKeyToCharacter.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickKey.addAction(addKeyToCharacter);
+        }
+
         openDoor = moveWithActionsAndRules(constants.open, addOpenedDoorState, conditionsToOpenDoor, constants.openDoor);
 
         //Inject further actions
@@ -85,13 +94,13 @@ public final class OpenDoorBuilder extends GameBuilderImp {
     private void createActions() {
         addOpenedDoorState = buildAddStatesAction(door, openedDoor);
         removeClosedDoorState = buildRemoveStatesAction(door, closedDoor);
-        addKeyToCharacter = buildChangeContainerAction(key, game.currentPlayer);
-        addCharacterToRoom2 = buildChangeContainerAction(game.currentPlayer, room2);
+//        addKeyToCharacter = buildChangeContainerAction(key, game.currentPlayer);
+        addCharacterToRoom2 = buildChangeContainerAction(game.playerManager, room2);
     }
 
     private void createRules() {
         roomHasKey = checkContainerRule(key, room1, constants.keyNotInRoom1);
-        characterHasKey = checkContainerRule(key, game.currentPlayer, constants.room2Locked);
+        characterHasKey = checkContainerRule(key, game.playerManager, constants.room2Locked);
         doorIsClosed = checkStateRule(door, closedDoor, constants.doorOpened);
 
         for (Player character:characters) {
