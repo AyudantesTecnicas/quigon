@@ -7,8 +7,9 @@ import model.rulesexpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public abstract class Action implements IExecutable {
+public abstract class Action extends Observable implements IExecutable {
 
     //Attributes
     private List<Element> elementsOfElementToUpdate;
@@ -43,7 +44,10 @@ public abstract class Action implements IExecutable {
 
     @Override
     public void execute() {
-        this.elementsOfElementToUpdate.stream().filter(element -> this.rules == null || this.rules.interpret()).forEach(this::applyChanges);
+        this.elementsOfElementToUpdate.stream().filter(element -> this.rules == null
+                || this.rules.interpret()).forEach(this::applyChanges);
+        setChanged();
+        notifyObservers(ActionConstants.initialize);
     }
 
     protected abstract void applyChanges(Element element);

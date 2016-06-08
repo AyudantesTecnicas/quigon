@@ -7,14 +7,16 @@ import model.rulesexpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Move extends Element implements IExecutable {
 
     //Attributes
-    protected List<Action> actions;
-    protected IExpression rules;
-    protected String resultMessage;
-    protected String correctMessage;
+    private List<Action> actions;
+    private IExpression rules;
+    private String resultMessage;
+    private String correctMessage;
+    private Boolean random;
 
     //Methods
     public Move(String name) {
@@ -38,25 +40,61 @@ public class Move extends Element implements IExecutable {
         return this.resultMessage;
     }
 
-    protected void executeActions() {
-        this.actions.forEach(Action::execute);
-    }
-
     @Override
     public void execute() {
+        this.process();
+    }
+
+    protected Boolean process() {
         if (this.rules == null || this.rules.interpret()) {
             this.executeActions();
-            this.resultMessage = this.correctMessage;
-
+            return true;
         } else {
             this.resultMessage = this.rules.getFailMessage();
+            return false;
         }
+    }
+
+    protected Boolean canExecute() {
+        return (this.rules == null || this.rules.interpret());
+    }
+
+    protected void executeActions() {
+        if (!this.random) {
+            this.actions.forEach(Action::execute);
+        } else {
+            this.executeRandomAction();
+        }
+
+        this.resultMessage = this.correctMessage;
+    }
+
+    protected void executeRandomAction() {
+        Action action = this.getRandomAction();
+
+        if (action != null) {
+            action.execute();
+        }
+    }
+
+    private Action getRandomAction() {
+        if (this.actions == null || this.actions.isEmpty()) {
+            return null;
+        }
+
+        Integer randomNumberOfAction = new Random().nextInt(this.actions.size());
+        return this.actions.get(randomNumberOfAction);
+    }
+
+    public void setRandom(Boolean random) {
+        this.random = random;
     }
 
     protected void init() {
         this.actions = new ArrayList<>();
         this.setRules(null);
         this.correctMessage = "Ok";
+        this.random = false;
     }
 
     public boolean equals(Object other) {
