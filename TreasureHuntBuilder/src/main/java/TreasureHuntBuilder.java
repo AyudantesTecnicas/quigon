@@ -374,7 +374,7 @@ public class TreasureHuntBuilder extends GameBuilderImp {
     }
 
     private void createAntidoteActions() {
-//        removeAntidote1 = buildChangeContainerAction(antidote1, trunkInSouthRoom);
+        removeAntidote1 = buildChangeContainerAction(antidote1, trunkInSouthRoom);
         makeAntidote1Visible = buildChangeContainerAction(antidote1, roomSouth);
 //        addAntidote2 = buildChangeContainerAction(antidote2, game.currentPlayer);
         removeAntidote2 = buildChangeContainerAction(antidote2, boxInWardrobe);
