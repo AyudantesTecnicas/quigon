@@ -192,8 +192,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         for (int i = 0; i < EntregaConstants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, roomPasillo, null));
         }
-        game.currentPlayer = characters.get(0);
-        game.characters = characters;
+        game.playerManager.characters = characters;
     }
 
     private void createRooms() {
@@ -239,7 +238,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createPickItemsAction() {
-        actionPickKey = buildChangeContainerAction(itemLlave, game.currentPlayer);
+/*        actionPickKey = buildChangeContainerAction(itemLlave, game.currentPlayer);
         actionPickMartillo = buildChangeContainerAction(itemMartillo, game.currentPlayer);
         actionPickDestornillador1 = buildChangeContainerAction(itemDestornillador1, game.currentPlayer);
         actionPickDestornillador2 = buildChangeContainerAction(itemDestornillador2, game.currentPlayer);
@@ -247,18 +246,18 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionPickVaso1 = buildChangeContainerAction(itemVaso1, game.currentPlayer);
         actionPickVaso2 = buildChangeContainerAction(itemVaso2, game.currentPlayer);
         actionPickCredencial = buildChangeContainerAction(itemCredencial, game.currentPlayer);
-    }
+*/    }
 
     private void createChangeRoomItemsAction() {
-        actionChangeToPasillo = buildChangeContainerAction(game.currentPlayer, roomPasillo);
-        actionChangeToSalon1 = buildChangeContainerAction(game.currentPlayer,roomSalon1);
-        actionChangeToSalon2 = buildChangeContainerAction(game.currentPlayer,roomSalon2);
-        actionChangeToSalon3 = buildChangeContainerAction(game.currentPlayer,roomSalon3);
-        actionChangeToAccesoBiblioteca = buildChangeContainerAction(game.currentPlayer, roomAccesoBiblioteca);
-        actionChangeToBiblioteca = buildChangeContainerAction(game.currentPlayer, roomBiblioteca);
-        actionChangeToSubSotano = buildChangeContainerAction(game.currentPlayer, roomSubSotano);
-        actionChangeToSotano = buildChangeContainerAction(game.currentPlayer, roomSotano);
-        actionChangeToPatio = buildChangeContainerAction(game.currentPlayer, roomPatio);
+        actionChangeToPasillo = buildChangeContainerAction(game.playerManager, roomPasillo);
+        actionChangeToSalon1 = buildChangeContainerAction(game.playerManager,roomSalon1);
+        actionChangeToSalon2 = buildChangeContainerAction(game.playerManager,roomSalon2);
+        actionChangeToSalon3 = buildChangeContainerAction(game.playerManager,roomSalon3);
+        actionChangeToAccesoBiblioteca = buildChangeContainerAction(game.playerManager, roomAccesoBiblioteca);
+        actionChangeToBiblioteca = buildChangeContainerAction(game.playerManager, roomBiblioteca);
+        actionChangeToSubSotano = buildChangeContainerAction(game.playerManager, roomSubSotano);
+        actionChangeToSotano = buildChangeContainerAction(game.playerManager, roomSotano);
+        actionChangeToPatio = buildChangeContainerAction(game.playerManager, roomPatio);
     }
 
     private void createItemActions() {
@@ -277,21 +276,21 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
         actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
-        actionKillCharacter = buildAddStatesAction(game.currentPlayer, stateMuerto);
-        actionKillCharacterNoMartillo = buildAddStatesAction(game.currentPlayer, stateMuerto);
+        actionKillCharacter = buildAddStatesAction(game.playerManager, stateMuerto);
+        actionKillCharacterNoMartillo = buildAddStatesAction(game.playerManager, stateMuerto);
         actionKillCharacterNoMartillo.setRules(ruleBajaAlSubSotanoSinElMartillo);
         actionRomperVentana = buildAddStatesAction(itemVentana,stateRoto);
     }
 
     private void createRulesCharacterInRooms() {
-        ruleCharacterInSalon1 = checkContainerRule(game.currentPlayer,roomSalon1,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.currentPlayer,roomSalon2,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.currentPlayer,roomSalon3,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.currentPlayer,roomAccesoBiblioteca,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInPasillo = checkContainerRule(game.currentPlayer,roomPasillo,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.currentPlayer,roomBiblioteca,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.currentPlayer,roomSotano,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.currentPlayer,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInSalon1 = checkContainerRule(game.playerManager,roomSalon1,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager,roomSalon2,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager,roomSalon3,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager,roomAccesoBiblioteca,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInPasillo = checkContainerRule(game.playerManager,roomPasillo,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager,roomBiblioteca,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager,roomSotano,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
     private void createRulesForAccessToLibrary() {
@@ -305,15 +304,15 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createRulesForGetDrunkToLibrarian() {
-        HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, game.currentPlayer, EntregaConstants.necesitaElVaso);
-        HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, game.currentPlayer, EntregaConstants.necesitaElVaso);
+        HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, game.playerManager, EntregaConstants.necesitaElVaso);
+        HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, game.playerManager, EntregaConstants.necesitaElVaso);
 
         OrExpression orExpressionParaVasos = new OrExpression();
         orExpressionParaVasos.setLeftExpression(ruleTieneVaso1);
         orExpressionParaVasos.setRightExpression(ruleTieneVaso2);
         orExpressionParaVasos.setFailMessage(EntregaConstants.noTieneVasos);
 
-        HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, game.currentPlayer, EntregaConstants.necesitaLaBotella);
+        HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, game.playerManager, EntregaConstants.necesitaLaBotella);
         AndExpression andExpressionParaEmborrachar = new AndExpression();
         andExpressionParaEmborrachar.setLeftExpression(ruleTieneBotella);
         andExpressionParaEmborrachar.setRightExpression(orExpressionParaVasos);
@@ -323,11 +322,11 @@ public final class EntregaBuilder extends GameBuilderImp {
 
     private void createRules() {
         createRulesCharacterInRooms();
-        ruleTenerLlave = checkContainerRule(itemLlave,game.currentPlayer,EntregaConstants.necesitaTenerLlaveSalon3);
-        ruleTenerMartillo = checkContainerRule(itemMartillo,game.currentPlayer,EntregaConstants.necesitaTenerMartillo);
+        ruleTenerLlave = checkContainerRule(itemLlave,game.playerManager,EntregaConstants.necesitaTenerLlaveSalon3);
+        ruleTenerMartillo = checkContainerRule(itemMartillo,game.playerManager,EntregaConstants.necesitaTenerMartillo);
         ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
-        ruleCredencialInvalida = checkContainerRule(itemFoto,game.currentPlayer,EntregaConstants.fotoNoPegada);
+        ruleCredencialInvalida = checkContainerRule(itemFoto,game.playerManager,EntregaConstants.fotoNoPegada);
         ruleBajaAlSubSotanoSinElMartillo = checkContainerRule(itemMartillo,roomSalon2,EntregaConstants.noTieneElMartillo);
 
         //Reglas para poder emborrachar al bibliotecario
@@ -345,20 +344,60 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createMovesToPickElements() {
-        moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null,
-                EntregaConstants.tomadaBotella);
-        moveTomarLlave = moveWithActionsAndRules(EntregaConstants.movePick, actionPickKey, null,
-                EntregaConstants.tomadaLlave);
-        moveTomarMartillo = moveWithActionsAndRules(EntregaConstants.movePick, actionPickMartillo, null,
-                EntregaConstants.tomadoMartillo);
-        moveTomarDestornillador1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1,
-                null, EntregaConstants.tomadoDestornillador);
-        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador2,
-                null, EntregaConstants.tomadoDestornillador);
-        moveTomarVaso1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso1, null,
-                EntregaConstants.tomadoVaso);
-        moveTomarVaso2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso2, null,
-                EntregaConstants.tomadoVaso);
+        moveTomarBotella = new Move(EntregaConstants.movePick);
+        moveTomarBotella.setResultMessage(EntregaConstants.tomadaBotella);
+
+        moveTomarLlave = new Move(EntregaConstants.movePick);
+        moveTomarLlave.setResultMessage(EntregaConstants.tomadaLlave);
+
+        moveTomarMartillo = new Move(EntregaConstants.movePick);
+        moveTomarMartillo.setResultMessage(EntregaConstants.tomadoMartillo);
+
+        moveTomarDestornillador1 = new Move(EntregaConstants.movePick);
+        moveTomarDestornillador1.setResultMessage(EntregaConstants.tomadoDestornillador);
+        moveTomarDestornillador2 = new Move(EntregaConstants.movePick);
+        moveTomarDestornillador2.setResultMessage(EntregaConstants.tomadoDestornillador);
+
+        moveTomarVaso1 = new Move(EntregaConstants.movePick);
+        moveTomarVaso1.setResultMessage(EntregaConstants.tomadoVaso);
+        moveTomarVaso2 = new Move(EntregaConstants.movePick);
+        moveTomarVaso2.setResultMessage(EntregaConstants.tomadoVaso);
+        for (Player character: game.playerManager.characters) {
+            actionPickBotella = buildChangeContainerAction(itemBotella, character);
+            actionPickBotella.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            moveTomarBotella.addAction(actionPickBotella);
+
+            actionPickKey = buildChangeContainerAction(itemLlave, character);
+            actionPickKey.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            moveTomarLlave.addAction(actionPickKey);
+
+            actionPickMartillo = buildChangeContainerAction(itemMartillo, character);
+            actionPickMartillo.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            moveTomarMartillo.addAction(actionPickMartillo);
+
+            actionPickDestornillador1 = buildChangeContainerAction(itemDestornillador1, character);
+            actionPickDestornillador1.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            moveTomarDestornillador1.addAction(actionPickDestornillador1);
+            actionPickDestornillador2 = buildChangeContainerAction(itemDestornillador2, character);
+            actionPickDestornillador2.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            moveTomarDestornillador2.addAction(actionPickDestornillador2);
+
+            actionPickVaso1 = buildChangeContainerAction(itemVaso1, character);
+            actionPickVaso1.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            moveTomarVaso1.addAction(actionPickVaso1);
+            actionPickVaso2 = buildChangeContainerAction(itemVaso2, character);
+            actionPickVaso2.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            moveTomarVaso2.addAction(actionPickVaso2);
+        }
+
+
+//        moveTomarBotella = moveWithActionsAndRules(EntregaConstants.movePick, actionPickBotella, null, EntregaConstants.tomadaBotella);
+//        moveTomarLlave = moveWithActionsAndRules(EntregaConstants.movePick, actionPickKey, null, EntregaConstants.tomadaLlave);
+//        moveTomarMartillo = moveWithActionsAndRules(EntregaConstants.movePick, actionPickMartillo, null, EntregaConstants.tomadoMartillo);
+//        moveTomarDestornillador1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador1, null, EntregaConstants.tomadoDestornillador);
+//        moveTomarDestornillador2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickDestornillador2, null, EntregaConstants.tomadoDestornillador);
+//        moveTomarVaso1 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso1, null, EntregaConstants.tomadoVaso);
+//        moveTomarVaso2 = moveWithActionsAndRules(EntregaConstants.movePick, actionPickVaso2, null,EntregaConstants.tomadoVaso);
     }
 
     private void createAccessMoves() {
