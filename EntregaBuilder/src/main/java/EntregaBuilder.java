@@ -182,7 +182,10 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void defineCharacter() {
         characters = new ArrayList<>();
         for (int i = 0; i < EntregaConstants.numberOfPlayers; i++) {
-            characters.add(createAndAddPlayer("character" + i, roomPasillo, null));
+            Player character = createAndAddPlayer("character" + i, roomPasillo, null);
+            itemFoto = createAndAddElement(EntregaConstants.photo,character,null);
+            createAndAddElement(EntregaConstants.pen,character,null);
+            characters.add(character);
         }
         game.playerManager.characters = characters;
     }
@@ -317,7 +320,7 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         //Regla para perder
         //Ganancia
-        for (Player character:characters) {
+        for (Player character:game.playerManager.characters) {
             character.setGameOverCondition(checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto));
             character.setVictoryCondition(checkContainerRule(character, this.roomPatio, ""));
         }
@@ -498,13 +501,6 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createItems() {
-        // Items from character
-        //TODO: check this when is available multiplayer
-        for (Player character:characters) {
-            itemFoto = createAndAddElement(EntregaConstants.photo, character,null);
-            createAndAddElement(EntregaConstants.pen, character,null);
-        }
-
         createItemsSalon1();
         createItemsSalon2();
         createItemsSalon3();
