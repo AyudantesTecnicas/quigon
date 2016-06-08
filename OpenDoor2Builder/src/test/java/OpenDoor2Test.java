@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 @SuppressWarnings("CPD-START")
 public class OpenDoor2Test {
     @Test
-    public void TestWinPlayer2GameOpenDoor2() {
+    public void testWinPlayer2GameOpenDoor2() {
         GameBuilderImp gameBuilderImp = new OpenDoor2Builder();
         Game openDoor2 = gameBuilderImp.build();
         OpenDoor2Constants od2Constants = new OpenDoor2Constants();
@@ -20,7 +20,7 @@ public class OpenDoor2Test {
     }
 
     @Test
-    public void TestCantOpenDoorWhenOtherPlayerHasKey() {
+    public void testCantOpenDoorWhenOtherPlayerHasKey() {
         GameBuilderImp gameBuilderImp = new OpenDoor2Builder();
         Game openDoor2 = gameBuilderImp.build();
         OpenDoor2Constants od2Constants = new OpenDoor2Constants();
@@ -33,7 +33,7 @@ public class OpenDoor2Test {
     }
 
     @Test
-    public void TestCantPickElementFromOtherPlayer() {
+    public void testCantPickElementFromOtherPlayer() {
         GameBuilderImp gameBuilderImp = new OpenDoor2Builder();
         Game openDoor2 = gameBuilderImp.build();
         OpenDoor2Constants od2Constants = new OpenDoor2Constants();

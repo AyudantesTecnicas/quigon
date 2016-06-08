@@ -107,7 +107,7 @@ public class PortThread extends Thread {
 
     public void resetGame() {
         game = gameBuilder.build();
-        System.out.println(game.getName() + " reset.");
+        System.out.println(serverSocket.getLocalPort() + ": " + game.getName() + " reset.");
     }
 
     public void notifyOtherClients(String msg, ClientThread informer) {
