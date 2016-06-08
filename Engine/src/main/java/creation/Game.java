@@ -39,6 +39,10 @@ public class Game {
         return playerManager.getNumberOfPlayers();
     }
 
+    public void playerHasDesconect(String playerId) {
+
+    }
+
     public void addCharacter(Player character) {
         playerManager.addCharacter(character);
     }
