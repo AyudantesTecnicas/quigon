@@ -5,14 +5,35 @@ import java.util.Observer;
 
 public class TimedMove extends Move implements Observer {
 
-    public TimedMove(String name) {
-        super(name);
-    }
+    //Attributes
+    private TimeCondition timeCondition;
 
     //Methods
+    public TimedMove(String name, TimeCondition timeCondition) {
+        super(name);
+        this.timeCondition = timeCondition;
+    }
+
     @Override
-    public void update(Observable o, Object arg) {
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public void update(Observable observable, Object arg) {
         this.execute();
+    }
+
+    @Override
+    public void execute() {
+        if (super.process()) {
+            this.timeCondition.end();
+        }
     }
 
 }

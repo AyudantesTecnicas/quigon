@@ -8,30 +8,53 @@ public class TimeCondition extends Observable implements Observer {
     //Attributes
     private Integer timeStampInSeconds;
     private Integer totalSeconds;
+    private Boolean initialized;
+    private Integer repetitions;
 
     //Methods
-    public TimeCondition(Integer totalSeconds) {
+    public TimeCondition(Integer totalSeconds, Integer repetitions) {
         this.totalSeconds = totalSeconds;
-        timeStampInSeconds = -1;
+        this.timeStampInSeconds = 0;
+        this.initialized = false;
+        this.repetitions = repetitions;
     }
 
-    public void setTotalSeconds(Integer totalSeconds) {
-        this.totalSeconds = totalSeconds;
+    public void initialize() {
+        this.initialized = true;
     }
 
-    public void setTimeStampInSeconds(Integer timeStampInSeconds) {
-        this.timeStampInSeconds = timeStampInSeconds;
+    public void end() {
+        this.repetitions --;
+        this.timeStampInSeconds = 0;
+
+        if (this.repetitions <= 0) {
+            this.initialized = false;
+        }
+    }
+
+    private Boolean metTimeCondition() {
+        return ( (this.timeStampInSeconds - this.totalSeconds) > 0 );
+    }
+
+    private void updateTimeStamp() {
+        if (this.initialized) {
+            this.timeStampInSeconds ++;
+        }
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        /*
-        Esto seria: pedirle el tiempo al reloj, obtener los segundos de ese tiempo y fijarse si esta en el rango.
-        Si lo cumple notifica a su TimedMove para que ejecute las acciones.
-        if ( (o.getActualTime().seconds() - timeStampInSeconds).equals(totalSeconds)) {
-            notifyObservers();
+    public void update(Observable observable, Object arg) {
+
+        if (arg != null && arg.equals(ActionConstants.initialize)) {
+            this.initialize();
+        } else {
+            this.updateTimeStamp();
+            if (this.metTimeCondition()) {
+                setChanged();
+                notifyObservers();
+            }
         }
-         */
+
     }
 
 }
