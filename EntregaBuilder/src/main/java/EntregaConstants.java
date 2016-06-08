@@ -1,5 +1,10 @@
 @SuppressWarnings("CPD-START")
 public class EntregaConstants {
+
+    //Times
+    public static final String librerianWakeUp = "wakeup";
+    public static final String librerianRandom = "changeRoom";
+
     //Elements
     public static final int numberOfPlayers = 1;
     public static final String roomPasillo = "pasillo";

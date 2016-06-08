@@ -2,6 +2,7 @@ import creation.GameBuilderImp;
 import model.actions.Action;
 import model.actions.Move;
 import model.actions.TimeCondition;
+import model.actions.TimedMove;
 import model.elements.ComplexElement;
 import model.elements.Player;
 import model.rulesexpressions.expressions.*;
@@ -16,6 +17,24 @@ public final class EntregaBuilder extends GameBuilderImp {
     public EntregaBuilder() {
         gameName = "EntregaBuilder";
         gameDescription = "EjercicioEntrega";
+    }
+
+    //TimeConditions
+    TimeCondition oneTimeTwoMinutes;
+    TimeCondition manyTimesFourMinutes;
+    TimedMove wakeUpLibrerian;
+    TimedMove changeRoomLibrerian;
+
+    private void setTimeConditions(){
+        oneTimeTwoMinutes = new TimeCondition(120,1);
+        manyTimesFourMinutes = new TimeCondition(240,99999999);
+        wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp,oneTimeTwoMinutes);
+        changeRoomLibrerian = new TimedMove(EntregaConstants.librerianRandom,manyTimesFourMinutes);
+
+        game.setTimeObserver(oneTimeTwoMinutes);
+        game.setTimeObserver(manyTimesFourMinutes);
+        oneTimeTwoMinutes.addObserver(wakeUpLibrerian);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerian);
     }
 
     //Characters
