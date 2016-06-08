@@ -234,7 +234,7 @@ public final class TowerOfHanoiBuilder extends GameBuilderImp {
         createAndAddElement(TowerOfHanoiConstants.disc1, stack1, null, 1);
 
         character = createAndAddPlayer(TowerOfHanoiConstants.character, room, null);
-        game.currentPlayer = character;
+        game.playerManager.addCharacter(character);
     }
 
     @SuppressWarnings("CPD-END")
