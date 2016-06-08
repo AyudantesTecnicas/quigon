@@ -26,16 +26,26 @@ public final class FetchQuestBuilder extends GameBuilderImp {
         for (int i = 0; i < constants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, room, null));
         }
-        game.currentPlayer = characters.get(0);
-        game.characters = characters;
+        game.playerManager.characters = characters;
 
         //Create rules for movements
         HasContainerRule stickIsInRoom = checkContainerRule(stick, room, constants.noStick);
-        //Create actions
+
+        Move pickStick = new Move(constants.pick);
+        pickStick.setRules(stickIsInRoom);
+        pickStick.setResultMessage(constants.pickStick);
+
+        for (Player character: game.playerManager.characters) {
+            Action addStickToCharacter = buildChangeContainerAction(stick, character);
+            addStickToCharacter.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickStick.addAction(addStickToCharacter);
+        }
+
+/*        //Create actions
         Action addStickToCharacter = buildChangeContainerAction(game.currentPlayer, stick);
         //Create Moves
         Move pickStick = moveWithActionsAndRules(constants.pick, addStickToCharacter, stickIsInRoom, constants.pickStick);
-        //Inject moves to elements
+*/        //Inject moves to elements
         stick.addMove(pickStick);
         //Set victory condition
         for (Player character:characters) {
