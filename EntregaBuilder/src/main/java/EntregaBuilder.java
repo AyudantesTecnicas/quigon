@@ -1,6 +1,7 @@
 import creation.GameBuilderImp;
 import model.actions.Action;
 import model.actions.Move;
+import model.actions.TimeCondition;
 import model.elements.ComplexElement;
 import model.elements.Player;
 import model.rulesexpressions.expressions.*;
@@ -276,6 +277,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         checkContainerRule(game.playerManager,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
+
     private void createRulesForAccessToLibrary() {
         OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
         HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
@@ -331,6 +333,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         pickAction.setRules(checkEqualRule(game.playerManager,character,"not current character"));
         move.addAction(pickAction);
     }
+
+
 
     private void createMovesToPickElements() {
         moveTomarCredencial = new Move(EntregaConstants.movePick);
