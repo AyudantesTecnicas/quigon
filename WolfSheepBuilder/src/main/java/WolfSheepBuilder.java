@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class WolfSheepBuilder extends GameBuilderImp {
 
     private WolfSheepConstants constants = new WolfSheepConstants();
-    private ArrayList<Player> characters;
     private ComplexElement northShore;
     private ComplexElement southShore;
     private ComplexElement goToNorthShore;
@@ -68,7 +67,6 @@ public class WolfSheepBuilder extends GameBuilderImp {
     public WolfSheepBuilder() {
         gameName = "WolfSheep";
         gameDescription = "There is a wolf, a sheep and a cabbage... For what?";
-        characters = new ArrayList<>();
     }
 
     private void createElements() {
@@ -81,33 +79,32 @@ public class WolfSheepBuilder extends GameBuilderImp {
         wolf = createAndAddElement(constants.wolf, southShore, null);
         cabbage = createAndAddElement(constants.cabbage, southShore, null);
 
-        characters.add(createAndAddPlayer(constants.character, southShore, null));
-        game.characters = characters;
-        game.currentPlayer = characters.get(0);
+        game.playerManager.characters = new ArrayList<>();
+        game.playerManager.addCharacter(createAndAddPlayer(constants.character, southShore, null));
     }
 
     private void createActions() {
         //Create action consequences
-        crossSouthNorth = buildChangeContainerAction(game.currentPlayer, northShore);
-        crossNorthSouth = buildChangeContainerAction(game.currentPlayer, southShore);
+        crossSouthNorth = buildChangeContainerAction(game.playerManager, northShore);
+        crossNorthSouth = buildChangeContainerAction(game.playerManager, southShore);
         leaveSheepSouth = buildChangeContainerAction(sheep, southShore);
         leaveWolfSouth = buildChangeContainerAction(wolf, southShore);
         leaveCabbageSouth = buildChangeContainerAction(cabbage, southShore);
         leaveSheepNorth = buildChangeContainerAction(sheep, northShore);
         leaveWolfNorth = buildChangeContainerAction(wolf, northShore);
         leaveCabbageNorth = buildChangeContainerAction(cabbage, northShore);
-        takeSheep = buildChangeContainerAction(sheep, game.currentPlayer);
-        takeWolf = buildChangeContainerAction(wolf, game.currentPlayer);
-        takeCabbage = buildChangeContainerAction(cabbage, game.currentPlayer);
+//        takeSheep = buildChangeContainerAction(sheep, game.currentPlayer);
+//        takeWolf = buildChangeContainerAction(wolf, game.currentPlayer);
+//        takeCabbage = buildChangeContainerAction(cabbage, game.currentPlayer);
     }
 
     private void createRules() {
-        boatHasSheep = checkContainerRule(sheep, game.currentPlayer, constants.sheepNotOnBoard);
-        boatHasNoSheep = doesntHaveContainerRule(sheep, game.currentPlayer, constants.sheepOnBoard);
-        boatHasWolf = checkContainerRule(wolf, game.currentPlayer, constants.wolfNotOnBoard);
-        boatHasNoWolf = doesntHaveContainerRule(wolf, game.currentPlayer, constants.wolfOnBoard);
-        boatHasCabbage = checkContainerRule(cabbage, game.currentPlayer, constants.cabbageNotOnBoard);
-        boatHasNoCabbage = doesntHaveContainerRule(cabbage, game.currentPlayer, constants.cabbageOnBoard);
+        boatHasSheep = checkContainerRule(sheep, game.playerManager, constants.sheepNotOnBoard);
+        boatHasNoSheep = doesntHaveContainerRule(sheep, game.playerManager, constants.sheepOnBoard);
+        boatHasWolf = checkContainerRule(wolf, game.playerManager, constants.wolfNotOnBoard);
+        boatHasNoWolf = doesntHaveContainerRule(wolf, game.playerManager, constants.wolfOnBoard);
+        boatHasCabbage = checkContainerRule(cabbage, game.playerManager, constants.cabbageNotOnBoard);
+        boatHasNoCabbage = doesntHaveContainerRule(cabbage, game.playerManager, constants.cabbageOnBoard);
         southShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, southShore, constants.wolfOnSouth);
         northShoreContainsWolf = checkContainerRule(wolf, northShore, constants.wolfNotOnNorth);
         southShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, southShore, constants.sheepOnSouth);
@@ -117,8 +114,8 @@ public class WolfSheepBuilder extends GameBuilderImp {
         northShoreDoesntContainsWolf = doesntHaveContainerRule(wolf, northShore, constants.wolfOnNorth);
         northShoreDoesntContainsSheep = doesntHaveContainerRule(sheep, northShore, constants.sheepOnNorth);
         northShoreDoesntContainsCabbage = doesntHaveContainerRule(cabbage, northShore, constants.cabbageOnNorth);
-        boatIsOnSouthShore = checkContainerRule(game.currentPlayer, southShore, constants.boatNotOnSouth);
-        boatIsOnNorthShore = checkContainerRule(game.currentPlayer, northShore, constants.boatNotOnNorth);
+        boatIsOnSouthShore = checkContainerRule(game.playerManager, southShore, constants.boatNotOnSouth);
+        boatIsOnNorthShore = checkContainerRule(game.playerManager, northShore, constants.boatNotOnNorth);
     }
 
     private void createComplexRules() {
@@ -152,18 +149,46 @@ public class WolfSheepBuilder extends GameBuilderImp {
         } catch (WrongLogicSymbolException e) {
             System.out.print(logicMessage + ".\n");
         }
-        game.currentPlayer.setVictoryCondition(victoryRule);
+        for (Player character:game.playerManager.characters) {
+            character.setVictoryCondition(victoryRule);
+        }
     }
 
     private void createMoves() {
         crossSouthShore = moveWithActionsAndRules(constants.cross, crossNorthSouth, rulesToCrossSouthShore, constants.youCrossed);
         crossNorthShore = moveWithActionsAndRules(constants.cross, crossSouthNorth, rulesToCrossNorthShore, constants.youCrossed);
-        takeSheepAboard = moveWithActionsAndRules(constants.take, takeSheep, ruleToTake, constants.ok);
-        takeWolfAboard = moveWithActionsAndRules(constants.take, takeWolf, ruleToTake, constants.ok);
-        takeCabbageAboard = moveWithActionsAndRules(constants.take, takeCabbage, ruleToTake, constants.ok);
+//        takeSheepAboard = moveWithActionsAndRules(constants.take, takeSheep, ruleToTake, constants.ok);
+//        takeWolfAboard = moveWithActionsAndRules(constants.take, takeWolf, ruleToTake, constants.ok);
+//        takeCabbageAboard = moveWithActionsAndRules(constants.take, takeCabbage, ruleToTake, constants.ok);
         leaveSheep = moveWithActionsAndRules(constants.leave, leaveSheepSouth, boatHasSheep, constants.ok);
         leaveWolf = moveWithActionsAndRules(constants.leave, leaveWolfSouth, boatHasWolf, constants.ok);
         leaveCabbage = moveWithActionsAndRules(constants.leave, leaveCabbageSouth, boatHasCabbage, constants.ok);
+
+        takeSheepAboard = new Move(constants.take);
+        takeSheepAboard.setRules(ruleToTake);
+        takeSheepAboard.setResultMessage(constants.ok);
+
+        takeWolfAboard = new Move(constants.take);
+        takeWolfAboard.setRules(ruleToTake);
+        takeWolfAboard.setResultMessage(constants.ok);
+
+        takeCabbageAboard = new Move(constants.take);
+        takeCabbageAboard.setRules(ruleToTake);
+        takeCabbageAboard.setResultMessage(constants.ok);
+        for (Player character: game.playerManager.characters) {
+            takeSheep = buildChangeContainerAction(sheep, character);
+            takeSheep.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            takeSheepAboard.addAction(takeSheep);
+
+            takeWolf = buildChangeContainerAction(wolf, character);
+            takeWolf.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            takeWolfAboard.addAction(takeWolf);
+
+            takeCabbage = buildChangeContainerAction(cabbage, character);
+            takeCabbage.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            takeCabbageAboard.addAction(takeCabbage);
+        }
+
     }
 
     private void injectActionsToMoves() {

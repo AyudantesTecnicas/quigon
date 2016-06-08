@@ -9,6 +9,8 @@ import model.rulesexpressions.rules.IsEmptyRule;
 import model.rulesexpressions.rules.IsNotEmptyRule;
 import model.rulesexpressions.rules.SizeComparisonLesserRule;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("CPD-START")
 public final class TowerOfHanoiBuilder extends GameBuilderImp {
 
@@ -234,6 +236,7 @@ public final class TowerOfHanoiBuilder extends GameBuilderImp {
         createAndAddElement(TowerOfHanoiConstants.disc1, stack1, null, 1);
 
         character = createAndAddPlayer(TowerOfHanoiConstants.character, room, null);
+        game.playerManager.characters = new ArrayList<>();
         game.playerManager.addCharacter(character);
     }
 
