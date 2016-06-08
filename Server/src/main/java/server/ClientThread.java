@@ -42,10 +42,13 @@ public class ClientThread extends Thread {
                 System.out.println(portAndRemoteBase() + " send: " + sendByClient);
                 portThread.playerSendCommandEvent(this, sendByClient);
             } catch (EOFException e) {  // remote socket is closed (client side)
-                System.out.println(portAndRemoteBase() + " has disconnected.");
-                portThread.playerLeftGameEvent(this);
-            } catch (SocketException e) {   // local socket is closed (server side)
-                System.out.println(portAndRemoteBase() + " was disconnected.");
+                clientDisconnected();
+            } catch (SocketException e) {   // it is ridiculous but Java throws the same exception when different things happens
+                if (e.getMessage().equals("Connection reset")) {    // client closed program in inappropriate way ([x], CTRL-C, etc.)
+                    clientDisconnected();
+                } else {    // local socket is closed (server side)
+                    System.out.println(portAndRemoteBase() + " was disconnected.");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 this.interrupt();
@@ -65,5 +68,10 @@ public class ClientThread extends Thread {
 
     private String portAndRemoteBase() {
         return "Port " + socket.getLocalPort() + ", " + socket.getRemoteSocketAddress();
+    }
+
+    private void clientDisconnected() {
+        System.out.println(portAndRemoteBase() + " has disconnected.");
+        portThread.playerLeftGameEvent(this);
     }
 }

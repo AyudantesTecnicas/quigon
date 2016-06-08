@@ -74,20 +74,28 @@ public class PortThread extends Thread {
         notifyOtherClients("Player " + clientThreads.get(clientThread) + " joined!", clientThread);
     }
 
+    private String getBasicAnswer(ClientThread clientThread, String cmd) {
+        if (cmd.matches("^(?i)/help$")) {
+            return game.getHelp();
+        } else {
+            return game.receiveCommands(clientThreads.get(clientThread) + ":" + cmd);
+        }
+    }
+
     public void playerSendCommandEvent(ClientThread clientThread, String cmd) {
         notifyOtherClients("Player " + clientThreads.get(clientThread) + " send this: " + cmd, clientThread);
 
-        String answer;
-        if (cmd.matches("^(?i)/help$")) {
-            answer = game.getHelp();
-        } else {
-            answer = game.receiveCommands(clientThreads.get(clientThread) + ":" + cmd);
-        }
+        String answer = getBasicAnswer(clientThread, cmd);
 
-        if (answer.equals(GameBuilderImp.winText) || answer.equals(GameBuilderImp.loseText)) {
-            notifyOtherClients("Player " + clientThreads.get(clientThread) + " won (lose)!" + " Game reset.", clientThread);
+        if (answer.equals(GameBuilderImp.winText)) {
+            notifyOtherClients("Player " + clientThreads.get(clientThread) + " won! Game reset.", clientThread);
             resetGame();
             answer = answer + " Game reset.";
+        }
+
+        if (answer.equals(GameBuilderImp.loseText)) {
+            notifyOtherClients("Player " + clientThreads.get(clientThread) + " lost the game!", clientThread);
+            answer = answer + " Respawn.";
         }
 
         clientThread.sendToClient(answer);
