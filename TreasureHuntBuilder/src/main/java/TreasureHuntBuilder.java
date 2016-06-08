@@ -300,21 +300,20 @@ public class TreasureHuntBuilder extends GameBuilderImp {
         for (int i = 0; i < TreasureHuntConstants.numberOfPlayers; i++) {
             characters.add(createAndAddPlayer("character" + i, roomWest, null));
         }
-        game.currentPlayer = characters.get(0);
-        game.characters = characters;
+        game.playerManager.characters = characters;
     }
 
     //DEFINE ACTIONS
     private void createRoomTransitionActions() {
-        passFromWestToCenter = buildChangeContainerAction(game.currentPlayer, roomCenter);
-        passFromEastToCenter = buildChangeContainerAction(game.currentPlayer, roomCenter);
-        passFromSouthToCenter = buildChangeContainerAction(game.currentPlayer, roomCenter);
-        passFromNorthToCenter = buildChangeContainerAction(game.currentPlayer, roomCenter);
+        passFromWestToCenter = buildChangeContainerAction(game.playerManager, roomCenter);
+        passFromEastToCenter = buildChangeContainerAction(game.playerManager, roomCenter);
+        passFromSouthToCenter = buildChangeContainerAction(game.playerManager, roomCenter);
+        passFromNorthToCenter = buildChangeContainerAction(game.playerManager, roomCenter);
 
-        passFromCenterToWest = buildChangeContainerAction(game.currentPlayer, roomWest);
-        passFromCenterToEast = buildChangeContainerAction(game.currentPlayer, roomEast);
-        passFromCenterToSouth = buildChangeContainerAction(game.currentPlayer, roomSouth);
-        passFromCenterToNorth = buildChangeContainerAction(game.currentPlayer, roomNorth);
+        passFromCenterToWest = buildChangeContainerAction(game.playerManager, roomWest);
+        passFromCenterToEast = buildChangeContainerAction(game.playerManager, roomEast);
+        passFromCenterToSouth = buildChangeContainerAction(game.playerManager, roomSouth);
+        passFromCenterToNorth = buildChangeContainerAction(game.playerManager, roomNorth);
     }
 
     private void createDoorActions() {
@@ -363,33 +362,32 @@ public class TreasureHuntBuilder extends GameBuilderImp {
     }
 
     private void createKeyActions() {
-        addKeyEast = buildChangeContainerAction(keyEast, game.currentPlayer);
+//        addKeyEast = buildChangeContainerAction(keyEast, game.currentPlayer);
         removeKeyEast = buildChangeContainerAction(keyEast, trunkInSouthRoom);
         makeKeyEastVisible = buildChangeContainerAction(keyEast, roomSouth);
-        addKeyNorth = buildChangeContainerAction(keyNorth, game.currentPlayer);
+//        addKeyNorth = buildChangeContainerAction(keyNorth, game.currentPlayer);
         removeKeyNorth = buildChangeContainerAction(keyNorth, boxInTrunk);
         makeKeyNorthVisible = buildChangeContainerAction(keyNorth, roomEast);
-        addKeySouth = buildChangeContainerAction(keySouth, game.currentPlayer);
+//        addKeySouth = buildChangeContainerAction(keySouth, game.currentPlayer);
         removeKeySouth = buildChangeContainerAction(keySouth, boxInCenterRoom);
         makeKeySouthVisible = buildChangeContainerAction(keySouth, roomCenter);
     }
 
     private void createAntidoteActions() {
-        addAntidote1 = buildChangeContainerAction(antidote1, game.currentPlayer);
-        removeAntidote1 = buildChangeContainerAction(antidote1, trunkInSouthRoom);
+//        removeAntidote1 = buildChangeContainerAction(antidote1, trunkInSouthRoom);
         makeAntidote1Visible = buildChangeContainerAction(antidote1, roomSouth);
-        addAntidote2 = buildChangeContainerAction(antidote2, game.currentPlayer);
+//        addAntidote2 = buildChangeContainerAction(antidote2, game.currentPlayer);
         removeAntidote2 = buildChangeContainerAction(antidote2, boxInWardrobe);
     }
 
     private void createPoisonActions() {
-        addPoisonState = buildAddStatesAction(game.currentPlayer, poisonedState);
-        removePoisonState = buildRemoveStatesAction(game.currentPlayer, poisonedState);
+        addPoisonState = buildAddStatesAction(game.playerManager, poisonedState);
+        removePoisonState = buildRemoveStatesAction(game.playerManager, poisonedState);
     }
 
     private void createTreasureActions() {
         makeTreasureVisible = buildChangeContainerAction(treasure,roomNorth);
-        addTreasure = buildChangeContainerAction(treasure, game.currentPlayer);
+//        addTreasure = buildChangeContainerAction(treasure, game.currentPlayer);
     }
 
     //DEFINE RULES
@@ -413,11 +411,11 @@ public class TreasureHuntBuilder extends GameBuilderImp {
     }
 
     private void createPositionRules() {
-        characterIsInCenterRoom = checkContainerRule(game.currentPlayer, roomCenter, TreasureHuntConstants.notReachable);
-        characterIsInWestRoom = checkContainerRule(game.currentPlayer, roomWest, TreasureHuntConstants.notReachable);
-        characterIsInEastRoom = checkContainerRule(game.currentPlayer, roomEast, TreasureHuntConstants.notReachable);
-        characterIsInSouthRoom = checkContainerRule(game.currentPlayer, roomSouth, TreasureHuntConstants.notReachable);
-        characterIsInNorthRoom = checkContainerRule(game.currentPlayer, roomNorth, TreasureHuntConstants.notReachable);
+        characterIsInCenterRoom = checkContainerRule(game.playerManager, roomCenter, TreasureHuntConstants.notReachable);
+        characterIsInWestRoom = checkContainerRule(game.playerManager, roomWest, TreasureHuntConstants.notReachable);
+        characterIsInEastRoom = checkContainerRule(game.playerManager, roomEast, TreasureHuntConstants.notReachable);
+        characterIsInSouthRoom = checkContainerRule(game.playerManager, roomSouth, TreasureHuntConstants.notReachable);
+        characterIsInNorthRoom = checkContainerRule(game.playerManager, roomNorth, TreasureHuntConstants.notReachable);
     }
 
     private void createStateRules() {
@@ -437,24 +435,24 @@ public class TreasureHuntBuilder extends GameBuilderImp {
         openedWardrobe = checkStateRule(wardrobe, openState, TreasureHuntConstants.wardrobeClosed);
 
         characterIsntPoisoned = new DoesNotHaveState();
-        characterIsntPoisoned.setElementToValidate(game.currentPlayer);
+        characterIsntPoisoned.setElementToValidate(game.playerManager);
         characterIsntPoisoned.setStateToValidate(poisonedState);
         characterIsntPoisoned.setFailMessage(TreasureHuntConstants.healthy);
     }
 
     private void createLocationRules() {
-        freeKeyS = doesntHaveContainerRule(keySouth, game.currentPlayer, TreasureHuntConstants.holdsKey);
-        freeKeyE = doesntHaveContainerRule(keyEast, game.currentPlayer, TreasureHuntConstants.holdsKey);
-        freeKeyN = doesntHaveContainerRule(keyNorth, game.currentPlayer, TreasureHuntConstants.holdsKey);
-        freeAntidote1 = doesntHaveContainerRule(antidote1, game.currentPlayer, TreasureHuntConstants.holdsAntidote);
-        freeAntidote2 = doesntHaveContainerRule(antidote2, game.currentPlayer, TreasureHuntConstants.holdsAntidote);
-        freeTreasure = doesntHaveContainerRule(antidote2, game.currentPlayer, TreasureHuntConstants.holdsTreasure);
-        holdsKeyS = checkContainerRule(keySouth, game.currentPlayer, TreasureHuntConstants.missingKey);
-        holdsKeyE = checkContainerRule(keyEast, game.currentPlayer, TreasureHuntConstants.missingKey);
-        holdsKeyN = checkContainerRule(keyNorth, game.currentPlayer, TreasureHuntConstants.missingKey);
-        holdsAntidote1 = checkContainerRule(antidote1, game.currentPlayer, TreasureHuntConstants.missingAntidote);
-        holdsAntidote2 = checkContainerRule(antidote2, game.currentPlayer, TreasureHuntConstants.missingAntidote);
-        holdsTreasure = checkContainerRule(treasure, game.currentPlayer, TreasureHuntConstants.missingTreasure);
+        freeKeyS = doesntHaveContainerRule(keySouth, game.playerManager, TreasureHuntConstants.holdsKey);
+        freeKeyE = doesntHaveContainerRule(keyEast, game.playerManager, TreasureHuntConstants.holdsKey);
+        freeKeyN = doesntHaveContainerRule(keyNorth, game.playerManager, TreasureHuntConstants.holdsKey);
+        freeAntidote1 = doesntHaveContainerRule(antidote1, game.playerManager, TreasureHuntConstants.holdsAntidote);
+        freeAntidote2 = doesntHaveContainerRule(antidote2, game.playerManager, TreasureHuntConstants.holdsAntidote);
+        freeTreasure = doesntHaveContainerRule(antidote2, game.playerManager, TreasureHuntConstants.holdsTreasure);
+        holdsKeyS = checkContainerRule(keySouth, game.playerManager, TreasureHuntConstants.missingKey);
+        holdsKeyE = checkContainerRule(keyEast, game.playerManager, TreasureHuntConstants.missingKey);
+        holdsKeyN = checkContainerRule(keyNorth, game.playerManager, TreasureHuntConstants.missingKey);
+        holdsAntidote1 = checkContainerRule(antidote1, game.playerManager, TreasureHuntConstants.missingAntidote);
+        holdsAntidote2 = checkContainerRule(antidote2, game.playerManager, TreasureHuntConstants.missingAntidote);
+        holdsTreasure = checkContainerRule(treasure, game.playerManager, TreasureHuntConstants.missingTreasure);
     }
 
     //DEFINE COMPLEX RULES
@@ -535,18 +533,61 @@ public class TreasureHuntBuilder extends GameBuilderImp {
     }
     
     private void createPickMoves() {
-        pickKeySouth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeySouth,
-                keySPickConditionRule, TreasureHuntConstants.pickKey);
-        pickKeyEast = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyEast,
-                keyEPickConditionRule, TreasureHuntConstants.pickKey);
-        pickKeyNorth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyNorth,
-                keyNPickConditionRule, TreasureHuntConstants.pickKey);
-        pickAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote1,
-                antidote1PickConditionRule, TreasureHuntConstants.pickAntidote);
-        pickAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote2,
-                antidote2PickConditionRule, TreasureHuntConstants.pickAntidote);
-        pickTreasure = moveWithActionsAndRules(TreasureHuntConstants.pick, addTreasure,
-                treasurePickConditionRule, TreasureHuntConstants.pickTreasure);
+        pickKeySouth = new Move(TreasureHuntConstants.pick);
+        pickKeySouth.setRules(keySPickConditionRule);
+        pickKeySouth.setResultMessage(TreasureHuntConstants.pickKey);
+
+        pickKeyEast = new Move(TreasureHuntConstants.pick);
+        pickKeyEast.setRules(keyEPickConditionRule);
+        pickKeyEast.setResultMessage(TreasureHuntConstants.pickKey);
+
+        pickKeyNorth = new Move(TreasureHuntConstants.pick);
+        pickKeyNorth.setRules(keyNPickConditionRule);
+        pickKeyNorth.setResultMessage(TreasureHuntConstants.pickKey);
+
+        pickAntidote1 = new Move(TreasureHuntConstants.pick);
+        pickAntidote1.setRules(antidote1PickConditionRule);
+        pickAntidote1.setResultMessage(TreasureHuntConstants.pickAntidote);
+
+        pickAntidote2 = new Move(TreasureHuntConstants.pick);
+        pickAntidote2.setRules(antidote2PickConditionRule);
+        pickAntidote2.setResultMessage(TreasureHuntConstants.pickAntidote);
+
+        pickTreasure = new Move(TreasureHuntConstants.pick);
+        pickTreasure.setRules(treasurePickConditionRule);
+        pickTreasure.setResultMessage(TreasureHuntConstants.pickTreasure);
+        for (Player character: game.playerManager.characters) {
+            addKeySouth = buildChangeContainerAction(keySouth, character);
+            addKeySouth.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickKeySouth.addAction(addKeySouth);
+
+            addKeyEast = buildChangeContainerAction(keyEast, character);
+            addKeyEast.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickKeyEast.addAction(addKeyEast);
+
+            addKeyNorth = buildChangeContainerAction(keyNorth, character);
+            addKeyNorth.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickKeyNorth.addAction(addKeyNorth);
+
+            addAntidote1 = buildChangeContainerAction(antidote1, character);
+            addAntidote1.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickAntidote1.addAction(addAntidote1);
+
+            addAntidote2 = buildChangeContainerAction(antidote2, character);
+            addAntidote2.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickAntidote2.addAction(addAntidote2);
+
+            addTreasure = buildChangeContainerAction(treasure, character);
+            addTreasure.setRules(checkEqualRule(game.playerManager,character,"not current character"));
+            pickTreasure.addAction(addTreasure);
+        }
+
+//        pickKeySouth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeySouth, keySPickConditionRule, TreasureHuntConstants.pickKey);
+//        pickKeyEast = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyEast, keyEPickConditionRule, TreasureHuntConstants.pickKey);
+//        pickKeyNorth = moveWithActionsAndRules(TreasureHuntConstants.pick, addKeyNorth, keyNPickConditionRule, TreasureHuntConstants.pickKey);
+//        pickAntidote1 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote1, antidote1PickConditionRule, TreasureHuntConstants.pickAntidote);
+//        pickAntidote2 = moveWithActionsAndRules(TreasureHuntConstants.pick, addAntidote2, antidote2PickConditionRule, TreasureHuntConstants.pickAntidote);
+//        pickTreasure = moveWithActionsAndRules(TreasureHuntConstants.pick, addTreasure, treasurePickConditionRule, TreasureHuntConstants.pickTreasure);
     }
 
     private void createDropMoves() {
