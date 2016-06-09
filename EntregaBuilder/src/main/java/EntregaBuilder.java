@@ -20,21 +20,94 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     //TimeConditions
-    TimeCondition oneTimeTwoMinutes;
-    TimeCondition manyTimesFourMinutes;
-    TimedMove wakeUpLibrerian;
-    TimedMove changeRoomLibrerian;
+    private TimeCondition oneTimeTwoMinutes;
+    private TimeCondition manyTimesFourMinutes;
+    private TimedMove wakeUpLibrerian;
+    private TimedMove changeRoomLibrerianInHallway;
+    private TimedMove changeRoomLibrerianInRoom1;
+    private TimedMove changeRoomLibrerianInRoom2;
+    private TimedMove changeRoomLibrerianInRoom3;
+    private TimedMove changeRoomLibrerianInLibraryAccess;
+    private TimedMove changeRoomLibrerianInLibrary;
+    private ComplexElement stateAsleep;
+    private Action actionWakeUp;
+    private Action actionLibrerianToHallway;
+    private Action actionLibrerianToRoom1;
+    private Action actionLibrerianToRoom2;
+    private Action actionLibrerianToRoom3;
+    private Action actionLibrerianToLibraryAccess;
+    private Action actionLibrerianToLibrary;
+    private HasContainerRule ruleLibrerianIsInHallway;
+    private HasContainerRule ruleLibrerianIsInRoom1;
+    private HasContainerRule ruleLibrerianIsInRoom2;
+    private HasContainerRule ruleLibrerianIsInRoom3;
+    private HasContainerRule ruleLibrerianIsInLibraryAccess;
+    private HasContainerRule ruleLibrerianIsInLibrary;
 
-    private void setTimeConditions(){
+    private void setTimeConditions() {
         oneTimeTwoMinutes = new TimeCondition(120,1);
         manyTimesFourMinutes = new TimeCondition(240,99999999);
-        wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp,oneTimeTwoMinutes);
-        changeRoomLibrerian = new TimedMove(EntregaConstants.librerianRandom,manyTimesFourMinutes);
+        wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp, oneTimeTwoMinutes);
+        changeRoomLibrerianInHallway = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+        changeRoomLibrerianInRoom1 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+        changeRoomLibrerianInRoom2 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+        changeRoomLibrerianInRoom3 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+        changeRoomLibrerianInLibraryAccess = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+        changeRoomLibrerianInLibrary = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+
+        stateAsleep = new ComplexElement(EntregaConstants.sleeping);
+        actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);
+
+        wakeUpLibrerian.addAction(actionWakeUp);
+
+        actionLibrerianToHallway = buildChangeContainerAction(itemBibliotecario, roomPasillo);
+        actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
+        actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);
+        actionLibrerianToRoom3 = buildChangeContainerAction(itemBibliotecario, roomSalon3);
+        actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomAccesoBiblioteca);
+        actionLibrerianToLibrary = buildChangeContainerAction(itemBibliotecario, roomBiblioteca);
+
+        changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom1);
+        changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom2);
+        changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom3);
+        changeRoomLibrerianInHallway.addAction(actionLibrerianToLibraryAccess);
+        changeRoomLibrerianInHallway.setRandom(true);
+
+        changeRoomLibrerianInRoom1.addAction(actionLibrerianToHallway);
+
+        changeRoomLibrerianInRoom2.addAction(actionLibrerianToHallway);
+
+        changeRoomLibrerianInRoom3.addAction(actionLibrerianToHallway);
+
+        changeRoomLibrerianInLibraryAccess.addAction(actionLibrerianToHallway);
+        changeRoomLibrerianInLibraryAccess.addAction(actionLibrerianToLibrary);
+        changeRoomLibrerianInLibraryAccess.setRandom(true);
+
+        changeRoomLibrerianInLibrary.addAction(actionLibrerianToLibraryAccess);
+
+        ruleLibrerianIsInHallway = checkContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
+        ruleLibrerianIsInRoom1 = checkContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
+        ruleLibrerianIsInRoom2 = checkContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
+        ruleLibrerianIsInRoom3 = checkContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
+        ruleLibrerianIsInLibraryAccess = checkContainerRule(itemBibliotecario, roomAccesoBiblioteca, EntregaConstants.noEsta);
+        ruleLibrerianIsInLibrary = checkContainerRule(itemBibliotecario, roomBiblioteca, EntregaConstants.noEsta);
+
+        changeRoomLibrerianInHallway.setRules(ruleLibrerianIsInHallway);
+        changeRoomLibrerianInRoom1.setRules(ruleLibrerianIsInRoom1);
+        changeRoomLibrerianInRoom2.setRules(ruleLibrerianIsInRoom2);
+        changeRoomLibrerianInRoom3.setRules(ruleLibrerianIsInRoom3);
+        changeRoomLibrerianInLibraryAccess.setRules(ruleLibrerianIsInLibraryAccess);
+        changeRoomLibrerianInLibrary.setRules(ruleLibrerianIsInLibrary);
 
         game.setTimeObserver(oneTimeTwoMinutes);
         game.setTimeObserver(manyTimesFourMinutes);
         oneTimeTwoMinutes.addObserver(wakeUpLibrerian);
-        manyTimesFourMinutes.addObserver(changeRoomLibrerian);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerianInHallway);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerianInRoom1);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerianInRoom2);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerianInRoom3);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerianInLibraryAccess);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerianInLibrary);
     }
 
     //Characters
@@ -195,6 +268,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         defineVictoryRule();
         createMoves();
         addMoves();
+        setTimeConditions();
     }
 
     private void defineVictoryRule() {}

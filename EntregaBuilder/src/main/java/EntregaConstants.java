@@ -4,6 +4,8 @@ public class EntregaConstants {
     //Times
     public static final String librerianWakeUp = "wakeup";
     public static final String librerianRandom = "changeRoom";
+    public static final String sleeping = "sleeping";
+    public static final String noEsta = "";
 
     //Elements
     public static final int numberOfPlayers = 1;

@@ -13,14 +13,14 @@ import java.util.*;
 
 public abstract class GameBuilderImp implements GameBuilder {
 
-    static final String winText = "You won the game!";
-    static final String loseText = "You lost the game!";
+    public static final String winText = "You won the game!";
+    public static final String loseText = "You lost the game!";
     protected static final String logicMessage = "Wrong expressed logic";
 
-    private Game game;
+    protected Game game;
 
-    private String gameName = "[default name]";
-    private String gameDescription = "[default description]";
+    protected String gameName = "[default name]";
+    protected String gameDescription = "[default description]";
     private ArrayList<SupportedAction> actionsList;
     private List<Element> elementsList;
 
@@ -40,19 +40,19 @@ public abstract class GameBuilderImp implements GameBuilder {
         return game;
     }
 
-    private void createNewGame() {
+    void createNewGame() {
         game = new Game();
     }
 
-    private void createActionsList() {
+    void createActionsList() {
         actionsList = new ArrayList<>();
     }
 
-    private void createElementList() {
+    void createElementList() {
         elementsList = new ArrayList<>();
     }
 
-    private void createParser() {
+    void createParser() {
         game.setParser(new GameParser());
     }
 
@@ -71,12 +71,12 @@ public abstract class GameBuilderImp implements GameBuilder {
         return game;
     }
 
-    private void addElementsToAction(Action action, ComplexElement contained, Element state) {
+    protected void addElementsToAction(Action action, ComplexElement contained, Element state) {
         action.setElementToUpdate(contained);
         action.addItemToUpdate(state);
     }
 
-    private Action buildChangeContainerAction(ComplexElement contained, ComplexElement container) {
+    protected Action buildChangeContainerAction(ComplexElement contained, ComplexElement container) {
         Action changeContainer = new ChangeContainerAction();
         addElementsToAction(changeContainer, contained, container);
         return changeContainer;
@@ -100,7 +100,7 @@ public abstract class GameBuilderImp implements GameBuilder {
         return changeContainer;
     }
 
-    private void addElementsToContainerRule(ContainerRule rule, ComplexElement contained, ComplexElement container,
+    protected void addElementsToContainerRule(ContainerRule rule, ComplexElement contained, ComplexElement container,
                                             String failMessage) {
         rule.setElementToValidate(contained);
         rule.setContainerToValidate(container);
@@ -179,7 +179,7 @@ public abstract class GameBuilderImp implements GameBuilder {
         return player;
     }
 
-    private ComplexElement createAndAddElement(String name, ComplexElement container, Element state) {
+    protected ComplexElement createAndAddElement(String name, ComplexElement container, Element state) {
         ComplexElement complexElement = new ComplexElement(name);
         complexElement.setContainerElement(container);
         complexElement.addState(state);
@@ -199,7 +199,7 @@ public abstract class GameBuilderImp implements GameBuilder {
 
     public abstract void setActions();
 
-    private void setNameDescription() {
+    void setNameDescription() {
         game.setName(gameName);
         game.setGameDescription(gameDescription);
     }
@@ -211,17 +211,17 @@ public abstract class GameBuilderImp implements GameBuilder {
         actionsList.add(supportedAction);
     }
 
-    private void addElement(Element anElement) {
+    protected void addElement(Element anElement) {
         elementsList.add(anElement);
     }
 
-    private void setElementsToGame() {
+    void setElementsToGame() {
         game.elementList = elementsList;
     }
 
-    private void addActionsToParser() {
+    void addActionsToParser() {
         game.parser.setSupportedActions(actionsList);
     }
 
-    public abstract void setElements();
+    protected abstract void setElements();
 }

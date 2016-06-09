@@ -14,15 +14,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observer;
 
-class Game {
+public class Game {
     private String gameName;
-    private PlayerManager playerManager;
+    public PlayerManager playerManager;
     List<Element> elementList;
     GameParser parser;
     private String gameDescription;
     private GameTimer gameTimer;
 
-    Game() {
+    public Game() {
         playerManager = new PlayerManager();
         gameTimer = new GameTimer();
     }
