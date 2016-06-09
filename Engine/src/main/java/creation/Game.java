@@ -14,24 +14,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observer;
 
-class Game {
+public class Game {
     private String gameName;
-    private PlayerManager playerManager;
+    public PlayerManager playerManager;
     List<Element> elementList;
     GameParser parser;
     private String gameDescription;
     private GameTimer gameTimer;
 
-    Game() {
+    public Game() {
         playerManager = new PlayerManager();
         gameTimer = new GameTimer();
     }
 
-    void startClock(){
+    void startClock() {
         gameTimer.start();
     }
 
-    protected void stopClock(){
+    protected void stopClock() {
         gameTimer.stop();
     }
 
@@ -39,8 +39,8 @@ class Game {
         this.gameName = gameName;
     }
 
-    public void setTimeObserver(Observer o){
-        gameTimer.addObserver(o);
+    public void setTimeObserver(Observer observer) {
+        gameTimer.addObserver(observer);
     }
 
     void setGameDescription(String description) {
