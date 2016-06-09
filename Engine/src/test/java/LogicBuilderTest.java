@@ -80,25 +80,31 @@ public class LogicBuilderTest {
     }
 
     @Test
-    public void testAndAndBuilding() {
+    public void testAndAndBuildingRulesNotPassed() {
         IExpression resultRule = buildExpression(rule1, rule2, '&');
         resultRule = buildExpression(resultRule, rule3, '&');
-
-        assert (resultRule.interpret());
-
         anItem.removeState(state1);
 
         assert (!resultRule.interpret());
+    }
 
+    @Test
+    public void testAndAndBuildingRulesNotPassedWithTwoStates() {
+        IExpression resultRule = buildExpression(rule1, rule2, '&');
+        resultRule = buildExpression(resultRule, rule3, '&');
+        anItem.removeState(state1);
         anItem.addState(state1);
         anItem.removeState(state2);
 
         assert (!resultRule.interpret());
+    }
 
-        anItem.addState(state2);
-        anItem.removeState(state3);
+    @Test
+    public void testAndAndBuildingRulesPassed() {
+        IExpression resultRule = buildExpression(rule1, rule2, '&');
+        resultRule = buildExpression(resultRule, rule3, '&');
 
-        assert (!resultRule.interpret());
+        assert (resultRule.interpret());
     }
 
 }
