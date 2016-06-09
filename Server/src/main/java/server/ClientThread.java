@@ -55,7 +55,6 @@ public class ClientThread extends Thread {
             }
         }
 
-        System.out.println("clientthread end");
     }
 
     public void interrupt() {

@@ -24,8 +24,7 @@ public class PortThread extends Thread {
 
     @Override
     public void run() {
-        game = gameBuilder.build();
-        game.startClock();
+        prepareGame();
         createServerSocket();
         System.out.println(game.getName() + " is ready and waiting clients in port " + serverSocket.getLocalPort() + ".");
 
@@ -48,7 +47,6 @@ public class PortThread extends Thread {
             }
         }
 
-        System.out.println("portthread end");
     }
 
     private void addNewClientThread(ClientThread clientThread) {
@@ -62,6 +60,12 @@ public class PortThread extends Thread {
                 inserted = true;
             }
         }
+    }
+
+    private void prepareGame() {
+        game = gameBuilder.build();
+        game.startClock();
+        game.setNotifier(new ClientNotifier((clientThreads)));
     }
 
     private void createServerSocket() {
@@ -119,7 +123,8 @@ public class PortThread extends Thread {
     }
 
     public void resetGame() {
-        game = gameBuilder.build();
+        game.stopClock();
+        prepareGame();
         System.out.println(serverSocket.getLocalPort() + ": " + game.getName() + " reset.");
     }
 
@@ -141,5 +146,7 @@ public class PortThread extends Thread {
         } catch (IOException e) {
             System.out.println("Unable to close server socket!");
         }
+
+        game.stopClock();
     }
 }

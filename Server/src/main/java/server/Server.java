@@ -42,6 +42,5 @@ public class Server {
         }
 
         portThreads.forEach(PortThread::interrupt);
-        System.out.println("server main end");
     }
 }

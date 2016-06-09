@@ -1,6 +1,8 @@
 package creation;
 
-interface Notifier {
+public interface Notifier {
 
     void notifyPlayer(int numberOfPlayer, String msg);
+
+    void notifyEveryone(String msg);
 }
