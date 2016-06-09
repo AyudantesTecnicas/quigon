@@ -197,7 +197,7 @@ public abstract class GameBuilderImp implements GameBuilder {
         actionsList.add(new SupportedAction(numberOfItemsAffected, action));
     }
 
-    public abstract void setActions();
+    protected abstract void setActions();
 
     void setNameDescription() {
         game.setName(gameName);
