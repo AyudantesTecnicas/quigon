@@ -3,6 +3,8 @@ package model.elements;
 import model.actions.Move;
 import model.rulesexpressions.expressions.IExpression;
 
+import java.util.Iterator;
+
 public class Player extends ComplexElement {
     private IExpression victoryCondition;
     private IExpression gameOverCondition = null;
@@ -13,6 +15,7 @@ public class Player extends ComplexElement {
     }
 
     public void resetPlayer() {
+        dropElements();
         if (updateLostGame != null) {
             updateLostGame.execute();
         }
@@ -28,6 +31,13 @@ public class Player extends ComplexElement {
             return true;
         }
         return false;
+    }
+
+    private void dropElements() {
+        for (int i = 0; i < this.elements.size(); i++) {
+            ComplexElement element = this.elements.get(i);
+            element.setContainerElement((ComplexElement) getContainerElement());
+        }
     }
 
     public void setVictoryCondition(IExpression condition) {

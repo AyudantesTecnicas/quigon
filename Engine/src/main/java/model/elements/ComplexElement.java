@@ -14,8 +14,8 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
     private List<Move> moves;
     private ComplexElement containerElement;
     private Integer size;
-    private Boolean visible;
-    private List<ComplexElement> elements;
+    protected Boolean visible;
+    protected List<ComplexElement> elements;
 
     //Methods
     public ComplexElement(String name) {
