@@ -28,11 +28,11 @@ public class Game {
         gameTimer = new GameTimer();
     }
 
-    void startClock() {
+    public void startClock() {
         gameTimer.start();
     }
 
-    protected void stopClock() {
+    public void stopClock() {
         gameTimer.stop();
         notifier.notifyPlayer(1, "hola");   // sacar eso por que find bugs se queja si no usar un campo
     }
