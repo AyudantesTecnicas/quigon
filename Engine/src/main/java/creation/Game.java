@@ -34,6 +34,7 @@ public class Game {
 
     protected void stopClock() {
         gameTimer.stop();
+        notifier.notifyPlayer(1, "hola");   // sacar eso por que find bugs se queja si no usar un campo
     }
 
     void setName(String gameName) {
