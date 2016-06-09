@@ -56,12 +56,21 @@ public final class EntregaBuilder extends GameBuilderImp {
         oneTimeTwoMinutes = new TimeCondition(20,1);
         manyTimesFourMinutes = new TimeCondition(50,99999999);
         wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp, oneTimeTwoMinutes);
+
         changeRoomLibrerianInHallway = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
         changeRoomLibrerianInRoom1 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
         changeRoomLibrerianInRoom2 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
         changeRoomLibrerianInRoom3 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
         changeRoomLibrerianInLibraryAccess = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
         changeRoomLibrerianInLibrary = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+
+        wakeUpLibrerian.setResultMessage(EntregaConstants.LibrarianHasWoken);
+        changeRoomLibrerianInHallway.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
+        changeRoomLibrerianInRoom1.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
+        changeRoomLibrerianInRoom2.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
+        changeRoomLibrerianInRoom3.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
+        changeRoomLibrerianInLibraryAccess.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
+        changeRoomLibrerianInLibrary.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
 
         stateAsleep = new Element(EntregaConstants.sleeping);
         actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);

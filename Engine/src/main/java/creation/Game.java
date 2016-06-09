@@ -132,18 +132,17 @@ public class Game implements Observer{
         } else {
             sendCommand = commandToSend(gameCommand);
         }
-        sendCommand = checkWinConditions(playerManager.currentPlayer);
+        sendCommand = checkWinConditions(playerManager.currentPlayer, sendCommand);
         return sendCommand;
     }
 
-    private String checkWinConditions(Player aPlayer){
-        String result="";
+    private String checkWinConditions(Player aPlayer, String command){
         if (aPlayer.hasWon()) {
-            result = GameBuilderImp.winText;
+            command = GameBuilderImp.winText;
         } else if (aPlayer.hasLost()) {
-            result = GameBuilderImp.loseText;
+            command = GameBuilderImp.loseText;
         }
-        return result;
+        return command;
     }
 
     private boolean commandOfGame(String command) {
@@ -175,12 +174,14 @@ public class Game implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
+        if (notifier!=null)
         notifier.notifyEveryone((String)arg);
         String result="";
         int characterIndex=0;
         for (Player aPlayer: playerManager.characters){
-            result = checkWinConditions(aPlayer);
+            result = checkWinConditions(aPlayer,result);
             if (!result.equals("")){
+                if (notifier!=null)
                 notifier.notifyPlayer(characterIndex,result);
             }
             characterIndex++;
