@@ -21,6 +21,7 @@ public class Game {
     GameParser parser;
     private String gameDescription;
     private GameTimer gameTimer;
+    private Notifier notifier;
 
     public Game() {
         playerManager = new PlayerManager();
@@ -37,6 +38,10 @@ public class Game {
 
     void setName(String gameName) {
         this.gameName = gameName;
+    }
+
+    public void setNotifier(Notifier notifier) {
+        this.notifier = notifier;
     }
 
     public void setTimeObserver(Observer observer) {
