@@ -111,9 +111,9 @@ public class PortThread extends Thread implements Notifier {
 
         String answer = getBasicAnswer(clientThread, cmd);
 
-        checkWin(clientThread, answer);
+        answer = checkWin(clientThread, answer);
 
-        checkLose(clientThread, answer);
+        answer = checkLose(clientThread, answer);
 
         clientThread.sendToClient(answer);
     }
