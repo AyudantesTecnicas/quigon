@@ -1,7 +1,7 @@
 @SuppressWarnings("CPD-START")
 public class EntregaConstants {
     //Elements
-    public static final int numberOfPlayers = 1;
+    public static final int numberOfPlayers = 2;
     public static final String roomPasillo = "pasillo";
     public static final String roomSalon1 = "salon1";
     public static final String roomSalon2 = "salon2";

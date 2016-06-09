@@ -321,7 +321,11 @@ public final class EntregaBuilder extends GameBuilderImp {
         //Regla para perder
         //Ganancia
         for (Player character:game.playerManager.characters) {
-            character.setGameOverCondition(checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto));
+            Move resetCharacter = new Move("reset");
+            resetCharacter.addAction(buildChangeContainerAction(character,roomPasillo));
+            resetCharacter.addAction(buildRemoveStatesAction(character,stateMuerto));
+            character.setGameOverCondition(checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto),
+                    resetCharacter);
             character.setVictoryCondition(checkContainerRule(character, this.roomPatio, ""));
         }
     }
