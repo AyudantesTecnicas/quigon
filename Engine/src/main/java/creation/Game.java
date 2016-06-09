@@ -56,7 +56,7 @@ public class Game {
     }
 
     public void playerHasDesconect(String playerId) {
-
+        playerManager.playerHasDesconect(playerId);
     }
 
     public void addCharacter(Player character) {
