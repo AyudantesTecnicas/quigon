@@ -11,6 +11,7 @@ public class EntregaConstants {
     public static final String elementoVacio = "";
 
     //Elements
+    public static final String ilegal = "ilegal";
     public static final int numberOfPlayers = 4;
     public static final String roomPasillo = "pasillo";
     public static final String roomSalon1 = "salon1";

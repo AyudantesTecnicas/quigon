@@ -33,10 +33,21 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionLibrerianToRoom2;
     private Action actionLibrerianToRoom3;
 
-    private DoesNotHaveContainerRule ruleLibrerianIsInLibraryAccess;
-    private DoesNotHaveContainerRule ruleLibrerianIsInRoom1;
-    private DoesNotHaveContainerRule ruleLibrerianIsInRoom2;
-    private DoesNotHaveContainerRule ruleLibrerianIsInRoom3;
+    private HasContainerRule librarianIsInLibraryAccess;
+    private HasContainerRule librarianIsInSalon1;
+    private HasContainerRule librarianIsInSalon2;
+    private HasContainerRule librarianIsInSalon3;
+
+    private HasContainerRule playerIsInLibraryAccess;
+    private HasContainerRule playerIsInSalon1;
+    private HasContainerRule playerIsInSalon2;
+    private HasContainerRule playerIsInSalon3;
+    private HasStateRule tieneEstadoIlegal;
+
+    private DoesNotHaveContainerRule ruleLibrarianIsNotInLibraryAccess;
+    private DoesNotHaveContainerRule ruleLibrarianIsNotInRoom1;
+    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom2;
+    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom3;
 
     private ComplexElement elementoVacio;
 
@@ -71,15 +82,15 @@ public final class EntregaBuilder extends GameBuilderImp {
         changeRoomLibrarian.addAction(actionLibrerianToRoom3);
         changeRoomLibrarian.setRandom(true);
 
-        ruleLibrerianIsInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom1 = doesntHaveContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom2 = doesntHaveContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom3 = doesntHaveContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
+        ruleLibrarianIsNotInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
+        ruleLibrarianIsNotInRoom1 = doesntHaveContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
+        ruleLibrerianIsNotInRoom2 = doesntHaveContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
+        ruleLibrerianIsNotInRoom3 = doesntHaveContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
 
-        actionLibrerianToLibraryAccess.setRules(ruleLibrerianIsInLibraryAccess);
-        actionLibrerianToRoom1.setRules(ruleLibrerianIsInRoom1);
-        actionLibrerianToRoom2.setRules(ruleLibrerianIsInRoom2);
-        actionLibrerianToRoom3.setRules(ruleLibrerianIsInRoom3);
+        actionLibrerianToLibraryAccess.setRules(ruleLibrarianIsNotInLibraryAccess);
+        actionLibrerianToRoom1.setRules(ruleLibrarianIsNotInRoom1);
+        actionLibrerianToRoom2.setRules(ruleLibrerianIsNotInRoom2);
+        actionLibrerianToRoom3.setRules(ruleLibrerianIsNotInRoom3);
 
         game.setTimeObserver(oneTimeTwoMinutes);
         game.setTimeObserver(manyTimesFourMinutes);
@@ -155,6 +166,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
+    private AndExpression ingresoInvalido;
 
     //Item actions
     private Action actionSetVisibleCajaFuerte;
@@ -177,7 +189,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionKillCharacter;
     private Action actionKillCharacterNoMartillo;
     private Action actionRomperVentana;
-
+    private Action actionIngresoIlegal;
     //Moves
     private Move moveMoverCuadro;
     private Move moveAbrirCajaFuerte;
@@ -229,6 +241,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Element stateBorracho;
     private Element stateMuerto;
     private Element stateRoto;
+    private Element stateIlegal;
 
     protected void setActions() {
         createAndAddSuportedAction(1, EntregaConstants.movePick);
@@ -289,6 +302,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         stateBorracho = new Element(EntregaConstants.borracho);
         stateMuerto = new Element(EntregaConstants.muerto);
         stateRoto = new Element(EntregaConstants.roto);
+        stateIlegal= new Element(EntregaConstants.ilegal);
     }
 
     private void createDoors() {
@@ -317,6 +331,9 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionChangeToSalon2 = buildChangeContainerAction(game.playerManager,roomSalon2);
         actionChangeToSalon3 = buildChangeContainerAction(game.playerManager,roomSalon3);
         actionChangeToAccesoBiblioteca = buildChangeContainerAction(game.playerManager, roomAccesoBiblioteca);
+        actionIngresoIlegal = buildAddStatesAction(game.playerManager,stateIlegal);
+        actionIngresoIlegal.setRules(ingresoInvalido);
+
         actionChangeToBiblioteca = buildChangeContainerAction(game.playerManager, roomBiblioteca);
         actionChangeToSubSotano = buildChangeContainerAction(game.playerManager, roomSubSotano);
         actionChangeToSotano = buildChangeContainerAction(game.playerManager, roomSotano);
@@ -355,15 +372,17 @@ public final class EntregaBuilder extends GameBuilderImp {
         checkContainerRule(game.playerManager,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
-
     private void createRulesForAccessToLibrary() {
         OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
+        OrExpression orExpressionABiblioteca = new OrExpression();
         HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
         HasStateRule ruleBibliotecarioBorracho = checkStateRule(itemBibliotecario, stateBorracho,EntregaConstants.noEstaBorracho);
         orExpressionParaPasarABiblioteca.setLeftExpression(ruleBibliotecarioFeliz);
         orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
-        orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
-        ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
+        orExpressionABiblioteca.setLeftExpression(orExpressionParaPasarABiblioteca);
+        orExpressionABiblioteca.setRightExpression(ruleLibrarianIsNotInLibraryAccess);
+        orExpressionABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
+        ruleParaIngresarALaBiblioteca = orExpressionABiblioteca;
     }
 
     private void createRulesForGetDrunkToLibrarian() {
@@ -383,6 +402,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleParaEmborracharAlBibliotecario = andExpressionParaEmborrachar;
     }
 
+
+
     private void createRules() {
         createRulesCharacterInRooms();
         ruleTenerLlave = checkContainerRule(itemLlave,game.playerManager,EntregaConstants.necesitaTenerLlaveSalon3);
@@ -391,6 +412,9 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
         ruleCredencialInvalida = checkContainerRule(itemFoto,game.playerManager,EntregaConstants.fotoNoPegada);
         ruleBajaAlSubSotanoSinElMartillo = checkContainerRule(itemMartillo,roomSalon2,EntregaConstants.noTieneElMartillo);
+        ingresoInvalido = new AndExpression();
+        ingresoInvalido.setLeftExpression(ruleCredencialInvalida);
+        ingresoInvalido.setRightExpression(ruleLibrarianIsNotInLibraryAccess);
 
         //Reglas para poder emborrachar al bibliotecario
         this.createRulesForGetDrunkToLibrarian();
@@ -401,10 +425,57 @@ public final class EntregaBuilder extends GameBuilderImp {
         //Regla para perder
         //Ganancia
         for (Player character:game.playerManager.characters) {
+
+            librarianIsInLibraryAccess= checkContainerRule(itemBibliotecario,roomAccesoBiblioteca,"fallo");
+            librarianIsInSalon1= checkContainerRule(itemBibliotecario,roomSalon1,"fallo");
+            librarianIsInSalon2= checkContainerRule(itemBibliotecario,roomSalon2,"fallo");
+            librarianIsInSalon3= checkContainerRule(itemBibliotecario,roomSalon3,"fallo");
+
+            playerIsInLibraryAccess= checkContainerRule(character,roomAccesoBiblioteca,"fallo");
+            playerIsInSalon1= checkContainerRule(character,roomSalon1,"fallo");
+            playerIsInSalon2= checkContainerRule(character,roomSalon2,"fallo");
+            playerIsInSalon3= checkContainerRule(character,roomSalon3,"fallo");
+            tieneEstadoIlegal= checkStateRule(character,stateIlegal,"fallo");
+
+            AndExpression and1= new AndExpression();
+            AndExpression and2= new AndExpression();
+            AndExpression and3= new AndExpression();
+            AndExpression and4= new AndExpression();
+
+            AndExpression definitiva= new AndExpression();
+
+            OrExpression or1= new OrExpression();
+            OrExpression or2= new OrExpression();
+            OrExpression or3= new OrExpression();
+            OrExpression gameOverCondition= new OrExpression();
+
+            and1.setLeftExpression(librarianIsInLibraryAccess);
+            and1.setRightExpression(playerIsInLibraryAccess);
+            and2.setLeftExpression(librarianIsInSalon1);
+            and2.setRightExpression(playerIsInSalon1);
+            and3.setLeftExpression(librarianIsInSalon2);
+            and3.setRightExpression(playerIsInSalon2);
+            and4.setLeftExpression(librarianIsInSalon3);
+            and4.setRightExpression(playerIsInSalon3);
+
+            or1.setLeftExpression(and1);
+            or1.setRightExpression(and2);
+            or2.setLeftExpression(and3);
+            or2.setRightExpression(and4);
+            or3.setLeftExpression(or1);
+            or3.setRightExpression(or2);
+
+            definitiva.setLeftExpression(or3);
+            definitiva.setRightExpression(tieneEstadoIlegal);
+
+
+            gameOverCondition.setLeftExpression(checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto));
+            gameOverCondition.setRightExpression(definitiva);
+
             Move resetCharacter = new Move("reset");
             resetCharacter.addAction(buildChangeContainerAction(character,roomPasillo));
             resetCharacter.addAction(buildRemoveStatesAction(character,stateMuerto));
-            character.setGameOverCondition(checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto),
+            character.setGameOverCondition(gameOverCondition,
                     resetCharacter);
             character.setVictoryCondition(checkContainerRule(character, this.roomPatio, ""));
         }
@@ -466,6 +537,8 @@ public final class EntregaBuilder extends GameBuilderImp {
                 null, EntregaConstants.cambiadoAAccesoBiblioteca);
         moveIrABiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToBiblioteca,
                 ruleParaIngresarALaBiblioteca, EntregaConstants.cambiadoABiblioteca);
+        moveIrABiblioteca.addAction(actionIngresoIlegal);
+
         moveIrASotano = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSotano,
                 null, EntregaConstants.cambiadoASotano);
         moveIrAPatio = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPatio, ruleVentanaRota,
