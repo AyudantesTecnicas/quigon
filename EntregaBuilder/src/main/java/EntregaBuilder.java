@@ -54,23 +54,23 @@ public final class EntregaBuilder extends GameBuilderImp {
         elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
 
         oneTimeTwoMinutes = new TimeCondition(20,1);
-        manyTimesFourMinutes = new TimeCondition(50,99999999);
-        wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp, oneTimeTwoMinutes);
+        manyTimesFourMinutes = new TimeCondition(30,99999999);
+        wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp);
 
-        changeRoomLibrerianInHallway = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
-        changeRoomLibrerianInRoom1 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
-        changeRoomLibrerianInRoom2 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
-        changeRoomLibrerianInRoom3 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
-        changeRoomLibrerianInLibraryAccess = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
-        changeRoomLibrerianInLibrary = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
+        changeRoomLibrerianInHallway = new TimedMove(EntregaConstants.librerianRandom);
+        changeRoomLibrerianInRoom1 = new TimedMove(EntregaConstants.librerianRandom);
+        changeRoomLibrerianInRoom2 = new TimedMove(EntregaConstants.librerianRandom);
+        changeRoomLibrerianInRoom3 = new TimedMove(EntregaConstants.librerianRandom);
+        changeRoomLibrerianInLibraryAccess = new TimedMove(EntregaConstants.librerianRandom);
+        changeRoomLibrerianInLibrary = new TimedMove(EntregaConstants.librerianRandom);
 
         wakeUpLibrerian.setResultMessage(EntregaConstants.LibrarianHasWoken);
-        changeRoomLibrerianInHallway.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
-        changeRoomLibrerianInRoom1.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
-        changeRoomLibrerianInRoom2.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
-        changeRoomLibrerianInRoom3.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
-        changeRoomLibrerianInLibraryAccess.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
-        changeRoomLibrerianInLibrary.setResultMessage(EntregaConstants.LibrarianChangedToRoom);
+        changeRoomLibrerianInHallway.setResultMessage("El bibliotecario salio del pasillo");
+        changeRoomLibrerianInRoom1.setResultMessage("El bibliotecario salio del Room1");
+        changeRoomLibrerianInRoom2.setResultMessage("El bibliotecario salio del Room2");
+        changeRoomLibrerianInRoom3.setResultMessage("El bibliotecario salio del Room3");
+        changeRoomLibrerianInLibraryAccess.setResultMessage("El bibliotecario salio del acceso de la biblioteca");
+        changeRoomLibrerianInLibrary.setResultMessage("El bibliotecario salio de la biblioteca");
 
         stateAsleep = new Element(EntregaConstants.sleeping);
         actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);
@@ -78,7 +78,12 @@ public final class EntregaBuilder extends GameBuilderImp {
         wakeUpLibrerian.addAction(actionWakeUp);
 
         wakeUpLibrerian.addObserver(game);
-
+        changeRoomLibrerianInHallway.addObserver(game);
+        changeRoomLibrerianInRoom1.addObserver(game);
+        changeRoomLibrerianInRoom2.addObserver(game);
+        changeRoomLibrerianInRoom3.addObserver(game);
+        changeRoomLibrerianInLibraryAccess.addObserver(game);
+        changeRoomLibrerianInLibrary.addObserver(game);
 
         actionLibrerianToHallway = buildChangeContainerAction(itemBibliotecario, roomPasillo);
         actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
@@ -102,7 +107,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         changeRoomLibrerianInLibraryAccess.addAction(actionLibrerianToLibrary);
 
         //changeRoomLibrerianInLibrary.addAction(actionLibrerianToLibraryAccess);
-        //changeRoomLibrerianInHallway.setRandom(true);
+        changeRoomLibrerianInHallway.setRandom(true);
         changeRoomLibrerianInLibraryAccess.setRandom(true);
 
 /*

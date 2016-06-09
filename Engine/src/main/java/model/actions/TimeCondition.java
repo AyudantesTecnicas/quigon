@@ -52,6 +52,7 @@ public class TimeCondition extends Observable implements Observer {
             if (this.metTimeCondition()) {
                 setChanged();
                 notifyObservers();
+                end();
             }
         }
 

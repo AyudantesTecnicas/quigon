@@ -5,13 +5,9 @@ import java.util.Observer;
 
 public class TimedMove extends Move implements Observer {
 
-    //Attributes
-    private TimeCondition timeCondition;
-
     //Methods
-    public TimedMove(String name, TimeCondition timeCondition) {
+    public TimedMove(String name) {
         super(name);
-        this.timeCondition = timeCondition;
     }
 
     @Override
@@ -34,8 +30,7 @@ public class TimedMove extends Move implements Observer {
         if (super.process()) {
             setChanged();
             notifyObservers(this.getResultMessage());
-            this.timeCondition.end();
         }
+        System.out.println("me llamaron");
     }
-
 }
