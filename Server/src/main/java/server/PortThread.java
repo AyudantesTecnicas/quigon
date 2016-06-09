@@ -46,6 +46,8 @@ public class PortThread extends Thread {
                 e.printStackTrace();
             }
         }
+
+        System.out.println("portthread end");
     }
 
     private void addNewClientThread(ClientThread clientThread) {
@@ -103,6 +105,8 @@ public class PortThread extends Thread {
 
     public void playerLeftGameEvent(ClientThread clientThread) {
         notifyOtherClients("Player " + clientThreads.get(clientThread) + " escaped.", clientThread);
+
+        game.playerHasDesconect(clientThreads.get(clientThread).toString());
 
         clientThreads.remove(clientThread);
         if (clientThreads.size() == 0) {
