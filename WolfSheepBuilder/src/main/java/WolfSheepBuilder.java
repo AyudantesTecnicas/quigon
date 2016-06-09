@@ -188,7 +188,6 @@ public class WolfSheepBuilder extends GameBuilderImp {
             takeCabbage.setRules(checkEqualRule(game.playerManager,character,"not current character"));
             takeCabbageAboard.addAction(takeCabbage);
         }
-
     }
 
     private void injectActionsToMoves() {

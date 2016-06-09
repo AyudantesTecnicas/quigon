@@ -50,7 +50,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         changeRoomLibrarian = new TimedMove(EntregaConstants.librarianRandom);
 
         wakeUpLibrarian.setResultMessage(EntregaConstants.LibrarianHasWoken);
-        changeRoomLibrarian.setResultMessage(EntregaConstants.LibrarianRandom);
+        changeRoomLibrarian.setResultMessage(EntregaConstants.librarianRandom);
 
         stateAsleep = new Element(EntregaConstants.sleeping);
         actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);
