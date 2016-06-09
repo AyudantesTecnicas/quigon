@@ -31,7 +31,6 @@ public class Game implements Observer{
 
     public void stopClock() {
         gameTimer.stop();
-        notifier.notifyEveryone("hola");   // sacar eso por que find bugs se queja si no usar un campo
     }
 
     void setName(String gameName) {
@@ -133,13 +132,18 @@ public class Game implements Observer{
         } else {
             sendCommand = commandToSend(gameCommand);
         }
-
-        if (playerManager.currentPlayer.hasWon()) {
-            sendCommand = GameBuilderImp.winText;
-        } else if (playerManager.currentPlayer.hasLost()) {
-            sendCommand = GameBuilderImp.loseText;
-        }
+        sendCommand = checkWinConditions(playerManager.currentPlayer);
         return sendCommand;
+    }
+
+    private String checkWinConditions(Player aPlayer){
+        String result="";
+        if (aPlayer.hasWon()) {
+            result = GameBuilderImp.winText;
+        } else if (aPlayer.hasLost()) {
+            result = GameBuilderImp.loseText;
+        }
+        return result;
     }
 
     private boolean commandOfGame(String command) {
@@ -171,6 +175,15 @@ public class Game implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        //Notificar jugadores del bibliotecario y chequear la lose condition
+        notifier.notifyEveryone((String)arg);
+        String result="";
+        int characterIndex=0;
+        for (Player aPlayer: playerManager.characters){
+            result = checkWinConditions(aPlayer);
+            if (!result.equals("")){
+                notifier.notifyPlayer(characterIndex,result);
+            }
+            characterIndex++;
+        }
     }
 }
