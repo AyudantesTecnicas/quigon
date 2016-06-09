@@ -68,6 +68,9 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         wakeUpLibrerian.addAction(actionWakeUp);
 
+        wakeUpLibrerian.addObserver(game);
+
+
         actionLibrerianToHallway = buildChangeContainerAction(itemBibliotecario, roomPasillo);
         actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
         actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Move extends Element implements IExecutable {
+public class Move extends Element implements IExecutable{
 
     //Attributes
     private List<Action> actions;

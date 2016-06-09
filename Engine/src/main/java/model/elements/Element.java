@@ -1,6 +1,10 @@
 package model.elements;
 
-public class Element {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+
+public class Element extends Observable implements ActionListener {
 
     //Attributes
     private String name;
@@ -41,5 +45,11 @@ public class Element {
     public int hashCode() {
         assert false : "hashCode not designed";
         return 42; // any arbitrary constant will do
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        setChanged();
+        notifyObservers();
     }
 }

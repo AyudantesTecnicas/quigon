@@ -9,12 +9,9 @@ import parser.GameAction;
 import parser.GameParser;
 import time.GameTimer;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Observer;
+import java.util.*;
 
-public class Game {
+public class Game implements Observer{
     private String gameName;
     public PlayerManager playerManager;
     List<Element> elementList;
@@ -170,5 +167,10 @@ public class Game {
 
     public void setElements(List<Element> elementList) {
         this.elementList = elementList;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        //Notificar jugadores del bibliotecario y chequear la lose condition
     }
 }
