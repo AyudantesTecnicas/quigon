@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashMap;
 
-public class PortThread extends Thread {
+public class PortThread extends Thread implements Notifier {
 
     private ServerSocket serverSocket;
     private int port;
@@ -65,7 +65,7 @@ public class PortThread extends Thread {
     private void prepareGame() {
         game = gameBuilder.build();
         game.startClock();
-        game.setNotifier(new ClientNotifier((clientThreads)));
+        game.setNotifier(this);
     }
 
     private void createServerSocket() {
@@ -89,21 +89,31 @@ public class PortThread extends Thread {
         }
     }
 
+    private String checkWin(ClientThread clientThread, String answer) {
+        if (answer.equals(GameBuilderImp.winText)) {
+            notifyOtherClients("Player " + clientThreads.get(clientThread) + " won! Game reset.", clientThread);
+            resetGame();
+            return answer + " Game reset.";
+        }
+        return answer;
+    }
+
+    private String checkLose(ClientThread clientThread, String answer) {
+        if (answer.equals(GameBuilderImp.loseText)) {
+            notifyOtherClients("Player " + clientThreads.get(clientThread) + " lost the game!", clientThread);
+            return answer + " Respawn.";
+        }
+        return answer;
+    }
+
     public void playerSendCommandEvent(ClientThread clientThread, String cmd) {
         notifyOtherClients("Player " + clientThreads.get(clientThread) + " send this: " + cmd, clientThread);
 
         String answer = getBasicAnswer(clientThread, cmd);
 
-        if (answer.equals(GameBuilderImp.winText)) {
-            notifyOtherClients("Player " + clientThreads.get(clientThread) + " won! Game reset.", clientThread);
-            resetGame();
-            answer = answer + " Game reset.";
-        }
+        checkWin(clientThread, answer);
 
-        if (answer.equals(GameBuilderImp.loseText)) {
-            notifyOtherClients("Player " + clientThreads.get(clientThread) + " lost the game!", clientThread);
-            answer = answer + " Respawn.";
-        }
+        checkLose(clientThread, answer);
 
         clientThread.sendToClient(answer);
     }
@@ -133,6 +143,23 @@ public class PortThread extends Thread {
             if (clientThread != informer) {
                 clientThread.sendToClient(msg);
             }
+        }
+    }
+
+    @Override
+    public void notifyPlayer(int number, String msg) {
+        for (ClientThread clientThread : clientThreads.keySet()) {
+            if (clientThreads.get(clientThread) == number) {
+                msg = checkLose(clientThread, msg);
+                clientThread.sendToClient(msg);
+            }
+        }
+    }
+
+    @Override
+    public void notifyEveryone(String msg) {
+        for (ClientThread clientThread : clientThreads.keySet()) {
+            clientThread.sendToClient(msg);
         }
     }
 
