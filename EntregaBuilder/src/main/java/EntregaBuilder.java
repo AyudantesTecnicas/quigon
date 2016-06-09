@@ -23,31 +23,21 @@ public final class EntregaBuilder extends GameBuilderImp {
     //TimeConditions
     private TimeCondition oneTimeTwoMinutes;
     private TimeCondition manyTimesFourMinutes;
-    private TimedMove wakeUpLibrerian;
-    private TimedMove changeRoomLibrerianInHallway;
-    private TimedMove changeRoomLibrerianInRoom1;
-    private TimedMove changeRoomLibrerianInRoom2;
-    private TimedMove changeRoomLibrerianInRoom3;
-    private TimedMove changeRoomLibrerianInLibraryAccess;
-    private TimedMove changeRoomLibrerianInLibrary;
-
+    private TimedMove wakeUpLibrarian;
+    private TimedMove changeRoomLibrarian;
 
     private Element stateAsleep;
     private Action actionWakeUp;
-    private Action actionLibrerianToHallway;
+    private Action actionLibrerianToLibraryAccess;
     private Action actionLibrerianToRoom1;
     private Action actionLibrerianToRoom2;
     private Action actionLibrerianToRoom3;
-    //private Action actionLibrerianToLibraryAccess;
-    private Action actionLibrerianToLibrary;
-    /*
-    private HasContainerRule ruleLibrerianIsInHallway;
-    private HasContainerRule ruleLibrerianIsInRoom1;
-    private HasContainerRule ruleLibrerianIsInRoom2;
-    private HasContainerRule ruleLibrerianIsInRoom3;
-    private HasContainerRule ruleLibrerianIsInLibraryAccess;
-    private HasContainerRule ruleLibrerianIsInLibrary;
-    */
+
+    private DoesNotHaveContainerRule ruleLibrerianIsInLibraryAccess;
+    private DoesNotHaveContainerRule ruleLibrerianIsInRoom1;
+    private DoesNotHaveContainerRule ruleLibrerianIsInRoom2;
+    private DoesNotHaveContainerRule ruleLibrerianIsInRoom3;
+
     private ComplexElement elementoVacio;
 
     private void setTimeConditions() {
@@ -55,94 +45,49 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         oneTimeTwoMinutes = new TimeCondition(20,1);
         manyTimesFourMinutes = new TimeCondition(30,99999999);
-        wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp);
+        wakeUpLibrarian = new TimedMove(EntregaConstants.librerianWakeUp);
 
-        changeRoomLibrerianInHallway = new TimedMove(EntregaConstants.librerianRandom);
-        changeRoomLibrerianInRoom1 = new TimedMove(EntregaConstants.librerianRandom);
-        changeRoomLibrerianInRoom2 = new TimedMove(EntregaConstants.librerianRandom);
-        changeRoomLibrerianInRoom3 = new TimedMove(EntregaConstants.librerianRandom);
-        changeRoomLibrerianInLibraryAccess = new TimedMove(EntregaConstants.librerianRandom);
-        changeRoomLibrerianInLibrary = new TimedMove(EntregaConstants.librerianRandom);
+        changeRoomLibrarian = new TimedMove(EntregaConstants.librarianRandom);
 
-        wakeUpLibrerian.setResultMessage(EntregaConstants.LibrarianHasWoken);
-        changeRoomLibrerianInHallway.setResultMessage("El bibliotecario salio del pasillo");
-        changeRoomLibrerianInRoom1.setResultMessage("El bibliotecario salio del Room1");
-        changeRoomLibrerianInRoom2.setResultMessage("El bibliotecario salio del Room2");
-        changeRoomLibrerianInRoom3.setResultMessage("El bibliotecario salio del Room3");
-        changeRoomLibrerianInLibraryAccess.setResultMessage("El bibliotecario salio del acceso de la biblioteca");
-        changeRoomLibrerianInLibrary.setResultMessage("El bibliotecario salio de la biblioteca");
+        wakeUpLibrarian.setResultMessage(EntregaConstants.LibrarianHasWoken);
+        changeRoomLibrarian.setResultMessage(EntregaConstants.LibrarianRandom);
 
         stateAsleep = new Element(EntregaConstants.sleeping);
         actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);
 
-        wakeUpLibrerian.addAction(actionWakeUp);
+        wakeUpLibrarian.addAction(actionWakeUp);
 
-        wakeUpLibrerian.addObserver(game);
-        changeRoomLibrerianInHallway.addObserver(game);
-        changeRoomLibrerianInRoom1.addObserver(game);
-        changeRoomLibrerianInRoom2.addObserver(game);
-        changeRoomLibrerianInRoom3.addObserver(game);
-        changeRoomLibrerianInLibraryAccess.addObserver(game);
-        changeRoomLibrerianInLibrary.addObserver(game);
+        wakeUpLibrarian.addObserver(game);
+        changeRoomLibrarian.addObserver(game);
 
-        actionLibrerianToHallway = buildChangeContainerAction(itemBibliotecario, roomPasillo);
+        actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomPasillo);
         actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
         actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);
         actionLibrerianToRoom3 = buildChangeContainerAction(itemBibliotecario, roomSalon3);
-        //actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomAccesoBiblioteca);
-        actionLibrerianToLibrary = buildChangeContainerAction(itemBibliotecario, roomBiblioteca);
 
-        changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom1);
-        changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom2);
-        changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom3);
-        //changeRoomLibrerianInHallway.addAction(actionLibrerianToLibraryAccess);
+        changeRoomLibrarian.addAction(actionLibrerianToLibraryAccess);
+        changeRoomLibrarian.addAction(actionLibrerianToRoom1);
+        changeRoomLibrarian.addAction(actionLibrerianToRoom2);
+        changeRoomLibrarian.addAction(actionLibrerianToRoom3);
+        changeRoomLibrarian.setRandom(true);
 
-        changeRoomLibrerianInRoom1.addAction(actionLibrerianToHallway);
+        ruleLibrerianIsInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
+        ruleLibrerianIsInRoom1 = doesntHaveContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
+        ruleLibrerianIsInRoom2 = doesntHaveContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
+        ruleLibrerianIsInRoom3 = doesntHaveContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
 
-        changeRoomLibrerianInRoom2.addAction(actionLibrerianToHallway);
+        actionLibrerianToLibraryAccess.setRules(ruleLibrerianIsInLibraryAccess);
+        actionLibrerianToRoom1.setRules(ruleLibrerianIsInRoom1);
+        actionLibrerianToRoom2.setRules(ruleLibrerianIsInRoom2);
+        actionLibrerianToRoom3.setRules(ruleLibrerianIsInRoom3);
 
-        changeRoomLibrerianInRoom3.addAction(actionLibrerianToHallway);
-
-        changeRoomLibrerianInLibraryAccess.addAction(actionLibrerianToHallway);
-        changeRoomLibrerianInLibraryAccess.addAction(actionLibrerianToLibrary);
-
-        //changeRoomLibrerianInLibrary.addAction(actionLibrerianToLibraryAccess);
-        changeRoomLibrerianInHallway.setRandom(true);
-        changeRoomLibrerianInLibraryAccess.setRandom(true);
-
-/*
-        ruleLibrerianIsInHallway = checkContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom1 = checkContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom2 = checkContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom3 = checkContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
-        ruleLibrerianIsInLibraryAccess = checkContainerRule(itemBibliotecario, roomAccesoBiblioteca, EntregaConstants.noEsta);
-        ruleLibrerianIsInLibrary = checkContainerRule(itemBibliotecario, roomBiblioteca, EntregaConstants.noEsta);
-
-
-        changeRoomLibrerianInHallway.setRules(ruleLibrerianIsInHallway);
-        changeRoomLibrerianInRoom1.setRules(ruleLibrerianIsInRoom1);
-        changeRoomLibrerianInRoom2.setRules(ruleLibrerianIsInRoom2);
-        changeRoomLibrerianInRoom3.setRules(ruleLibrerianIsInRoom3);
-        changeRoomLibrerianInLibraryAccess.setRules(ruleLibrerianIsInLibraryAccess);
-        changeRoomLibrerianInLibrary.setRules(ruleLibrerianIsInLibrary);
-*/
         game.setTimeObserver(oneTimeTwoMinutes);
         game.setTimeObserver(manyTimesFourMinutes);
-        oneTimeTwoMinutes.addObserver(wakeUpLibrerian);
-        manyTimesFourMinutes.addObserver(changeRoomLibrerianInHallway);
-        manyTimesFourMinutes.addObserver(changeRoomLibrerianInRoom1);
-        manyTimesFourMinutes.addObserver(changeRoomLibrerianInRoom2);
-        manyTimesFourMinutes.addObserver(changeRoomLibrerianInRoom3);
-        manyTimesFourMinutes.addObserver(changeRoomLibrerianInLibraryAccess);
-        manyTimesFourMinutes.addObserver(changeRoomLibrerianInLibrary);
+        oneTimeTwoMinutes.addObserver(wakeUpLibrarian);
+        manyTimesFourMinutes.addObserver(changeRoomLibrarian);
 
-        elementoVacio.addMove(wakeUpLibrerian);
-        elementoVacio.addMove(changeRoomLibrerianInHallway);
-        elementoVacio.addMove(changeRoomLibrerianInRoom1);
-        elementoVacio.addMove(changeRoomLibrerianInRoom2);
-        elementoVacio.addMove(changeRoomLibrerianInRoom3);
-        elementoVacio.addMove(changeRoomLibrerianInLibraryAccess);
-        elementoVacio.addMove(changeRoomLibrerianInLibrary);
+        elementoVacio.addMove(wakeUpLibrarian);
+        elementoVacio.addMove(changeRoomLibrarian);
 
         oneTimeTwoMinutes.initialize();
         manyTimesFourMinutes.initialize();

@@ -31,6 +31,5 @@ public class TimedMove extends Move implements Observer {
             setChanged();
             notifyObservers(this.getResultMessage());
         }
-        System.out.println("me llamaron");
     }
 }
