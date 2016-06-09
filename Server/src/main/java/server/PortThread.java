@@ -25,6 +25,7 @@ public class PortThread extends Thread {
     @Override
     public void run() {
         game = gameBuilder.build();
+        game.startClock();
         createServerSocket();
         System.out.println(game.getName() + " is ready and waiting clients in port " + serverSocket.getLocalPort() + ".");
 

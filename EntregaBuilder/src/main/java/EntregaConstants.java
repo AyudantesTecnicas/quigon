@@ -6,6 +6,7 @@ public class EntregaConstants {
     public static final String librerianRandom = "changeRoom";
     public static final String sleeping = "sleeping";
     public static final String noEsta = "";
+    public static final String elementoVacio = "";
 
     //Elements
     public static final int numberOfPlayers = 1;

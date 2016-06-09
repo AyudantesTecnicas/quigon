@@ -67,7 +67,6 @@ public abstract class GameBuilderImp implements GameBuilder {
         setActions();
         addActionsToParser();
         setElementsToGame();
-        game.startClock();
         return game;
     }
 

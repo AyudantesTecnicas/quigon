@@ -4,6 +4,7 @@ import model.actions.Move;
 import model.actions.TimeCondition;
 import model.actions.TimedMove;
 import model.elements.ComplexElement;
+import model.elements.Element;
 import model.elements.Player;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
@@ -29,24 +30,31 @@ public final class EntregaBuilder extends GameBuilderImp {
     private TimedMove changeRoomLibrerianInRoom3;
     private TimedMove changeRoomLibrerianInLibraryAccess;
     private TimedMove changeRoomLibrerianInLibrary;
-    private ComplexElement stateAsleep;
+
+
+    private Element stateAsleep;
     private Action actionWakeUp;
     private Action actionLibrerianToHallway;
     private Action actionLibrerianToRoom1;
     private Action actionLibrerianToRoom2;
     private Action actionLibrerianToRoom3;
-    private Action actionLibrerianToLibraryAccess;
+    //private Action actionLibrerianToLibraryAccess;
     private Action actionLibrerianToLibrary;
+    /*
     private HasContainerRule ruleLibrerianIsInHallway;
     private HasContainerRule ruleLibrerianIsInRoom1;
     private HasContainerRule ruleLibrerianIsInRoom2;
     private HasContainerRule ruleLibrerianIsInRoom3;
     private HasContainerRule ruleLibrerianIsInLibraryAccess;
     private HasContainerRule ruleLibrerianIsInLibrary;
+    */
+    private ComplexElement elementoVacio;
 
     private void setTimeConditions() {
-        oneTimeTwoMinutes = new TimeCondition(120,1);
-        manyTimesFourMinutes = new TimeCondition(240,99999999);
+        elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
+
+        oneTimeTwoMinutes = new TimeCondition(20,1);
+        manyTimesFourMinutes = new TimeCondition(50,99999999);
         wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp, oneTimeTwoMinutes);
         changeRoomLibrerianInHallway = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
         changeRoomLibrerianInRoom1 = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
@@ -55,7 +63,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         changeRoomLibrerianInLibraryAccess = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
         changeRoomLibrerianInLibrary = new TimedMove(EntregaConstants.librerianRandom, manyTimesFourMinutes);
 
-        stateAsleep = new ComplexElement(EntregaConstants.sleeping);
+        stateAsleep = new Element(EntregaConstants.sleeping);
         actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);
 
         wakeUpLibrerian.addAction(actionWakeUp);
@@ -64,14 +72,13 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
         actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);
         actionLibrerianToRoom3 = buildChangeContainerAction(itemBibliotecario, roomSalon3);
-        actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomAccesoBiblioteca);
+        //actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomAccesoBiblioteca);
         actionLibrerianToLibrary = buildChangeContainerAction(itemBibliotecario, roomBiblioteca);
 
         changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom1);
         changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom2);
         changeRoomLibrerianInHallway.addAction(actionLibrerianToRoom3);
-        changeRoomLibrerianInHallway.addAction(actionLibrerianToLibraryAccess);
-        changeRoomLibrerianInHallway.setRandom(true);
+        //changeRoomLibrerianInHallway.addAction(actionLibrerianToLibraryAccess);
 
         changeRoomLibrerianInRoom1.addAction(actionLibrerianToHallway);
 
@@ -81,10 +88,12 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         changeRoomLibrerianInLibraryAccess.addAction(actionLibrerianToHallway);
         changeRoomLibrerianInLibraryAccess.addAction(actionLibrerianToLibrary);
+
+        //changeRoomLibrerianInLibrary.addAction(actionLibrerianToLibraryAccess);
+        //changeRoomLibrerianInHallway.setRandom(true);
         changeRoomLibrerianInLibraryAccess.setRandom(true);
 
-        changeRoomLibrerianInLibrary.addAction(actionLibrerianToLibraryAccess);
-
+/*
         ruleLibrerianIsInHallway = checkContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
         ruleLibrerianIsInRoom1 = checkContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
         ruleLibrerianIsInRoom2 = checkContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
@@ -92,13 +101,14 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleLibrerianIsInLibraryAccess = checkContainerRule(itemBibliotecario, roomAccesoBiblioteca, EntregaConstants.noEsta);
         ruleLibrerianIsInLibrary = checkContainerRule(itemBibliotecario, roomBiblioteca, EntregaConstants.noEsta);
 
+
         changeRoomLibrerianInHallway.setRules(ruleLibrerianIsInHallway);
         changeRoomLibrerianInRoom1.setRules(ruleLibrerianIsInRoom1);
         changeRoomLibrerianInRoom2.setRules(ruleLibrerianIsInRoom2);
         changeRoomLibrerianInRoom3.setRules(ruleLibrerianIsInRoom3);
         changeRoomLibrerianInLibraryAccess.setRules(ruleLibrerianIsInLibraryAccess);
         changeRoomLibrerianInLibrary.setRules(ruleLibrerianIsInLibrary);
-
+*/
         game.setTimeObserver(oneTimeTwoMinutes);
         game.setTimeObserver(manyTimesFourMinutes);
         oneTimeTwoMinutes.addObserver(wakeUpLibrerian);
@@ -108,6 +118,17 @@ public final class EntregaBuilder extends GameBuilderImp {
         manyTimesFourMinutes.addObserver(changeRoomLibrerianInRoom3);
         manyTimesFourMinutes.addObserver(changeRoomLibrerianInLibraryAccess);
         manyTimesFourMinutes.addObserver(changeRoomLibrerianInLibrary);
+
+        elementoVacio.addMove(wakeUpLibrerian);
+        elementoVacio.addMove(changeRoomLibrerianInHallway);
+        elementoVacio.addMove(changeRoomLibrerianInRoom1);
+        elementoVacio.addMove(changeRoomLibrerianInRoom2);
+        elementoVacio.addMove(changeRoomLibrerianInRoom3);
+        elementoVacio.addMove(changeRoomLibrerianInLibraryAccess);
+        elementoVacio.addMove(changeRoomLibrerianInLibrary);
+
+        oneTimeTwoMinutes.initialize();
+        manyTimesFourMinutes.initialize();
     }
 
     //Characters
@@ -152,9 +173,11 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemLibro7;
     private ComplexElement itemLibro8;
     private ComplexElement itemLibro9;
+
     //Items Sotano
     private ComplexElement itemEscalera;
     private ComplexElement itemBaranda;
+
     //Items SubSotano
     private ComplexElement itemVentana;
     private ComplexElement itemEscaleraSubSotano;
@@ -237,13 +260,13 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement doorSubSotanoToPatio;
 
     //States
-    private ComplexElement stateValido;
-    private ComplexElement stateInvalido;
-    private ComplexElement stateOpen;
-    private ComplexElement stateFeliz;
-    private ComplexElement stateBorracho;
-    private ComplexElement stateMuerto;
-    private ComplexElement stateRoto;
+    private Element stateValido;
+    private Element stateInvalido;
+    private Element stateOpen;
+    private Element stateFeliz;
+    private Element stateBorracho;
+    private Element stateMuerto;
+    private Element stateRoto;
 
     protected void setActions() {
         createAndAddSuportedAction(1, EntregaConstants.movePick);
@@ -297,13 +320,13 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createStates() {
-        stateOpen = new ComplexElement(EntregaConstants.abierta);
-        stateInvalido = new ComplexElement(EntregaConstants.invalido);
-        stateValido = new ComplexElement(EntregaConstants.valido);
-        stateFeliz = new ComplexElement(EntregaConstants.feliz);
-        stateBorracho = new ComplexElement(EntregaConstants.borracho);
-        stateMuerto = new ComplexElement(EntregaConstants.muerto);
-        stateRoto = new ComplexElement(EntregaConstants.roto);
+        stateOpen = new Element(EntregaConstants.abierta);
+        stateInvalido = new Element(EntregaConstants.invalido);
+        stateValido = new Element(EntregaConstants.valido);
+        stateFeliz = new Element(EntregaConstants.feliz);
+        stateBorracho = new Element(EntregaConstants.borracho);
+        stateMuerto = new Element(EntregaConstants.muerto);
+        stateRoto = new Element(EntregaConstants.roto);
     }
 
     private void createDoors() {

@@ -27,7 +27,7 @@ public class Game {
         gameTimer = new GameTimer();
     }
 
-    void startClock(){
+    public void startClock(){
         gameTimer.start();
     }
 

@@ -44,7 +44,7 @@ public class TimeCondition extends Observable implements Observer {
 
     @Override
     public void update(Observable observable, Object arg) {
-
+        System.out.println("paso un puto segundo");
         if (arg != null && arg.equals(ActionConstants.initialize)) {
             this.initialize();
         } else {

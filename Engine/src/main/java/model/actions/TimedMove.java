@@ -26,6 +26,7 @@ public class TimedMove extends Move implements Observer {
 
     @Override
     public void update(Observable observable, Object arg) {
+        System.out.println("se ejecuta la accion");
         this.execute();
     }
 
