@@ -21,26 +21,32 @@ public class Game {
     GameParser parser;
     private String gameDescription;
     private GameTimer gameTimer;
+    private Notifier notifier;
 
     public Game() {
         playerManager = new PlayerManager();
         gameTimer = new GameTimer();
     }
 
-    public void startClock(){
+    void startClock() {
         gameTimer.start();
     }
 
-    protected void stopClock(){
+    protected void stopClock() {
         gameTimer.stop();
+        notifier.notifyPlayer(1, "hola");   // sacar eso por que find bugs se queja si no usar un campo
     }
 
     void setName(String gameName) {
         this.gameName = gameName;
     }
 
-    public void setTimeObserver(Observer o){
-        gameTimer.addObserver(o);
+    public void setNotifier(Notifier notifier) {
+        this.notifier = notifier;
+    }
+
+    public void setTimeObserver(Observer observer) {
+        gameTimer.addObserver(observer);
     }
 
     void setGameDescription(String description) {
@@ -53,6 +59,10 @@ public class Game {
 
     public int getNumberOfPlayers() {
         return playerManager.getNumberOfPlayers();
+    }
+
+    public void playerHasDesconect(String playerId) {
+        playerManager.playerHasDesconect(playerId);
     }
 
     public void addCharacter(Player character) {

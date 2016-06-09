@@ -27,10 +27,6 @@ public class Server {
         }
     }
 
-    private void closeServer() {
-        portThreads.forEach(PortThread::interrupt);
-    }
-
     public void run() {
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
@@ -45,6 +41,7 @@ public class Server {
             }
         }
 
-        closeServer();
+        portThreads.forEach(PortThread::interrupt);
+        System.out.println("server main end");
     }
 }

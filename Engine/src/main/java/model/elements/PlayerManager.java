@@ -11,6 +11,21 @@ public class PlayerManager extends ComplexElement {
         characters = new ArrayList<>();
     }
 
+    public void playerHasDesconect(String playerId) {
+        Player player = getCharacter(playerId);
+        if (player != null) {
+            player.resetPlayer();
+        }
+    }
+
+    private Player getCharacter(String id) {
+        int characterIndex = Integer.parseInt(id);
+        if (characters.size() < characterIndex) {
+            return null;
+        }
+        return characters.get(characterIndex);
+    }
+
     public String getName() {
         return this.currentPlayer.getName();
     }
@@ -27,11 +42,7 @@ public class PlayerManager extends ComplexElement {
     }
 
     public Player updateCurrentCharacter(String command) {
-        int characterIndex = Integer.parseInt(command);
-        if (characters.size() < characterIndex) {
-            currentPlayer = null;
-        }
-        currentPlayer = characters.get(characterIndex);
+        currentPlayer = getCharacter(command);
         return currentPlayer;
     }
 
