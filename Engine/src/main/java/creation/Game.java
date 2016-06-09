@@ -7,24 +7,40 @@ import model.elements.PlayerManager;
 import model.rulesexpressions.expressions.IExpression;
 import parser.GameAction;
 import parser.GameParser;
+import time.GameTimer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observer;
 
-public class Game {
+class Game {
     private String gameName;
-    public PlayerManager playerManager;
+    private PlayerManager playerManager;
     List<Element> elementList;
     GameParser parser;
     private String gameDescription;
+    private GameTimer gameTimer;
 
     Game() {
         playerManager = new PlayerManager();
+        gameTimer = new GameTimer();
+    }
+
+    void startClock(){
+        gameTimer.start();
+    }
+
+    protected void stopClock(){
+        gameTimer.stop();
     }
 
     void setName(String gameName) {
         this.gameName = gameName;
+    }
+
+    public void setTimeObserver(Observer o){
+        gameTimer.addObserver(o);
     }
 
     void setGameDescription(String description) {

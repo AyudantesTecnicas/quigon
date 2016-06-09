@@ -1,6 +1,8 @@
 import creation.GameBuilderImp;
 import model.actions.Action;
 import model.actions.Move;
+import model.actions.TimeCondition;
+import model.actions.TimedMove;
 import model.elements.ComplexElement;
 import model.elements.Player;
 import model.rulesexpressions.expressions.*;
@@ -15,6 +17,24 @@ public final class EntregaBuilder extends GameBuilderImp {
     public EntregaBuilder() {
         gameName = "EntregaBuilder";
         gameDescription = "EjercicioEntrega";
+    }
+
+    //TimeConditions
+    TimeCondition oneTimeTwoMinutes;
+    TimeCondition manyTimesFourMinutes;
+    TimedMove wakeUpLibrerian;
+    TimedMove changeRoomLibrerian;
+
+    private void setTimeConditions(){
+        oneTimeTwoMinutes = new TimeCondition(120,1);
+        manyTimesFourMinutes = new TimeCondition(240,99999999);
+        wakeUpLibrerian = new TimedMove(EntregaConstants.librerianWakeUp,oneTimeTwoMinutes);
+        changeRoomLibrerian = new TimedMove(EntregaConstants.librerianRandom,manyTimesFourMinutes);
+
+        game.setTimeObserver(oneTimeTwoMinutes);
+        game.setTimeObserver(manyTimesFourMinutes);
+        oneTimeTwoMinutes.addObserver(wakeUpLibrerian);
+        manyTimesFourMinutes.addObserver(changeRoomLibrerian);
     }
 
     //Characters
@@ -276,6 +296,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         checkContainerRule(game.playerManager,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
+
     private void createRulesForAccessToLibrary() {
         OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
         HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
@@ -335,6 +356,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         pickAction.setRules(checkEqualRule(game.playerManager,character,"not current character"));
         move.addAction(pickAction);
     }
+
+
 
     private void createMovesToPickElements() {
         moveTomarCredencial = new Move(EntregaConstants.movePick);
