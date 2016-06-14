@@ -1,60 +1,54 @@
 package model.actions;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class TimeCondition extends Observable implements Observer {
+public class TimeCondition extends Observable implements Observer, ActionListener {
 
     //Attributes
-    private Integer timeStampInSeconds;
     private Integer totalSeconds;
-    private Boolean initialized;
-    private Integer repetitions;
+    private boolean repeatable;
+    private boolean initialized;
+    private boolean done;
 
     //Methods
-    public TimeCondition(Integer totalSeconds, Integer repetitions) {
+    public TimeCondition(Integer totalSeconds, boolean repeatable) {
         this.totalSeconds = totalSeconds;
-        this.timeStampInSeconds = 0;
+        this.repeatable = repeatable;
         this.initialized = false;
-        this.repetitions = repetitions;
+        this.done = false;
     }
 
     public void initialize() {
         this.initialized = true;
     }
 
-    public void end() {
-        this.repetitions --;
-        this.timeStampInSeconds = 0;
-
-        if (this.repetitions <= 0) {
-            this.initialized = false;
-        }
+    public int getTotalSeconds() {
+        return totalSeconds;
     }
 
-    private Boolean metTimeCondition() {
-        return ( (this.timeStampInSeconds - this.totalSeconds) > 0 );
-    }
-
-    private void updateTimeStamp() {
-        if (this.initialized) {
-            this.timeStampInSeconds ++;
-        }
+    private boolean canAct() {
+        return initialized && (repeatable || !done);
     }
 
     @Override
     public void update(Observable observable, Object arg) {
         if (arg != null && arg.equals(ActionConstants.initialize)) {
-            this.initialize();
-        } else {
-            this.updateTimeStamp();
-            if (this.metTimeCondition()) {
-                setChanged();
-                notifyObservers();
-                end();
-            }
+            initialize();
         }
-
     }
 
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        if (canAct()) {
+            System.out.println("Se ejecuta");
+            setChanged();
+            notifyObservers();
+            if (!repeatable) {
+                done = true;
+            }
+        }
+    }
 }

@@ -9,6 +9,7 @@ import model.elements.Player;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public final class EntregaBuilder extends GameBuilderImp {
@@ -43,8 +44,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void setTimeConditions() {
         elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
 
-        oneTimeTwoMinutes = new TimeCondition(2,1);
-        manyTimesFourMinutes = new TimeCondition(5,99999999);
+        oneTimeTwoMinutes = new TimeCondition(5,false);
+        manyTimesFourMinutes = new TimeCondition(10,true);
         wakeUpLibrarian = new TimedMove(EntregaConstants.librerianWakeUp);
 
         changeRoomLibrarian = new TimedMove(EntregaConstants.librarianRandom);
@@ -81,8 +82,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionLibrerianToRoom2.setRules(ruleLibrerianIsInRoom2);
         actionLibrerianToRoom3.setRules(ruleLibrerianIsInRoom3);
 
-        game.setTimeObserver(oneTimeTwoMinutes);
-        game.setTimeObserver(manyTimesFourMinutes);
+        game.addTimeCondition(oneTimeTwoMinutes);
+        game.addTimeCondition(manyTimesFourMinutes);
         oneTimeTwoMinutes.addObserver(wakeUpLibrarian);
         manyTimesFourMinutes.addObserver(changeRoomLibrarian);
 

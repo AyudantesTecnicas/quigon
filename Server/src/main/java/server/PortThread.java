@@ -144,6 +144,7 @@ public class PortThread extends Thread implements Notifier {
                 clientThread.sendToClient(msg);
             }
         }
+        //game.shootTimeEvents();
     }
 
     @Override
