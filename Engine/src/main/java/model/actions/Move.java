@@ -86,7 +86,7 @@ public class Move extends Element implements IExecutable {
         if (this.actions == null || this.actions.isEmpty()) {
             return null;
         }
-        System.out.println("llego");
+        System.out.println("tomando random ...");
         Integer randomNumberOfAction = gameRandom.nextInt(this.actions.size());
         System.out.println("random = " + randomNumberOfAction);
         return this.actions.get(randomNumberOfAction);

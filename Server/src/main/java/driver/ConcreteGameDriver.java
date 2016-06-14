@@ -1,29 +1,34 @@
 package driver;
 
 import creation.Game;
-import creation.GameBuilder;
 import creation.GameBuilderImp;
+import creation.GameRandom;
 import server.BuilderLoader;
 
-import java.io.IOException;
-
 public class ConcreteGameDriver implements GameDriver {
-    private GameBuilder gameBuilder;
+    private GameBuilderImp gameBuilder;
     private Game game;
     private GameState gameState;
 
-    public void initGame(String jarPath) throws GameLoadFailedException {
+    public void loadBuilder(String jarPath) {
         try {
             gameBuilder = BuilderLoader.load(jarPath);
-            if (gameBuilder != null) {
-                game = gameBuilder.build();
-            } else {
-                throw new GameLoadFailedException();
-            }
-            gameState = GameState.Ready;
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setGameRandom(GameRandom gameRandom) {
+        gameBuilder.setGameRandom(gameRandom);
+    }
+
+    public void buildGame() throws GameLoadFailedException {
+        if (gameBuilder != null) {
+            game = gameBuilder.build();
+        } else {
+            throw new GameLoadFailedException();
+        }
+        gameState = GameState.Ready;
     }
 
     public String sendCommand(String cmd) {
