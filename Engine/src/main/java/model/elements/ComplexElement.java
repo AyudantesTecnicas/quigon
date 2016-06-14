@@ -1,5 +1,6 @@
 package model.elements;
 
+import creation.GameRandom;
 import logic.Utils;
 import model.actions.Move;
 
@@ -57,6 +58,12 @@ public class ComplexElement extends Element implements Comparable<ComplexElement
             stringToReturn.append("[nothing]\n");
         }
         return stringToReturn.toString();
+    }
+
+    public void setRandomToMoves(GameRandom gameRandom) {
+        for (Move move : moves) {
+            move.setGameRandom(gameRandom);
+        }
     }
 
     public void setContainerElement(ComplexElement containerElement) {

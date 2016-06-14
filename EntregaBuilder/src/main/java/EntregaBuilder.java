@@ -43,8 +43,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void setTimeConditions() {
         elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
 
-        oneTimeTwoMinutes = new TimeCondition(20,1);
-        manyTimesFourMinutes = new TimeCondition(30,99999999);
+        oneTimeTwoMinutes = new TimeCondition(10,1);
+        manyTimesFourMinutes = new TimeCondition(15,99999999);
         wakeUpLibrarian = new TimedMove(EntregaConstants.librerianWakeUp);
 
         changeRoomLibrarian = new TimedMove(EntregaConstants.librarianRandom);

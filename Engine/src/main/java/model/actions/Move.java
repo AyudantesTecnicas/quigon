@@ -1,5 +1,6 @@
 package model.actions;
 
+import creation.GameRandom;
 import logic.Utils;
 
 import model.elements.Element;
@@ -7,9 +8,8 @@ import model.rulesexpressions.expressions.IExpression;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class Move extends Element implements IExecutable{
+public class Move extends Element implements IExecutable {
 
     //Attributes
     private List<Action> actions;
@@ -17,6 +17,7 @@ public class Move extends Element implements IExecutable{
     private String resultMessage;
     private String correctMessage;
     private Boolean random;
+    private GameRandom gameRandom;
 
     //Methods
     public Move(String name) {
@@ -38,6 +39,10 @@ public class Move extends Element implements IExecutable{
 
     public String getResultMessage() {
         return this.resultMessage;
+    }
+
+    public void setGameRandom(GameRandom gameRandom) {
+        this.gameRandom = gameRandom;
     }
 
     @Override
@@ -81,8 +86,9 @@ public class Move extends Element implements IExecutable{
         if (this.actions == null || this.actions.isEmpty()) {
             return null;
         }
-
-        Integer randomNumberOfAction = new Random().nextInt(this.actions.size());
+        System.out.println("llego");
+        Integer randomNumberOfAction = gameRandom.nextInt(this.actions.size());
+        System.out.println("random = " + randomNumberOfAction);
         return this.actions.get(randomNumberOfAction);
     }
 

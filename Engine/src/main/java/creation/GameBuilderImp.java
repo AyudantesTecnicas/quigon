@@ -215,7 +215,7 @@ public abstract class GameBuilderImp implements GameBuilder {
     }
 
     void setElementsToGame() {
-        game.elementList = elementsList;
+        game.setElements(elementsList);
     }
 
     void addActionsToParser() {

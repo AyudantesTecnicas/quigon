@@ -1,11 +1,14 @@
 package server;
 
 import creation.*;
+import driver.MockGameRandom;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class PortThread extends Thread implements Notifier {
@@ -64,8 +67,9 @@ public class PortThread extends Thread implements Notifier {
 
     private void prepareGame() {
         game = gameBuilder.build();
-        game.startClock();
         game.setNotifier(this);
+        //game.setGameRandom(new MockGameRandom(new ArrayList<>(Arrays.asList(0, 1))));
+        game.startClock();
     }
 
     private void createServerSocket() {
