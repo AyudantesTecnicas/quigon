@@ -18,7 +18,6 @@ public class Game implements Observer {
     private String gameDescription;
     private GameTimer gameTimer;
     private Notifier notifier;
-    private GameRandom gameRandom;
 
     public Game() {
         playerManager = new PlayerManager();
@@ -39,18 +38,6 @@ public class Game implements Observer {
 
     public void setNotifier(Notifier notifier) {
         this.notifier = notifier;
-    }
-
-    public void setGameRandom(GameRandom gameRandom) {
-        this.gameRandom = gameRandom;
-        for (Element element : elementList) {
-            ComplexElement complexElement = (ComplexElement)element;
-            complexElement.setRandomToMoves(gameRandom);
-        }
-    }
-
-    public GameRandom getGameRandom() {
-        return this.gameRandom;
     }
 
     public void setTimeObserver(Observer observer) {
@@ -182,7 +169,6 @@ public class Game implements Observer {
 
     public void setElements(List<Element> elementList) {
         this.elementList = elementList;
-        this.setGameRandom(new JavaRandomAdapter());
     }
 
     @Override

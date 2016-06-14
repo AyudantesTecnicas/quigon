@@ -23,6 +23,7 @@ public abstract class GameBuilderImp implements GameBuilder {
     protected String gameDescription = "[default description]";
     private ArrayList<SupportedAction> actionsList;
     private List<Element> elementsList;
+    private GameRandom gameRandom = new JavaRandomAdapter();
 
     public String getName() {
         return gameName;
@@ -34,6 +35,14 @@ public abstract class GameBuilderImp implements GameBuilder {
 
     public void setDescription(String description) {
         this.gameDescription = description;
+    }
+
+    public void setGameRandom(GameRandom gameRandom) {
+        this.gameRandom = gameRandom;
+    }
+
+    public GameRandom getGameRandom() {
+        return this.gameRandom;
     }
 
     public Game getGame() {
@@ -215,6 +224,10 @@ public abstract class GameBuilderImp implements GameBuilder {
     }
 
     void setElementsToGame() {
+        for (Element element : elementsList) {
+            ComplexElement complexElement = (ComplexElement)element;
+            complexElement.setRandomToMoves(gameRandom);
+        }
         game.setElements(elementsList);
     }
 

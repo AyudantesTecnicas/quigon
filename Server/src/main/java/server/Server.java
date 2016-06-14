@@ -1,10 +1,12 @@
 package server;
 
-import creation.GameBuilder;
+import creation.GameBuilderImp;
+import driver.MockGameRandom;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Server {
 
@@ -18,7 +20,10 @@ public class Server {
 
     protected void loadGame(String gamePath) {
         try {
-            GameBuilder gameBuilder = BuilderLoader.load(gamePath);
+            GameBuilderImp gameBuilder = BuilderLoader.load(gamePath);
+//            if (gameBuilder != null) {
+//                gameBuilder.setGameRandom(new MockGameRandom(new ArrayList<>(Arrays.asList(0, 1))));
+//            }
             PortThread portThread = new PortThread(actualPort++, gameBuilder);
             portThreads.add(portThread);
             portThread.start();
