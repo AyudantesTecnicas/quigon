@@ -140,10 +140,10 @@ public class Game implements Observer {
         return sendCommand;
     }
 
-    private String checkWinConditions(Player aPlayer, String command){
-        if (aPlayer.hasWon()) {
+    private String checkWinConditions(Player player, String command) {
+        if (player.hasWon()) {
             command = GameBuilderImp.winText;
-        } else if (aPlayer.hasLost()) {
+        } else if (player.hasLost()) {
             command = GameBuilderImp.loseText;
         }
         return command;
@@ -177,16 +177,16 @@ public class Game implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if (notifier!=null)
-        notifier.notifyEveryone((String)arg);
-        String result="";
-        int characterIndex=0;
-        for (Player aPlayer: playerManager.characters){
-            result = checkWinConditions(aPlayer,result);
-            if (!result.equals("")){
-                if (notifier!=null)
-                notifier.notifyPlayer(characterIndex,result);
+    public void update(Observable observable, Object arg) {
+        if (notifier != null) {
+            notifier.notifyEveryone((String) arg);
+        }
+        String result = "";
+        int characterIndex = 0;
+        for (Player player: playerManager.characters) {
+            result = checkWinConditions(player,result);
+            if (!result.equals("") && (notifier != null)) {
+                notifier.notifyPlayer(characterIndex, result);
             }
             characterIndex++;
         }
