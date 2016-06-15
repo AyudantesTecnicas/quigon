@@ -45,8 +45,8 @@ public class Game implements Observer {
         this.gameTimeManager.createNewTimerTask(timeCondition);
     }
 
-    public void shootTimeEvents() {
-        this.gameTimeManager.shootTimeEvents();
+    public void shootTimeEvent(int number) {
+        this.gameTimeManager.shootTimeEvent(number);
     }
 
     void setGameDescription(String description) {

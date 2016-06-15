@@ -15,13 +15,11 @@ public class GameTimeManager {
         timers.add(timer);
     }
 
-    public void shootTimeEvents() {
-        for (Timer timer : timers) {
-            for (ActionListener actionListener : timer.getActionListeners()) {
-                actionListener.actionPerformed(null);
-            }
-            timer.restart();
+    public void shootTimeEvent(int number) {
+        for (ActionListener actionListener : timers.get(number).getActionListeners()) {
+            actionListener.actionPerformed(null);
         }
+        timers.get(number).restart();
     }
 
     public void startTimers() {
