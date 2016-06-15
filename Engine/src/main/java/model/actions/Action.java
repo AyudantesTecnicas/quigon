@@ -47,7 +47,7 @@ public abstract class Action extends Observable implements IExecutable {
         this.elementsOfElementToUpdate.stream().filter(element -> this.rules == null
                 || this.rules.interpret()).forEach(this::applyChanges);
         setChanged();
-        notifyObservers(ActionConstants.initialize);
+        notifyObservers();
     }
 
     protected abstract void applyChanges(Element element);

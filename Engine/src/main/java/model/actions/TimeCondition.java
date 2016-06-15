@@ -23,6 +23,12 @@ public class TimeCondition extends Observable implements Observer, ActionListene
 
     public void initialize() {
         this.initialized = true;
+        this.done = false;
+    }
+
+    public void stop() {
+        this.initialized = false;
+        this.done = true;
     }
 
     public int getTotalSeconds() {
@@ -35,8 +41,11 @@ public class TimeCondition extends Observable implements Observer, ActionListene
 
     @Override
     public void update(Observable observable, Object arg) {
-        if (arg != null && arg.equals(ActionConstants.initialize)) {
+        if (!this.initialized) {
             initialize();
+        }
+        else {
+            stop();
         }
     }
 
@@ -47,7 +56,7 @@ public class TimeCondition extends Observable implements Observer, ActionListene
             setChanged();
             notifyObservers();
             if (!repeatable) {
-                done = true;
+                stop();
             }
         }
     }

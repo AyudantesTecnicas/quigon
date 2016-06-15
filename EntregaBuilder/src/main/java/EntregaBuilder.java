@@ -1,4 +1,6 @@
 import creation.GameBuilderImp;
+import logic.LogicBuilder;
+import logic.WrongLogicSymbolException;
 import model.actions.Action;
 import model.actions.Move;
 import model.actions.TimeCondition;
@@ -6,10 +8,10 @@ import model.actions.TimedMove;
 import model.elements.ComplexElement;
 import model.elements.Element;
 import model.elements.Player;
+import model.elements.PlayerManager;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 public final class EntregaBuilder extends GameBuilderImp {
@@ -24,75 +26,6 @@ public final class EntregaBuilder extends GameBuilderImp {
     //TimeConditions
     private TimeCondition oneTimeTwoMinutes;
     private TimeCondition manyTimesFourMinutes;
-    private TimedMove wakeUpLibrarian;
-    private TimedMove changeRoomLibrarian;
-
-    private Element stateAsleep;
-    private Action actionWakeUp;
-    private Action actionLibrerianToLibraryAccess;
-    private Action actionLibrerianToRoom1;
-    private Action actionLibrerianToRoom2;
-    private Action actionLibrerianToRoom3;
-
-    private DoesNotHaveContainerRule ruleLibrerianIsInLibraryAccess;
-    private DoesNotHaveContainerRule ruleLibrerianIsInRoom1;
-    private DoesNotHaveContainerRule ruleLibrerianIsInRoom2;
-    private DoesNotHaveContainerRule ruleLibrerianIsInRoom3;
-
-    private ComplexElement elementoVacio;
-
-    private void setTimeConditions() {
-        elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
-
-        oneTimeTwoMinutes = new TimeCondition(5,false);
-        manyTimesFourMinutes = new TimeCondition(10,true);
-        wakeUpLibrarian = new TimedMove(EntregaConstants.librerianWakeUp);
-
-        changeRoomLibrarian = new TimedMove(EntregaConstants.librarianRandom);
-
-        wakeUpLibrarian.setResultMessage(EntregaConstants.LibrarianHasWoken);
-        changeRoomLibrarian.setResultMessage(EntregaConstants.librarianRandom);
-
-        stateAsleep = new Element(EntregaConstants.sleeping);
-        actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);
-
-        wakeUpLibrarian.addAction(actionWakeUp);
-
-        wakeUpLibrarian.addObserver(game);
-        changeRoomLibrarian.addObserver(game);
-
-        actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomPasillo);
-        actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
-        actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);
-        actionLibrerianToRoom3 = buildChangeContainerAction(itemBibliotecario, roomSalon3);
-
-        changeRoomLibrarian.addAction(actionLibrerianToLibraryAccess);
-        changeRoomLibrarian.addAction(actionLibrerianToRoom1);
-        changeRoomLibrarian.addAction(actionLibrerianToRoom2);
-        changeRoomLibrarian.addAction(actionLibrerianToRoom3);
-        changeRoomLibrarian.setRandom(true);
-
-        ruleLibrerianIsInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom1 = doesntHaveContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom2 = doesntHaveContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
-        ruleLibrerianIsInRoom3 = doesntHaveContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
-
-        actionLibrerianToLibraryAccess.setRules(ruleLibrerianIsInLibraryAccess);
-        actionLibrerianToRoom1.setRules(ruleLibrerianIsInRoom1);
-        actionLibrerianToRoom2.setRules(ruleLibrerianIsInRoom2);
-        actionLibrerianToRoom3.setRules(ruleLibrerianIsInRoom3);
-
-        game.addTimeCondition(oneTimeTwoMinutes);
-        game.addTimeCondition(manyTimesFourMinutes);
-        oneTimeTwoMinutes.addObserver(wakeUpLibrarian);
-        manyTimesFourMinutes.addObserver(changeRoomLibrarian);
-
-        elementoVacio.addMove(wakeUpLibrarian);
-        elementoVacio.addMove(changeRoomLibrarian);
-
-        oneTimeTwoMinutes.initialize();
-        manyTimesFourMinutes.initialize();
-    }
 
     //Characters
     private ArrayList<Player> characters;
@@ -145,6 +78,9 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ComplexElement itemVentana;
     private ComplexElement itemEscaleraSubSotano;
 
+    //Item Contenedor de TimedMoves
+    private ComplexElement elementoVacio;
+
     //Rules
     private HasContainerRule ruleTenerLlave;
     private HasContainerRule ruleCharacterInSalon1;
@@ -156,6 +92,12 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
     private IExpression ruleParaIngresarALaBiblioteca;
+
+    private DoesNotHaveContainerRule ruleLibrerianIsNotInLibraryAccess;
+    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom1;
+    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom2;
+    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom3;
+    private DoesNotHaveState ruleIllegalEntry;
 
     //Item actions
     private Action actionSetVisibleCajaFuerte;
@@ -178,6 +120,13 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionKillCharacter;
     private Action actionKillCharacterNoMartillo;
     private Action actionRomperVentana;
+    private Action actionAddIllegalState;
+
+    private Action actionWakeUp;
+    private Action actionLibrerianToLibraryAccess;
+    private Action actionLibrerianToRoom1;
+    private Action actionLibrerianToRoom2;
+    private Action actionLibrerianToRoom3;
 
     //Moves
     private Move moveMoverCuadro;
@@ -208,6 +157,9 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Move moveMoverLibro;
     private Move moveRomperVentana;
 
+    private TimedMove wakeUpLibrarian;
+    private TimedMove changeRoomLibrarian;
+
     //Doors
     private ComplexElement doorPasilloToSalon1;
     private ComplexElement doorPasilloToSalon2;
@@ -230,6 +182,19 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Element stateBorracho;
     private Element stateMuerto;
     private Element stateRoto;
+    private Element stateIllegal;
+
+    private LogicBuilder logicBuilder = new LogicBuilder();
+
+    private IExpression makeComplexRule(IExpression rule1, IExpression rule2, char op) {
+        IExpression complexRule = null;
+        try {
+            complexRule = logicBuilder.build(rule1, rule2, op);
+        } catch (WrongLogicSymbolException e) {
+            System.out.print(logicMessage + ".\n");
+        }
+        return complexRule;
+    }
 
     protected void setActions() {
         createAndAddSuportedAction(1, EntregaConstants.movePick);
@@ -243,21 +208,21 @@ public final class EntregaBuilder extends GameBuilderImp {
         createAndAddSuportedAction(1, EntregaConstants.moveRomperVentana);
     }
 
+    //-----------------------------------------ELEMENTS---------------------------------------------
+
     public void setElements() {
         createRooms();
         createStates();
         createDoors();
         createItems();
         defineCharacter();
+        createTimedConditions();
         createRules();
-        createItemActions();
-        defineVictoryRule();
+        createActions();
         createMoves();
         addMoves();
-        setTimeConditions();
+        initializeTimedConditions();
     }
-
-    private void defineVictoryRule() {}
 
     private void defineCharacter() {
         characters = new ArrayList<>();
@@ -290,6 +255,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         stateBorracho = new Element(EntregaConstants.borracho);
         stateMuerto = new Element(EntregaConstants.muerto);
         stateRoto = new Element(EntregaConstants.roto);
+        stateIllegal = new Element(EntregaConstants.ilegal);
     }
 
     private void createDoors() {
@@ -312,6 +278,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         doorSubSotanoToPatio = createAndAddElement(EntregaConstants.doorSubSotanoToPatio, roomSubSotano,stateOpen);
     }
 
+    //-------------------------------------------ACTIONS---------------------------------------------
+
     private void createChangeRoomItemsAction() {
         actionChangeToPasillo = buildChangeContainerAction(game.playerManager, roomPasillo);
         actionChangeToSalon1 = buildChangeContainerAction(game.playerManager,roomSalon1);
@@ -324,8 +292,9 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionChangeToPatio = buildChangeContainerAction(game.playerManager, roomPatio);
     }
 
-    private void createItemActions() {
+    private void createActions() {
         createChangeRoomItemsAction();
+        createTimedActions();
 
         actionSetVisibleCajaFuerte = buildChangeContainerAction(itemCajaFuerte,roomSalon1);
         actionSetVisibleCredencial = buildChangeContainerAction(itemCredencial,roomSalon1);
@@ -336,14 +305,42 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionSetCredencialToInvalida = buildAddStatesAction(itemCredencial, stateInvalido);
         actionSetCredencialToInvalida.setRules(ruleCredencialInvalida);
 
-        actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
+        actionMakeBibliotecarioFeliz = buildAddStatesAction(game.playerManager, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
         actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
+        actionMakeBibliotecarioBorracho.addObserver(oneTimeTwoMinutes);
+        actionMakeBibliotecarioBorracho.addObserver(manyTimesFourMinutes);
         actionKillCharacter = buildAddStatesAction(game.playerManager, stateMuerto);
         actionKillCharacterNoMartillo = buildAddStatesAction(game.playerManager, stateMuerto);
         actionKillCharacterNoMartillo.setRules(ruleBajaAlSubSotanoSinElMartillo);
         actionRomperVentana = buildAddStatesAction(itemVentana,stateRoto);
+        actionAddIllegalState = buildAddStatesAction(game.playerManager, stateIllegal);
+        actionAddIllegalState.setRules(ruleIllegalEntry);
     }
+
+    private void createTimedActions() {
+        actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomPasillo);
+        actionLibrerianToLibraryAccess.setRules(ruleLibrerianIsNotInLibraryAccess);
+        actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
+        actionLibrerianToRoom1.setRules(ruleLibrerianIsNotInRoom1);
+        actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);
+        actionLibrerianToRoom2.setRules(ruleLibrerianIsNotInRoom2);
+        actionLibrerianToRoom3 = buildChangeContainerAction(itemBibliotecario, roomSalon3);
+        actionLibrerianToRoom3.setRules(ruleLibrerianIsNotInRoom3);
+        actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateBorracho);
+        actionWakeUp.addObserver(manyTimesFourMinutes);
+    }
+
+    //---------------------------------------TIMED-CONDITIONS-----------------------------------------------
+    
+    private void createTimedConditions() {
+        oneTimeTwoMinutes = new TimeCondition(15,false);
+        manyTimesFourMinutes = new TimeCondition(30,true);
+        game.addTimeCondition(oneTimeTwoMinutes);
+        game.addTimeCondition(manyTimesFourMinutes);
+    }
+    
+    //-------------------------------------------RULES-----------------------------------------------
 
     private void createRulesCharacterInRooms() {
         ruleCharacterInSalon1 = checkContainerRule(game.playerManager,roomSalon1,EntregaConstants.noEstaEnLaRoom);
@@ -356,32 +353,32 @@ public final class EntregaBuilder extends GameBuilderImp {
         checkContainerRule(game.playerManager,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
+    private void createRulesToAccessLibrary() {
+        HasStateRule ruleLibrarianHappy = checkStateRule(game.playerManager, stateFeliz,
+                EntregaConstants.noEstaFeliz);
+        HasStateRule ruleLibrarianDrunk = checkStateRule(itemBibliotecario, stateBorracho,
+                EntregaConstants.noEstaBorracho);
 
-    private void createRulesForAccessToLibrary() {
-        OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
-        HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
-        HasStateRule ruleBibliotecarioBorracho = checkStateRule(itemBibliotecario, stateBorracho,EntregaConstants.noEstaBorracho);
-        orExpressionParaPasarABiblioteca.setLeftExpression(ruleBibliotecarioFeliz);
-        orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
-        orExpressionParaPasarABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
-        ruleParaIngresarALaBiblioteca = orExpressionParaPasarABiblioteca;
+        IExpression orExpressionToAccessLibrary = makeComplexRule(ruleLibrarianHappy,
+                ruleLibrarianDrunk, '|');
+
+        ruleParaIngresarALaBiblioteca = makeComplexRule(orExpressionToAccessLibrary,
+                ruleLibrerianIsNotInLibraryAccess, '|');
+        ruleParaIngresarALaBiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
     }
 
-    private void createRulesForGetDrunkToLibrarian() {
-        HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, game.playerManager, EntregaConstants.necesitaElVaso);
-        HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, game.playerManager, EntregaConstants.necesitaElVaso);
+    private void createRulesToGetLibrarianDrunk() {
+        HasContainerRule ruleContainsGlass1 = checkContainerRule(itemVaso1, game.playerManager, EntregaConstants.necesitaElVaso);
+        HasContainerRule ruleContainsGlass2 = checkContainerRule(itemVaso2, game.playerManager, EntregaConstants.necesitaElVaso);
 
-        OrExpression orExpressionParaVasos = new OrExpression();
-        orExpressionParaVasos.setLeftExpression(ruleTieneVaso1);
-        orExpressionParaVasos.setRightExpression(ruleTieneVaso2);
-        orExpressionParaVasos.setFailMessage(EntregaConstants.noTieneVasos);
+        IExpression orExpressionForGlasses = makeComplexRule(ruleContainsGlass1, ruleContainsGlass2,
+                '|');
+        orExpressionForGlasses.setFailMessage(EntregaConstants.noTieneVasos);
 
-        HasContainerRule ruleTieneBotella = checkContainerRule(itemBotella, game.playerManager, EntregaConstants.necesitaLaBotella);
-        AndExpression andExpressionParaEmborrachar = new AndExpression();
-        andExpressionParaEmborrachar.setLeftExpression(ruleTieneBotella);
-        andExpressionParaEmborrachar.setRightExpression(orExpressionParaVasos);
-        andExpressionParaEmborrachar.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
-        ruleParaEmborracharAlBibliotecario = andExpressionParaEmborrachar;
+        HasContainerRule ruleHasBottle = checkContainerRule(itemBotella, game.playerManager, EntregaConstants.necesitaLaBotella);
+        ruleParaEmborracharAlBibliotecario = makeComplexRule(ruleHasBottle, orExpressionForGlasses,
+                '&');
+        ruleParaEmborracharAlBibliotecario.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
     }
 
     private void createRules() {
@@ -393,23 +390,73 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleCredencialInvalida = checkContainerRule(itemFoto,game.playerManager,EntregaConstants.fotoNoPegada);
         ruleBajaAlSubSotanoSinElMartillo = checkContainerRule(itemMartillo,roomSalon2,EntregaConstants.noTieneElMartillo);
 
+        //Reglas para las acciones
+        this.createActionRules();
+
         //Reglas para poder emborrachar al bibliotecario
-        this.createRulesForGetDrunkToLibrarian();
+        this.createRulesToGetLibrarianDrunk();
 
         //Reglas para poder pasar a la biblioteca
-        this.createRulesForAccessToLibrary();
+        this.createRulesToAccessLibrary();
 
         //Regla para perder
         //Ganancia
         for (Player character:game.playerManager.characters) {
+            HasContainerRule librarianIsInLibraryAccess = checkContainerRule(itemBibliotecario, roomAccesoBiblioteca,
+                    EntregaConstants.failed);
+            HasContainerRule librarianIsInRoom1 = checkContainerRule(itemBibliotecario, roomSalon1,
+                    EntregaConstants.failed);
+            HasContainerRule librarianIsInRoom2 = checkContainerRule(itemBibliotecario, roomSalon2,
+                    EntregaConstants.failed);
+            HasContainerRule librarianIsInRoom3 = checkContainerRule(itemBibliotecario, roomSalon3,
+                    EntregaConstants.failed);
+
+            HasContainerRule playerIsInLibraryAccess = checkContainerRule(character, roomAccesoBiblioteca,
+                    EntregaConstants.failed);
+            HasContainerRule playerIsInRoom1 = checkContainerRule(character, roomSalon1,
+                    EntregaConstants.failed);
+            HasContainerRule playerIsInRoom2 = checkContainerRule(character, roomSalon2,
+                    EntregaConstants.failed);
+            HasContainerRule playerIsInRoom3 = checkContainerRule(character, roomSalon3,
+                    EntregaConstants.failed);
+
+            IExpression and1 = makeComplexRule(librarianIsInLibraryAccess, playerIsInLibraryAccess, '&');
+            IExpression and2 = makeComplexRule(librarianIsInRoom1, playerIsInRoom1, '&');
+            IExpression and3 = makeComplexRule(librarianIsInRoom2, playerIsInRoom2, '&');
+            IExpression and4 = makeComplexRule(librarianIsInRoom3, playerIsInRoom3, '&');
+
+            IExpression or1 = makeComplexRule(and1, and2, '|');
+            IExpression or2 = makeComplexRule(and3, and4, '|');
+            IExpression or3 = makeComplexRule(or1, or2, '|');
+
+            HasStateRule hasIllegalState = checkStateRule(character, stateIllegal, EntregaConstants.failed);
+
+            IExpression caughtIllegal = makeComplexRule(hasIllegalState, or3, '&');
+            HasStateRule isDead = checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto);
+
+            IExpression gameOverCondition = makeComplexRule(caughtIllegal, isDead, '|');
             Move resetCharacter = new Move("reset");
             resetCharacter.addAction(buildChangeContainerAction(character,roomPasillo));
             resetCharacter.addAction(buildRemoveStatesAction(character,stateMuerto));
-            character.setGameOverCondition(checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto),
-                    resetCharacter);
+            character.setGameOverCondition(gameOverCondition, resetCharacter);
+
             character.setVictoryCondition(checkContainerRule(character, this.roomPatio, ""));
         }
     }
+
+    private void createActionRules() {
+        ruleLibrerianIsNotInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
+        ruleLibrerianIsNotInRoom1 = doesntHaveContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
+        ruleLibrerianIsNotInRoom2 = doesntHaveContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
+        ruleLibrerianIsNotInRoom3 = doesntHaveContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
+
+        ruleIllegalEntry = new DoesNotHaveState();
+        ruleIllegalEntry.setElementToValidate(game.playerManager);
+        ruleIllegalEntry.setStateToValidate(stateIllegal);
+        ruleIllegalEntry.setFailMessage(EntregaConstants.bibliotecarioFeliz);
+    }
+
+    //---------------------------------------------MOVES-----------------------------------------------
 
     private void addCharacterPickItemAction(Move move, Player character, ComplexElement item) {
         Action pickAction = buildChangeContainerAction(item, character);
@@ -467,6 +514,7 @@ public final class EntregaBuilder extends GameBuilderImp {
                 null, EntregaConstants.cambiadoAAccesoBiblioteca);
         moveIrABiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToBiblioteca,
                 ruleParaIngresarALaBiblioteca, EntregaConstants.cambiadoABiblioteca);
+        moveIrABiblioteca.addAction(actionAddIllegalState);
         moveIrASotano = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSotano,
                 null, EntregaConstants.cambiadoASotano);
         moveIrAPatio = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPatio, ruleVentanaRota,
@@ -510,6 +558,31 @@ public final class EntregaBuilder extends GameBuilderImp {
         //Moves for pick items
         this.createMovesToPickElements();
 
+        this.createTimedMoves();
+    }
+
+    private void createTimedMoves() {
+        elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
+
+        wakeUpLibrarian = new TimedMove(EntregaConstants.librerianWakeUp);
+        wakeUpLibrarian.setResultMessage(EntregaConstants.librarianHasWoken);
+        wakeUpLibrarian.addAction(actionWakeUp);
+        wakeUpLibrarian.addObserver(game);
+
+        changeRoomLibrarian = new TimedMove(EntregaConstants.librarianRandom);
+        changeRoomLibrarian.setResultMessage(EntregaConstants.librarianChangedToRoom);
+        changeRoomLibrarian.addObserver(game);
+        changeRoomLibrarian.addAction(actionLibrerianToLibraryAccess);
+        changeRoomLibrarian.addAction(actionLibrerianToRoom1);
+        changeRoomLibrarian.addAction(actionLibrerianToRoom2);
+        changeRoomLibrarian.addAction(actionLibrerianToRoom3);
+        changeRoomLibrarian.setRandom(true);
+
+        oneTimeTwoMinutes.addObserver(wakeUpLibrarian);
+        manyTimesFourMinutes.addObserver(changeRoomLibrarian);
+
+        elementoVacio.addMove(wakeUpLibrarian);
+        elementoVacio.addMove(changeRoomLibrarian);
     }
 
     private void addMovesItemsInSalon1() {
@@ -587,6 +660,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         doorSubSotanoToPatio.addMove(moveIrAPatio);
     }
 
+    //-------------------------------------------ITEMS---------------------------------------------
+
     private void createItems() {
         createItemsSalon1();
         createItemsSalon2();
@@ -647,5 +722,11 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void createItemsSubSotano() {
         itemVentana = createAndAddElement(EntregaConstants.ventana, roomSubSotano, null);
         itemEscaleraSubSotano = createAndAddElement(EntregaConstants.escaleraOxidada, roomSubSotano, null);
+    }
+    
+    //----------------------------------INITIALIZE-TIMED-CONDITIONS----------------------------------------------
+    
+    private void initializeTimedConditions() {
+        manyTimesFourMinutes.initialize();
     }
 }
