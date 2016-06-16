@@ -26,7 +26,6 @@ public final class EntregaBuilder extends GameBuilderImp {
     private TimedMove wakeUpLibrarian;
     private TimedMove changeRoomLibrarian;
 
-    private Element stateAsleep;
     private Action actionWakeUp;
     private Action actionLibrerianToLibraryAccess;
     private Action actionLibrerianToRoom1;
@@ -43,18 +42,22 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasContainerRule playerIsInSalon2;
     private HasContainerRule playerIsInSalon3;
     private HasStateRule tieneEstadoIlegal;
+    private HasStateRule estaBorracho;
+    private HasStateRule noEstaBorracho;
+    private HasStateRule estaEnojado;
 
     private DoesNotHaveContainerRule ruleLibrarianIsNotInLibraryAccess;
     private DoesNotHaveContainerRule ruleLibrarianIsNotInRoom1;
     private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom2;
     private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom3;
+    AndExpression enojadoYNoBorracho;
 
     private ComplexElement elementoVacio;
 
     private void setTimeConditions() {
         elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
 
-        oneTimeTwoMinutes = new TimeCondition(20,1);
+        oneTimeTwoMinutes = new TimeCondition(20,999999999);
         manyTimesFourMinutes = new TimeCondition(30,99999999);
         wakeUpLibrarian = new TimedMove(EntregaConstants.librerianWakeUp);
 
@@ -63,9 +66,10 @@ public final class EntregaBuilder extends GameBuilderImp {
         wakeUpLibrarian.setResultMessage(EntregaConstants.LibrarianHasWoken);
         changeRoomLibrarian.setResultMessage(EntregaConstants.librarianRandom);
 
-        stateAsleep = new Element(EntregaConstants.sleeping);
-        actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateAsleep);
-
+        actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateBorracho);
+        estaBorracho = checkStateRule(itemBibliotecario,stateBorracho,EntregaConstants.noBorracho);
+        noEstaBorracho = checkNoStateRule(itemBibliotecario,stateBorracho,EntregaConstants.noestaBorracho);
+        wakeUpLibrarian.setRules(estaBorracho);
         wakeUpLibrarian.addAction(actionWakeUp);
 
         wakeUpLibrarian.addObserver(game);
@@ -76,6 +80,14 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);
         actionLibrerianToRoom3 = buildChangeContainerAction(itemBibliotecario, roomSalon3);
 
+        estaEnojado = checkStateRule(itemBibliotecario,stateEnojado,EntregaConstants.noEnojado);
+        enojadoYNoBorracho = new AndExpression();
+
+        enojadoYNoBorracho.setLeftExpression(estaEnojado);
+        enojadoYNoBorracho.setRightExpression(noEstaBorracho);
+        enojadoYNoBorracho.setFailMessage("fallo");
+
+        changeRoomLibrarian.setRules(enojadoYNoBorracho);
         changeRoomLibrarian.addAction(actionLibrerianToLibraryAccess);
         changeRoomLibrarian.addAction(actionLibrerianToRoom1);
         changeRoomLibrarian.addAction(actionLibrerianToRoom2);
@@ -186,6 +198,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Action actionSetCredencialToInvalida;
     private Action actionMakeBibliotecarioFeliz;
     private Action actionMakeBibliotecarioBorracho;
+    private Action actionMakeBibliotecarioEnojado;
     private Action actionKillCharacter;
     private Action actionKillCharacterNoMartillo;
     private Action actionRomperVentana;
@@ -239,6 +252,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private Element stateOpen;
     private Element stateFeliz;
     private Element stateBorracho;
+    private Element stateEnojado;
     private Element stateMuerto;
     private Element stateRoto;
     private Element stateIlegal;
@@ -300,6 +314,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         stateValido = new Element(EntregaConstants.valido);
         stateFeliz = new Element(EntregaConstants.feliz);
         stateBorracho = new Element(EntregaConstants.borracho);
+        stateEnojado = new Element(EntregaConstants.enojado);
         stateMuerto = new Element(EntregaConstants.muerto);
         stateRoto = new Element(EntregaConstants.roto);
         stateIlegal= new Element(EntregaConstants.ilegal);
@@ -355,6 +370,8 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionMakeBibliotecarioFeliz = buildAddStatesAction(itemBibliotecario, stateFeliz);
         actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
         actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
+        actionMakeBibliotecarioEnojado = buildAddStatesAction(itemBibliotecario, stateEnojado);
+
         actionKillCharacter = buildAddStatesAction(game.playerManager, stateMuerto);
         actionKillCharacterNoMartillo = buildAddStatesAction(game.playerManager, stateMuerto);
         actionKillCharacterNoMartillo.setRules(ruleBajaAlSubSotanoSinElMartillo);
@@ -572,7 +589,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         moveMostrarCredencialAlBibliotecario.addAction(actionSetCredencialToInvalida);
         moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho,
                 ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
-
+        moveEmborracharAlBibliotecario.addAction(actionMakeBibliotecarioEnojado);
         moveUsarEscalera = moveWithActionsAndRules(EntregaConstants.moveUse, actionKillCharacter,
                 null, EntregaConstants.escaleraEnMalasCondiciones);
 

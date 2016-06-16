@@ -6,8 +6,12 @@ public class EntregaConstants {
     public static final String librarianRandom = "changeRoom";
     public static final String LibrarianHasWoken = "El bibliotecario desperto";
     public static final String LibrarianChangedToRoom = "El bibliotecario cambio de cuarto";
+    public static final String noBorracho = "no esta borracho";
+    public static final String noestaBorracho = "no esta borracho";
+    public static final String noEnojado = "fallo";
     public static final String sleeping = "sleeping";
     public static final String noEsta = "";
+    public static final String enojado = "esta enojado";
     public static final String elementoVacio = "";
 
     //Elements
