@@ -231,7 +231,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         createActions();
         createMoves();
         addMoves();
-        initializeTimedConditions();
     }
 
     private void defineCharacter() {
@@ -319,7 +318,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionMakeLibrarianHappy.setRules(ruleCredentialValida);
         actionGetLibrarianDrunk = buildAddStatesAction(itemLibrarian, stateDrunk);
         actionGetLibrarianDrunk.addObserver(oneTimeTwoMinutes);
-        actionGetLibrarianDrunk.addObserver(manyTimesFourMinutes);
         actionKillCharacter = buildAddStatesAction(game.playerManager, stateDead);
         actionKillCharacterNoHammer = buildAddStatesAction(game.playerManager, stateDead);
         actionKillCharacterNoHammer.setRules(ruleDescendsToSubBasementWithoutHammer);
@@ -388,6 +386,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleToGetLibrarianDrunk = makeComplexRule(ruleHasBottle, orExpressionForGlasses,
                 '&');
         ruleToGetLibrarianDrunk.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
+
     }
 
     private void createRules() {
@@ -797,8 +796,5 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
     
     //----------------------------------INITIALIZE-TIMED-CONDITIONS----------------------------------------------
-    
-    private void initializeTimedConditions() {
-        manyTimesFourMinutes.initialize();
-    }
+
 }

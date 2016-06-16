@@ -12,7 +12,7 @@ import parser.SupportedAction;
 import java.util.*;
 
 public abstract class GameBuilderImp implements GameBuilder {
-
+    @SuppressWarnings("CPD-START")
     public static final String winText = "You won the game!";
     public static final String loseText = "You lost the game!";
     protected static final String logicMessage = "Wrong expressed logic";
@@ -139,9 +139,19 @@ public abstract class GameBuilderImp implements GameBuilder {
 
     protected HasStateRule checkStateRule(ComplexElement contained, Element state, String failMessage) {
         HasStateRule rule = new HasStateRule();
+        ruleSetStateAndFail(contained,rule,state,failMessage);
+        return rule;
+    }
+
+    void ruleSetStateAndFail(ComplexElement contained, StateRule rule, Element state, String failMessage){
         rule.setElementToValidate(contained);
         rule.setStateToValidate(state);
         rule.setFailMessage(failMessage);
+    }
+
+    protected DoesNotHaveState checkNoStateRule(ComplexElement contained, Element state, String failMessage) {
+        DoesNotHaveState rule = new DoesNotHaveState();
+        ruleSetStateAndFail(contained,rule,state,failMessage);
         return rule;
     }
 

@@ -1,4 +1,4 @@
 package driver;
 
-class GameNotBuiltException extends Exception {
+public class GameNotBuiltException extends Exception {
 }
