@@ -94,7 +94,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         changeRoomLibrarian.addAction(actionLibrerianToRoom3);
         changeRoomLibrarian.setRandom(true);
 
-        ruleLibrarianIsNotInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
         ruleLibrarianIsNotInRoom1 = doesntHaveContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
         ruleLibrerianIsNotInRoom2 = doesntHaveContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
         ruleLibrerianIsNotInRoom3 = doesntHaveContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
@@ -177,7 +176,7 @@ public final class EntregaBuilder extends GameBuilderImp {
     private HasContainerRule ruleBajaAlSubSotanoSinElMartillo;
     private HasStateRule ruleVentanaRota;
     private IExpression ruleParaEmborracharAlBibliotecario;
-    private IExpression ruleParaIngresarALaBiblioteca;
+    private OrExpression ruleParaIngresarALaBiblioteca;
     private AndExpression ingresoInvalido;
 
     //Item actions
@@ -346,7 +345,11 @@ public final class EntregaBuilder extends GameBuilderImp {
         actionChangeToSalon2 = buildChangeContainerAction(game.playerManager,roomSalon2);
         actionChangeToSalon3 = buildChangeContainerAction(game.playerManager,roomSalon3);
         actionChangeToAccesoBiblioteca = buildChangeContainerAction(game.playerManager, roomAccesoBiblioteca);
+
         actionIngresoIlegal = buildAddStatesAction(game.playerManager,stateIlegal);
+        ingresoInvalido = new AndExpression();
+        ingresoInvalido.setLeftExpression(ruleCredencialInvalida);
+        ingresoInvalido.setRightExpression(ruleLibrarianIsNotInLibraryAccess);
         actionIngresoIlegal.setRules(ingresoInvalido);
 
         actionChangeToBiblioteca = buildChangeContainerAction(game.playerManager, roomBiblioteca);
@@ -389,20 +392,21 @@ public final class EntregaBuilder extends GameBuilderImp {
         checkContainerRule(game.playerManager,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
     }
 
-    private void createRulesForAccessToLibrary() {
+    private void createRulesToAccessToLibrary() {
         OrExpression orExpressionParaPasarABiblioteca = new OrExpression();
-        OrExpression orExpressionABiblioteca = new OrExpression();
         HasStateRule ruleBibliotecarioFeliz = checkStateRule(itemBibliotecario, stateFeliz,EntregaConstants.noEstaFeliz);
         HasStateRule ruleBibliotecarioBorracho = checkStateRule(itemBibliotecario, stateBorracho,EntregaConstants.noEstaBorracho);
         orExpressionParaPasarABiblioteca.setLeftExpression(ruleBibliotecarioFeliz);
         orExpressionParaPasarABiblioteca.setRightExpression(ruleBibliotecarioBorracho);
-        orExpressionABiblioteca.setLeftExpression(orExpressionParaPasarABiblioteca);
-        orExpressionABiblioteca.setRightExpression(ruleLibrarianIsNotInLibraryAccess);
-        orExpressionABiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
-        ruleParaIngresarALaBiblioteca = orExpressionABiblioteca;
+
+        ruleLibrarianIsNotInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
+        ruleParaIngresarALaBiblioteca = new OrExpression();
+        ruleParaIngresarALaBiblioteca.setLeftExpression(orExpressionParaPasarABiblioteca);
+        ruleParaIngresarALaBiblioteca.setRightExpression(ruleLibrarianIsNotInLibraryAccess);
+        ruleParaIngresarALaBiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
     }
 
-    private void createRulesForGetDrunkToLibrarian() {
+    private void createRulestoGetLibrarianDrunk() {
         HasContainerRule ruleTieneVaso1 = checkContainerRule(itemVaso1, game.playerManager, EntregaConstants.necesitaElVaso);
         HasContainerRule ruleTieneVaso2 = checkContainerRule(itemVaso2, game.playerManager, EntregaConstants.necesitaElVaso);
 
@@ -429,15 +433,12 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
         ruleCredencialInvalida = checkContainerRule(itemFoto,game.playerManager,EntregaConstants.fotoNoPegada);
         ruleBajaAlSubSotanoSinElMartillo = checkContainerRule(itemMartillo,roomSalon2,EntregaConstants.noTieneElMartillo);
-        ingresoInvalido = new AndExpression();
-        ingresoInvalido.setLeftExpression(ruleCredencialInvalida);
-        ingresoInvalido.setRightExpression(ruleLibrarianIsNotInLibraryAccess);
 
         //Reglas para poder emborrachar al bibliotecario
-        this.createRulesForGetDrunkToLibrarian();
+        this.createRulestoGetLibrarianDrunk();
 
         //Reglas para poder pasar a la biblioteca
-        this.createRulesForAccessToLibrary();
+        this.createRulesToAccessToLibrary();
 
         //Regla para perder
         //Ganancia
