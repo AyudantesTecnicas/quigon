@@ -1,4 +1,5 @@
 import creation.GameBuilderImp;
+import creation.JavaRandomAdapter;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.Action;
@@ -8,7 +9,6 @@ import model.actions.TimedMove;
 import model.elements.ComplexElement;
 import model.elements.Element;
 import model.elements.Player;
-import model.elements.PlayerManager;
 import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 
@@ -31,157 +31,167 @@ public final class EntregaBuilder extends GameBuilderImp {
     private ArrayList<Player> characters;
 
     //Rooms
-    private ComplexElement roomPasillo;
-    private ComplexElement roomSalon1;
-    private ComplexElement roomSalon2;
-    private ComplexElement roomSalon3;
-    private ComplexElement roomSotano;
-    private ComplexElement roomSubSotano;
-    private ComplexElement roomBiblioteca;
-    private ComplexElement roomAccesoBiblioteca;
-    private ComplexElement roomPatio;
+    private ComplexElement roomHallway;
+    private ComplexElement roomRoom1;
+    private ComplexElement roomRoom2;
+    private ComplexElement roomRoom3;
+    private ComplexElement roomBasement;
+    private ComplexElement roomSubBasement;
+    private ComplexElement roomLibrary;
+    private ComplexElement roomLibraryAccess;
+    private ComplexElement roomYard;
 
     //Items
-    private ComplexElement itemFoto;
+    private ComplexElement itemPicture;
     //Items salon 1
-    private ComplexElement itemBotella;
-    private ComplexElement itemVaso1;
-    private ComplexElement itemVaso2;
-    private ComplexElement itemCuadroBarco;
-    private ComplexElement itemCajaFuerte;
-    private ComplexElement itemCredencial;
+    private ComplexElement itemBottle;
+    private ComplexElement itemGlass1;
+    private ComplexElement itemGlass2;
+    private ComplexElement itemPaintingShip;
+    private ComplexElement itemSafe;
+    private ComplexElement itemCredential;
     //Items salon 2
-    private ComplexElement itemMartillo;
-    private ComplexElement itemDestornillador1;
-    private ComplexElement itemDestornillador2;
+    private ComplexElement itemHammer;
+    private ComplexElement itemScrewdriver1;
+    private ComplexElement itemScrewdriver2;
     //Items salon 3
-    private ComplexElement itemLlave;
+    private ComplexElement itemKey;
     //Items Acceso Bilioteca
-    private ComplexElement itemBibliotecario;
+    private ComplexElement itemLibrarian;
     //Items Bilioteca
-    private ComplexElement itemLibroViejo;
-    private ComplexElement itemLibro1;
-    private ComplexElement itemLibro2;
-    private ComplexElement itemLibro3;
-    private ComplexElement itemLibro4;
-    private ComplexElement itemLibro5;
-    private ComplexElement itemLibro6;
-    private ComplexElement itemLibro7;
-    private ComplexElement itemLibro8;
-    private ComplexElement itemLibro9;
+    private ComplexElement itemOldBook;
+    private ComplexElement itemBook1;
+    private ComplexElement itemBook2;
+    private ComplexElement itemBook3;
+    private ComplexElement itemBook4;
+    private ComplexElement itemBook5;
+    private ComplexElement itemBook6;
+    private ComplexElement itemBook7;
+    private ComplexElement itemBook8;
+    private ComplexElement itemBook9;
 
     //Items Sotano
-    private ComplexElement itemEscalera;
-    private ComplexElement itemBaranda;
+    private ComplexElement itemStairs;
+    private ComplexElement itemRailing;
 
     //Items SubSotano
-    private ComplexElement itemVentana;
-    private ComplexElement itemEscaleraSubSotano;
+    private ComplexElement itemWindow;
+    private ComplexElement itemStairsSubBasement;
 
     //Item Contenedor de TimedMoves
-    private ComplexElement elementoVacio;
+    private ComplexElement emptyElement;
 
     //Rules
-    private HasContainerRule ruleTenerLlave;
+    private HasContainerRule ruleHoldsKey;
     private HasContainerRule ruleCharacterInSalon1;
-    private HasContainerRule ruleCharacterInPasillo;
-    private HasContainerRule ruleTenerMartillo;
-    private HasStateRule ruleCredencialValida;
-    private HasContainerRule ruleCredencialInvalida;
-    private HasContainerRule ruleBajaAlSubSotanoSinElMartillo;
-    private HasStateRule ruleVentanaRota;
-    private IExpression ruleParaEmborracharAlBibliotecario;
-    private IExpression ruleParaIngresarALaBiblioteca;
+    private HasContainerRule ruleCharacterInHallway;
+    private HasContainerRule ruleHoldsHammer;
+    private HasStateRule ruleCredentialValida;
+    private HasContainerRule ruleCredentialInvalid;
+    private HasContainerRule ruleDescendsToSubBasementWithoutHammer;
+    private HasStateRule ruleBrokenWindow;
+    private IExpression ruleToGetLibrarianDrunk;
+    private IExpression ruleToAccessLibrary;
 
-    private DoesNotHaveContainerRule ruleLibrerianIsNotInLibraryAccess;
-    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom1;
-    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom2;
-    private DoesNotHaveContainerRule ruleLibrerianIsNotInRoom3;
+    private DoesNotHaveContainerRule ruleLibrarianIsNotInLibraryAccess;
+    private HasContainerRule ruleLibrarianIsInLibraryAccess;
+    private HasContainerRule ruleLibrarianIsInLibrary;
+    private HasContainerRule ruleLibrarianIsInRoom1;
+    private HasContainerRule ruleLibrarianIsInRoom2;
+    private HasContainerRule ruleLibrarianIsInRoom3;
+    private HasContainerRule ruleLibrarianIsInHallway;
     private DoesNotHaveState ruleIllegalEntry;
 
     //Item actions
-    private Action actionSetVisibleCajaFuerte;
-    private Action actionSetVisibleCredencial;
-    private Action actionSetVisiblePasajeSecreto;
-    private Action actionChangeToPasillo;
-    private Action actionChangeToSalon1;
-    private Action actionChangeToSalon2;
-    private Action actionChangeToSalon3;
-    private Action actionChangeToAccesoBiblioteca;
-    private Action actionChangeToBiblioteca;
-    private Action actionChangeToSubSotano;
-    private Action actionChangeToSotano;
+    private Action actionSetVisibleSafe;
+    private Action actionSetVisibleCredential;
+    private Action actionSetVisibleSecretPassage;
+    private Action actionChangeToHallway;
+    private Action actionChangeToRoom1;
+    private Action actionChangeToRoom2;
+    private Action actionChangeToRoom3;
+    private Action actionChangeToLibraryAccess;
+    private Action actionChangeToLibrary;
+    private Action actionChangeToSubBasement;
+    private Action actionChangeToBasement;
     private Action actionChangeToPatio;
-    private Action actionPutFotoEnCredencial;
-    private Action actionSetCredencialToValida;
-    private Action actionSetCredencialToInvalida;
-    private Action actionMakeBibliotecarioFeliz;
-    private Action actionMakeBibliotecarioBorracho;
+    private Action actionPutPictureOnCredential;
+    private Action actionSetCredentialToValida;
+    private Action actionSetCredentialToInvalid;
+    private Action actionMakeLibrarianHappy;
+    private Action actionGetLibrarianDrunk;
     private Action actionKillCharacter;
-    private Action actionKillCharacterNoMartillo;
-    private Action actionRomperVentana;
+    private Action actionKillCharacterNoHammer;
+    private Action actionShatterWindow;
     private Action actionAddIllegalState;
 
     private Action actionWakeUp;
-    private Action actionLibrerianToLibraryAccess;
-    private Action actionLibrerianToRoom1;
-    private Action actionLibrerianToRoom2;
-    private Action actionLibrerianToRoom3;
+    private Action actionLibrarianToLibraryAccess;
+    private Action actionLibrarianToRoom1;
+    private Action actionLibrarianToRoom2;
+    private Action actionLibrarianToRoom3;
+    private Action actionLibrarianToLibrary;
+    private Action actionLibrarianToHallway;
 
     //Moves
-    private Move moveMoverCuadro;
-    private Move moveAbrirCajaFuerte;
-    private Move moveTomarCredencial;
-    private Move moveIrAPasillo;
-    private Move moveIrASalon1;
-    private Move moveIrASalon2;
-    private Move moveIrASalon3;
-    private Move moveIrAAccesoBiblioteca;
-    private Move moveIrABiblioteca;
-    private Move moveIrASotano;
-    private Move moveIrASubSotano;
+    private Move moveMovePainting;
+    private Move moveOpenSafe;
+    private Move moveTakeCredential;
+    private Move moveGoToHallway;
+    private Move moveGoToRoom1;
+    private Move moveGoToRoom2;
+    private Move moveGoToRoom3;
+    private Move moveGoToLibraryAccess;
+    private Move moveGoToLibrary;
+    private Move moveGoToBasement;
+    private Move moveGoToSubBasement;
     private Move moveIrAPatio;
 
-    private Move movePonerFotoEnCredencial;
-    private Move moveMostrarCredencialAlBibliotecario;
-    private Move moveEmborracharAlBibliotecario;
-    private Move moveUsarEscalera;
-    private Move moveTomarBotella;
-    private Move moveTomarLlave;
-    private Move moveTomarMartillo;
-    private Move moveTomarDestornillador1;
-    private Move moveTomarDestornillador2;
-    private Move moveTomarVaso1;
-    private Move moveTomarVaso2;
-    private Move moveMoverLibroViejo;
-    private Move moveMoverLibro;
-    private Move moveRomperVentana;
+    private Move movePutPictureOnCredential;
+    private Move moveShowCredentialToLibrarian;
+    private Move moveGetLibrarianDrunk;
+    private Move moveUseStairs;
+    private Move movePickBottle;
+    private Move movePickKey;
+    private Move movePickHammer;
+    private Move movePickScrewdriver1;
+    private Move movePickScrewdriver2;
+    private Move movePickGlass1;
+    private Move movePickGlass2;
+    private Move moveMoveOldBook;
+    private Move moveMoveBook;
+    private Move moveShatterWindow;
 
     private TimedMove wakeUpLibrarian;
-    private TimedMove changeRoomLibrarian;
+    private TimedMove changeRoomLibrarianFromLibraryAccess;
+    private Move changeRoomLibrarianFromLibrary;
+    private Move changeRoomLibrarianFromRoom1;
+    private Move changeRoomLibrarianFromRoom2;
+    private Move changeRoomLibrarianFromRoom3;
+    private Move changeRoomLibrarianFromHallway;
 
     //Doors
-    private ComplexElement doorPasilloToSalon1;
-    private ComplexElement doorPasilloToSalon2;
-    private ComplexElement doorPasilloToSalon3;
-    private ComplexElement doorPasilloToAccesoBiblioteca;
-    private ComplexElement doorSalon1ToPasillo;
-    private ComplexElement doorSalon2ToPasillo;
-    private ComplexElement doorSalon3ToPasillo;
-    private ComplexElement doorAccesoBibliotecaToPasillo;
-    private ComplexElement doorAccesoBibliotecaToBiblioteca;
-    private ComplexElement doorBibliotecaToAccesoBiblioteca;
-    private ComplexElement doorBibliotecaToSotano;
-    private ComplexElement doorSubSotanoToPatio;
+    private ComplexElement doorHallwayToRoom1;
+    private ComplexElement doorHallwayToRoom2;
+    private ComplexElement doorHallwayToRoom3;
+    private ComplexElement doorHallwayToLibraryAccess;
+    private ComplexElement doorRoom1ToHallway;
+    private ComplexElement doorRoom2ToHallway;
+    private ComplexElement doorRoom3ToHallway;
+    private ComplexElement doorLibraryAccessToHallway;
+    private ComplexElement doorLibraryAccessToLibrary;
+    private ComplexElement doorLibraryToLibraryAccess;
+    private ComplexElement doorLibraryToBasement;
+    private ComplexElement doorSubBasementToYard;
 
     //States
-    private Element stateValido;
-    private Element stateInvalido;
+    private Element stateValid;
+    private Element stateInvalid;
     private Element stateOpen;
-    private Element stateFeliz;
-    private Element stateBorracho;
-    private Element stateMuerto;
-    private Element stateRoto;
+    private Element stateHappy;
+    private Element stateDrunk;
+    private Element stateDead;
+    private Element stateBroken;
     private Element stateIllegal;
 
     private LogicBuilder logicBuilder = new LogicBuilder();
@@ -227,8 +237,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void defineCharacter() {
         characters = new ArrayList<>();
         for (int i = 0; i < EntregaConstants.numberOfPlayers; i++) {
-            Player character = createAndAddPlayer("character" + i, roomPasillo, null);
-            itemFoto = createAndAddElement(EntregaConstants.photo,character,null);
+            Player character = createAndAddPlayer("character" + i, roomHallway, null);
+            itemPicture = createAndAddElement(EntregaConstants.photo,character,null);
             createAndAddElement(EntregaConstants.pen,character,null);
             characters.add(character);
         }
@@ -236,98 +246,97 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createRooms() {
-        roomPasillo = createAndAddElement(EntregaConstants.roomPasillo, null, null);
-        roomSalon1 = createAndAddElement(EntregaConstants.roomSalon1, null, null);
-        roomSalon2 = createAndAddElement(EntregaConstants.roomSalon2, null, null);
-        roomSalon3 = createAndAddElement(EntregaConstants.roomSalon3, null, null);
-        roomSotano = createAndAddElement(EntregaConstants.roomSotano, null, null);
-        roomSubSotano = createAndAddElement(EntregaConstants.roomSubSotano, null, null);
-        roomBiblioteca = createAndAddElement(EntregaConstants.roomBiblioteca, null, null);
-        roomAccesoBiblioteca = createAndAddElement(EntregaConstants.roomAccesoBiblioteca, null, null);
-        roomPatio = createAndAddElement(EntregaConstants.roomPatio, null, null);
+        roomHallway = createAndAddElement(EntregaConstants.roomPasillo, null, null);
+        roomRoom1 = createAndAddElement(EntregaConstants.roomSalon1, null, null);
+        roomRoom2 = createAndAddElement(EntregaConstants.roomSalon2, null, null);
+        roomRoom3 = createAndAddElement(EntregaConstants.roomSalon3, null, null);
+        roomBasement = createAndAddElement(EntregaConstants.roomSotano, null, null);
+        roomSubBasement = createAndAddElement(EntregaConstants.roomSubSotano, null, null);
+        roomLibrary = createAndAddElement(EntregaConstants.roomBiblioteca, null, null);
+        roomLibraryAccess = createAndAddElement(EntregaConstants.roomAccesoBiblioteca, null, null);
+        roomYard = createAndAddElement(EntregaConstants.roomPatio, null, null);
     }
 
     private void createStates() {
         stateOpen = new Element(EntregaConstants.abierta);
-        stateInvalido = new Element(EntregaConstants.invalido);
-        stateValido = new Element(EntregaConstants.valido);
-        stateFeliz = new Element(EntregaConstants.feliz);
-        stateBorracho = new Element(EntregaConstants.borracho);
-        stateMuerto = new Element(EntregaConstants.muerto);
-        stateRoto = new Element(EntregaConstants.roto);
-        stateIllegal = new Element(EntregaConstants.ilegal);
+        stateInvalid = new Element(EntregaConstants.invalido);
+        stateValid = new Element(EntregaConstants.valido);
+        stateHappy = new Element(EntregaConstants.feliz);
+        stateDrunk = new Element(EntregaConstants.borracho);
+        stateDead = new Element(EntregaConstants.muerto);
+        stateBroken = new Element(EntregaConstants.roto);
+        stateIllegal = new Element(EntregaConstants.illegal);
     }
 
     private void createDoors() {
         //Doors from Pasillo to another one
-        doorPasilloToSalon1 = createAndAddElement(EntregaConstants.doorPasilloToSalon1, roomPasillo, stateOpen);
-        doorPasilloToSalon2 = createAndAddElement(EntregaConstants.doorPasilloToSalon2, roomPasillo, stateOpen);
-        doorPasilloToSalon3 = createAndAddElement(EntregaConstants.doorPasilloToSalon3, roomPasillo, stateOpen);
-        doorPasilloToAccesoBiblioteca = createAndAddElement(EntregaConstants.doorAccesoBiblioteca, roomPasillo, stateOpen);
+        doorHallwayToRoom1 = createAndAddElement(EntregaConstants.doorPasilloToSalon1, roomHallway, stateOpen);
+        doorHallwayToRoom2 = createAndAddElement(EntregaConstants.doorPasilloToSalon2, roomHallway, stateOpen);
+        doorHallwayToRoom3 = createAndAddElement(EntregaConstants.doorPasilloToSalon3, roomHallway, stateOpen);
+        doorHallwayToLibraryAccess = createAndAddElement(EntregaConstants.doorAccesoBiblioteca, roomHallway, stateOpen);
 
         //Doors to Pasillo from another one
-        doorSalon1ToPasillo = createAndAddElement(EntregaConstants.doorPasillo, roomSalon1, stateOpen);
-        doorSalon2ToPasillo = createAndAddElement(EntregaConstants.doorPasillo, roomSalon2, stateOpen);
-        doorSalon3ToPasillo = createAndAddElement(EntregaConstants.doorPasillo, roomSalon3, stateOpen);
-        doorAccesoBibliotecaToPasillo = createAndAddElement(EntregaConstants.doorPasillo, roomAccesoBiblioteca, stateOpen);
+        doorRoom1ToHallway = createAndAddElement(EntregaConstants.doorPasillo, roomRoom1, stateOpen);
+        doorRoom2ToHallway = createAndAddElement(EntregaConstants.doorPasillo, roomRoom2, stateOpen);
+        doorRoom3ToHallway = createAndAddElement(EntregaConstants.doorPasillo, roomRoom3, stateOpen);
+        doorLibraryAccessToHallway = createAndAddElement(EntregaConstants.doorPasillo, roomLibraryAccess, stateOpen);
 
         //Others doors
-        doorAccesoBibliotecaToBiblioteca = createAndAddElement(EntregaConstants.doorBiblioteca, roomAccesoBiblioteca, stateOpen);
-        doorBibliotecaToAccesoBiblioteca = createAndAddElement(EntregaConstants.doorAccesoBiblioteca, roomBiblioteca, stateOpen);
-        doorBibliotecaToSotano = createAndAddElement(EntregaConstants.doorBibliotecaToSotano, itemLibroViejo, stateOpen);
-        doorSubSotanoToPatio = createAndAddElement(EntregaConstants.doorSubSotanoToPatio, roomSubSotano,stateOpen);
+        doorLibraryAccessToLibrary = createAndAddElement(EntregaConstants.doorBiblioteca, roomLibraryAccess, stateOpen);
+        doorLibraryToLibraryAccess = createAndAddElement(EntregaConstants.doorAccesoBiblioteca, roomLibrary, stateOpen);
+        doorLibraryToBasement = createAndAddElement(EntregaConstants.doorBibliotecaToSotano, itemOldBook, stateOpen);
+        doorSubBasementToYard = createAndAddElement(EntregaConstants.doorSubSotanoToPatio, roomSubBasement,stateOpen);
     }
 
     //-------------------------------------------ACTIONS---------------------------------------------
 
     private void createChangeRoomItemsAction() {
-        actionChangeToPasillo = buildChangeContainerAction(game.playerManager, roomPasillo);
-        actionChangeToSalon1 = buildChangeContainerAction(game.playerManager,roomSalon1);
-        actionChangeToSalon2 = buildChangeContainerAction(game.playerManager,roomSalon2);
-        actionChangeToSalon3 = buildChangeContainerAction(game.playerManager,roomSalon3);
-        actionChangeToAccesoBiblioteca = buildChangeContainerAction(game.playerManager, roomAccesoBiblioteca);
-        actionChangeToBiblioteca = buildChangeContainerAction(game.playerManager, roomBiblioteca);
-        actionChangeToSubSotano = buildChangeContainerAction(game.playerManager, roomSubSotano);
-        actionChangeToSotano = buildChangeContainerAction(game.playerManager, roomSotano);
-        actionChangeToPatio = buildChangeContainerAction(game.playerManager, roomPatio);
+        actionChangeToHallway = buildChangeContainerAction(game.playerManager, roomHallway);
+        actionChangeToRoom1 = buildChangeContainerAction(game.playerManager, roomRoom1);
+        actionChangeToRoom2 = buildChangeContainerAction(game.playerManager, roomRoom2);
+        actionChangeToRoom3 = buildChangeContainerAction(game.playerManager, roomRoom3);
+        actionChangeToLibraryAccess = buildChangeContainerAction(game.playerManager, roomLibraryAccess);
+        actionChangeToLibrary = buildChangeContainerAction(game.playerManager, roomLibrary);
+        actionChangeToSubBasement = buildChangeContainerAction(game.playerManager, roomSubBasement);
+        actionChangeToBasement = buildChangeContainerAction(game.playerManager, roomBasement);
+        actionChangeToPatio = buildChangeContainerAction(game.playerManager, roomYard);
     }
 
     private void createActions() {
         createChangeRoomItemsAction();
         createTimedActions();
 
-        actionSetVisibleCajaFuerte = buildChangeContainerAction(itemCajaFuerte,roomSalon1);
-        actionSetVisibleCredencial = buildChangeContainerAction(itemCredencial,roomSalon1);
-        actionSetVisiblePasajeSecreto = buildChangeContainerAction(doorBibliotecaToSotano,roomBiblioteca);
+        actionSetVisibleSafe = buildChangeContainerAction(itemSafe, roomRoom1);
+        actionSetVisibleCredential = buildChangeContainerAction(itemCredential, roomRoom1);
+        actionSetVisibleSecretPassage = buildChangeContainerAction(doorLibraryToBasement, roomLibrary);
 
-        actionPutFotoEnCredencial = buildChangeContainerAction(itemFoto, itemCredencial);
-        actionSetCredencialToValida = buildAddStatesAction(itemCredencial, stateValido);
-        actionSetCredencialToInvalida = buildAddStatesAction(itemCredencial, stateInvalido);
-        actionSetCredencialToInvalida.setRules(ruleCredencialInvalida);
+        actionPutPictureOnCredential = buildChangeContainerAction(itemPicture, itemCredential);
+        actionSetCredentialToValida = buildAddStatesAction(itemCredential, stateValid);
+        actionSetCredentialToInvalid = buildAddStatesAction(itemCredential, stateInvalid);
+        actionSetCredentialToInvalid.setRules(ruleCredentialInvalid);
 
-        actionMakeBibliotecarioFeliz = buildAddStatesAction(game.playerManager, stateFeliz);
-        actionMakeBibliotecarioFeliz.setRules(ruleCredencialValida);
-        actionMakeBibliotecarioBorracho = buildAddStatesAction(itemBibliotecario, stateBorracho);
-        actionMakeBibliotecarioBorracho.addObserver(oneTimeTwoMinutes);
-        actionMakeBibliotecarioBorracho.addObserver(manyTimesFourMinutes);
-        actionKillCharacter = buildAddStatesAction(game.playerManager, stateMuerto);
-        actionKillCharacterNoMartillo = buildAddStatesAction(game.playerManager, stateMuerto);
-        actionKillCharacterNoMartillo.setRules(ruleBajaAlSubSotanoSinElMartillo);
-        actionRomperVentana = buildAddStatesAction(itemVentana,stateRoto);
+        actionMakeLibrarianHappy = buildAddStatesAction(game.playerManager, stateHappy);
+        actionMakeLibrarianHappy.setRules(ruleCredentialValida);
+        actionGetLibrarianDrunk = buildAddStatesAction(itemLibrarian, stateDrunk);
+        actionGetLibrarianDrunk.addObserver(oneTimeTwoMinutes);
+        actionGetLibrarianDrunk.addObserver(manyTimesFourMinutes);
+        actionKillCharacter = buildAddStatesAction(game.playerManager, stateDead);
+        actionKillCharacterNoHammer = buildAddStatesAction(game.playerManager, stateDead);
+        actionKillCharacterNoHammer.setRules(ruleDescendsToSubBasementWithoutHammer);
+        actionShatterWindow = buildAddStatesAction(itemWindow, stateBroken);
         actionAddIllegalState = buildAddStatesAction(game.playerManager, stateIllegal);
         actionAddIllegalState.setRules(ruleIllegalEntry);
     }
 
     private void createTimedActions() {
-        actionLibrerianToLibraryAccess = buildChangeContainerAction(itemBibliotecario, roomPasillo);
-        actionLibrerianToLibraryAccess.setRules(ruleLibrerianIsNotInLibraryAccess);
-        actionLibrerianToRoom1 = buildChangeContainerAction(itemBibliotecario, roomSalon1);
-        actionLibrerianToRoom1.setRules(ruleLibrerianIsNotInRoom1);
-        actionLibrerianToRoom2 = buildChangeContainerAction(itemBibliotecario, roomSalon2);
-        actionLibrerianToRoom2.setRules(ruleLibrerianIsNotInRoom2);
-        actionLibrerianToRoom3 = buildChangeContainerAction(itemBibliotecario, roomSalon3);
-        actionLibrerianToRoom3.setRules(ruleLibrerianIsNotInRoom3);
-        actionWakeUp = buildRemoveStatesAction(itemBibliotecario, stateBorracho);
+        actionLibrarianToLibraryAccess = buildChangeContainerAction(itemLibrarian, roomLibraryAccess);
+        actionLibrarianToHallway = buildChangeContainerAction(itemLibrarian, roomHallway);
+        actionLibrarianToLibrary = buildChangeContainerAction(itemLibrarian, roomLibrary);
+        actionLibrarianToRoom1 = buildChangeContainerAction(itemLibrarian, roomRoom1);
+        actionLibrarianToRoom2 = buildChangeContainerAction(itemLibrarian, roomRoom2);
+        actionLibrarianToRoom3 = buildChangeContainerAction(itemLibrarian, roomRoom3);
+
+        actionWakeUp = buildRemoveStatesAction(itemLibrarian, stateDrunk);
         actionWakeUp.addObserver(manyTimesFourMinutes);
     }
 
@@ -343,52 +352,52 @@ public final class EntregaBuilder extends GameBuilderImp {
     //-------------------------------------------RULES-----------------------------------------------
 
     private void createRulesCharacterInRooms() {
-        ruleCharacterInSalon1 = checkContainerRule(game.playerManager,roomSalon1,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.playerManager,roomSalon2,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.playerManager,roomSalon3,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.playerManager,roomAccesoBiblioteca,EntregaConstants.noEstaEnLaRoom);
-        ruleCharacterInPasillo = checkContainerRule(game.playerManager,roomPasillo,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.playerManager,roomBiblioteca,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.playerManager,roomSotano,EntregaConstants.noEstaEnLaRoom);
-        checkContainerRule(game.playerManager,roomSubSotano,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInSalon1 = checkContainerRule(game.playerManager, roomRoom1,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager, roomRoom2,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager, roomRoom3,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager, roomLibraryAccess,EntregaConstants.noEstaEnLaRoom);
+        ruleCharacterInHallway = checkContainerRule(game.playerManager, roomHallway,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager, roomLibrary,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager, roomBasement,EntregaConstants.noEstaEnLaRoom);
+        checkContainerRule(game.playerManager, roomSubBasement,EntregaConstants.noEstaEnLaRoom);
     }
 
     private void createRulesToAccessLibrary() {
-        HasStateRule ruleLibrarianHappy = checkStateRule(game.playerManager, stateFeliz,
+        HasStateRule ruleLibrarianHappy = checkStateRule(game.playerManager, stateHappy,
                 EntregaConstants.noEstaFeliz);
-        HasStateRule ruleLibrarianDrunk = checkStateRule(itemBibliotecario, stateBorracho,
+        HasStateRule ruleLibrarianDrunk = checkStateRule(itemLibrarian, stateDrunk,
                 EntregaConstants.noEstaBorracho);
 
         IExpression orExpressionToAccessLibrary = makeComplexRule(ruleLibrarianHappy,
                 ruleLibrarianDrunk, '|');
 
-        ruleParaIngresarALaBiblioteca = makeComplexRule(orExpressionToAccessLibrary,
-                ruleLibrerianIsNotInLibraryAccess, '|');
-        ruleParaIngresarALaBiblioteca.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
+        ruleToAccessLibrary = makeComplexRule(orExpressionToAccessLibrary,
+                ruleLibrarianIsNotInLibraryAccess, '|');
+        ruleToAccessLibrary.setFailMessage(EntregaConstants.noSePuedePasarALaBiblioteca);
     }
 
     private void createRulesToGetLibrarianDrunk() {
-        HasContainerRule ruleContainsGlass1 = checkContainerRule(itemVaso1, game.playerManager, EntregaConstants.necesitaElVaso);
-        HasContainerRule ruleContainsGlass2 = checkContainerRule(itemVaso2, game.playerManager, EntregaConstants.necesitaElVaso);
+        HasContainerRule ruleContainsGlass1 = checkContainerRule(itemGlass1, game.playerManager, EntregaConstants.necesitaElVaso);
+        HasContainerRule ruleContainsGlass2 = checkContainerRule(itemGlass2, game.playerManager, EntregaConstants.necesitaElVaso);
 
         IExpression orExpressionForGlasses = makeComplexRule(ruleContainsGlass1, ruleContainsGlass2,
                 '|');
         orExpressionForGlasses.setFailMessage(EntregaConstants.noTieneVasos);
 
-        HasContainerRule ruleHasBottle = checkContainerRule(itemBotella, game.playerManager, EntregaConstants.necesitaLaBotella);
-        ruleParaEmborracharAlBibliotecario = makeComplexRule(ruleHasBottle, orExpressionForGlasses,
+        HasContainerRule ruleHasBottle = checkContainerRule(itemBottle, game.playerManager, EntregaConstants.necesitaLaBotella);
+        ruleToGetLibrarianDrunk = makeComplexRule(ruleHasBottle, orExpressionForGlasses,
                 '&');
-        ruleParaEmborracharAlBibliotecario.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
+        ruleToGetLibrarianDrunk.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
     }
 
     private void createRules() {
         createRulesCharacterInRooms();
-        ruleTenerLlave = checkContainerRule(itemLlave,game.playerManager,EntregaConstants.necesitaTenerLlaveSalon3);
-        ruleTenerMartillo = checkContainerRule(itemMartillo,game.playerManager,EntregaConstants.necesitaTenerMartillo);
-        ruleVentanaRota = checkStateRule(itemVentana,stateRoto,EntregaConstants.necesitaEstarRotaLaVentana);
-        ruleCredencialValida = checkStateRule(itemCredencial, stateValido, EntregaConstants.necesitaSerValida);
-        ruleCredencialInvalida = checkContainerRule(itemFoto,game.playerManager,EntregaConstants.fotoNoPegada);
-        ruleBajaAlSubSotanoSinElMartillo = checkContainerRule(itemMartillo,roomSalon2,EntregaConstants.noTieneElMartillo);
+        ruleHoldsKey = checkContainerRule(itemKey,game.playerManager,EntregaConstants.necesitaTenerLlaveSalon3);
+        ruleHoldsHammer = checkContainerRule(itemHammer,game.playerManager,EntregaConstants.necesitaTenerMartillo);
+        ruleBrokenWindow = checkStateRule(itemWindow, stateBroken,EntregaConstants.necesitaEstarRotaLaVentana);
+        ruleCredentialValida = checkStateRule(itemCredential, stateValid, EntregaConstants.necesitaSerValida);
+        ruleCredentialInvalid = checkContainerRule(itemPicture,game.playerManager,EntregaConstants.fotoNoPegada);
+        ruleDescendsToSubBasementWithoutHammer = checkContainerRule(itemHammer, roomRoom2,EntregaConstants.noTieneElMartillo);
 
         //Reglas para las acciones
         this.createActionRules();
@@ -402,53 +411,76 @@ public final class EntregaBuilder extends GameBuilderImp {
         //Regla para perder
         //Ganancia
         for (Player character:game.playerManager.characters) {
-            HasContainerRule librarianIsInLibraryAccess = checkContainerRule(itemBibliotecario, roomAccesoBiblioteca,
+            HasContainerRule librarianIsInLibraryAccess = checkContainerRule(itemLibrarian, roomLibraryAccess,
                     EntregaConstants.failed);
-            HasContainerRule librarianIsInRoom1 = checkContainerRule(itemBibliotecario, roomSalon1,
+            HasContainerRule librarianIsInRoom1 = checkContainerRule(itemLibrarian, roomRoom1,
                     EntregaConstants.failed);
-            HasContainerRule librarianIsInRoom2 = checkContainerRule(itemBibliotecario, roomSalon2,
+            HasContainerRule librarianIsInRoom2 = checkContainerRule(itemLibrarian, roomRoom2,
                     EntregaConstants.failed);
-            HasContainerRule librarianIsInRoom3 = checkContainerRule(itemBibliotecario, roomSalon3,
+            HasContainerRule librarianIsInRoom3 = checkContainerRule(itemLibrarian, roomRoom3,
+                    EntregaConstants.failed);
+            HasContainerRule librarianIsInHallway = checkContainerRule(itemLibrarian, roomHallway,
+                    EntregaConstants.failed);
+            HasContainerRule librarianIsInLibrary = checkContainerRule(itemLibrarian, roomLibrary,
                     EntregaConstants.failed);
 
-            HasContainerRule playerIsInLibraryAccess = checkContainerRule(character, roomAccesoBiblioteca,
+            HasContainerRule playerIsInLibraryAccess = checkContainerRule(character, roomLibraryAccess,
                     EntregaConstants.failed);
-            HasContainerRule playerIsInRoom1 = checkContainerRule(character, roomSalon1,
+            HasContainerRule playerIsInRoom1 = checkContainerRule(character, roomRoom1,
                     EntregaConstants.failed);
-            HasContainerRule playerIsInRoom2 = checkContainerRule(character, roomSalon2,
+            HasContainerRule playerIsInRoom2 = checkContainerRule(character, roomRoom2,
                     EntregaConstants.failed);
-            HasContainerRule playerIsInRoom3 = checkContainerRule(character, roomSalon3,
+            HasContainerRule playerIsInRoom3 = checkContainerRule(character, roomRoom3,
+                    EntregaConstants.failed);
+            HasContainerRule playerIsInHallway = checkContainerRule(character, roomHallway,
+                    EntregaConstants.failed);
+            HasContainerRule playerIsInLibrary = checkContainerRule(character, roomLibrary,
                     EntregaConstants.failed);
 
             IExpression and1 = makeComplexRule(librarianIsInLibraryAccess, playerIsInLibraryAccess, '&');
             IExpression and2 = makeComplexRule(librarianIsInRoom1, playerIsInRoom1, '&');
             IExpression and3 = makeComplexRule(librarianIsInRoom2, playerIsInRoom2, '&');
             IExpression and4 = makeComplexRule(librarianIsInRoom3, playerIsInRoom3, '&');
+            IExpression and5 = makeComplexRule(librarianIsInHallway, playerIsInHallway, '&');
+            IExpression and6 = makeComplexRule(librarianIsInLibrary, playerIsInLibrary, '&');
 
             IExpression or1 = makeComplexRule(and1, and2, '|');
             IExpression or2 = makeComplexRule(and3, and4, '|');
-            IExpression or3 = makeComplexRule(or1, or2, '|');
+            IExpression or3 = makeComplexRule(and5, and6, '|');
+            IExpression or4 = makeComplexRule(or1, or2, '|');
+            IExpression or5 = makeComplexRule(or3, or4, '|');
 
+            DoesNotHaveState librarianNotDrunk = new DoesNotHaveState();
+            librarianNotDrunk.setElementToValidate(itemLibrarian);
+            librarianNotDrunk.setStateToValidate(stateDrunk);
+            librarianNotDrunk.setFailMessage(EntregaConstants.bibliotecarioBorracho);
             HasStateRule hasIllegalState = checkStateRule(character, stateIllegal, EntregaConstants.failed);
 
-            IExpression caughtIllegal = makeComplexRule(hasIllegalState, or3, '&');
-            HasStateRule isDead = checkStateRule(character,stateMuerto,EntregaConstants.estasMuerto);
+            IExpression and = makeComplexRule(librarianNotDrunk, hasIllegalState, '&');
+
+            IExpression caughtIllegal = makeComplexRule(and, or5, '&');
+            HasStateRule isDead = checkStateRule(character, stateDead,EntregaConstants.estasMuerto);
 
             IExpression gameOverCondition = makeComplexRule(caughtIllegal, isDead, '|');
             Move resetCharacter = new Move("reset");
-            resetCharacter.addAction(buildChangeContainerAction(character,roomPasillo));
-            resetCharacter.addAction(buildRemoveStatesAction(character,stateMuerto));
+            resetCharacter.addAction(buildChangeContainerAction(character, roomHallway));
+            resetCharacter.addAction(buildRemoveStatesAction(character, stateDead));
             character.setGameOverCondition(gameOverCondition, resetCharacter);
 
-            character.setVictoryCondition(checkContainerRule(character, this.roomPatio, ""));
+            character.setVictoryCondition(checkContainerRule(character, this.roomYard, ""));
         }
     }
 
     private void createActionRules() {
-        ruleLibrerianIsNotInLibraryAccess = doesntHaveContainerRule(itemBibliotecario, roomPasillo, EntregaConstants.noEsta);
-        ruleLibrerianIsNotInRoom1 = doesntHaveContainerRule(itemBibliotecario, roomSalon1, EntregaConstants.noEsta);
-        ruleLibrerianIsNotInRoom2 = doesntHaveContainerRule(itemBibliotecario, roomSalon2, EntregaConstants.noEsta);
-        ruleLibrerianIsNotInRoom3 = doesntHaveContainerRule(itemBibliotecario, roomSalon3, EntregaConstants.noEsta);
+        ruleLibrarianIsNotInLibraryAccess = doesntHaveContainerRule(itemLibrarian, roomLibraryAccess,
+                EntregaConstants.noEsta);
+
+        ruleLibrarianIsInLibraryAccess = checkContainerRule(itemLibrarian, roomLibraryAccess, EntregaConstants.noEsta);
+        ruleLibrarianIsInLibrary = checkContainerRule(itemLibrarian, roomLibrary, EntregaConstants.noEsta);
+        ruleLibrarianIsInHallway = checkContainerRule(itemLibrarian, roomHallway, EntregaConstants.noEsta);
+        ruleLibrarianIsInRoom1 = checkContainerRule(itemLibrarian, roomRoom1, EntregaConstants.noEsta);
+        ruleLibrarianIsInRoom2 = checkContainerRule(itemLibrarian, roomRoom2, EntregaConstants.noEsta);
+        ruleLibrarianIsInRoom3 = checkContainerRule(itemLibrarian, roomRoom3, EntregaConstants.noEsta);
 
         ruleIllegalEntry = new DoesNotHaveState();
         ruleIllegalEntry.setElementToValidate(game.playerManager);
@@ -467,92 +499,92 @@ public final class EntregaBuilder extends GameBuilderImp {
 
 
     private void createMovesToPickElements() {
-        moveTomarCredencial = new Move(EntregaConstants.movePick);
-        moveTomarCredencial.setResultMessage(EntregaConstants.tomadoCredencial);
-        moveTomarCredencial.setRules(ruleCharacterInSalon1);
+        moveTakeCredential = new Move(EntregaConstants.movePick);
+        moveTakeCredential.setResultMessage(EntregaConstants.tomadoCredencial);
+        moveTakeCredential.setRules(ruleCharacterInSalon1);
 
-        moveTomarBotella = new Move(EntregaConstants.movePick);
-        moveTomarBotella.setResultMessage(EntregaConstants.tomadaBotella);
+        movePickBottle = new Move(EntregaConstants.movePick);
+        movePickBottle.setResultMessage(EntregaConstants.tomadaBotella);
 
-        moveTomarLlave = new Move(EntregaConstants.movePick);
-        moveTomarLlave.setResultMessage(EntregaConstants.tomadaLlave);
+        movePickKey = new Move(EntregaConstants.movePick);
+        movePickKey.setResultMessage(EntregaConstants.tomadaLlave);
 
-        moveTomarMartillo = new Move(EntregaConstants.movePick);
-        moveTomarMartillo.setResultMessage(EntregaConstants.tomadoMartillo);
+        movePickHammer = new Move(EntregaConstants.movePick);
+        movePickHammer.setResultMessage(EntregaConstants.tomadoMartillo);
 
-        moveTomarDestornillador1 = new Move(EntregaConstants.movePick);
-        moveTomarDestornillador1.setResultMessage(EntregaConstants.tomadoDestornillador);
-        moveTomarDestornillador2 = new Move(EntregaConstants.movePick);
-        moveTomarDestornillador2.setResultMessage(EntregaConstants.tomadoDestornillador);
+        movePickScrewdriver1 = new Move(EntregaConstants.movePick);
+        movePickScrewdriver1.setResultMessage(EntregaConstants.tomadoDestornillador);
+        movePickScrewdriver2 = new Move(EntregaConstants.movePick);
+        movePickScrewdriver2.setResultMessage(EntregaConstants.tomadoDestornillador);
 
-        moveTomarVaso1 = new Move(EntregaConstants.movePick);
-        moveTomarVaso1.setResultMessage(EntregaConstants.tomadoVaso);
-        moveTomarVaso2 = new Move(EntregaConstants.movePick);
-        moveTomarVaso2.setResultMessage(EntregaConstants.tomadoVaso);
+        movePickGlass1 = new Move(EntregaConstants.movePick);
+        movePickGlass1.setResultMessage(EntregaConstants.tomadoVaso);
+        movePickGlass2 = new Move(EntregaConstants.movePick);
+        movePickGlass2.setResultMessage(EntregaConstants.tomadoVaso);
         for (Player character: game.playerManager.characters) {
-            addCharacterPickItemAction(moveTomarCredencial,character,itemCredencial);
-            addCharacterPickItemAction(moveTomarBotella,character,itemBotella);
-            addCharacterPickItemAction(moveTomarLlave,character,itemLlave);
-            addCharacterPickItemAction(moveTomarMartillo,character,itemMartillo);
-            addCharacterPickItemAction(moveTomarDestornillador1,character,itemDestornillador1);
-            addCharacterPickItemAction(moveTomarDestornillador2,character,itemDestornillador2);
-            addCharacterPickItemAction(moveTomarVaso1,character,itemVaso1);
-            addCharacterPickItemAction(moveTomarVaso2,character,itemVaso2);
+            addCharacterPickItemAction(moveTakeCredential,character, itemCredential);
+            addCharacterPickItemAction(movePickBottle,character, itemBottle);
+            addCharacterPickItemAction(movePickKey,character, itemKey);
+            addCharacterPickItemAction(movePickHammer,character, itemHammer);
+            addCharacterPickItemAction(movePickScrewdriver1,character, itemScrewdriver1);
+            addCharacterPickItemAction(movePickScrewdriver2,character, itemScrewdriver2);
+            addCharacterPickItemAction(movePickGlass1,character, itemGlass1);
+            addCharacterPickItemAction(movePickGlass2,character, itemGlass2);
         }
     }
 
     private void createAccessMoves() {
-        moveIrAPasillo = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPasillo,
+        moveGoToHallway = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToHallway,
                 null, EntregaConstants.cambiadoAPasillo);
-        moveIrASalon1 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSalon1,
-                ruleCharacterInPasillo, EntregaConstants.cambiadoASalon1);
-        moveIrASalon2 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSalon2,
+        moveGoToRoom1 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToRoom1,
+                ruleCharacterInHallway, EntregaConstants.cambiadoASalon1);
+        moveGoToRoom2 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToRoom2,
                 null, EntregaConstants.cambiadoASalon2);
-        moveIrASalon3 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSalon3,
+        moveGoToRoom3 = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToRoom3,
                 null, EntregaConstants.cambiadoASalon3);
-        moveIrAAccesoBiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToAccesoBiblioteca,
+        moveGoToLibraryAccess = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToLibraryAccess,
                 null, EntregaConstants.cambiadoAAccesoBiblioteca);
-        moveIrABiblioteca = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToBiblioteca,
-                ruleParaIngresarALaBiblioteca, EntregaConstants.cambiadoABiblioteca);
-        moveIrABiblioteca.addAction(actionAddIllegalState);
-        moveIrASotano = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToSotano,
+        moveGoToLibrary = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToLibrary,
+                ruleToAccessLibrary, EntregaConstants.cambiadoABiblioteca);
+        moveGoToLibrary.addAction(actionAddIllegalState);
+        moveGoToBasement = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToBasement,
                 null, EntregaConstants.cambiadoASotano);
-        moveIrAPatio = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPatio, ruleVentanaRota,
+        moveIrAPatio = moveWithActionsAndRules(EntregaConstants.moveIrA, actionChangeToPatio, ruleBrokenWindow,
                 EntregaConstants.cambiadoAPatio);
 
-        moveIrASubSotano = moveWithActionsAndRules(EntregaConstants.moveUse, actionChangeToSubSotano,
+        moveGoToSubBasement = moveWithActionsAndRules(EntregaConstants.moveUse, actionChangeToSubBasement,
                 null, EntregaConstants.cambiadoASubSotano);
-        moveIrASubSotano.addAction(actionKillCharacterNoMartillo);
+        moveGoToSubBasement.addAction(actionKillCharacterNoHammer);
     }
 
     private void createMoves() {
-        moveMoverCuadro = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisibleCajaFuerte,
+        moveMovePainting = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisibleSafe,
                 ruleCharacterInSalon1, EntregaConstants.movedCuadroBarco);
-        moveAbrirCajaFuerte = moveWithActionsAndRules(EntregaConstants.moveAbrirCajaFuerte, actionSetVisibleCredencial,
-                ruleTenerLlave, EntregaConstants.abiertaCajaFuerte);
+        moveOpenSafe = moveWithActionsAndRules(EntregaConstants.moveAbrirCajaFuerte, actionSetVisibleCredential,
+                ruleHoldsKey, EntregaConstants.abiertaCajaFuerte);
 
-        moveMoverLibroViejo = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisiblePasajeSecreto,
+        moveMoveOldBook = moveWithActionsAndRules(EntregaConstants.moveMover, actionSetVisibleSecretPassage,
                 null, EntregaConstants.movedLibroViejo);
-        moveMoverLibro = moveWithActionsAndRules(EntregaConstants.moveMover, null, null,
+        moveMoveBook = moveWithActionsAndRules(EntregaConstants.moveMover, null, null,
                 EntregaConstants.movedLibro);
 
         //Moves para acceder a lugares
         this.createAccessMoves();
 
-        movePonerFotoEnCredencial = moveWithActionsAndRules(EntregaConstants.movePutFoto, actionPutFotoEnCredencial,
+        movePutPictureOnCredential = moveWithActionsAndRules(EntregaConstants.movePutFoto, actionPutPictureOnCredential,
                 null, EntregaConstants.cambiadoFotoDeCredencial);
-        movePonerFotoEnCredencial.addAction(actionSetCredencialToValida);
+        movePutPictureOnCredential.addAction(actionSetCredentialToValida);
 
-        moveMostrarCredencialAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveMostrarCredencial, actionMakeBibliotecarioFeliz,
-                ruleCredencialValida, EntregaConstants.bibliotecarioFeliz);
-        moveMostrarCredencialAlBibliotecario.addAction(actionSetCredencialToInvalida);
-        moveEmborracharAlBibliotecario = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionMakeBibliotecarioBorracho,
-                ruleParaEmborracharAlBibliotecario, EntregaConstants.bibliotecarioBorracho);
+        moveShowCredentialToLibrarian = moveWithActionsAndRules(EntregaConstants.moveMostrarCredencial, actionMakeLibrarianHappy,
+                ruleCredentialValida, EntregaConstants.bibliotecarioFeliz);
+        moveShowCredentialToLibrarian.addAction(actionSetCredentialToInvalid);
+        moveGetLibrarianDrunk = moveWithActionsAndRules(EntregaConstants.moveEmborrachar, actionGetLibrarianDrunk,
+                ruleToGetLibrarianDrunk, EntregaConstants.bibliotecarioBorracho);
 
-        moveUsarEscalera = moveWithActionsAndRules(EntregaConstants.moveUse, actionKillCharacter,
+        moveUseStairs = moveWithActionsAndRules(EntregaConstants.moveUse, actionKillCharacter,
                 null, EntregaConstants.escaleraEnMalasCondiciones);
 
-        moveRomperVentana = moveWithActionsAndRules(EntregaConstants.moveRomperVentana, actionRomperVentana, ruleTenerMartillo,
+        moveShatterWindow = moveWithActionsAndRules(EntregaConstants.moveRomperVentana, actionShatterWindow, ruleHoldsHammer,
                 EntregaConstants.seRompioVentana);
 
         //Moves for pick items
@@ -562,78 +594,118 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createTimedMoves() {
-        elementoVacio = createAndAddElement(EntregaConstants.elementoVacio, null,null);
+        emptyElement = createAndAddElement(EntregaConstants.emptyElement, null,null);
 
-        wakeUpLibrarian = new TimedMove(EntregaConstants.librerianWakeUp);
+        wakeUpLibrarian = new TimedMove(EntregaConstants.librarianWakeUp);
         wakeUpLibrarian.setResultMessage(EntregaConstants.librarianHasWoken);
         wakeUpLibrarian.addAction(actionWakeUp);
         wakeUpLibrarian.addObserver(game);
 
-        changeRoomLibrarian = new TimedMove(EntregaConstants.librarianRandom);
-        changeRoomLibrarian.setResultMessage(EntregaConstants.librarianChangedToRoom);
-        changeRoomLibrarian.addObserver(game);
-        changeRoomLibrarian.addAction(actionLibrerianToLibraryAccess);
-        changeRoomLibrarian.addAction(actionLibrerianToRoom1);
-        changeRoomLibrarian.addAction(actionLibrerianToRoom2);
-        changeRoomLibrarian.addAction(actionLibrerianToRoom3);
-        changeRoomLibrarian.setRandom(true);
+        changeRoomLibrarianFromRoom3 = new Move(EntregaConstants.moveLibrarianFromRoom3);
+        changeRoomLibrarianFromRoom3.setResultMessage(EntregaConstants.librarianChangedToRoom);
+        changeRoomLibrarianFromRoom3.addObserver(game);
+        changeRoomLibrarianFromRoom3.addAction(actionLibrarianToHallway);
+        changeRoomLibrarianFromRoom3.setRules(ruleLibrarianIsInRoom3);
+
+        changeRoomLibrarianFromRoom2 = new Move(EntregaConstants.moveLibrarianFromRoom2);
+        changeRoomLibrarianFromRoom2.setResultMessage(EntregaConstants.librarianChangedToRoom);
+        changeRoomLibrarianFromRoom2.addObserver(game);
+        changeRoomLibrarianFromRoom2.addAction(actionLibrarianToHallway);
+        changeRoomLibrarianFromRoom2.setChainedMove(changeRoomLibrarianFromRoom3);
+        changeRoomLibrarianFromRoom2.setRules(ruleLibrarianIsInRoom2);
+
+        changeRoomLibrarianFromRoom1 = new Move(EntregaConstants.moveLibrarianFromRoom1);
+        changeRoomLibrarianFromRoom1.setResultMessage(EntregaConstants.librarianChangedToRoom);
+        changeRoomLibrarianFromRoom1.addObserver(game);
+        changeRoomLibrarianFromRoom1.addAction(actionLibrarianToHallway);
+        changeRoomLibrarianFromRoom1.setChainedMove(changeRoomLibrarianFromRoom2);
+        changeRoomLibrarianFromRoom1.setRules(ruleLibrarianIsInRoom1);
+
+        changeRoomLibrarianFromLibrary = new Move(EntregaConstants.moveLibrarianFromLibrary);
+        changeRoomLibrarianFromLibrary.setResultMessage(EntregaConstants.librarianChangedToRoom);
+        changeRoomLibrarianFromLibrary.addObserver(game);
+        changeRoomLibrarianFromLibrary.addAction(actionLibrarianToLibraryAccess);
+        changeRoomLibrarianFromLibrary.setChainedMove(changeRoomLibrarianFromRoom1);
+        changeRoomLibrarianFromLibrary.setRules(ruleLibrarianIsInLibrary);
+
+        changeRoomLibrarianFromHallway = new Move(EntregaConstants.moveLibrarianFromHallway);
+        changeRoomLibrarianFromHallway.setResultMessage(EntregaConstants.librarianChangedToRoom);
+        changeRoomLibrarianFromHallway.addObserver(game);
+        changeRoomLibrarianFromHallway.addAction(actionLibrarianToRoom1);
+        changeRoomLibrarianFromHallway.addAction(actionLibrarianToRoom2);
+        changeRoomLibrarianFromHallway.addAction(actionLibrarianToRoom3);
+        changeRoomLibrarianFromHallway.addAction(actionLibrarianToLibraryAccess);
+        changeRoomLibrarianFromHallway.setGameRandom(new JavaRandomAdapter());
+        changeRoomLibrarianFromHallway.setRandom(true);
+        changeRoomLibrarianFromHallway.setChainedMove(changeRoomLibrarianFromLibrary);
+        changeRoomLibrarianFromHallway.setRules(ruleLibrarianIsInHallway);
+
+        changeRoomLibrarianFromLibraryAccess = new TimedMove(EntregaConstants.librarianRandom);
+        changeRoomLibrarianFromLibraryAccess.setResultMessage(EntregaConstants.librarianChangedToRoom);
+        changeRoomLibrarianFromLibraryAccess.addObserver(game);
+        changeRoomLibrarianFromLibraryAccess.addAction(actionLibrarianToLibrary);
+        changeRoomLibrarianFromLibraryAccess.addAction(actionLibrarianToHallway);
+        changeRoomLibrarianFromLibraryAccess.setGameRandom(new JavaRandomAdapter());
+        changeRoomLibrarianFromLibraryAccess.setRandom(true);
+        changeRoomLibrarianFromLibraryAccess.setChainedMove(changeRoomLibrarianFromHallway);
+        changeRoomLibrarianFromLibraryAccess.setRules(ruleLibrarianIsInLibraryAccess);
 
         oneTimeTwoMinutes.addObserver(wakeUpLibrarian);
-        manyTimesFourMinutes.addObserver(changeRoomLibrarian);
+        manyTimesFourMinutes.addObserver(changeRoomLibrarianFromLibraryAccess);
 
-        elementoVacio.addMove(wakeUpLibrarian);
-        elementoVacio.addMove(changeRoomLibrarian);
+        emptyElement.addMove(wakeUpLibrarian);
+        emptyElement.addMove(changeRoomLibrarianFromLibraryAccess);
     }
 
     private void addMovesItemsInSalon1() {
-        itemCuadroBarco.addMove(moveMoverCuadro);
-        itemLlave.addMove(moveAbrirCajaFuerte);
+        itemPaintingShip.addMove(moveMovePainting);
+        itemKey.addMove(moveOpenSafe);
 
-        itemCredencial.addMove(moveTomarCredencial);
-        itemCredencial.addMove(movePonerFotoEnCredencial);
+        itemCredential.addMove(moveTakeCredential);
+        itemCredential.addMove(movePutPictureOnCredential);
 
-        itemBotella.addMove(moveTomarBotella);
-        itemVaso1.addMove(moveTomarVaso1);
-        itemVaso2.addMove(moveTomarVaso2);
+        itemBottle.addMove(movePickBottle);
+        itemGlass1.addMove(movePickGlass1);
+        itemGlass2.addMove(movePickGlass2);
     }
 
     private void addMovesItemsInSalon2() {
-        itemMartillo.addMove(moveTomarMartillo);
-        itemMartillo.addMove(moveRomperVentana);
-        itemDestornillador1.addMove(moveTomarDestornillador1);
-        itemDestornillador2.addMove(moveTomarDestornillador2);
+        itemHammer.addMove(movePickHammer);
+        itemHammer.addMove(moveShatterWindow);
+        itemScrewdriver1.addMove(movePickScrewdriver1);
+        itemScrewdriver2.addMove(movePickScrewdriver2);
     }
 
     private void addMovesItemsInSalon3() {
-        itemLlave.addMove(moveTomarLlave);
+        itemKey.addMove(movePickKey);
     }
 
     private void addMovesItemsInAccesoBiblioteca() {
-        itemBibliotecario.addMove(moveEmborracharAlBibliotecario);
-        itemBibliotecario.addMove(moveMostrarCredencialAlBibliotecario);
+        itemLibrarian.addMove(moveGetLibrarianDrunk);
+        itemLibrarian.addMove(moveShowCredentialToLibrarian);
     }
 
     private void addMovesItemsInBiblioteca() {
-        itemLibroViejo.addMove(moveMoverLibroViejo);
-        itemLibro1.addMove(moveMoverLibro);
-        itemLibro2.addMove(moveMoverLibro);
-        itemLibro3.addMove(moveMoverLibro);
-        itemLibro4.addMove(moveMoverLibro);
-        itemLibro5.addMove(moveMoverLibro);
-        itemLibro6.addMove(moveMoverLibro);
-        itemLibro7.addMove(moveMoverLibro);
-        itemLibro8.addMove(moveMoverLibro);
-        itemLibro9.addMove(moveMoverLibro);
+        itemOldBook.addMove(moveMoveOldBook);
+        itemBook1.addMove(moveMoveBook);
+        itemBook2.addMove(moveMoveBook);
+        itemBook3.addMove(moveMoveBook);
+        itemBook4.addMove(moveMoveBook);
+        itemBook5.addMove(moveMoveBook);
+        itemBook6.addMove(moveMoveBook);
+        itemBook7.addMove(moveMoveBook);
+        itemBook8.addMove(moveMoveBook);
+        itemBook9.addMove(moveMoveBook);
     }
 
     private void addMovesItemsInSotano() {
-        itemBaranda.addMove(moveIrASubSotano);
-        itemEscalera.addMove(moveUsarEscalera);
+        itemRailing.addMove(moveGoToSubBasement);
+        itemStairs.addMove(moveUseStairs);
     }
 
     private void addMovesItemsInSubSotano() {
-        itemEscaleraSubSotano.addMove(moveUsarEscalera);
-        roomPatio.addMove(moveIrAPatio);
+        itemStairsSubBasement.addMove(moveUseStairs);
+        roomYard.addMove(moveIrAPatio);
     }
 
     private void addMoves() {
@@ -645,19 +717,19 @@ public final class EntregaBuilder extends GameBuilderImp {
         addMovesItemsInSotano();
         addMovesItemsInSubSotano();
 
-        doorAccesoBibliotecaToPasillo.addMove(moveIrAPasillo);
-        doorSalon1ToPasillo.addMove(moveIrAPasillo);
-        doorSalon2ToPasillo.addMove(moveIrAPasillo);
-        doorSalon3ToPasillo.addMove(moveIrAPasillo);
+        doorLibraryAccessToHallway.addMove(moveGoToHallway);
+        doorRoom1ToHallway.addMove(moveGoToHallway);
+        doorRoom2ToHallway.addMove(moveGoToHallway);
+        doorRoom3ToHallway.addMove(moveGoToHallway);
 
-        doorPasilloToAccesoBiblioteca.addMove(moveIrAAccesoBiblioteca);
-        doorBibliotecaToAccesoBiblioteca.addMove(moveIrAAccesoBiblioteca);
-        doorBibliotecaToSotano.addMove(moveIrASotano);
-        doorPasilloToSalon1.addMove(moveIrASalon1);
-        doorPasilloToSalon2.addMove(moveIrASalon2);
-        doorPasilloToSalon3.addMove(moveIrASalon3);
-        doorAccesoBibliotecaToBiblioteca.addMove(moveIrABiblioteca);
-        doorSubSotanoToPatio.addMove(moveIrAPatio);
+        doorHallwayToLibraryAccess.addMove(moveGoToLibraryAccess);
+        doorLibraryToLibraryAccess.addMove(moveGoToLibraryAccess);
+        doorLibraryToBasement.addMove(moveGoToBasement);
+        doorHallwayToRoom1.addMove(moveGoToRoom1);
+        doorHallwayToRoom2.addMove(moveGoToRoom2);
+        doorHallwayToRoom3.addMove(moveGoToRoom3);
+        doorLibraryAccessToLibrary.addMove(moveGoToLibrary);
+        doorSubBasementToYard.addMove(moveIrAPatio);
     }
 
     //-------------------------------------------ITEMS---------------------------------------------
@@ -673,55 +745,55 @@ public final class EntregaBuilder extends GameBuilderImp {
     }
 
     private void createItemsSalon1() {
-        createAndAddElement(EntregaConstants.tableSalon1, roomSalon1,null);
-        itemBotella = createAndAddElement(EntregaConstants.bottleSalon1, roomSalon1,null);
-        itemVaso1 = createAndAddElement(EntregaConstants.glass1Salon1, roomSalon1,null);
-        itemVaso2 = createAndAddElement(EntregaConstants.glass2Salon1, roomSalon1,null);
-        createAndAddElement(EntregaConstants.chair1Salon1, roomSalon1,null);
-        createAndAddElement(EntregaConstants.chair2Salon1, roomSalon1,null);
-        createAndAddElement(EntregaConstants.cuadroTrenSalon1, roomSalon1,null);
+        createAndAddElement(EntregaConstants.tableSalon1, roomRoom1,null);
+        itemBottle = createAndAddElement(EntregaConstants.bottleSalon1, roomRoom1,null);
+        itemGlass1 = createAndAddElement(EntregaConstants.glass1Salon1, roomRoom1,null);
+        itemGlass2 = createAndAddElement(EntregaConstants.glass2Salon1, roomRoom1,null);
+        createAndAddElement(EntregaConstants.chair1Salon1, roomRoom1,null);
+        createAndAddElement(EntregaConstants.chair2Salon1, roomRoom1,null);
+        createAndAddElement(EntregaConstants.cuadroTrenSalon1, roomRoom1,null);
 
-        itemCuadroBarco = createAndAddElement(EntregaConstants.cuadroBarcoSalon1, roomSalon1,null);
-        itemCajaFuerte = createAndAddElement(EntregaConstants.cajaFuerteSalon1, itemCuadroBarco,null);
-        itemCredencial = createAndAddElement(EntregaConstants.credencialSalon1, itemCajaFuerte,null);
+        itemPaintingShip = createAndAddElement(EntregaConstants.cuadroBarcoSalon1, roomRoom1,null);
+        itemSafe = createAndAddElement(EntregaConstants.cajaFuerteSalon1, itemPaintingShip,null);
+        itemCredential = createAndAddElement(EntregaConstants.credencialSalon1, itemSafe,null);
     }
 
     private void createItemsSalon2() {
-        itemMartillo = createAndAddElement(EntregaConstants.martilloSalon2, roomSalon2,null);
-        itemDestornillador1 = createAndAddElement(EntregaConstants.destornillador1Salon2, roomSalon2,null);
-        itemDestornillador2 = createAndAddElement(EntregaConstants.destornillador2Salon2, roomSalon2,null);
+        itemHammer = createAndAddElement(EntregaConstants.martilloSalon2, roomRoom2,null);
+        itemScrewdriver1 = createAndAddElement(EntregaConstants.destornillador1Salon2, roomRoom2,null);
+        itemScrewdriver2 = createAndAddElement(EntregaConstants.destornillador2Salon2, roomRoom2,null);
     }
 
     private void createItemsSalon3() {
-        itemLlave = createAndAddElement(EntregaConstants.keySalon3, roomSalon3,null);
+        itemKey = createAndAddElement(EntregaConstants.keySalon3, roomRoom3,null);
     }
 
     private void createItemsAccesoBiblioteca() {
-        itemBibliotecario = createAndAddElement(EntregaConstants.bibliotecario, roomAccesoBiblioteca,null);
+        itemLibrarian = createAndAddElement(EntregaConstants.bibliotecario, roomLibraryAccess,null);
     }
 
     private void createItemsBiblioteca() {
-        itemLibroViejo = createAndAddElement(EntregaConstants.libroViejo, roomBiblioteca,null);
-        createAndAddElement(EntregaConstants.estante, roomBiblioteca,null);
-        itemLibro1 = createAndAddElement(EntregaConstants.libro1, roomBiblioteca,null);
-        itemLibro2 = createAndAddElement(EntregaConstants.libro2, roomBiblioteca,null);
-        itemLibro3 = createAndAddElement(EntregaConstants.libro3, roomBiblioteca,null);
-        itemLibro4 = createAndAddElement(EntregaConstants.libro4, roomBiblioteca,null);
-        itemLibro5 = createAndAddElement(EntregaConstants.libro5, roomBiblioteca,null);
-        itemLibro6 = createAndAddElement(EntregaConstants.libro6, roomBiblioteca,null);
-        itemLibro7 = createAndAddElement(EntregaConstants.libro7, roomBiblioteca,null);
-        itemLibro8 = createAndAddElement(EntregaConstants.libro8, roomBiblioteca,null);
-        itemLibro9 = createAndAddElement(EntregaConstants.libro9, roomBiblioteca,null);
+        itemOldBook = createAndAddElement(EntregaConstants.libroViejo, roomLibrary,null);
+        createAndAddElement(EntregaConstants.estante, roomLibrary,null);
+        itemBook1 = createAndAddElement(EntregaConstants.libro1, roomLibrary,null);
+        itemBook2 = createAndAddElement(EntregaConstants.libro2, roomLibrary,null);
+        itemBook3 = createAndAddElement(EntregaConstants.libro3, roomLibrary,null);
+        itemBook4 = createAndAddElement(EntregaConstants.libro4, roomLibrary,null);
+        itemBook5 = createAndAddElement(EntregaConstants.libro5, roomLibrary,null);
+        itemBook6 = createAndAddElement(EntregaConstants.libro6, roomLibrary,null);
+        itemBook7 = createAndAddElement(EntregaConstants.libro7, roomLibrary,null);
+        itemBook8 = createAndAddElement(EntregaConstants.libro8, roomLibrary,null);
+        itemBook9 = createAndAddElement(EntregaConstants.libro9, roomLibrary,null);
     }
 
     private void createItemsSotano() {
-        itemBaranda = createAndAddElement(EntregaConstants.baranda, roomSotano, null);
-        itemEscalera = createAndAddElement(EntregaConstants.escaleraOxidada, roomSotano, null);
+        itemRailing = createAndAddElement(EntregaConstants.baranda, roomBasement, null);
+        itemStairs = createAndAddElement(EntregaConstants.escaleraOxidada, roomBasement, null);
     }
 
     private void createItemsSubSotano() {
-        itemVentana = createAndAddElement(EntregaConstants.ventana, roomSubSotano, null);
-        itemEscaleraSubSotano = createAndAddElement(EntregaConstants.escaleraOxidada, roomSubSotano, null);
+        itemWindow = createAndAddElement(EntregaConstants.ventana, roomSubBasement, null);
+        itemStairsSubBasement = createAndAddElement(EntregaConstants.escaleraOxidada, roomSubBasement, null);
     }
     
     //----------------------------------INITIALIZE-TIMED-CONDITIONS----------------------------------------------

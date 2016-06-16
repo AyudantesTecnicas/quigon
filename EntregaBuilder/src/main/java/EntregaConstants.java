@@ -2,14 +2,20 @@
 public class EntregaConstants {
 
     //Times
-    public static final String librerianWakeUp = "wakeup";
+    public static final String librarianWakeUp = "wakeup";
     public static final String librarianRandom = "changeRoom";
     public static final String librarianHasWoken = "El bibliotecario desperto";
     public static final String librarianChangedToRoom = "El bibliotecario cambio de cuarto";
     public static final String noEsta = "";
-    public static final String elementoVacio = "";
-    public static final String ilegal = "ilegal";
+    public static final String emptyElement = "";
+    public static final String illegal = "illegal";
     public static final String failed = "";
+    public static final String moveLibrarianFromHallway = "L from Hallway";
+    public static final String moveLibrarianFromLibrary = "L from Library";
+    public static final String moveLibrarianFromLibraryAccess = "L from Library Access";
+    public static final String moveLibrarianFromRoom1 = "L from Room1";
+    public static final String moveLibrarianFromRoom2 = "L from Room2";
+    public static final String moveLibrarianFromRoom3 = "L from Room3";
 
     //Elements
     public static final int numberOfPlayers = 4;

@@ -18,6 +18,7 @@ public class Move extends Element implements IExecutable {
     private String correctMessage;
     private Boolean random;
     private GameRandom gameRandom;
+    private Move chainedMove = null;
 
     //Methods
     public Move(String name) {
@@ -45,6 +46,10 @@ public class Move extends Element implements IExecutable {
         this.gameRandom = gameRandom;
     }
 
+    public void setChainedMove(Move move) {
+        this.chainedMove = move;
+    }
+
     @Override
     public void execute() {
         this.process();
@@ -55,6 +60,9 @@ public class Move extends Element implements IExecutable {
             this.executeActions();
             return true;
         } else {
+            if (chainedMove != null) {
+                chainedMove.execute();
+            }
             this.resultMessage = this.rules.getFailMessage();
             return false;
         }
