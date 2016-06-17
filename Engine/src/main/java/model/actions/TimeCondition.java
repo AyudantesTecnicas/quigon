@@ -58,7 +58,7 @@ public class TimeCondition extends Observable implements Observer, ActionListene
     @Override
     public void actionPerformed(ActionEvent event) {
         if (canAct()) {
-            System.out.println("Se ejecuta");
+            //System.out.println("Se ejecuta");
             setChanged();
             notifyObservers();
             if (!repeatable) {

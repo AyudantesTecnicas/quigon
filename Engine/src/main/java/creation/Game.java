@@ -181,9 +181,9 @@ public class Game implements Observer {
         if (notifier != null) {
             notifier.notifyEveryone((String) arg);
         }
-        String result = "";
         int characterIndex = 0;
         for (Player player: playerManager.characters) {
+            String result = "";
             result = checkWinConditions(player,result);
             if (!result.equals("") && (notifier != null)) {
                 notifier.notifyPlayer(characterIndex, result);
