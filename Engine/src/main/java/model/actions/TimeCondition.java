@@ -1,10 +1,10 @@
 package model.actions;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-
 public class TimeCondition extends Observable implements Observer, ActionListener {
 
     //Attributes
@@ -12,6 +12,7 @@ public class TimeCondition extends Observable implements Observer, ActionListene
     private boolean repeatable;
     private boolean initialized;
     private boolean done;
+    private Timer timer;
 
     //Methods
     public TimeCondition(Integer totalSeconds, boolean repeatable) {
@@ -21,7 +22,12 @@ public class TimeCondition extends Observable implements Observer, ActionListene
         this.done = false;
     }
 
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
     public void initialize() {
+        timer.start();
         this.initialized = true;
         this.done = false;
     }

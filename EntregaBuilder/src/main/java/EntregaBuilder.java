@@ -1,5 +1,4 @@
 import creation.GameBuilderImp;
-import creation.JavaRandomAdapter;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.Action;
@@ -341,8 +340,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     //---------------------------------------TIMED-CONDITIONS-----------------------------------------------
     
     private void createTimedConditions() {
-        oneTimeTwoMinutes = new TimeCondition(15,false);
-        manyTimesFourMinutes = new TimeCondition(30,true);
+        oneTimeTwoMinutes = new TimeCondition(5,false);
+        manyTimesFourMinutes = new TimeCondition(8,true);
         game.addTimeCondition(oneTimeTwoMinutes);
         game.addTimeCondition(manyTimesFourMinutes);
     }
@@ -634,7 +633,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         changeRoomLibrarianFromHallway.addAction(actionLibrarianToRoom2);
         changeRoomLibrarianFromHallway.addAction(actionLibrarianToRoom3);
         changeRoomLibrarianFromHallway.addAction(actionLibrarianToLibraryAccess);
-        changeRoomLibrarianFromHallway.setGameRandom(new JavaRandomAdapter());
         changeRoomLibrarianFromHallway.setRandom(true);
         changeRoomLibrarianFromHallway.setChainedMove(changeRoomLibrarianFromLibrary);
         changeRoomLibrarianFromHallway.setRules(ruleLibrarianIsInHallway);
@@ -644,7 +642,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         changeRoomLibrarianFromLibraryAccess.addObserver(game);
         changeRoomLibrarianFromLibraryAccess.addAction(actionLibrarianToLibrary);
         changeRoomLibrarianFromLibraryAccess.addAction(actionLibrarianToHallway);
-        changeRoomLibrarianFromLibraryAccess.setGameRandom(new JavaRandomAdapter());
         changeRoomLibrarianFromLibraryAccess.setRandom(true);
         changeRoomLibrarianFromLibraryAccess.setChainedMove(changeRoomLibrarianFromHallway);
         changeRoomLibrarianFromLibraryAccess.setRules(ruleLibrarianIsInLibraryAccess);

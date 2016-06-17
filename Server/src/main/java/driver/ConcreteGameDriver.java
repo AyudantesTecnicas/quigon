@@ -39,6 +39,7 @@ public class ConcreteGameDriver implements GameDriver, Notifier {
         for (int i = 0; i < playerStates.length; i++) {
             playerStates[i] = PlayerState.NotPlaying;
         }
+        game.setNotifier(this);
     }
 
     public String sendCommand(int player, String cmd) throws GameNotBuiltException {

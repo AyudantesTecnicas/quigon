@@ -65,7 +65,6 @@ public class PortThread extends Thread implements Notifier {
     private void prepareGame() {
         game = gameBuilder.build();
         game.setNotifier(this);
-        game.startClock();
     }
 
     private void createServerSocket() {
@@ -128,7 +127,6 @@ public class PortThread extends Thread implements Notifier {
             System.out.println("Last player abandoned " + serverSocket.getLocalPort() + ".");
             resetGame();
         }
-
         clientThread.interrupt();
     }
 

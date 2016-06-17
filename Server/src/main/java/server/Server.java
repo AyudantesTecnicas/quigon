@@ -22,7 +22,7 @@ public class Server {
         try {
             GameBuilderImp gameBuilder = BuilderLoader.load(gamePath);
 //            if (gameBuilder != null) {
-//                gameBuilder.setGameRandom(new MockGameRandom(new ArrayList<>(Arrays.asList(0, 1))));
+//                gameBuilder.setGameRandom(new MockGameRandom(new ArrayList<>(Arrays.asList(0))));
 //            }
             PortThread portThread = new PortThread(actualPort++, gameBuilder);
             portThreads.add(portThread);

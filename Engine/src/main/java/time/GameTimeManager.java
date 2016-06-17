@@ -13,6 +13,7 @@ public class GameTimeManager {
     public void createNewTimerTask(TimeCondition timeCondition) {
         Timer timer = new Timer(timeCondition.getTotalSeconds() * 1000, timeCondition);
         timers.add(timer);
+        timeCondition.setTimer(timer);
     }
 
     public void shootTimeEvent(int number) {
