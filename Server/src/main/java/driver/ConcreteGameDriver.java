@@ -3,12 +3,15 @@ package driver;
 import creation.Game;
 import creation.GameBuilderImp;
 import creation.GameRandom;
+import creation.Notifier;
 import server.BuilderLoader;
 
-public class ConcreteGameDriver implements GameDriver {
+import java.util.ArrayList;
+
+public class ConcreteGameDriver implements GameDriver, Notifier {
     private GameBuilderImp gameBuilder;
     private Game game;
-    private GameState gameState = GameState.NotSet;
+    private PlayerState[] playerStates;
 
     public void loadBuilder(String jarPath) {
         try {
@@ -32,19 +35,17 @@ public class ConcreteGameDriver implements GameDriver {
         } else {
             throw new GameBuilderNotLoadedException();
         }
-        gameState = GameState.Ready;
+        playerStates = new PlayerState[game.getNumberOfPlayers()];
+        for (int i = 0; i < playerStates.length; i++) {
+            playerStates[i] = PlayerState.NotPlaying;
+        }
     }
 
-    public String sendCommand(String cmd) throws GameNotBuiltException {
+    public String sendCommand(int player, String cmd) throws GameNotBuiltException {
         if (game != null) {
-            gameState = GameState.InProgress;
-            String answer = game.receiveCommands(cmd);
-            if (answer.equals(GameBuilderImp.winText)) {
-                gameState = GameState.Won;
-            }
-            if (answer.equals(GameBuilderImp.loseText)) {
-                gameState = GameState.Lost;
-            }
+            playerStates[player] = PlayerState.Playing;
+            String answer = game.receiveCommands(player + ":" + cmd);
+            setWonLostState(player, answer);
             return answer;
         } else {
             throw new GameNotBuiltException();
@@ -59,8 +60,25 @@ public class ConcreteGameDriver implements GameDriver {
         }
     }
 
+    public void setWonLostState(int number, String msg) {
+        if (msg.equals(GameBuilderImp.loseText)) {
+            playerStates[number] = PlayerState.Lost;
+        }
+        if (msg.equals(GameBuilderImp.winText)) {
+            playerStates[number] = PlayerState.Won;
+        }
+    }
+
+    public void notifyPlayer(int numberOfPlayer, String msg) {
+        setWonLostState(numberOfPlayer, msg);
+    }
+
+    public void notifyEveryone(String msg) {
+        // implementation irrelevant for this GameDriver
+    }
+
     @Override
-    public GameState getCurrentState() {
-        return gameState;
+    public PlayerState getCurrentStateOfPlayer(int number) {
+        return playerStates[number];
     }
 }
