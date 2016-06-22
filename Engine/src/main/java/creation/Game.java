@@ -1,13 +1,12 @@
 package creation;
 
-import model.actions.TimeCondition;
 import model.elements.ComplexElement;
 import model.elements.Element;
 import model.elements.Player;
 import model.elements.PlayerManager;
 import parser.GameAction;
 import parser.GameParser;
-import time.GameTimeManager;
+import time.GameTimer;
 
 import java.util.*;
 
@@ -17,20 +16,23 @@ public class Game implements Observer {
     List<Element> elementList;
     GameParser parser;
     private String gameDescription;
-    private GameTimeManager gameTimeManager;
+    private GameTimer gameTimer;
     private Notifier notifier;
 
     public Game() {
         playerManager = new PlayerManager();
-        gameTimeManager = new GameTimeManager();
+    }
+
+    public void setGameTimer(GameTimer gameTimer) {
+        this.gameTimer = gameTimer;
     }
 
     public void startClock() {
-        gameTimeManager.startTimers();
+        gameTimer.start();
     }
 
     public void stopClock() {
-        gameTimeManager.stopTimers();
+        gameTimer.stop();
     }
 
     void setName(String gameName) {
@@ -41,12 +43,8 @@ public class Game implements Observer {
         this.notifier = notifier;
     }
 
-    public void addTimeCondition(TimeCondition timeCondition) {
-        this.gameTimeManager.createNewTimerTask(timeCondition);
-    }
-
-    public void shootTimeEvent(int number) {
-        this.gameTimeManager.shootTimeEvent(number);
+    public void setTimeObserver(Observer observer) {
+        this.gameTimer.addObserver(observer);
     }
 
     void setGameDescription(String description) {

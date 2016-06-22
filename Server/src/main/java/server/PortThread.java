@@ -65,6 +65,7 @@ public class PortThread extends Thread implements Notifier {
     private void prepareGame() {
         game = gameBuilder.build();
         game.setNotifier(this);
+        game.startClock();
     }
 
     private void createServerSocket() {
@@ -142,7 +143,6 @@ public class PortThread extends Thread implements Notifier {
                 clientThread.sendToClient(msg);
             }
         }
-        //game.shootTimeEvent(1);
     }
 
     @Override

@@ -8,6 +8,8 @@ import model.rulesexpressions.expressions.*;
 import model.rulesexpressions.rules.*;
 import parser.GameParser;
 import parser.SupportedAction;
+import time.GameTimer;
+import time.InternalGameTimer;
 
 import java.util.*;
 
@@ -23,7 +25,10 @@ public abstract class GameBuilderImp implements GameBuilder {
     protected String gameDescription = "[default description]";
     private ArrayList<SupportedAction> actionsList;
     private List<Element> elementsList;
+
+    // defaults
     private GameRandom gameRandom = new JavaRandomAdapter();
+    private GameTimer gameTimer = new InternalGameTimer();
 
     public String getName() {
         return gameName;
@@ -41,8 +46,8 @@ public abstract class GameBuilderImp implements GameBuilder {
         this.gameRandom = gameRandom;
     }
 
-    public GameRandom getGameRandom() {
-        return this.gameRandom;
+    public void setGameTimer(GameTimer gameTimer) {
+        this.gameTimer = gameTimer;
     }
 
     public Game getGame() {
@@ -51,6 +56,7 @@ public abstract class GameBuilderImp implements GameBuilder {
 
     void createNewGame() {
         game = new Game();
+        game.setGameTimer(gameTimer);
     }
 
     void createActionsList() {
@@ -143,7 +149,7 @@ public abstract class GameBuilderImp implements GameBuilder {
         return rule;
     }
 
-    void ruleSetStateAndFail(ComplexElement contained, StateRule rule, Element state, String failMessage){
+    void ruleSetStateAndFail(ComplexElement contained, StateRule rule, Element state, String failMessage) {
         rule.setElementToValidate(contained);
         rule.setStateToValidate(state);
         rule.setFailMessage(failMessage);

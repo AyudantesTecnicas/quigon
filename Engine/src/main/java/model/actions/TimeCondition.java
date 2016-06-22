@@ -1,35 +1,35 @@
 package model.actions;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-public class TimeCondition extends Observable implements Observer, ActionListener {
+
+public class TimeCondition extends Observable implements Observer {
 
     //Attributes
+    private Integer timeStampInSeconds;
     private Integer totalSeconds;
-    private boolean repeatable;
     private boolean initialized;
+    private boolean repeatable;
     private boolean done;
-    private Timer timer;
 
     //Methods
     public TimeCondition(Integer totalSeconds, boolean repeatable) {
         this.totalSeconds = totalSeconds;
-        this.repeatable = repeatable;
+        this.timeStampInSeconds = 0;
         this.initialized = false;
+        this.repeatable = repeatable;
         this.done = false;
-    }
-
-    public void setTimer(Timer timer) {
-        this.timer = timer;
     }
 
     public void initialize() {
-        timer.start();
         this.initialized = true;
         this.done = false;
+    }
+
+    private void updateTimeStamp() {
+        if (initialized) {
+            this.timeStampInSeconds++;
+        }
     }
 
     public void stop() {
@@ -37,33 +37,30 @@ public class TimeCondition extends Observable implements Observer, ActionListene
         this.done = true;
     }
 
-    public int getTotalSeconds() {
-        return totalSeconds;
-    }
-
-    private boolean canAct() {
-        return initialized && (repeatable || !done);
-    }
-
-    @Override
-    public void update(Observable observable, Object arg) {
-        if (!this.initialized) {
-            initialize();
-        }
-        else {
+    private void end() {
+        this.timeStampInSeconds = 0;
+        if (!repeatable) {
             stop();
         }
     }
 
+    private boolean canAct() {
+        return initialized && (repeatable || !done) && (timeStampInSeconds - totalSeconds) == 0;
+    }
+
     @Override
-    public void actionPerformed(ActionEvent event) {
-        if (canAct()) {
-            //System.out.println("Se ejecuta");
-            setChanged();
-            notifyObservers();
-            if (!repeatable) {
-                stop();
+    public void update(Observable observable, Object arg) {
+        if (arg != null && arg.equals(ActionConstants.initialize)) {
+            initialize();
+        } else {
+            this.updateTimeStamp();
+            if (canAct()) {
+                //System.out.println("Se ejecuta");
+                setChanged();
+                notifyObservers();
+                end();
             }
         }
     }
+
 }

@@ -61,7 +61,6 @@ public class Move extends Element implements IExecutable {
             return true;
         } else {
             if (chainedMove != null) {
-                System.out.println("chained");
                 chainedMove.execute();
             }
             this.resultMessage = this.rules.getFailMessage();

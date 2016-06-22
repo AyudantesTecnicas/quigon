@@ -5,8 +5,7 @@ import creation.GameBuilderImp;
 import creation.GameRandom;
 import creation.Notifier;
 import server.BuilderLoader;
-
-import java.util.ArrayList;
+import time.GameTimer;
 
 public class ConcreteGameDriver implements GameDriver, Notifier {
     private GameBuilderImp gameBuilder;
@@ -24,6 +23,14 @@ public class ConcreteGameDriver implements GameDriver, Notifier {
     public void setGameRandom(GameRandom gameRandom) throws GameBuilderNotLoadedException {
         if (gameBuilder != null) {
             gameBuilder.setGameRandom(gameRandom);
+        } else {
+            throw new GameBuilderNotLoadedException();
+        }
+    }
+
+    public void setGameTimer(GameTimer gameTimer) throws GameBuilderNotLoadedException {
+        if (gameBuilder != null) {
+            gameBuilder.setGameTimer(gameTimer);
         } else {
             throw new GameBuilderNotLoadedException();
         }
@@ -48,14 +55,6 @@ public class ConcreteGameDriver implements GameDriver, Notifier {
             String answer = game.receiveCommands(player + ":" + cmd);
             setWonLostState(player, answer);
             return answer;
-        } else {
-            throw new GameNotBuiltException();
-        }
-    }
-
-    public void shootTimeEvent(int number) throws GameNotBuiltException {
-        if (game != null) {
-            game.shootTimeEvent(number);
         } else {
             throw new GameNotBuiltException();
         }

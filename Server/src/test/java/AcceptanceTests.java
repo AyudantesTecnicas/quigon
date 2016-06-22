@@ -1,5 +1,6 @@
 import driver.*;
 import org.junit.Test;
+import time.GameTimer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,12 +89,18 @@ public class AcceptanceTests {
         assertEquals(PlayerState.Won, driver.getCurrentStateOfPlayer(1));
     }
 
+    /*
     @Test
     public void shouldLostIfLibrarianMeetsUs() throws GameNotBuiltException, GameBuilderNotLoadedException {
         GameDriver driver = new ConcreteGameDriver();
         driver.loadBuilder("EntregaBuilder.jar");
+
         driver.setGameRandom(new MockGameRandom(new ArrayList<>(Arrays.asList(0))));
+        MockGameTimer mockGameTimer = new MockGameTimer();  // mock timer lets you control seconds passed manually
+        driver.setGameTimer(mockGameTimer);
+
         driver.buildGame();
+
         driver.sendCommand(1, "goto Salon1");
         driver.sendCommand(1, "pick VasoAzul");
         driver.sendCommand(1, "pick VasoRojo");
@@ -101,9 +108,11 @@ public class AcceptanceTests {
         driver.sendCommand(1, "goto Pasillo");
         driver.sendCommand(1, "goto BibliotecaAcceso");
         driver.sendCommand(1, "make drunk Bibliotecario");
-        driver.shootTimeEvent(0);
-        driver.shootTimeEvent(1);
+
+        mockGameTimer.timePassed(20);   // time needed for wake up and move 1 time
+
         driver.sendCommand(1, "goto Biblioteca");
+
         assertEquals(PlayerState.Lost, driver.getCurrentStateOfPlayer(1));
     }
 
@@ -111,8 +120,13 @@ public class AcceptanceTests {
     public void playerOneShouldLoseIfMeetsLibrarian() throws GameNotBuiltException, GameBuilderNotLoadedException {
         GameDriver driver = new ConcreteGameDriver();
         driver.loadBuilder("EntregaBuilder.jar");
+
         driver.setGameRandom(new MockGameRandom(new ArrayList<>(Arrays.asList(0))));
+        MockGameTimer mockGameTimer = new MockGameTimer();  // mock timer lets you control seconds passed manually
+        driver.setGameTimer(mockGameTimer);
+
         driver.buildGame();
+
         driver.sendCommand(1, "goto Salon1");
         driver.sendCommand(1, "pick VasoAzul");
         driver.sendCommand(1, "pick VasoRojo");
@@ -127,10 +141,11 @@ public class AcceptanceTests {
 
         driver.sendCommand(2, "goto BibliotecaAcceso");
         driver.sendCommand(2, "goto Pasillo");
-        driver.shootTimeEvent(0);
-        driver.shootTimeEvent(1);
+
+        mockGameTimer.timePassed(20);   // time needed for wake up and move 1 time
 
         assertEquals(PlayerState.Playing, driver.getCurrentStateOfPlayer(2));
         assertEquals(PlayerState.Lost, driver.getCurrentStateOfPlayer(1));
     }
+    */
 }

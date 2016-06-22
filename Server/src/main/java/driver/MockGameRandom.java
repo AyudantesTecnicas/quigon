@@ -14,7 +14,7 @@ public class MockGameRandom implements GameRandom {
         this.iterator = integers.iterator();
     }
 
-    @Override
+    @Override   // circular list of integers, not real random
     public int nextInt(int integer) {
         if (integers.size() != 0) {
             if (iterator.hasNext()) {

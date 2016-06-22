@@ -342,8 +342,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     private void createTimedConditions() {
         oneTimeTwoMinutes = new TimeCondition(5,false);
         manyTimesFourMinutes = new TimeCondition(8,true);
-        game.addTimeCondition(oneTimeTwoMinutes);
-        game.addTimeCondition(manyTimesFourMinutes);
+        game.setTimeObserver(oneTimeTwoMinutes);
+        game.setTimeObserver(manyTimesFourMinutes);
     }
     
     //-------------------------------------------RULES-----------------------------------------------
@@ -791,7 +791,5 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemWindow = createAndAddElement(EntregaConstants.ventana, roomSubBasement, null);
         itemStairsSubBasement = createAndAddElement(EntregaConstants.escaleraOxidada, roomSubBasement, null);
     }
-    
-    //----------------------------------INITIALIZE-TIMED-CONDITIONS----------------------------------------------
 
 }
