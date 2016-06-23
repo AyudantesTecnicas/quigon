@@ -597,34 +597,34 @@ public final class EntregaBuilder extends GameBuilderImp {
         wakeUpLibrarian.addAction(actionWakeUp);
         wakeUpLibrarian.addObserver(game);
 
-        changeRoomLibrarianFromRoom3 = new Move(EntregaConstants.moveLibrarianFromRoom3);
+        changeRoomLibrarianFromRoom3 = new TimedMove(EntregaConstants.moveLibrarianFromRoom3);
         changeRoomLibrarianFromRoom3.setResultMessage(EntregaConstants.librarianChangedToRoom);
         changeRoomLibrarianFromRoom3.addObserver(game);
         changeRoomLibrarianFromRoom3.addAction(actionLibrarianToHallway);
         changeRoomLibrarianFromRoom3.setRules(ruleLibrarianIsInRoom3);
 
-        changeRoomLibrarianFromRoom2 = new Move(EntregaConstants.moveLibrarianFromRoom2);
+        changeRoomLibrarianFromRoom2 = new TimedMove(EntregaConstants.moveLibrarianFromRoom2);
         changeRoomLibrarianFromRoom2.setResultMessage(EntregaConstants.librarianChangedToRoom);
         changeRoomLibrarianFromRoom2.addObserver(game);
         changeRoomLibrarianFromRoom2.addAction(actionLibrarianToHallway);
         changeRoomLibrarianFromRoom2.setChainedMove(changeRoomLibrarianFromRoom3);
         changeRoomLibrarianFromRoom2.setRules(ruleLibrarianIsInRoom2);
 
-        changeRoomLibrarianFromRoom1 = new Move(EntregaConstants.moveLibrarianFromRoom1);
+        changeRoomLibrarianFromRoom1 = new TimedMove(EntregaConstants.moveLibrarianFromRoom1);
         changeRoomLibrarianFromRoom1.setResultMessage(EntregaConstants.librarianChangedToRoom);
         changeRoomLibrarianFromRoom1.addObserver(game);
         changeRoomLibrarianFromRoom1.addAction(actionLibrarianToHallway);
         changeRoomLibrarianFromRoom1.setChainedMove(changeRoomLibrarianFromRoom2);
         changeRoomLibrarianFromRoom1.setRules(ruleLibrarianIsInRoom1);
 
-        changeRoomLibrarianFromLibrary = new Move(EntregaConstants.moveLibrarianFromLibrary);
+        changeRoomLibrarianFromLibrary = new TimedMove(EntregaConstants.moveLibrarianFromLibrary);
         changeRoomLibrarianFromLibrary.setResultMessage(EntregaConstants.librarianChangedToRoom);
         changeRoomLibrarianFromLibrary.addObserver(game);
         changeRoomLibrarianFromLibrary.addAction(actionLibrarianToLibraryAccess);
         changeRoomLibrarianFromLibrary.setChainedMove(changeRoomLibrarianFromRoom1);
         changeRoomLibrarianFromLibrary.setRules(ruleLibrarianIsInLibrary);
 
-        changeRoomLibrarianFromHallway = new Move(EntregaConstants.moveLibrarianFromHallway);
+        changeRoomLibrarianFromHallway = new TimedMove(EntregaConstants.moveLibrarianFromHallway);
         changeRoomLibrarianFromHallway.setResultMessage(EntregaConstants.librarianChangedToRoom);
         changeRoomLibrarianFromHallway.addObserver(game);
         changeRoomLibrarianFromHallway.addAction(actionLibrarianToRoom1);
