@@ -1,4 +1,5 @@
 import creation.GameBuilderImp;
+import creation.JavaRandomAdapter;
 import logic.LogicBuilder;
 import logic.WrongLogicSymbolException;
 import model.actions.Action;
@@ -345,7 +346,7 @@ public final class EntregaBuilder extends GameBuilderImp {
         game.setTimeObserver(oneTimeTwoMinutes);
         game.setTimeObserver(manyTimesFourMinutes);
     }
-    
+
     //-------------------------------------------RULES-----------------------------------------------
 
     private void createRulesCharacterInRooms() {
@@ -385,7 +386,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         ruleToGetLibrarianDrunk = makeComplexRule(ruleHasBottle, orExpressionForGlasses,
                 '&');
         ruleToGetLibrarianDrunk.setFailMessage(EntregaConstants.noSePuedeEmborrachar);
-
     }
 
     private void createRules() {
@@ -493,8 +493,6 @@ public final class EntregaBuilder extends GameBuilderImp {
         pickAction.setRules(checkEqualRule(game.playerManager,character,"not current character"));
         move.addAction(pickAction);
     }
-
-
 
     private void createMovesToPickElements() {
         moveTakeCredential = new Move(EntregaConstants.movePick);
@@ -651,6 +649,11 @@ public final class EntregaBuilder extends GameBuilderImp {
 
         emptyElement.addMove(wakeUpLibrarian);
         emptyElement.addMove(changeRoomLibrarianFromLibraryAccess);
+        emptyElement.addMove(changeRoomLibrarianFromLibrary);
+        emptyElement.addMove(changeRoomLibrarianFromHallway);
+        emptyElement.addMove(changeRoomLibrarianFromRoom1);
+        emptyElement.addMove(changeRoomLibrarianFromRoom2);
+        emptyElement.addMove(changeRoomLibrarianFromRoom3);
     }
 
     private void addMovesItemsInSalon1() {
@@ -791,5 +794,4 @@ public final class EntregaBuilder extends GameBuilderImp {
         itemWindow = createAndAddElement(EntregaConstants.ventana, roomSubBasement, null);
         itemStairsSubBasement = createAndAddElement(EntregaConstants.escaleraOxidada, roomSubBasement, null);
     }
-
 }
