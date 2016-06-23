@@ -54,6 +54,7 @@ public class ConcreteGameDriver implements GameDriver, Notifier {
             playerStates[player] = PlayerState.Playing;
             String answer = game.receiveCommands(player + ":" + cmd);
             setWonLostState(player, answer);
+            //System.out.println(answer);
             return answer;
         } else {
             throw new GameNotBuiltException();
@@ -75,6 +76,7 @@ public class ConcreteGameDriver implements GameDriver, Notifier {
 
     public void notifyEveryone(String msg) {
         // implementation irrelevant for this GameDriver
+        //System.out.println(msg);
     }
 
     @Override

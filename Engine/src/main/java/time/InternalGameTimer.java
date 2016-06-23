@@ -18,7 +18,7 @@ public class InternalGameTimer extends GameTimer implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         setChanged();
         notifyObservers();
-        System.out.println("paso un segundo");
+        //System.out.println("paso un segundo");
     }
 
     public void start() {

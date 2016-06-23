@@ -55,7 +55,7 @@ public class TimeCondition extends Observable implements Observer {
         } else {
             this.updateTimeStamp();
             if (canAct()) {
-                System.out.println(timeStampInSeconds);
+                //System.out.println(timeStampInSeconds);
                 setChanged();
                 notifyObservers();
                 end();

@@ -6,6 +6,7 @@ public class MockGameTimer extends GameTimer {
 
     public void timePassed(int seconds) {
         for (int counter = seconds; counter > 0; counter--) {
+            setChanged();
             notifyObservers();
         }
     }

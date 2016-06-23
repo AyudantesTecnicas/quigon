@@ -89,7 +89,6 @@ public class AcceptanceTests {
         assertEquals(PlayerState.Won, driver.getCurrentStateOfPlayer(1));
     }
 
-    /*
     @Test
     public void shouldLostIfLibrarianMeetsUs() throws GameNotBuiltException, GameBuilderNotLoadedException {
         GameDriver driver = new ConcreteGameDriver();
@@ -109,7 +108,7 @@ public class AcceptanceTests {
         driver.sendCommand(1, "goto BibliotecaAcceso");
         driver.sendCommand(1, "make drunk Bibliotecario");
 
-        mockGameTimer.timePassed(20);   // time needed for wake up and move 1 time
+        mockGameTimer.timePassed(360);   // time needed for wake up and move 1 time
 
         driver.sendCommand(1, "goto Biblioteca");
 
@@ -142,10 +141,10 @@ public class AcceptanceTests {
         driver.sendCommand(2, "goto BibliotecaAcceso");
         driver.sendCommand(2, "goto Pasillo");
 
-        mockGameTimer.timePassed(20);   // time needed for wake up and move 1 time
+        mockGameTimer.timePassed(360);   // time needed for wake up and move 1 time
 
         assertEquals(PlayerState.Playing, driver.getCurrentStateOfPlayer(2));
         assertEquals(PlayerState.Lost, driver.getCurrentStateOfPlayer(1));
     }
-    */
+
 }

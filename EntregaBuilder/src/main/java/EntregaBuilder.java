@@ -341,8 +341,8 @@ public final class EntregaBuilder extends GameBuilderImp {
     //---------------------------------------TIMED-CONDITIONS-----------------------------------------------
     
     private void createTimedConditions() {
-        oneTimeTwoMinutes = new TimeCondition(5,false);
-        manyTimesFourMinutes = new TimeCondition(8,true);
+        oneTimeTwoMinutes = new TimeCondition(120,false);
+        manyTimesFourMinutes = new TimeCondition(240,true);
         game.setTimeObserver(oneTimeTwoMinutes);
         game.setTimeObserver(manyTimesFourMinutes);
     }
